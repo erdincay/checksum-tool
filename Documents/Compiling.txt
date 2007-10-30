@@ -1,0 +1,24 @@
+Compiling CheckSumTool
+----------------------
+
+Sourceforge project page is:
+http://sourceforge.net/projects/checksumtool/
+
+Sources:
+CheckSumTools sources are available from SourceForge.net Subversion:
+https://checksumtool.svn.sourceforge.net/svnroot/checksumtool/
+or in SourceForge file releases
+
+
+Tools needed:
+- Microsoft .Net 2.0 SDK:
+  http://www.microsoft.com/downloads/details.aspx?familyid=fe6f2099-b7b4-4f47-a244-c96d69c35dec&displaylang=en
+- The project was created using SharpDevelop 2.2 (free .Net IDE):
+  http://www.icsharpcode.net/OpenSource/SD/
+  Project/solution files are compatible with Visual Studio 2005, so you can use
+  either commercial version of Visual Studio 2005 or free Express edition:
+  http://msdn2.microsoft.com/en-us/express/default.aspx
+  
+Compiling:
+- Open the solution file Src/CheckSumTool.sln to your IDE.
+- Compile the project.

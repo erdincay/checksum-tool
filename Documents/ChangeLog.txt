@@ -1,0 +1,11 @@
+This file list changes done in each version of the CheckSum Tool.
+
+CheckSum Tool 0.1.0
+  First version added to the SourceForge.net
+  Support for CRC32, MD5 and SHA-1 checksum types
+  Can save list of checksums to file (simple CSV file)
+  Can load a list of checksum from file (simple CSV file)
+  Can verify filenames found from same folder against list of checksums
+  Loads and saves CRC32-sums in .SFV files
+  Loads and saves MD5-sums in .MD5 files
+  Loads and saves SHA-1 sums in .SHA1 files
