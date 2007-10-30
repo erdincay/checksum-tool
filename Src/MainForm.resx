@@ -160,6 +160,22 @@
         Pm77U/OETucAAAAASUVORK5CYII=
 </value>
   </data>
+  <data name="toolStripBtnCalculate.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
+        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAF9JREFUOE9jYKAm
+        OHPmzH98GK9dII2EwJQpU/7jNATZgPNqDP/RMchwogyAaYS5BtkgogzA5g2YIQNjALKXSHYBeniQZAC6
+        ZqJjAV9aoK8L6O8FUBoH+REfpmbGhZsFALoMyChZjfDpAAAAAElFTkSuQmCC
+</value>
+  </data>
+  <data name="toolStripBtnVerify.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
+        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAGlJREFUOE9jYKA2
+        2L9//39CGKedII3EgPb29v9YDQEZ4HCeAYyxAZgcUQagGwLTDKLxGgCyGZsrkMXobwCy80EuJOgCdG+g
+        e4m+BqA7n2gvIHsDPUqJ8gJVDMCVrHG6AJS+QZKEMFUzMADBd9dkTiB8SAAAAABJRU5ErkJggg==
+</value>
+  </data>
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         AAABAAIAICAQAAEABADoAgAAJgAAACAgAAABAAgAqAgAAA4DAAAoAAAAIAAAAEAAAAABAAQAAAAAAAAA

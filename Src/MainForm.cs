@@ -72,10 +72,10 @@ namespace CheckSumTool
             
             foreach (string name in CheckSumImplList.SumNames)
             {
-                this.comboCheckSumType.Items.Add(name);
+                this.toolStripComboSumTypes.Items.Add(name);
             }
             
-            this.comboCheckSumType.SelectedIndex = 0;
+            this.toolStripComboSumTypes.SelectedIndex = 0;
         }
         
         /// <summary>
@@ -109,7 +109,7 @@ namespace CheckSumTool
         /// <returns>Checksum calculator instance.</returns>
         ICheckSum CreateSumCalculator()
         {
-            int sumSelection = comboCheckSumType.SelectedIndex;
+            int sumSelection = toolStripComboSumTypes.SelectedIndex;
             
             ICheckSum impl = CheckSumImplList.GetImplementation(
                 (CheckSumImplList.SumImplementation) sumSelection);
@@ -117,18 +117,16 @@ namespace CheckSumTool
         }
         
         /// <summary>
-        /// Called when user clicks Process -button.
+        /// Calculate checksums for items in the list.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        void BtnProcessClick(object sender, EventArgs e)
+        void CalculateCheckSums()
         {
             if (itemList.Items.Count == 0)
                 return;
 
             ListView.ListViewItemCollection items = itemList.Items;
             
-            int sumSelection = comboCheckSumType.SelectedIndex;
+            int sumSelection = toolStripComboSumTypes.SelectedIndex;
             
             ICheckSum sum = CreateSumCalculator();
             _checksumItemList.CalcSums(sum);
@@ -200,11 +198,9 @@ namespace CheckSumTool
         }
         
         /// <summary>
-        /// Verify checksums for listed files.
+        /// Verify that checksums in the list match to file's actual checksums.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        void BtnVerifyClick(object sender, EventArgs e)
+        void VerifyCheckSums()
         {
             if (itemList.Items.Count == 0)
                 return;
@@ -330,22 +326,22 @@ namespace CheckSumTool
             {
                 MD5File sumfile = new MD5File();
                 newSumFile = sumfile;
-                int ind = comboCheckSumType.FindStringExact("MD5");
-                comboCheckSumType.SelectedIndex = ind;
+                int ind = toolStripComboSumTypes.FindStringExact("MD5");
+                toolStripComboSumTypes.SelectedIndex = ind;
             }
             else if (ext == ".sfv")
             {
                 SFVFile sumfile = new SFVFile();
                 newSumFile = sumfile;
-                int ind = comboCheckSumType.FindStringExact("CRC32");
-                comboCheckSumType.SelectedIndex = ind;
+                int ind = toolStripComboSumTypes.FindStringExact("CRC32");
+                toolStripComboSumTypes.SelectedIndex = ind;
             }
             else if (ext == ".sha1")
             {
                 Sha1File sumfile = new Sha1File();
                 newSumFile = sumfile;
-                int ind = comboCheckSumType.FindStringExact("SHA-1");
-                comboCheckSumType.SelectedIndex = ind;
+                int ind = toolStripComboSumTypes.FindStringExact("SHA-1");
+                toolStripComboSumTypes.SelectedIndex = ind;
             }
             return newSumFile;            
         }
@@ -364,18 +360,18 @@ namespace CheckSumTool
         {
             if (ext == ".md5")
             {
-                int ind = comboCheckSumType.FindStringExact("MD5");
-                comboCheckSumType.SelectedIndex = ind;
+                int ind = toolStripComboSumTypes.FindStringExact("MD5");
+                toolStripComboSumTypes.SelectedIndex = ind;
             }
             else if (ext == ".sfv")
             {
-                int ind = comboCheckSumType.FindStringExact("CRC32");
-                comboCheckSumType.SelectedIndex = ind;
+                int ind = toolStripComboSumTypes.FindStringExact("CRC32");
+                toolStripComboSumTypes.SelectedIndex = ind;
             }
             else if (ext == ".sha1")
             {
-                int ind = comboCheckSumType.FindStringExact("SHA-1");
-                comboCheckSumType.SelectedIndex = ind;
+                int ind = toolStripComboSumTypes.FindStringExact("SHA-1");
+                toolStripComboSumTypes.SelectedIndex = ind;
             }            
         }
         
@@ -510,20 +506,6 @@ namespace CheckSumTool
         }
         
         /// <summary>
-        /// Called when checksum type selection changes.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        void ComboCheckSumTypeSelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (_listHasSums)
-                ClearSums();
-            
-            int sumSelection = comboCheckSumType.SelectedIndex;
-            SetListSumType((CheckSumImplList.SumImplementation) sumSelection);
-        }
-        
-        /// <summary>
         /// Set the file list's column name.
         /// </summary>
         /// <param name="column">Column to change.</param>
@@ -622,6 +604,41 @@ namespace CheckSumTool
         void MainMenuEditRemoveSelectedClick(object sender, EventArgs e)
         {
             RemoveSelectedItems();
+        }
+        
+        /// <summary>
+        /// Called when user clicks Calculate-button in toolbar.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        void ToolStripBtnCalculateClick(object sender, EventArgs e)
+        {
+            CalculateCheckSums();
+        }
+        
+        /// <summary>
+        /// Called when user clicks Verify-button in toolbar.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        void ToolStripBtnVerifyClick(object sender, EventArgs e)
+        {
+            VerifyCheckSums();
+        }
+        
+        /// <summary>
+        /// Called when selection in checksum type combo is changed.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        void ToolStripComboSumTypesSelectedIndexChanged(object sender, EventArgs e)
+        {
+        	 if (_listHasSums)
+                ClearSums();
+            
+            int sumSelection = toolStripComboSumTypes.SelectedIndex;
+            SetListSumType((CheckSumImplList.SumImplementation) sumSelection);
+
         }
     }
 }
