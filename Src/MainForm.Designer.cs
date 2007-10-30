@@ -58,12 +58,16 @@ namespace CheckSumTool
         	this.label1 = new System.Windows.Forms.Label();
         	this.btnAddFile = new System.Windows.Forms.Button();
         	this.btnAddFolder = new System.Windows.Forms.Button();
+        	this.toolStripMain = new System.Windows.Forms.ToolStrip();
+        	this.toolStripBtnOpen = new System.Windows.Forms.ToolStripButton();
+        	this.toolStripBtnSave = new System.Windows.Forms.ToolStripButton();
         	this.menuStrip1.SuspendLayout();
+        	this.toolStripMain.SuspendLayout();
         	this.SuspendLayout();
         	// 
         	// btnProcess
         	// 
-        	this.btnProcess.Location = new System.Drawing.Point(222, 293);
+        	this.btnProcess.Location = new System.Drawing.Point(222, 326);
         	this.btnProcess.Name = "btnProcess";
         	this.btnProcess.Size = new System.Drawing.Size(75, 23);
         	this.btnProcess.TabIndex = 4;
@@ -80,7 +84,7 @@ namespace CheckSumTool
         	        	        	this.columnHeader2,
         	        	        	this.columnHeader3,
         	        	        	this.columnHeader4});
-        	this.itemList.Location = new System.Drawing.Point(12, 56);
+        	this.itemList.Location = new System.Drawing.Point(12, 89);
         	this.itemList.MultiSelect = false;
         	this.itemList.Name = "itemList";
         	this.itemList.ShowItemToolTips = true;
@@ -110,7 +114,7 @@ namespace CheckSumTool
         	// 
         	// btnRemove
         	// 
-        	this.btnRemove.Location = new System.Drawing.Point(174, 27);
+        	this.btnRemove.Location = new System.Drawing.Point(174, 60);
         	this.btnRemove.Name = "btnRemove";
         	this.btnRemove.Size = new System.Drawing.Size(75, 23);
         	this.btnRemove.TabIndex = 10;
@@ -120,7 +124,7 @@ namespace CheckSumTool
         	// 
         	// btnClear
         	// 
-        	this.btnClear.Location = new System.Drawing.Point(255, 27);
+        	this.btnClear.Location = new System.Drawing.Point(255, 60);
         	this.btnClear.Name = "btnClear";
         	this.btnClear.Size = new System.Drawing.Size(75, 23);
         	this.btnClear.TabIndex = 11;
@@ -152,6 +156,8 @@ namespace CheckSumTool
         	// 
         	// toolStripMenuItem2
         	// 
+        	this.toolStripMenuItem2.Image = ((System.Drawing.Image)(resources.GetObject("toolStripMenuItem2.Image")));
+        	this.toolStripMenuItem2.ImageTransparentColor = System.Drawing.Color.White;
         	this.toolStripMenuItem2.Name = "toolStripMenuItem2";
         	this.toolStripMenuItem2.Size = new System.Drawing.Size(123, 22);
         	this.toolStripMenuItem2.Text = "Open...";
@@ -159,6 +165,8 @@ namespace CheckSumTool
         	// 
         	// toolStripMenuItem1
         	// 
+        	this.toolStripMenuItem1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripMenuItem1.Image")));
+        	this.toolStripMenuItem1.ImageTransparentColor = System.Drawing.Color.White;
         	this.toolStripMenuItem1.Name = "toolStripMenuItem1";
         	this.toolStripMenuItem1.Size = new System.Drawing.Size(123, 22);
         	this.toolStripMenuItem1.Text = "Save...";
@@ -193,7 +201,7 @@ namespace CheckSumTool
         	// 
         	// btnVerify
         	// 
-        	this.btnVerify.Location = new System.Drawing.Point(303, 293);
+        	this.btnVerify.Location = new System.Drawing.Point(303, 326);
         	this.btnVerify.Name = "btnVerify";
         	this.btnVerify.Size = new System.Drawing.Size(75, 23);
         	this.btnVerify.TabIndex = 14;
@@ -204,7 +212,7 @@ namespace CheckSumTool
         	// comboCheckSumType
         	// 
         	this.comboCheckSumType.FormattingEnabled = true;
-        	this.comboCheckSumType.Location = new System.Drawing.Point(107, 293);
+        	this.comboCheckSumType.Location = new System.Drawing.Point(107, 326);
         	this.comboCheckSumType.Name = "comboCheckSumType";
         	this.comboCheckSumType.Size = new System.Drawing.Size(97, 21);
         	this.comboCheckSumType.TabIndex = 15;
@@ -212,7 +220,7 @@ namespace CheckSumTool
         	// 
         	// label1
         	// 
-        	this.label1.Location = new System.Drawing.Point(12, 296);
+        	this.label1.Location = new System.Drawing.Point(12, 329);
         	this.label1.Name = "label1";
         	this.label1.Size = new System.Drawing.Size(89, 23);
         	this.label1.TabIndex = 16;
@@ -220,7 +228,7 @@ namespace CheckSumTool
         	// 
         	// btnAddFile
         	// 
-        	this.btnAddFile.Location = new System.Drawing.Point(12, 27);
+        	this.btnAddFile.Location = new System.Drawing.Point(12, 60);
         	this.btnAddFile.Name = "btnAddFile";
         	this.btnAddFile.Size = new System.Drawing.Size(75, 23);
         	this.btnAddFile.TabIndex = 17;
@@ -230,7 +238,7 @@ namespace CheckSumTool
         	// 
         	// btnAddFolder
         	// 
-        	this.btnAddFolder.Location = new System.Drawing.Point(93, 27);
+        	this.btnAddFolder.Location = new System.Drawing.Point(93, 60);
         	this.btnAddFolder.Name = "btnAddFolder";
         	this.btnAddFolder.Size = new System.Drawing.Size(75, 23);
         	this.btnAddFolder.TabIndex = 18;
@@ -238,11 +246,44 @@ namespace CheckSumTool
         	this.btnAddFolder.UseVisualStyleBackColor = true;
         	this.btnAddFolder.Click += new System.EventHandler(this.BtnAddFolderClick);
         	// 
+        	// toolStripMain
+        	// 
+        	this.toolStripMain.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
+        	this.toolStripMain.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+        	        	        	this.toolStripBtnOpen,
+        	        	        	this.toolStripBtnSave});
+        	this.toolStripMain.Location = new System.Drawing.Point(0, 24);
+        	this.toolStripMain.Name = "toolStripMain";
+        	this.toolStripMain.Size = new System.Drawing.Size(631, 25);
+        	this.toolStripMain.TabIndex = 19;
+        	this.toolStripMain.Text = "toolStrip1";
+        	// 
+        	// toolStripBtnOpen
+        	// 
+        	this.toolStripBtnOpen.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+        	this.toolStripBtnOpen.Image = ((System.Drawing.Image)(resources.GetObject("toolStripBtnOpen.Image")));
+        	this.toolStripBtnOpen.ImageTransparentColor = System.Drawing.Color.White;
+        	this.toolStripBtnOpen.Name = "toolStripBtnOpen";
+        	this.toolStripBtnOpen.Size = new System.Drawing.Size(23, 22);
+        	this.toolStripBtnOpen.Text = "toolStripButton1";
+        	this.toolStripBtnOpen.Click += new System.EventHandler(this.ToolStripBtnOpenClick);
+        	// 
+        	// toolStripBtnSave
+        	// 
+        	this.toolStripBtnSave.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+        	this.toolStripBtnSave.Image = ((System.Drawing.Image)(resources.GetObject("toolStripBtnSave.Image")));
+        	this.toolStripBtnSave.ImageTransparentColor = System.Drawing.Color.White;
+        	this.toolStripBtnSave.Name = "toolStripBtnSave";
+        	this.toolStripBtnSave.Size = new System.Drawing.Size(23, 22);
+        	this.toolStripBtnSave.Text = "toolStripButton1";
+        	this.toolStripBtnSave.Click += new System.EventHandler(this.ToolStripBtnSaveClick);
+        	// 
         	// MainForm
         	// 
         	this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
         	this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-        	this.ClientSize = new System.Drawing.Size(631, 329);
+        	this.ClientSize = new System.Drawing.Size(631, 362);
+        	this.Controls.Add(this.toolStripMain);
         	this.Controls.Add(this.btnAddFolder);
         	this.Controls.Add(this.btnAddFile);
         	this.Controls.Add(this.itemList);
@@ -260,9 +301,14 @@ namespace CheckSumTool
         	this.Text = "CheckSum Tool";
         	this.menuStrip1.ResumeLayout(false);
         	this.menuStrip1.PerformLayout();
+        	this.toolStripMain.ResumeLayout(false);
+        	this.toolStripMain.PerformLayout();
         	this.ResumeLayout(false);
         	this.PerformLayout();
         }
+        private System.Windows.Forms.ToolStrip toolStripMain;
+        private System.Windows.Forms.ToolStripButton toolStripBtnSave;
+        private System.Windows.Forms.ToolStripButton toolStripBtnOpen;
         private System.Windows.Forms.Button btnAddFile;
         private System.Windows.Forms.Button btnAddFolder;
         private System.Windows.Forms.ComboBox comboCheckSumType;

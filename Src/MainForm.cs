@@ -22,6 +22,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 
+// $Id$
+
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -258,11 +260,20 @@ namespace CheckSumTool
         }
         
         /// <summary>
-        /// Save list of checksums to file.
+        /// Called when user selects File/Save from menu.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         void MenuFileSaveClick(object sender, EventArgs e)
+        {
+            SaveFile();
+        }
+
+        /// <summary>
+        /// Asks user filename to use when saving the checksums and saves
+        /// checksums to the file.
+        /// </summary>
+        void SaveFile()
         {
             if (_checksumItemList.FileList.Count == 0 ||
                 _listHasSums == false)
@@ -314,9 +325,8 @@ namespace CheckSumTool
                     msg += "Maybe you don't have write priviledges to the folder?";
                     MessageBox.Show(this, msg, "CheckSum Tool",
                         MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    
                 }
-            }
+            }            
         }
         
         /// <summary>
@@ -414,11 +424,20 @@ namespace CheckSumTool
         }
      
         /// <summary>
-        /// Load list of checksums from a file.
+        /// Called when user selecs Open-item from File-menu.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         void MenuIFileOpenClick(object sender, EventArgs e)
+        {
+            LoadFile();
+        }
+        
+        /// <summary>
+        /// Shows Open-dialog for user to select the file to load. And opens
+        /// the file user selected.
+        /// </summary>
+        void LoadFile()
         {
             OpenFileDialog dlg = new OpenFileDialog();
             DialogResult res = dlg.ShowDialog();
@@ -558,6 +577,26 @@ namespace CheckSumTool
                 itemList.Items[i].SubItems[(int)ListIndices.CheckSum].Text = "";
                 itemList.Items[i].SubItems[(int)ListIndices.Verified].Text = "";
             }
+        }
+        
+        /// <summary>
+        /// Called when user selects Open-icon from toolbar.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        void ToolStripBtnOpenClick(object sender, EventArgs e)
+        {
+            LoadFile();
+        }
+        
+        /// <summary>
+        /// Called when user selects Save-icon from toolbar.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        void ToolStripBtnSaveClick(object sender, EventArgs e)
+        {
+            SaveFile();
         }
     }
 }
