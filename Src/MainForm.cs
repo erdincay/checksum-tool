@@ -55,6 +55,11 @@ namespace CheckSumTool
         CheckSumFileList _checksumItemList = new CheckSumFileList();
         
         /// <summary>
+        /// Currently selected/active checksum type.
+        /// </summary>
+        CheckSumImplList.SumImplementation _currentSumType;
+        
+        /// <summary>
         /// Do the file list has calculated sums?
         /// I.e. do it need to be cleared before calculating new sums?
         /// </summary>
@@ -76,6 +81,7 @@ namespace CheckSumTool
             }
             
             this.toolStripComboSumTypes.SelectedIndex = 0;
+            _currentSumType = CheckSumImplList.SumImplementation.SHA1;
         }
         
         /// <summary>
@@ -109,10 +115,7 @@ namespace CheckSumTool
         /// <returns>Checksum calculator instance.</returns>
         ICheckSum CreateSumCalculator()
         {
-            int sumSelection = toolStripComboSumTypes.SelectedIndex;
-            
-            ICheckSum impl = CheckSumImplList.GetImplementation(
-                (CheckSumImplList.SumImplementation) sumSelection);
+            ICheckSum impl = CheckSumImplList.GetImplementation(_currentSumType);
             return impl;
         }
         
@@ -272,6 +275,26 @@ namespace CheckSumTool
             dlg.Filter += "|Simple File Verification File (*.SFV)|*.SFV ";
             dlg.Filter += "|SHA-1 File (*.sha1)|*.sha1";
             dlg.AddExtension = true;
+            
+            // Determine extension to select by default
+            switch (_currentSumType)
+            {
+                case CheckSumImplList.SumImplementation.CRC32:
+                    dlg.FilterIndex = 1;
+                    break;
+                    
+                case CheckSumImplList.SumImplementation.MD5:
+                    dlg.FilterIndex = 0;
+                    break;
+                    
+                case CheckSumImplList.SumImplementation.SHA1:
+                    dlg.FilterIndex = 2;
+                    break;
+                   
+                default:
+                    break;
+            }
+            
             DialogResult res = dlg.ShowDialog();
             if (res == DialogResult.OK)
             {
@@ -637,8 +660,17 @@ namespace CheckSumTool
                 ClearSums();
             
             int sumSelection = toolStripComboSumTypes.SelectedIndex;
-            SetListSumType((CheckSumImplList.SumImplementation) sumSelection);
-
+            SetCurrentSumType((CheckSumImplList.SumImplementation) sumSelection);
+        }
+        
+        /// <summary>
+        /// Set current checksum type.
+        /// </summary>
+        /// <param name="sumtype">Checksumtype to set as current.</param>
+        void SetCurrentSumType(CheckSumImplList.SumImplementation sumtype)
+        {
+            _currentSumType = sumtype;
+            SetListSumType(sumtype);
         }
     }
 }
