@@ -76,12 +76,14 @@ namespace CheckSumTool
         	        	        	this.columnHeader2,
         	        	        	this.columnHeader3,
         	        	        	this.columnHeader4});
-        	this.itemList.Location = new System.Drawing.Point(12, 52);
+        	this.itemList.Dock = System.Windows.Forms.DockStyle.Fill;
+        	this.itemList.FullRowSelect = true;
+        	this.itemList.Location = new System.Drawing.Point(0, 49);
         	this.itemList.MultiSelect = false;
         	this.itemList.Name = "itemList";
         	this.itemList.ShowItemToolTips = true;
-        	this.itemList.Size = new System.Drawing.Size(607, 266);
-        	this.itemList.TabIndex = 0;
+        	this.itemList.Size = new System.Drawing.Size(631, 281);
+        	this.itemList.TabIndex = 2;
         	this.itemList.UseCompatibleStateImageBehavior = false;
         	this.itemList.View = System.Windows.Forms.View.Details;
         	// 
@@ -113,7 +115,7 @@ namespace CheckSumTool
         	this.menuStrip1.Location = new System.Drawing.Point(0, 0);
         	this.menuStrip1.Name = "menuStrip1";
         	this.menuStrip1.Size = new System.Drawing.Size(631, 24);
-        	this.menuStrip1.TabIndex = 13;
+        	this.menuStrip1.TabIndex = 0;
         	this.menuStrip1.Text = "menuStrip1";
         	// 
         	// fileToolStripMenuItem
@@ -135,7 +137,7 @@ namespace CheckSumTool
         	this.mainMenuFileOpen.Image = ((System.Drawing.Image)(resources.GetObject("mainMenuFileOpen.Image")));
         	this.mainMenuFileOpen.ImageTransparentColor = System.Drawing.Color.White;
         	this.mainMenuFileOpen.Name = "mainMenuFileOpen";
-        	this.mainMenuFileOpen.Size = new System.Drawing.Size(152, 22);
+        	this.mainMenuFileOpen.Size = new System.Drawing.Size(149, 22);
         	this.mainMenuFileOpen.Text = "Open...";
         	this.mainMenuFileOpen.Click += new System.EventHandler(this.MenuIFileOpenClick);
         	// 
@@ -229,7 +231,7 @@ namespace CheckSumTool
         	this.toolStripMain.Location = new System.Drawing.Point(0, 24);
         	this.toolStripMain.Name = "toolStripMain";
         	this.toolStripMain.Size = new System.Drawing.Size(631, 25);
-        	this.toolStripMain.TabIndex = 19;
+        	this.toolStripMain.TabIndex = 1;
         	this.toolStripMain.Text = "toolStrip1";
         	// 
         	// toolStripBtnOpen
@@ -292,12 +294,13 @@ namespace CheckSumTool
         	this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
         	this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
         	this.ClientSize = new System.Drawing.Size(631, 330);
-        	this.Controls.Add(this.toolStripMain);
         	this.Controls.Add(this.itemList);
+        	this.Controls.Add(this.toolStripMain);
         	this.Controls.Add(this.menuStrip1);
-        	this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
         	this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
         	this.MainMenuStrip = this.menuStrip1;
+        	this.MaximizeBox = false;
+        	this.MinimizeBox = false;
         	this.Name = "MainForm";
         	this.Text = "CheckSum Tool";
         	this.menuStrip1.ResumeLayout(false);
