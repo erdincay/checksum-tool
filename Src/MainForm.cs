@@ -147,11 +147,9 @@ namespace CheckSumTool
         }
         
         /// <summary>
-        /// Called when user selects the Remove-button.
+        /// Removes selected items from the list.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        void BtnRemoveClick(object sender, EventArgs e)
+        void RemoveSelectedItems()
         {
         	ListView.SelectedIndexCollection selections = itemList.SelectedIndices;
         	int[] indices = new int[selections.Count];
@@ -171,23 +169,13 @@ namespace CheckSumTool
         }
         
         /// <summary>
-        /// Called when user selects the Clear-button.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        void BtnClearClick(object sender, EventArgs e)
-        {
-            ClearAllItems();
-            _listHasSums = false;
-        }
-        
-        /// <summary>
         /// Removes all items from list and from GUI.
         /// </summary>
         void ClearAllItems()
         {
             itemList.Items.Clear();
             _checksumItemList.RemoveAll();
+            _listHasSums = false;
         }
         
         /// <summary>
@@ -478,13 +466,11 @@ namespace CheckSumTool
                 }
             }
         }
-        
+
         /// <summary>
-        /// Add a file to list.
+        /// Asks user to select a file to add. And adds it to the checsum list.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        void BtnAddFileClick(object sender, EventArgs e)
+        void AddFile()
         {
             OpenFileDialog dlg = new OpenFileDialog();
             DialogResult res = dlg.ShowDialog();
@@ -501,11 +487,10 @@ namespace CheckSumTool
         }
         
         /// <summary>
-        /// Add files in folder to the list.
+        /// Asks user to select a folder whose contents will be added to the
+        /// checksum list. Adds folder contents to the list.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        void BtnAddFolderClick(object sender, EventArgs e)
+        void AddFolder()
         {
             FolderBrowserDialog dlg = new FolderBrowserDialog();
             DialogResult res = dlg.ShowDialog();
@@ -597,6 +582,46 @@ namespace CheckSumTool
         void ToolStripBtnSaveClick(object sender, EventArgs e)
         {
             SaveFile();
+        }
+        
+        /// <summary>
+        /// Called when user selects File/Add File from menu.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        void MainMenuFileAddFileClick(object sender, EventArgs e)
+        {
+            AddFile();
+        }
+        
+        /// <summary>
+        /// Called when user selects File/Add Folder from menu.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        void MainMenuFileAddFolderClick(object sender, EventArgs e)
+        {
+            AddFolder();
+        }
+        
+        /// <summary>
+        /// Called when user selects Edit/Clear from menu.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        void ClearToolStripMenuItemClick(object sender, EventArgs e)
+        {
+            ClearAllItems();
+        }
+        
+        /// <summary>
+        /// Called when user selects Edit/Remove Selected from menu.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        void MainMenuEditRemoveSelectedClick(object sender, EventArgs e)
+        {
+            RemoveSelectedItems();
         }
     }
 }
