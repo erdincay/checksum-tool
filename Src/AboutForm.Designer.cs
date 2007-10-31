@@ -40,15 +40,17 @@ namespace CheckSumTool
         	this.btnOk = new System.Windows.Forms.Button();
         	this.label1 = new System.Windows.Forms.Label();
         	this.label2 = new System.Windows.Forms.Label();
-        	this.pictureBox1 = new System.Windows.Forms.PictureBox();
-        	this.lblVersion = new System.Windows.Forms.Label();
-        	((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+        	this.pictureIcon = new System.Windows.Forms.PictureBox();
+        	this.linkHomepage = new System.Windows.Forms.LinkLabel();
+        	this.labelVersion = new System.Windows.Forms.Label();
+        	this.label3 = new System.Windows.Forms.Label();
+        	((System.ComponentModel.ISupportInitialize)(this.pictureIcon)).BeginInit();
         	this.SuspendLayout();
         	// 
         	// btnOk
         	// 
         	this.btnOk.DialogResult = System.Windows.Forms.DialogResult.OK;
-        	this.btnOk.Location = new System.Drawing.Point(89, 80);
+        	this.btnOk.Location = new System.Drawing.Point(119, 134);
         	this.btnOk.Name = "btnOk";
         	this.btnOk.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
         	this.btnOk.Size = new System.Drawing.Size(75, 23);
@@ -59,7 +61,7 @@ namespace CheckSumTool
         	// 
         	// label1
         	// 
-        	this.label1.Location = new System.Drawing.Point(65, 19);
+        	this.label1.Location = new System.Drawing.Point(67, 19);
         	this.label1.Name = "label1";
         	this.label1.Size = new System.Drawing.Size(89, 19);
         	this.label1.TabIndex = 1;
@@ -67,47 +69,69 @@ namespace CheckSumTool
         	// 
         	// label2
         	// 
-        	this.label2.Location = new System.Drawing.Point(65, 43);
+        	this.label2.Location = new System.Drawing.Point(67, 42);
         	this.label2.Name = "label2";
-        	this.label2.Size = new System.Drawing.Size(249, 23);
+        	this.label2.Size = new System.Drawing.Size(196, 23);
         	this.label2.TabIndex = 2;
         	this.label2.Text = "(c) 2007 Ixonos Plc, Kimmo Varis";
         	// 
-        	// pictureBox1
+        	// pictureIcon
         	// 
-        	this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
-        	this.pictureBox1.Location = new System.Drawing.Point(13, 13);
-        	this.pictureBox1.Name = "pictureBox1";
-        	this.pictureBox1.Size = new System.Drawing.Size(33, 33);
-        	this.pictureBox1.TabIndex = 3;
-        	this.pictureBox1.TabStop = false;
+        	this.pictureIcon.Image = ((System.Drawing.Image)(resources.GetObject("pictureIcon.Image")));
+        	this.pictureIcon.Location = new System.Drawing.Point(12, 12);
+        	this.pictureIcon.Name = "pictureIcon";
+        	this.pictureIcon.Size = new System.Drawing.Size(45, 42);
+        	this.pictureIcon.TabIndex = 3;
+        	this.pictureIcon.TabStop = false;
         	// 
-        	// lblVersion
+        	// linkHomepage
         	// 
-        	this.lblVersion.Location = new System.Drawing.Point(160, 19);
-        	this.lblVersion.Name = "lblVersion";
-        	this.lblVersion.Size = new System.Drawing.Size(100, 24);
-        	this.lblVersion.TabIndex = 4;
-        	this.lblVersion.Text = "version";
+        	this.linkHomepage.Location = new System.Drawing.Point(67, 99);
+        	this.linkHomepage.Name = "linkHomepage";
+        	this.linkHomepage.Size = new System.Drawing.Size(196, 23);
+        	this.linkHomepage.TabIndex = 5;
+        	this.linkHomepage.TabStop = true;
+        	this.linkHomepage.Text = "Visit CheckSum Tool Homepage";
+        	this.linkHomepage.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.LinkLabel1LinkClicked);
+        	// 
+        	// labelVersion
+        	// 
+        	this.labelVersion.Location = new System.Drawing.Point(162, 19);
+        	this.labelVersion.Name = "labelVersion";
+        	this.labelVersion.Size = new System.Drawing.Size(138, 23);
+        	this.labelVersion.TabIndex = 6;
+        	this.labelVersion.Text = "Version";
+        	// 
+        	// label3
+        	// 
+        	this.label3.Location = new System.Drawing.Point(67, 65);
+        	this.label3.Name = "label3";
+        	this.label3.Size = new System.Drawing.Size(233, 23);
+        	this.label3.TabIndex = 7;
+        	this.label3.Text = "All rights reserved.";
         	// 
         	// AboutForm
         	// 
         	this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
         	this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-        	this.ClientSize = new System.Drawing.Size(253, 115);
-        	this.Controls.Add(this.lblVersion);
-        	this.Controls.Add(this.pictureBox1);
+        	this.ClientSize = new System.Drawing.Size(312, 169);
+        	this.Controls.Add(this.label3);
+        	this.Controls.Add(this.labelVersion);
+        	this.Controls.Add(this.linkHomepage);
+        	this.Controls.Add(this.pictureIcon);
         	this.Controls.Add(this.label2);
         	this.Controls.Add(this.label1);
         	this.Controls.Add(this.btnOk);
         	this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
         	this.Name = "AboutForm";
-        	this.Text = "AboutForm";
-        	((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+        	this.Text = "About CheckSum Tool";
+        	((System.ComponentModel.ISupportInitialize)(this.pictureIcon)).EndInit();
         	this.ResumeLayout(false);
         }
-        private System.Windows.Forms.Label lblVersion;
-        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.PictureBox pictureIcon;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label labelVersion;
+        private System.Windows.Forms.LinkLabel linkHomepage;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button btnOk;

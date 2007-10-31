@@ -22,6 +22,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 
+// $Id$
+
 using System;
 using System.Drawing;
 using System.Windows.Forms;
@@ -30,12 +32,12 @@ using System.Reflection;
 namespace CheckSumTool
 {
     /// <summary>
-    /// About-dialog of the application.
+    /// About-dialog of the application. Contains a link to program's website.
     /// </summary>
     public partial class AboutForm : Form
     {
         /// <summary>
-        /// Constructor.
+        /// Constructor. Set version number and link.
         /// </summary>
         public AboutForm()
         {
@@ -45,7 +47,13 @@ namespace CheckSumTool
             InitializeComponent();
             
             string version = GetVersion();
-            lblVersion.Text = version;
+            labelVersion.Text += " ";
+            labelVersion.Text += version;
+
+            // Set the homepage link
+            // TODO: Move this to resource?
+            linkHomepage.Links[0].LinkData =
+                @"http://checksumtool.sourceforge.net/";
         }
         
         /// <summary>
@@ -66,6 +74,22 @@ namespace CheckSumTool
         {
             Assembly curAssembly = Assembly.GetExecutingAssembly();
             return curAssembly.GetName().Version.ToString();
+        }
+
+        /// <summary>
+        /// Called when link in form is clicked. Opens link in browser.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        void LinkLabel1LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            string target = e.Link.LinkData as string;
+
+            //Check that link looks like an URL and open it to browser.
+            if (target.StartsWith(@"http://") || target.StartsWith("www."))
+            {
+                System.Diagnostics.Process.Start(target);
+            }
         }
     }
 }
