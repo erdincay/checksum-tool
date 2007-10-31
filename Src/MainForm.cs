@@ -672,5 +672,25 @@ namespace CheckSumTool
             _currentSumType = sumtype;
             SetListSumType(sumtype);
         }
+        
+        /// <summary>
+        /// Called when user selects Checksums/Calculate All from menu.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        void MainMenuChecksumsCalculateAllClick(object sender, EventArgs e)
+        {
+            CalculateCheckSums();
+        }
+        
+        /// <summary>
+        /// Called when user selects Checksums/Verify All from menu.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        void MainMenuChecksumsVerifyAllClick(object sender, EventArgs e)
+        {
+            VerifyCheckSums();
+        }
     }
 }

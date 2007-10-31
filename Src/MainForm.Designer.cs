@@ -54,6 +54,9 @@ namespace CheckSumTool
         	this.mainMenuEditMenu = new System.Windows.Forms.ToolStripMenuItem();
         	this.mainMenuEditClear = new System.Windows.Forms.ToolStripMenuItem();
         	this.mainMenuEditRemoveSelected = new System.Windows.Forms.ToolStripMenuItem();
+        	this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+        	this.mainMenuChecksumsCalculateAll = new System.Windows.Forms.ToolStripMenuItem();
+        	this.mainMenuChecksumsVerifyAll = new System.Windows.Forms.ToolStripMenuItem();
         	this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
         	this.aboutSHA1ToolToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
         	this.toolStripMain = new System.Windows.Forms.ToolStrip();
@@ -111,6 +114,7 @@ namespace CheckSumTool
         	this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
         	        	        	this.fileToolStripMenuItem,
         	        	        	this.mainMenuEditMenu,
+        	        	        	this.toolStripMenuItem1,
         	        	        	this.aboutToolStripMenuItem});
         	this.menuStrip1.Location = new System.Drawing.Point(0, 0);
         	this.menuStrip1.Name = "menuStrip1";
@@ -203,6 +207,31 @@ namespace CheckSumTool
         	this.mainMenuEditRemoveSelected.Size = new System.Drawing.Size(168, 22);
         	this.mainMenuEditRemoveSelected.Text = "&Remove Selected";
         	this.mainMenuEditRemoveSelected.Click += new System.EventHandler(this.MainMenuEditRemoveSelectedClick);
+        	// 
+        	// toolStripMenuItem1
+        	// 
+        	this.toolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+        	        	        	this.mainMenuChecksumsCalculateAll,
+        	        	        	this.mainMenuChecksumsVerifyAll});
+        	this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+        	this.toolStripMenuItem1.Size = new System.Drawing.Size(72, 20);
+        	this.toolStripMenuItem1.Text = "&Checksums";
+        	// 
+        	// mainMenuChecksumsCalculateAll
+        	// 
+        	this.mainMenuChecksumsCalculateAll.Image = ((System.Drawing.Image)(resources.GetObject("mainMenuChecksumsCalculateAll.Image")));
+        	this.mainMenuChecksumsCalculateAll.Name = "mainMenuChecksumsCalculateAll";
+        	this.mainMenuChecksumsCalculateAll.Size = new System.Drawing.Size(152, 22);
+        	this.mainMenuChecksumsCalculateAll.Text = "&Calculate All";
+        	this.mainMenuChecksumsCalculateAll.Click += new System.EventHandler(this.MainMenuChecksumsCalculateAllClick);
+        	// 
+        	// mainMenuChecksumsVerifyAll
+        	// 
+        	this.mainMenuChecksumsVerifyAll.Image = ((System.Drawing.Image)(resources.GetObject("mainMenuChecksumsVerifyAll.Image")));
+        	this.mainMenuChecksumsVerifyAll.Name = "mainMenuChecksumsVerifyAll";
+        	this.mainMenuChecksumsVerifyAll.Size = new System.Drawing.Size(152, 22);
+        	this.mainMenuChecksumsVerifyAll.Text = "&Verify All";
+        	this.mainMenuChecksumsVerifyAll.Click += new System.EventHandler(this.MainMenuChecksumsVerifyAllClick);
         	// 
         	// aboutToolStripMenuItem
         	// 
@@ -310,6 +339,9 @@ namespace CheckSumTool
         	this.ResumeLayout(false);
         	this.PerformLayout();
         }
+        private System.Windows.Forms.ToolStripMenuItem mainMenuChecksumsVerifyAll;
+        private System.Windows.Forms.ToolStripMenuItem mainMenuChecksumsCalculateAll;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
         private System.Windows.Forms.ToolStripComboBox toolStripComboSumTypes;
         private System.Windows.Forms.ToolStripButton toolStripBtnVerify;
         private System.Windows.Forms.ToolStripButton toolStripBtnCalculate;
