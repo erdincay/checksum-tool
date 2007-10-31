@@ -10,6 +10,14 @@
 !define PRODUCT_UNINST_KEY "Software\Microsoft\Windows\CurrentVersion\Uninstall\${PRODUCT_NAME}"
 !define PRODUCT_UNINST_ROOT_KEY "HKLM"
 
+; Dotnet 2.0 installer script -----
+; The script (called in Core Files -section) checks if DotNet 2.0 is installed.
+; If not found, it downloads and installs it.
+!include "LogicLib.nsh"
+!include "DotNET.nsh"
+; Required DotNet version
+!define DOTNET_VERSION "2"
+
 ; MUI 1.67 compatible ------
 !include "MUI.nsh"
 
@@ -47,6 +55,7 @@ ShowInstDetails show
 ShowUnInstDetails show
 
 Section "Core Files" SEC01
+  !insertmacro CheckDotNET ${DOTNET_VERSION}
   SetOutPath "$INSTDIR"
   SetOverwrite ifnewer
   File "..\..\Build\Release\CheckSumTool.exe"
