@@ -9,3 +9,4 @@ CheckSum Tool 0.1.0
   Loads and saves CRC32-sums in .SFV files
   Loads and saves MD5-sums in .MD5 files
   Loads and saves SHA-1 sums in .SHA1 files
+  Simple installer for installing files and creating start menu items
