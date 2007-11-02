@@ -287,15 +287,15 @@ namespace CheckSumTool
             switch (_currentSumType)
             {
                 case CheckSumImplList.SumImplementation.CRC32:
-                    dlg.FilterIndex = 1;
+                    dlg.FilterIndex = 2;
                     break;
                     
                 case CheckSumImplList.SumImplementation.MD5:
-                    dlg.FilterIndex = 0;
+                    dlg.FilterIndex = 1;
                     break;
                     
                 case CheckSumImplList.SumImplementation.SHA1:
-                    dlg.FilterIndex = 2;
+                    dlg.FilterIndex = 3;
                     break;
                    
                 default:
