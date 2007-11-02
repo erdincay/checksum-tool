@@ -66,8 +66,11 @@ namespace CheckSumTool
         	this.toolStripBtnCalculate = new System.Windows.Forms.ToolStripButton();
         	this.toolStripBtnVerify = new System.Windows.Forms.ToolStripButton();
         	this.toolStripComboSumTypes = new System.Windows.Forms.ToolStripComboBox();
+        	this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+        	this.statusbarLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
         	this.menuStrip1.SuspendLayout();
         	this.toolStripMain.SuspendLayout();
+        	this.statusStrip1.SuspendLayout();
         	this.SuspendLayout();
         	// 
         	// itemList
@@ -138,10 +141,12 @@ namespace CheckSumTool
         	// 
         	// mainMenuFileOpen
         	// 
+        	this.mainMenuFileOpen.AutoToolTip = true;
         	this.mainMenuFileOpen.Image = ((System.Drawing.Image)(resources.GetObject("mainMenuFileOpen.Image")));
         	this.mainMenuFileOpen.ImageTransparentColor = System.Drawing.Color.White;
         	this.mainMenuFileOpen.Name = "mainMenuFileOpen";
-        	this.mainMenuFileOpen.Size = new System.Drawing.Size(149, 22);
+        	this.mainMenuFileOpen.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
+        	this.mainMenuFileOpen.Size = new System.Drawing.Size(163, 22);
         	this.mainMenuFileOpen.Text = "Open...";
         	this.mainMenuFileOpen.Click += new System.EventHandler(this.MenuIFileOpenClick);
         	// 
@@ -150,38 +155,39 @@ namespace CheckSumTool
         	this.mainMenuFileSave.Image = ((System.Drawing.Image)(resources.GetObject("mainMenuFileSave.Image")));
         	this.mainMenuFileSave.ImageTransparentColor = System.Drawing.Color.White;
         	this.mainMenuFileSave.Name = "mainMenuFileSave";
-        	this.mainMenuFileSave.Size = new System.Drawing.Size(149, 22);
+        	this.mainMenuFileSave.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
+        	this.mainMenuFileSave.Size = new System.Drawing.Size(163, 22);
         	this.mainMenuFileSave.Text = "Save...";
         	this.mainMenuFileSave.Click += new System.EventHandler(this.MenuFileSaveClick);
         	// 
         	// toolStripSeparator2
         	// 
         	this.toolStripSeparator2.Name = "toolStripSeparator2";
-        	this.toolStripSeparator2.Size = new System.Drawing.Size(146, 6);
+        	this.toolStripSeparator2.Size = new System.Drawing.Size(160, 6);
         	// 
         	// mainMenuFileAddFile
         	// 
         	this.mainMenuFileAddFile.Name = "mainMenuFileAddFile";
-        	this.mainMenuFileAddFile.Size = new System.Drawing.Size(149, 22);
+        	this.mainMenuFileAddFile.Size = new System.Drawing.Size(163, 22);
         	this.mainMenuFileAddFile.Text = "Add File...";
         	this.mainMenuFileAddFile.Click += new System.EventHandler(this.MainMenuFileAddFileClick);
         	// 
         	// mainMenuFileAddFolder
         	// 
         	this.mainMenuFileAddFolder.Name = "mainMenuFileAddFolder";
-        	this.mainMenuFileAddFolder.Size = new System.Drawing.Size(149, 22);
+        	this.mainMenuFileAddFolder.Size = new System.Drawing.Size(163, 22);
         	this.mainMenuFileAddFolder.Text = "Add Folder...";
         	this.mainMenuFileAddFolder.Click += new System.EventHandler(this.MainMenuFileAddFolderClick);
         	// 
         	// toolStripSeparator1
         	// 
         	this.toolStripSeparator1.Name = "toolStripSeparator1";
-        	this.toolStripSeparator1.Size = new System.Drawing.Size(146, 6);
+        	this.toolStripSeparator1.Size = new System.Drawing.Size(160, 6);
         	// 
         	// exitToolStripMenuItem
         	// 
         	this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-        	this.exitToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
+        	this.exitToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
         	this.exitToolStripMenuItem.Text = "&Exit";
         	this.exitToolStripMenuItem.Click += new System.EventHandler(this.ExitToolStripMenuItemClick);
         	// 
@@ -221,7 +227,8 @@ namespace CheckSumTool
         	// 
         	this.mainMenuChecksumsCalculateAll.Image = ((System.Drawing.Image)(resources.GetObject("mainMenuChecksumsCalculateAll.Image")));
         	this.mainMenuChecksumsCalculateAll.Name = "mainMenuChecksumsCalculateAll";
-        	this.mainMenuChecksumsCalculateAll.Size = new System.Drawing.Size(152, 22);
+        	this.mainMenuChecksumsCalculateAll.ShortcutKeys = System.Windows.Forms.Keys.F5;
+        	this.mainMenuChecksumsCalculateAll.Size = new System.Drawing.Size(162, 22);
         	this.mainMenuChecksumsCalculateAll.Text = "&Calculate All";
         	this.mainMenuChecksumsCalculateAll.Click += new System.EventHandler(this.MainMenuChecksumsCalculateAllClick);
         	// 
@@ -229,7 +236,8 @@ namespace CheckSumTool
         	// 
         	this.mainMenuChecksumsVerifyAll.Image = ((System.Drawing.Image)(resources.GetObject("mainMenuChecksumsVerifyAll.Image")));
         	this.mainMenuChecksumsVerifyAll.Name = "mainMenuChecksumsVerifyAll";
-        	this.mainMenuChecksumsVerifyAll.Size = new System.Drawing.Size(152, 22);
+        	this.mainMenuChecksumsVerifyAll.ShortcutKeys = System.Windows.Forms.Keys.F6;
+        	this.mainMenuChecksumsVerifyAll.Size = new System.Drawing.Size(162, 22);
         	this.mainMenuChecksumsVerifyAll.Text = "&Verify All";
         	this.mainMenuChecksumsVerifyAll.Click += new System.EventHandler(this.MainMenuChecksumsVerifyAllClick);
         	// 
@@ -309,6 +317,7 @@ namespace CheckSumTool
         	this.toolStripBtnVerify.Name = "toolStripBtnVerify";
         	this.toolStripBtnVerify.Size = new System.Drawing.Size(23, 22);
         	this.toolStripBtnVerify.Text = "toolStripButton2";
+        	this.toolStripBtnVerify.ToolTipText = "Verify Sums";
         	this.toolStripBtnVerify.Click += new System.EventHandler(this.ToolStripBtnVerifyClick);
         	// 
         	// toolStripComboSumTypes
@@ -318,11 +327,27 @@ namespace CheckSumTool
         	this.toolStripComboSumTypes.Size = new System.Drawing.Size(75, 25);
         	this.toolStripComboSumTypes.SelectedIndexChanged += new System.EventHandler(this.ToolStripComboSumTypesSelectedIndexChanged);
         	// 
+        	// statusStrip1
+        	// 
+        	this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+        	        	        	this.statusbarLabel1});
+        	this.statusStrip1.Location = new System.Drawing.Point(0, 308);
+        	this.statusStrip1.Name = "statusStrip1";
+        	this.statusStrip1.Size = new System.Drawing.Size(631, 22);
+        	this.statusStrip1.TabIndex = 3;
+        	this.statusStrip1.Text = "statusStrip1";
+        	// 
+        	// statusbarLabel1
+        	// 
+        	this.statusbarLabel1.Name = "statusbarLabel1";
+        	this.statusbarLabel1.Size = new System.Drawing.Size(0, 17);
+        	// 
         	// MainForm
         	// 
         	this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
         	this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
         	this.ClientSize = new System.Drawing.Size(631, 330);
+        	this.Controls.Add(this.statusStrip1);
         	this.Controls.Add(this.itemList);
         	this.Controls.Add(this.toolStripMain);
         	this.Controls.Add(this.menuStrip1);
@@ -336,9 +361,13 @@ namespace CheckSumTool
         	this.menuStrip1.PerformLayout();
         	this.toolStripMain.ResumeLayout(false);
         	this.toolStripMain.PerformLayout();
+        	this.statusStrip1.ResumeLayout(false);
+        	this.statusStrip1.PerformLayout();
         	this.ResumeLayout(false);
         	this.PerformLayout();
         }
+        private System.Windows.Forms.ToolStripStatusLabel statusbarLabel1;
+        private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.ToolStripMenuItem mainMenuChecksumsVerifyAll;
         private System.Windows.Forms.ToolStripMenuItem mainMenuChecksumsCalculateAll;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;

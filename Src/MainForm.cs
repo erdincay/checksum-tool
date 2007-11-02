@@ -127,6 +127,7 @@ namespace CheckSumTool
             if (itemList.Items.Count == 0)
                 return;
 
+            statusbarLabel1.Text = "Calculating checksums...";
             ListView.ListViewItemCollection items = itemList.Items;
             
             int sumSelection = toolStripComboSumTypes.SelectedIndex;
@@ -145,6 +146,7 @@ namespace CheckSumTool
                 }
             }
             _listHasSums = true;
+            statusbarLabel1.Text = "Ready.";
         }
         
         /// <summary>
@@ -208,6 +210,7 @@ namespace CheckSumTool
             if (itemList.Items.Count == 0)
                 return;
             
+            statusbarLabel1.Text = "Verifying checksums...";
             ListView.ListViewItemCollection items = itemList.Items;
             
             ICheckSum sum = CreateSumCalculator();
@@ -244,6 +247,7 @@ namespace CheckSumTool
                                 MessageBoxIcon.Warning);
             }
             _listHasSums = true;
+            statusbarLabel1.Text = "Ready.";
         }
         
         /// <summary>
