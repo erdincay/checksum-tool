@@ -22,6 +22,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 
+// $Id$
+
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -151,13 +153,27 @@ namespace CheckSumTool
         /// <param name="SumClass">Checksum calculator class.</param>
         public void CalcSums(ICheckSum SumClass)
         {
-            foreach (CheckSumItem fi in _fileList)
+            foreach (CheckSumItem ci in _fileList)
             {
-                FileStream filestream = new FileStream(fi.FullPath, FileMode.Open);
+                // Check if fhe file is found and accessible
+                try
+                {
+                    FileInfo fi = new FileInfo(ci.FullPath);
+                    if (!fi.Exists)
+                        continue;
+                }
+                catch
+                {
+                    // Ignore non-existing and non-accessible files
+                    // TODO: Should we inform user?
+                    continue;
+                }
+                
+                FileStream filestream = new FileStream(ci.FullPath, FileMode.Open);
 
                 byte[] hash = SumClass.Calculate(filestream);
                 filestream.Close();
-                fi.SetSum(hash);
+                ci.SetSum(hash);
             }
         }
         
@@ -167,14 +183,28 @@ namespace CheckSumTool
         /// <param name="SumClass">Checksum calculator class.</param>
         public void CheckSums(ICheckSum SumClass)
         {
-            foreach (CheckSumItem fi in _fileList)
+            foreach (CheckSumItem ci in _fileList)
             {
-                FileStream filestream = new FileStream(fi.FullPath, FileMode.Open);
+                // Check if fhe file is found and accessible
+                try
+                {
+                    FileInfo fi = new FileInfo(ci.FullPath);
+                    if (!fi.Exists)
+                        continue;
+                }
+                catch
+                {
+                    // Ignore non-existing and non-accessible files
+                    // TODO: Should we inform user?
+                    continue;
+                }
+
+                FileStream filestream = new FileStream(ci.FullPath, FileMode.Open);
                 bool verified = false;
                 
                 try
                 {
-                    verified = SumClass.Verify(filestream, fi.CheckSum.Data);
+                    verified = SumClass.Verify(filestream, ci.CheckSum.Data);
                 }
                 catch (NotImplementedException)
                 {
@@ -182,15 +212,15 @@ namespace CheckSumTool
                     
                     // TODO: Need to inform the user, but how?
                     // For debug builds just throw the exception for reminder..
-#if DEBUG
+                    #if DEBUG
                     throw;
-#endif
+                    #endif
                 }
                 filestream.Close();
                 
                 if (verified)
                 {
-                    fi.Verified = true;
+                    ci.Verified = true;
                 }
             }
         }
