@@ -22,6 +22,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 
+// $Id$
+
 using System;
 using System.Globalization;
 
@@ -70,10 +72,13 @@ namespace CheckSumTool
         /// <summary>
         /// Return checksum as a string.
         /// </summary>
-        /// <returns>Checksum as a string.</returns>
+        /// <returns>Checksum as a string, empty string if no data.</returns>
         public override string ToString()
         {
             string retStr = "";
+            if (_data == null)
+                return "";
+
             foreach (byte by in _data)
             {
                 retStr += string.Format("{0:x2}",  by);
