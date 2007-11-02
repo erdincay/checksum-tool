@@ -68,6 +68,7 @@ namespace CheckSumTool
         	this.toolStripComboSumTypes = new System.Windows.Forms.ToolStripComboBox();
         	this.statusStrip1 = new System.Windows.Forms.StatusStrip();
         	this.statusbarLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
+        	this.statusbarLabelCount = new System.Windows.Forms.ToolStripStatusLabel();
         	this.menuStrip1.SuspendLayout();
         	this.toolStripMain.SuspendLayout();
         	this.statusStrip1.SuspendLayout();
@@ -330,7 +331,8 @@ namespace CheckSumTool
         	// statusStrip1
         	// 
         	this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-        	        	        	this.statusbarLabel1});
+        	        	        	this.statusbarLabel1,
+        	        	        	this.statusbarLabelCount});
         	this.statusStrip1.Location = new System.Drawing.Point(0, 308);
         	this.statusStrip1.Name = "statusStrip1";
         	this.statusStrip1.Size = new System.Drawing.Size(631, 22);
@@ -340,7 +342,16 @@ namespace CheckSumTool
         	// statusbarLabel1
         	// 
         	this.statusbarLabel1.Name = "statusbarLabel1";
-        	this.statusbarLabel1.Size = new System.Drawing.Size(0, 17);
+        	this.statusbarLabel1.Size = new System.Drawing.Size(476, 17);
+        	this.statusbarLabel1.Spring = true;
+        	this.statusbarLabel1.Text = "toolStripStatusLabel1";
+        	this.statusbarLabel1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+        	// 
+        	// statusbarLabelCount
+        	// 
+        	this.statusbarLabelCount.Name = "statusbarLabelCount";
+        	this.statusbarLabelCount.Size = new System.Drawing.Size(109, 17);
+        	this.statusbarLabelCount.Text = "toolStripStatusLabel1";
         	// 
         	// MainForm
         	// 
@@ -366,6 +377,7 @@ namespace CheckSumTool
         	this.ResumeLayout(false);
         	this.PerformLayout();
         }
+        private System.Windows.Forms.ToolStripStatusLabel statusbarLabelCount;
         private System.Windows.Forms.ToolStripStatusLabel statusbarLabel1;
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.ToolStripMenuItem mainMenuChecksumsVerifyAll;

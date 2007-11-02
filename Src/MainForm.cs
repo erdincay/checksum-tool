@@ -80,6 +80,8 @@ namespace CheckSumTool
                 this.toolStripComboSumTypes.Items.Add(name);
             }
             
+            statusbarLabel1.Text = "";
+            statusbarLabelCount.Text = "0 items";
             this.toolStripComboSumTypes.SelectedIndex = 0;
             _currentSumType = CheckSumImplList.SumImplementation.SHA1;
         }
@@ -179,6 +181,7 @@ namespace CheckSumTool
             itemList.Items.Clear();
             _checksumItemList.RemoveAll();
             _listHasSums = false;
+            statusbarLabelCount.Text = "0 items";
         }
         
         /// <summary>
@@ -479,6 +482,8 @@ namespace CheckSumTool
                         
                         SetSumTypeCombo(ext);
                         _listHasSums = true;
+                        string statustext = string.Format("{0} items", items);
+                        statusbarLabelCount.Text = statustext;
                     }
                     else
                     {
@@ -506,6 +511,8 @@ namespace CheckSumTool
             if (path.Length > 0)
             {
                 AddItemToList(path);
+                string statustext = string.Format("{0} items", _checksumItemList.Count);
+                statusbarLabelCount.Text = statustext;
             }
         }
         
@@ -529,6 +536,8 @@ namespace CheckSumTool
                 {
                     AddItemToList(fi.FullName);
                 }
+                string statustext = string.Format("{0} items", _checksumItemList.Count);
+                statusbarLabelCount.Text = statustext;
             }
         }
         

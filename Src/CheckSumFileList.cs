@@ -48,6 +48,14 @@ namespace CheckSumTool
         }
         
         /// <summary>
+        /// Count of items in the list.
+        /// </summary>
+        public int Count
+        {
+            get { return _fileList.Count; }
+        }
+        
+        /// <summary>
         /// Default constructor.
         /// </summary>
         public CheckSumFileList()
