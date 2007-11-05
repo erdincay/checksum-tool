@@ -22,6 +22,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 
+// $Id$
+
 using System;
 using System.IO;
 using System.Collections.Generic;
@@ -79,22 +81,19 @@ namespace CheckSumTool
         /// <param name="path">Full path to the file.</param>
         public void WriteFile(string path)
         {
-            byte[] comma = StringUtil.StringToArray(" ");
-            byte[] eol = StringUtil.StringToArray(Environment.NewLine);
-            FileStream file = new FileStream(path, FileMode.Create);
-            
+            const string separator = " ";
+            StreamWriter file = new StreamWriter(path, false,
+                System.Text.Encoding.ASCII);
+
             for (int i = 0; i < _list.FileList.Count; i++)
             {
                 string filename = _list.FileList[i].FileName;
                 string checksum = _list.FileList[i].CheckSum.ToString();
                 
-                byte[] filenameAr = StringUtil.StringToArray(filename);
-                byte[] checksumAr = StringUtil.StringToArray(checksum);
-                
-                file.Write(filenameAr, 0, filenameAr.Length);
-                file.Write(comma, 0, comma.Length);
-                file.Write(checksumAr, 0, checksumAr.Length);
-                file.Write(eol, 0, eol.Length);
+                file.Write(filename);
+                file.Write(separator);
+                file.Write(checksum);
+                file.Write(Environment.NewLine);
             }
             file.Close();
         }
