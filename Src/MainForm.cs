@@ -502,6 +502,7 @@ namespace CheckSumTool
         {
             OpenFileDialog dlg = new OpenFileDialog();
             dlg.Multiselect = true;
+            dlg.Title = "Select files to add to the list";
             
             DialogResult res = dlg.ShowDialog();
             if (res == DialogResult.OK)
@@ -527,11 +528,12 @@ namespace CheckSumTool
         void AddFolder()
         {
             FolderBrowserDialog dlg = new FolderBrowserDialog();
+            dlg.Description = "Select folder whose contents to add to the list.";
             DialogResult res = dlg.ShowDialog();
-            string path = "";
+            
             if (res == DialogResult.OK)
             {
-                path = dlg.SelectedPath;
+                string path = dlg.SelectedPath;
                 _checksumItemList.AddFolder(path);
                 DirectoryInfo info = new DirectoryInfo(path);
                 FileInfo[] files = info.GetFiles();
