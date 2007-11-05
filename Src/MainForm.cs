@@ -496,21 +496,25 @@ namespace CheckSumTool
         }
 
         /// <summary>
-        /// Asks user to select a file to add. And adds it to the checsum list.
+        /// Asks user to select one or more files to add to checksum list.
         /// </summary>
         void AddFile()
         {
             OpenFileDialog dlg = new OpenFileDialog();
+            dlg.Multiselect = true;
+            
             DialogResult res = dlg.ShowDialog();
-            string path = "";
             if (res == DialogResult.OK)
             {
-                path = dlg.FileName;
-                _checksumItemList.AddFile(path);
-            }
-            if (path.Length > 0)
-            {
-                AddItemToList(path);
+                foreach (string path in dlg.FileNames)
+                {
+                    _checksumItemList.AddFile(path);
+                    
+                    if (path.Length > 0)
+                    {
+                        AddItemToList(path);
+                    }
+                }
                 string statustext = string.Format("{0} items", _checksumItemList.Count);
                 statusbarLabelCount.Text = statustext;
             }

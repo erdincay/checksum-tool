@@ -170,7 +170,7 @@ namespace CheckSumTool
         	// 
         	this.mainMenuFileAddFile.Name = "mainMenuFileAddFile";
         	this.mainMenuFileAddFile.Size = new System.Drawing.Size(163, 22);
-        	this.mainMenuFileAddFile.Text = "Add File...";
+        	this.mainMenuFileAddFile.Text = "Add Files...";
         	this.mainMenuFileAddFile.Click += new System.EventHandler(this.MainMenuFileAddFileClick);
         	// 
         	// mainMenuFileAddFolder
@@ -342,7 +342,7 @@ namespace CheckSumTool
         	// statusbarLabel1
         	// 
         	this.statusbarLabel1.Name = "statusbarLabel1";
-        	this.statusbarLabel1.Size = new System.Drawing.Size(476, 17);
+        	this.statusbarLabel1.Size = new System.Drawing.Size(507, 17);
         	this.statusbarLabel1.Spring = true;
         	this.statusbarLabel1.Text = "toolStripStatusLabel1";
         	this.statusbarLabel1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
