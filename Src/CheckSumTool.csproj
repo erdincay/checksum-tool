@@ -79,6 +79,7 @@
     <Compile Include="Md5Sum.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Sha1Sum.cs" />
+    <Compile Include="SumFileInfo.cs" />
     <Compile Include="TextFileReader.cs" />
     <EmbeddedResource Include="AboutForm.resx">
       <DependentUpon>AboutForm.cs</DependentUpon>

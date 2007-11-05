@@ -37,6 +37,12 @@ namespace CheckSumTool
     public partial class AboutForm : Form
     {
         /// <summary>
+        /// Program's URL.
+        /// </summary>
+        public static readonly string URL = @"http://checksumtool.sourceforge.net/";
+        // TODO: Move this to resource?
+        
+        /// <summary>
         /// Constructor. Set version number and link.
         /// </summary>
         public AboutForm()
@@ -51,9 +57,7 @@ namespace CheckSumTool
             labelVersion.Text += version;
 
             // Set the homepage link
-            // TODO: Move this to resource?
-            linkHomepage.Links[0].LinkData =
-                @"http://checksumtool.sourceforge.net/";
+            linkHomepage.Links[0].LinkData = URL;
         }
         
         /// <summary>
@@ -70,7 +74,7 @@ namespace CheckSumTool
         /// Read version info from current assembly.
         /// </summary>
         /// <returns>Version number as a string.</returns>
-        string GetVersion()
+        public static string GetVersion()
         {
             Assembly curAssembly = Assembly.GetExecutingAssembly();
             return curAssembly.GetName().Version.ToString();
