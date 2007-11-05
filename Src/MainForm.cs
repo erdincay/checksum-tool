@@ -278,8 +278,8 @@ namespace CheckSumTool
             }
             
             SaveFileDialog dlg = new SaveFileDialog();
-            dlg.Filter = "MD5 File (*.MD5)|*.MD5 ";
-            dlg.Filter += "|Simple File Verification File (*.SFV)|*.SFV ";
+            dlg.Filter = "MD5 File (*.MD5)|*.MD5";
+            dlg.Filter += "|Simple File Verification File (*.SFV)|*.SFV";
             dlg.Filter += "|SHA-1 File (*.sha1)|*.sha1";
             dlg.AddExtension = true;
             
