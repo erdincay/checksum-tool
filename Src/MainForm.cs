@@ -112,16 +112,6 @@ namespace CheckSumTool
         }
 
         /// <summary>
-        /// Create checksum calculator instance for selected checksum type.
-        /// </summary>
-        /// <returns>Checksum calculator instance.</returns>
-        ICheckSum CreateSumCalculator()
-        {
-            ICheckSum impl = CheckSumImplList.GetImplementation(_currentSumType);
-            return impl;
-        }
-        
-        /// <summary>
         /// Calculate checksums for items in the list.
         /// </summary>
         void CalculateCheckSums()
@@ -129,13 +119,14 @@ namespace CheckSumTool
             if (itemList.Items.Count == 0)
                 return;
 
+            this.UseWaitCursor = true;
             statusbarLabel1.Text = "Calculating checksums...";
             ListView.ListViewItemCollection items = itemList.Items;
             
             int sumSelection = toolStripComboSumTypes.SelectedIndex;
             
-            ICheckSum sum = CreateSumCalculator();
-            _checksumItemList.CalcSums(sum);
+            Calculator sumCalculator = new Calculator(_currentSumType);
+            sumCalculator.Calculate(_checksumItemList.FileList);
             
             List<CheckSumItem> list = _checksumItemList.FileList;
             
@@ -149,6 +140,7 @@ namespace CheckSumTool
             }
             _listHasSums = true;
             statusbarLabel1.Text = "Ready.";
+            this.UseWaitCursor = false;
         }
         
         /// <summary>
@@ -213,11 +205,12 @@ namespace CheckSumTool
             if (itemList.Items.Count == 0)
                 return;
             
+            this.UseWaitCursor = true;
             statusbarLabel1.Text = "Verifying checksums...";
             ListView.ListViewItemCollection items = itemList.Items;
             
-            ICheckSum sum = CreateSumCalculator();
-            _checksumItemList.CheckSums(sum);
+            Calculator sumCalculator = new Calculator(_currentSumType);
+            sumCalculator.Verify(_checksumItemList.FileList);
             
             List<CheckSumItem> list = _checksumItemList.FileList;
             
@@ -251,6 +244,7 @@ namespace CheckSumTool
             }
             _listHasSums = true;
             statusbarLabel1.Text = "Ready.";
+            this.UseWaitCursor = false;
         }
         
         /// <summary>

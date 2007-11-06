@@ -57,6 +57,7 @@
       <DependentUpon>AboutForm.cs</DependentUpon>
     </Compile>
     <Compile Include="AssemblyInfo.cs" />
+    <Compile Include="Calculator.cs" />
     <Compile Include="CheckSumData.cs" />
     <Compile Include="CheckSumImplList.cs" />
     <Compile Include="CRC32.cs" />
