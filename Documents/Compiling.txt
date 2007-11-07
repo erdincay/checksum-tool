@@ -18,6 +18,9 @@ Tools needed:
   Project/solution files are compatible with Visual Studio 2005, so you can use
   either commercial version of Visual Studio 2005 or free Express edition:
   http://msdn2.microsoft.com/en-us/express/default.aspx
+- NSIS for compiling installer
+  http://nsis.sourceforge.net/
+
   
 Compiling:
 - Open the solution file Src/CheckSumTool.sln to your IDE.
