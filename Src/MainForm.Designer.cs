@@ -86,7 +86,6 @@ namespace CheckSumTool
         	this.itemList.Dock = System.Windows.Forms.DockStyle.Fill;
         	this.itemList.FullRowSelect = true;
         	this.itemList.Location = new System.Drawing.Point(0, 49);
-        	this.itemList.MultiSelect = false;
         	this.itemList.Name = "itemList";
         	this.itemList.ShowItemToolTips = true;
         	this.itemList.Size = new System.Drawing.Size(631, 281);
