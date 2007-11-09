@@ -12,6 +12,7 @@ Targets to call:
 # release - builds release version
 # source zip - exports sources and creates zip file from them
 # svn_build - exports sources and builds them (release build)
+# build_installer - builds installer
 
 $Id$
 -->
@@ -35,6 +36,11 @@ $Id$
     
     <!-- Additional defines for C# compiler -->
     <property name="csc.defines" value=""/>
+    
+    <!-- Settings for NSIS installer -->
+    <property name="nsis.bin" value="C:/Program Files/NSIS/makensis.exe" />
+    <property name="nsis.script" value="../installer/NSIS/CheckSumTool.nsi" />
+    <property name="nsis.log" value="nsis.log" />
     
     <!-- [2] BUILD TARGETS -->
     <!-- These are directly-callable high-level build targets. -->
@@ -141,5 +147,13 @@ $Id$
                 <include name="*.resx" />
             </resources>
         </csc>
-	</target>
+    </target>
+
+    <!-- Build NSIS installer -->
+    <target name="build_installer" description="Builds NSIS installer">
+        <echo message="Building installer..." />
+        <exec
+            program="${nsis.bin}"
+            commandline=" /V3 /O${nsis.log} ${nsis.script}" />
+    </target>
 </project>
