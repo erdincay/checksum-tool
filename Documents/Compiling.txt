@@ -25,3 +25,9 @@ Tools needed:
 Compiling:
 - Open the solution file Src/CheckSumTool.sln to your IDE.
 - Compile the project.
+
+
+NAnt:
+- NAnt can be used to build the tool
+- NAntContrib is also required
+- Build file is Src/CheckSumTool.build
