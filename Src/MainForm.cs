@@ -66,6 +66,14 @@ namespace CheckSumTool
         bool _listHasSums;
         
         /// <summary>
+        /// User's last selected folder.
+        /// We remember user's last selected folder and use that folder
+        /// when opening new selection dialogs. Also sum file is most naturally
+        /// saved to last selected folder.
+        /// </summary>
+        string _lastFolder;
+        
+        /// <summary>
         /// Constructor.
         /// </summary>
         public MainForm()
@@ -276,6 +284,7 @@ namespace CheckSumTool
             dlg.Filter += "|Simple File Verification File (*.SFV)|*.SFV";
             dlg.Filter += "|SHA-1 File (*.sha1)|*.sha1";
             dlg.AddExtension = true;
+            dlg.InitialDirectory = _lastFolder;
             
             // Determine extension to select by default
             switch (_currentSumType)
@@ -497,6 +506,7 @@ namespace CheckSumTool
             OpenFileDialog dlg = new OpenFileDialog();
             dlg.Multiselect = true;
             dlg.Title = "Select files to add to the list";
+            dlg.InitialDirectory = _lastFolder;
             
             DialogResult res = dlg.ShowDialog();
             if (res == DialogResult.OK)
@@ -512,6 +522,7 @@ namespace CheckSumTool
                 }
                 string statustext = string.Format("{0} items", _checksumItemList.Count);
                 statusbarLabelCount.Text = statustext;
+                _lastFolder = Path.GetDirectoryName(dlg.FileNames[0]);
             }
         }
         
@@ -523,6 +534,7 @@ namespace CheckSumTool
         {
             FolderBrowserDialog dlg = new FolderBrowserDialog();
             dlg.Description = "Select folder whose contents to add to the list.";
+            dlg.SelectedPath = _lastFolder;
             DialogResult res = dlg.ShowDialog();
             
             if (res == DialogResult.OK)
@@ -538,6 +550,7 @@ namespace CheckSumTool
                 }
                 string statustext = string.Format("{0} items", _checksumItemList.Count);
                 statusbarLabelCount.Text = statustext;
+                _lastFolder = path;
             }
         }
         
