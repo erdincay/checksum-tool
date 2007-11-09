@@ -79,7 +79,7 @@ namespace CheckSumTool
         /// <param name="path">Full path to the file.</param>
         public void WriteFile(string path)
         {
-            const string separator = "|";
+            const string separator = " ";
             StreamWriter file = new StreamWriter(path, false,
                 System.Text.Encoding.ASCII);
 
