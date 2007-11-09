@@ -149,7 +149,7 @@ namespace CheckSumTool
         	this.mainMenuFileOpen.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
         	this.mainMenuFileOpen.Size = new System.Drawing.Size(163, 22);
         	this.mainMenuFileOpen.Text = "Open...";
-        	this.mainMenuFileOpen.Click += new System.EventHandler(this.MenuIFileOpenClick);
+        	this.mainMenuFileOpen.Click += new System.EventHandler(this.MenuFileOpenClick);
         	// 
         	// mainMenuFileSave
         	// 

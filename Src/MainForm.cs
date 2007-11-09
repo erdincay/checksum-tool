@@ -436,7 +436,7 @@ namespace CheckSumTool
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        void MenuIFileOpenClick(object sender, EventArgs e)
+        void MenuFileOpenClick(object sender, EventArgs e)
         {
             LoadFile();
         }
