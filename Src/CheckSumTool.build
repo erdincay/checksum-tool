@@ -33,6 +33,7 @@ $Id$
         value="https://checksumtool.svn.sourceforge.net/svnroot/checksumtool/trunk"/>
     <!-- Folder for repository builds -->
     <property name="svn.checkout.dir" value="c:/work/build/${project.name}"/>
+    <property name="dist.dir" value="${svn.checkout.dir}/dist/${project.name}" />
     
     <!-- Additional defines for C# compiler -->
     <property name="csc.defines" value=""/>
@@ -124,6 +125,25 @@ $Id$
         <!-- No need to run clean target as this is clean checkout from SVN! -->
         <nant buildfile="${svn.checkout.dir}/Src/CheckSumTool.build"
                 inheritall="true" target="${project.config}"/>
+    </target>
+    
+    <!-- Copy binary files and docs to dist folder for making a zip. -->
+    <target name="create_dist" description="Creates distribution folder"
+        depends="svn_build">
+        <mkdir dir="${dist.dir}" />
+        <copy file="${build.dir}${executable.name}" todir="${dist.dir}" />
+        <copy file="${svn.checkout.dir}/Documents/Readme.txt" todir="${dist.dir}" />
+        <copy file="${svn.checkout.dir}/Documents/COPYING" todir="${dist.dir}" />
+    </target>
+    
+    <!-- Create a binary file zip, including executable + docs. -->
+    <target name="create_bin_zip" description="Create binary zip"
+        depends="create_dist">
+        <zip zipfile="${svn.checkout.dir}/${project.name}_bin.zip">
+            <fileset basedir="${dist.dir}">
+            <include name="**/*"/>
+            </fileset>
+        </zip>
     </target>
 
     <!-- [5] BUILD TARGETS - CALLED BY OTHER TARGETS -->
