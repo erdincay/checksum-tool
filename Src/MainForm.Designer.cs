@@ -203,15 +203,17 @@ namespace CheckSumTool
         	// mainMenuEditClear
         	// 
         	this.mainMenuEditClear.Name = "mainMenuEditClear";
-        	this.mainMenuEditClear.Size = new System.Drawing.Size(168, 22);
+        	this.mainMenuEditClear.Size = new System.Drawing.Size(190, 22);
         	this.mainMenuEditClear.Text = "&Clear";
         	this.mainMenuEditClear.Click += new System.EventHandler(this.ClearToolStripMenuItemClick);
         	// 
         	// mainMenuEditRemoveSelected
         	// 
         	this.mainMenuEditRemoveSelected.Name = "mainMenuEditRemoveSelected";
-        	this.mainMenuEditRemoveSelected.Size = new System.Drawing.Size(168, 22);
+        	this.mainMenuEditRemoveSelected.ShortcutKeys = System.Windows.Forms.Keys.Delete;
+        	this.mainMenuEditRemoveSelected.Size = new System.Drawing.Size(190, 22);
         	this.mainMenuEditRemoveSelected.Text = "&Remove Selected";
+        	this.mainMenuEditRemoveSelected.ToolTipText = "Remove selected items from the list";
         	this.mainMenuEditRemoveSelected.Click += new System.EventHandler(this.MainMenuEditRemoveSelectedClick);
         	// 
         	// toolStripMenuItem1
