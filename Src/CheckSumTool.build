@@ -13,6 +13,7 @@ Targets to call:
 # source zip - exports sources and creates zip file from them
 # svn_build - exports sources and builds them (release build)
 # build_installer - builds installer
+# create_bin_zip - creates zip file from binaries + docs
 
 $Id$
 -->
@@ -32,7 +33,7 @@ $Id$
     <property name="svn.repository.uri"
         value="https://checksumtool.svn.sourceforge.net/svnroot/checksumtool/trunk"/>
     <!-- Folder for repository builds -->
-    <property name="svn.checkout.dir" value="c:/work/build/${project.name}"/>
+    <property name="svn.checkout.dir" value="G:/${project.name}/export"/>
     <property name="dist.dir" value="${svn.checkout.dir}/dist/${project.name}" />
     
     <!-- Additional defines for C# compiler -->
