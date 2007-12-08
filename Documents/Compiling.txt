@@ -20,6 +20,12 @@ Tools needed:
   http://msdn2.microsoft.com/en-us/express/default.aspx
 - NSIS for compiling installer
   http://nsis.sourceforge.net/
+- NAnt for automatic building
+  http://nant.sourceforge.net/
+  NAnt contrib -additional NAnt tasks are needed also
+  http://nantcontrib.sourceforge.net/
+- NUnit for unit testing
+  http://www.nunit.org/
 
   
 Compiling:

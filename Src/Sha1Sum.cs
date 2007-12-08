@@ -22,9 +22,12 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 
+// $Id$
+
 using System;
 using System.Security.Cryptography;
 using System.IO;
+using NUnit.Framework;
 
 namespace CheckSumTool
 {
@@ -51,9 +54,13 @@ namespace CheckSumTool
         /// Calculate SHA1 checksum for given data.
         /// </summary>
         /// <param name="data">Data for which to calculate checksum</param>
-        /// <returns>Checksum for data</returns>
+        /// <returns>Checksum for data. If the data is null, then returns null.
+        /// </returns>
         public byte[] Calculate(byte[] data)
         {
+            if (data == null)
+                return null;
+
             byte[] hash = _sha1.ComputeHash(data);
             return hash;
         }
@@ -108,5 +115,50 @@ namespace CheckSumTool
             }
             return true;
         }
+    }
+    
+    /// <summary>
+    /// Unit testing class for Sha1Sum class.
+    /// </summary>
+    [TestFixture]
+    public class TestSha1Sum
+    {
+        /// <summary>
+        /// Test creating sum instance.
+        /// </summary>
+        [Test]
+        public void Create()
+        {
+            Sha1Sum sum = new Sha1Sum();
+            Assert.IsNotNull(sum);
+        }
+
+        /// <summary>
+        /// Test giving null parameter to sum method.
+        /// </summary>
+        [Test]
+        public void CalculateFromBytesNull()
+        {
+            Sha1Sum sum = new Sha1Sum();
+            Assert.IsNotNull(sum);
+
+            byte[] check = sum.Calculate((byte[])null);
+            Assert.IsNull(check);
+        }
+
+        /// <summary>
+        /// Test creating checksum for empty byte table.
+        /// </summary>
+        [Test]
+        public void CalculateFromEmptyTable()
+        {
+            Sha1Sum sum = new Sha1Sum();
+            Assert.IsNotNull(sum);
+
+            byte[] table = new byte[0];
+            byte[] check = sum.Calculate(table);
+            Assert.IsNotNull(check);
+            Assert.AreEqual(20, check.Length);
+    	}
     }
 }
