@@ -40,7 +40,7 @@ namespace CheckSumTool
         /// SHA1 checksum calculator
         /// </summary>
         private SHA1Managed _sha1;
-        
+
         /// <summary>
         /// Constructor.
         /// </summary>
@@ -49,7 +49,7 @@ namespace CheckSumTool
             _sha1 = new SHA1Managed();
             _sha1.Initialize();
         }
-        
+
         /// <summary>
         /// Calculate SHA1 checksum for given data.
         /// </summary>
@@ -64,7 +64,7 @@ namespace CheckSumTool
             byte[] hash = _sha1.ComputeHash(data);
             return hash;
         }
-        
+
         /// <summary>
         /// Calculate SHA1 checksum for given stream data.
         /// </summary>
@@ -75,7 +75,7 @@ namespace CheckSumTool
             byte[] hash = _sha1.ComputeHash(stream);
             return hash;
         }
-        
+
         /// <summary>
         /// Check if given data matches given SHA1-checksum.
         /// </summary>
@@ -87,7 +87,7 @@ namespace CheckSumTool
             byte[] newSum = Calculate(data);
             if (sum.Length != newSum.Length)
                 return false;
-            
+
             for (int i = 0; i < newSum.Length; i++)
             {
                 if (newSum[i] != sum[i])
@@ -95,7 +95,7 @@ namespace CheckSumTool
             }
             return true;
         }
-        
+
         /// <summary>
         /// Check if given data matches given SHA1-checksum.
         /// </summary>
@@ -107,7 +107,7 @@ namespace CheckSumTool
             byte[] newSum = Calculate(stream);
             if (sum.Length != newSum.Length)
                 return false;
-            
+
             for (int i = 0; i < newSum.Length; i++)
             {
                 if (newSum[i] != sum[i])
@@ -116,13 +116,19 @@ namespace CheckSumTool
             return true;
         }
     }
-    
+
     /// <summary>
     /// Unit testing class for Sha1Sum class.
     /// </summary>
     [TestFixture]
     public class TestSha1Sum
     {
+        // Precalculated SHA1-sum for TestData/File1.txt
+        // This sum was calculated by Cygwin's Sha1Sum -tool
+           static byte[] File1Sum = { 0x94, 0xa3, 0x22, 0x5c, 0x6b, 0xac, 0x57,
+                0x3a, 0x06, 0xda, 0x75, 0xb0, 0x5b, 0xcf, 0x6d, 0xe5, 0x9f,
+                0x65, 0xdb, 0x2c };
+
         /// <summary>
         /// Test creating sum instance.
         /// </summary>
@@ -155,10 +161,136 @@ namespace CheckSumTool
             Sha1Sum sum = new Sha1Sum();
             Assert.IsNotNull(sum);
 
-            byte[] table = new byte[0];
-            byte[] check = sum.Calculate(table);
+            byte[] array = new byte[0];
+            byte[] check = sum.Calculate(array);
             Assert.IsNotNull(check);
             Assert.AreEqual(20, check.Length);
-    	}
+        }
+
+        /// <summary>
+        /// Compare sum calculated by this class to sum calculated by
+        /// Cygwin's Sha1Tool.
+        /// </summary>
+        [Test]
+        public void CalculateFromTestFile1()
+        {
+            Sha1Sum sum = new Sha1Sum();
+            Assert.IsNotNull(sum);
+
+            byte[] array = File.ReadAllBytes("../../TestData/TextFile1.txt");
+            byte[] check = sum.Calculate(array);
+
+            Assert.IsNotNull(check);
+            Assert.AreEqual(20, check.Length);
+            for (int i = 0; i < File1Sum.Length; i++)
+            {
+                if (check[i] != File1Sum[i])
+                {
+                    Assert.Fail("Result byte {0} does not match! Was {1}, expected {2}",
+                        i, check[i], File1Sum[i]);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Compare sum calculated by this class to sum calculated by
+        /// Cygwin's Sha1Tool.
+        /// </summary>
+        [Test]
+        public void CalculateFromTestFile1Stream()
+        {
+            Sha1Sum sum = new Sha1Sum();
+            Assert.IsNotNull(sum);
+
+            FileStream file = new FileStream("../../TestData/TextFile1.txt",
+                FileMode.Open);
+            byte[] check = sum.Calculate(file);
+            file.Close();
+
+            Assert.IsNotNull(check);
+            Assert.AreEqual(20, check.Length);
+            for (int i = 0; i < File1Sum.Length; i++)
+            {
+                if (check[i] != File1Sum[i])
+                {
+                    Assert.Fail("Result byte {0} does not match! Was {1}, expected {2}",
+                        i, check[i], File1Sum[i]);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Verify sum calculated by this class to sum calculated by
+        /// Cygwin's Sha1Tool.
+        /// </summary>
+        [Test]
+        public void VerifyFromTestFile1()
+        {
+            Sha1Sum sum = new Sha1Sum();
+            Assert.IsNotNull(sum);
+
+               byte[] array = File.ReadAllBytes("../../TestData/TextFile1.txt");
+            bool match = sum.Verify(array, File1Sum);
+            Assert.IsTrue(match);
+        }
+
+        /// <summary>
+        /// Verify sum calculated by this class to sum calculated by
+        /// Cygwin's Sha1Tool.
+        /// </summary>
+        [Test]
+        public void VerifyFromTestFile1Stream()
+        {
+            Sha1Sum sum = new Sha1Sum();
+            Assert.IsNotNull(sum);
+
+            FileStream file = new FileStream("../../TestData/TextFile1.txt",
+                FileMode.Open);
+            bool match = sum.Verify(file, File1Sum);
+            file.Close();
+            Assert.IsTrue(match);
+        }
+
+        /// <summary>
+        /// Verify sum calculated by this class to sum calculated by
+        /// Cygwin's Sha1Tool.
+        /// </summary>
+        [Test]
+        public void VerifyFromTestFile1Fail()
+        {
+            Sha1Sum sum = new Sha1Sum();
+            Assert.IsNotNull(sum);
+
+            // Create invalid checksum
+            byte[] invalidSum = new byte[20];
+            Array.Copy(File1Sum, invalidSum, 20);
+            invalidSum[3] = 0x00;
+
+               byte[] array = File.ReadAllBytes("../../TestData/TextFile1.txt");
+            bool match = sum.Verify(array, invalidSum);
+            Assert.IsFalse(match);
+        }
+
+        /// <summary>
+        /// Verify sum calculated by this class to sum calculated by
+        /// Cygwin's Sha1Tool.
+        /// </summary>
+        [Test]
+        public void VerifyFromTestFile1StreamFail()
+        {
+            Sha1Sum sum = new Sha1Sum();
+            Assert.IsNotNull(sum);
+
+            // Create invalid checksum
+            byte[] invalidSum = new byte[20];
+            Array.Copy(File1Sum, invalidSum, 20);
+            invalidSum[3] = 0x00;
+
+            FileStream file = new FileStream("../../TestData/TextFile1.txt",
+                FileMode.Open);
+            bool match = sum.Verify(file, invalidSum);
+            file.Close();
+            Assert.IsFalse(match);
+        }
     }
 }
