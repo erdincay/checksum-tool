@@ -3,8 +3,11 @@
  * http://staceyw.spaces.live.com/blog/cns!F4A38E96E598161E!402.entry
  */
 
+// $Id$
+
 using System;
 using System.IO;
+using NUnit.Framework;
 
 namespace CheckSumTool
 {
@@ -213,6 +216,68 @@ namespace CheckSumTool
             }
 
             crc ^= CrcSeed;
+        }
+    }
+    
+    [TestFixture]
+    public class TestCrc32
+    {
+        /// <summary>
+        /// CRC32-checksum calculated for TextFile1.txt with fsum tool.
+        /// </summary>
+        static uint File1Sum = 0xb046e6f2;
+        
+        /// <summary>
+        /// Test Crc32 with null filename.
+        /// </summary>
+        [Test]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void GetCrcNullPath()
+        {
+            uint crc = Crc32.GetFileCRC32(null);
+        }
+        
+        /// <summary>
+        /// Test Crc32 with invalid filename.
+        /// </summary>
+        [Test]
+        [ExpectedException(typeof(FileNotFoundException))]
+        public void GetCrcInvalidPath()
+        {
+            uint crc = Crc32.GetFileCRC32("poo");
+        }
+        
+        /// <summary>
+        /// Test Crc32 with null stream.
+        /// </summary>
+        [Test]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void GetCrc32NullStream()
+        {
+            uint crc = Crc32.GetStreamCRC32(null);
+        }
+        
+        /// <summary>
+        /// Test Crc32 for TextFile1.txt.
+        /// </summary>
+        [Test]
+        public void GetCrcFile1()
+        {
+            uint crc = Crc32.GetFileCRC32("../../TestData/TextFile1.txt");
+            Assert.AreEqual(File1Sum, crc);
+        }
+        
+        /// <summary>
+        /// Test crc32 with TextFile1.txt stream.
+        /// </summary>
+        [Test]
+        public void GetCrcFile1Stream()
+        {
+            FileStream file = new FileStream("../../TestData/TextFile1.txt",
+                FileMode.Open);
+            uint crc = Crc32.GetStreamCRC32(file);
+            file.Close();
+            Assert.AreEqual(File1Sum, crc);
         }
     }
 }
