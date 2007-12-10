@@ -1,6 +1,10 @@
 This file list changes done in each version of the CheckSum Tool.
 
-CheckSum Tool 0.1.0
+CheckSum Tool 0.2.0
+  Added unit tests for SHA1-, MD5- and CRC32- calculation and verification
+  Bugfix: CRC32 sum was not calculated or verified correctly (found by unit tests)
+
+CheckSum Tool 0.1.0 - 2007-12-04 (r37)
   First version added to the SourceForge.net
   Support for CRC32, MD5 and SHA-1 checksum types
   Can save list of checksums to file (simple CSV file)
