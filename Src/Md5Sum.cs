@@ -22,9 +22,12 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 
+// $Id$
+
 using System;
 using System.Security.Cryptography;
 using System.IO;
+using NUnit.Framework;
 
 namespace CheckSumTool
 {
@@ -37,7 +40,7 @@ namespace CheckSumTool
         /// MD5 crypto service by system.
         /// </summary>
         private MD5CryptoServiceProvider _md5Sum;
-            
+
         /// <summary>
         /// Constructor.
         /// </summary>
@@ -46,7 +49,7 @@ namespace CheckSumTool
             _md5Sum = new MD5CryptoServiceProvider();
             _md5Sum.Initialize();
         }
-        
+
         /// <summary>
         /// Calculate checksum from byte table data.
         /// </summary>
@@ -54,10 +57,12 @@ namespace CheckSumTool
         /// <returns>Checksum.</returns>
         public byte[] Calculate(byte[] data)
         {
+            if (data == null)
+                throw new ArgumentException("Parameter cannot be null", "data");
             byte[] sum = _md5Sum.ComputeHash(data);
             return sum;
         }
-        
+
         /// <summary>
         /// Calculate checksum from stream data.
         /// </summary>
@@ -68,7 +73,7 @@ namespace CheckSumTool
             byte[] sum = _md5Sum.ComputeHash(stream);
             return sum;
         }
-        
+
         /// <summary>
         /// Verify given data against given checksum.
         /// </summary>
@@ -77,10 +82,15 @@ namespace CheckSumTool
         /// <returns>true if data matches checksum, false otherwise.</returns>
         public bool Verify(byte[] data, byte[] sum)
         {
+            if (data == null)
+                throw new ArgumentException("Parameter cannot be null", "data");
+            if (sum == null)
+                throw new ArgumentException("Parameter cannot be null", "sum");
+
             byte[] newSum = _md5Sum.ComputeHash(data);
             if (sum.Length != newSum.Length)
                 return false;
-            
+
             for (int i = 0; i < newSum.Length; i++)
             {
                 if (newSum[i] != sum[i])
@@ -88,7 +98,7 @@ namespace CheckSumTool
             }
             return true;
         }
-        
+
         /// <summary>
         /// Verify given data against given checksum.
         /// </summary>
@@ -100,13 +110,208 @@ namespace CheckSumTool
             byte[] newSum = _md5Sum.ComputeHash(stream);
             if (sum.Length != newSum.Length)
                 return false;
-            
+
             for (int i = 0; i < newSum.Length; i++)
             {
                 if (newSum[i] != sum[i])
                     return false;
             }
             return true;
+        }
+    }
+
+    [TestFixture]
+    public class TestMd5Sum
+    {
+        // Precalculated MD5-sum for TestData/File1.txt
+        // This sum was calculated by Cygwin's md5Sum -tool
+        static byte[] File1Sum = { 0x78, 0xcf, 0x91, 0xda, 0xf3, 0x73, 0xe2,
+            0x86, 0x41, 0x5c, 0x36, 0xa8, 0xb0, 0x35, 0xdb, 0xa9 };
+
+         /// <summary>
+         /// Test creating Md5Sum.
+         /// </summary>
+        [Test]
+        public void Create()
+        {
+            Md5Sum sum = new Md5Sum();
+            Assert.IsNotNull(sum);
+        }
+
+        /// <summary>
+        /// Test giving null parameter for calculate.
+        /// </summary>
+        [Test]
+        [ExpectedException(typeof(ArgumentException))]
+        public void CalculateBytesFromNull()
+        {
+            Md5Sum sum = new Md5Sum();
+            Assert.IsNotNull(sum);
+
+            byte[] check = sum.Calculate((byte[])null);
+        }
+
+        /// <summary>
+        /// Test giving empty data array for calculate.
+        /// </summary>
+        [Test]
+        public void CalculateBytesFromEmpty()
+        {
+            Md5Sum sum = new Md5Sum();
+            Assert.IsNotNull(sum);
+
+            byte[] data = new byte[0];
+            byte[] check = sum.Calculate(data);
+            Assert.IsNotNull(check);
+            Assert.AreEqual(16, check.Length);
+        }
+
+        /// <summary>
+        /// Test calculating Md5 for known test file, and compare to Md5
+        /// calculated by Cygwin's md5sum.
+        /// </summary>
+        [Test]
+        public void CalculateFromTestFile1()
+        {
+             Md5Sum sum = new Md5Sum();
+            Assert.IsNotNull(sum);
+
+            byte[] array = File.ReadAllBytes("../../TestData/TextFile1.txt");
+            byte[] check = sum.Calculate(array);
+
+            Assert.IsNotNull(check);
+            Assert.AreEqual(16, check.Length);
+            for (int i = 0; i < File1Sum.Length; i++)
+            {
+                if (check[i] != File1Sum[i])
+                {
+                    Assert.Fail("Result byte {0} does not match! Was {1}, expected {2}",
+                        i, check[i], File1Sum[i]);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Test calculating Md5 for known test file, and compare to Md5
+        /// calculated by Cygwin's md5sum.
+        /// </summary>
+        [Test]
+        public void CalculateFromTestFile1Stream()
+        {
+             Md5Sum sum = new Md5Sum();
+            Assert.IsNotNull(sum);
+
+            FileStream file = new FileStream("../../TestData/TextFile1.txt",
+                FileMode.Open);
+            byte[] check = sum.Calculate(file);
+            file.Close();
+
+            Assert.IsNotNull(check);
+            Assert.AreEqual(16, check.Length);
+            for (int i = 0; i < File1Sum.Length; i++)
+            {
+                if (check[i] != File1Sum[i])
+                {
+                    Assert.Fail("Result byte {0} does not match! Was {1}, expected {2}",
+                        i, check[i], File1Sum[i]);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Test givin empty array for verification.
+        /// </summary>
+        [Test]
+        [ExpectedException(typeof(ArgumentException))]
+        public void VerifyNullArray()
+        {
+             Md5Sum sum = new Md5Sum();
+             Assert.IsNotNull(sum);
+
+            bool match = sum.Verify((byte[])null, new byte[1]);
+        }
+
+        /// <summary>
+        /// Test giving null array for verification.
+        /// </summary>
+        [Test]
+        [ExpectedException(typeof(ArgumentException))]
+        public void VerifyNullArray2()
+        {
+             Md5Sum sum = new Md5Sum();
+            Assert.IsNotNull(sum);
+
+            bool match = sum.Verify(new byte[1], (byte[])null);
+        }
+
+        /// <summary>
+        /// Test verifying known file against known md5.
+        /// </summary>
+        [Test]
+        public void VerifyFromTestFile1()
+        {
+             Md5Sum sum = new Md5Sum();
+            Assert.IsNotNull(sum);
+
+            byte[] array = File.ReadAllBytes("../../TestData/TextFile1.txt");
+            bool match = sum.Verify(array, File1Sum);
+            Assert.IsTrue(match);
+        }
+
+        /// <summary>
+        /// Test verifying known file against known md5.
+        /// </summary>
+        [Test]
+        public void VerifyFromTestFile1Stream()
+        {
+             Md5Sum sum = new Md5Sum();
+            Assert.IsNotNull(sum);
+
+            FileStream file = new FileStream("../../TestData/TextFile1.txt",
+                FileMode.Open);
+            bool match = sum.Verify(file, File1Sum);
+            file.Close();
+            Assert.IsTrue(match);
+        }
+
+        /// <summary>
+        /// Test verifying against wrong md5 sum.
+        /// </summary>
+        [Test]
+        public void VerifyFromTestFile1Fail()
+        {
+             Md5Sum sum = new Md5Sum();
+            Assert.IsNotNull(sum);
+
+            // Create invalid checksum
+            byte[] invalidSum = new byte[16];
+            Array.Copy(File1Sum, invalidSum, 16);
+            invalidSum[3] = 0x00;
+
+            byte[] array = File.ReadAllBytes("../../TestData/TextFile1.txt");
+            bool match = sum.Verify(array, invalidSum);
+            Assert.IsFalse(match);
+        }
+
+        /// <summary>
+        /// Test verifying against wrong md5 sum.
+        /// </summary>
+        [Test]
+        public void VerifyFromTestFile1StreamFail()
+        {
+             Md5Sum sum = new Md5Sum();
+            Assert.IsNotNull(sum);
+
+            // Create invalid checksum
+            byte[] invalidSum = new byte[16];
+            Array.Copy(File1Sum, invalidSum, 16);
+            invalidSum[3] = 0x00;
+
+            FileStream file = new FileStream("../../TestData/TextFile1.txt",
+                FileMode.Open);
+            bool match = sum.Verify(file, invalidSum);
+            file.Close();
+            Assert.IsFalse(match);
         }
     }
 }
