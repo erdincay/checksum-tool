@@ -54,12 +54,11 @@ namespace CheckSumTool
         /// Calculate SHA1 checksum for given data.
         /// </summary>
         /// <param name="data">Data for which to calculate checksum</param>
-        /// <returns>Checksum for data. If the data is null, then returns null.
-        /// </returns>
+        /// <returns>Checksum for data.</returns>
         public byte[] Calculate(byte[] data)
         {
             if (data == null)
-                return null;
+                throw new ArgumentException("Parameter cannot be null", "data");
 
             byte[] hash = _sha1.ComputeHash(data);
             return hash;
@@ -84,6 +83,11 @@ namespace CheckSumTool
         /// <returns>true if checksum matches, false otherwise</returns>
         public bool Verify(byte[] data, byte[] sum)
         {
+            if (data == null)
+                throw new ArgumentException("Parameter cannot be null", "data");
+            if (sum == null)
+                throw new ArgumentException("Parameter cannot be null", "sum");
+
             byte[] newSum = Calculate(data);
             if (sum.Length != newSum.Length)
                 return false;
@@ -143,6 +147,7 @@ namespace CheckSumTool
         /// Test giving null parameter to sum method.
         /// </summary>
         [Test]
+        [ExpectedException(typeof(ArgumentException))]
         public void CalculateFromBytesNull()
         {
             Sha1Sum sum = new Sha1Sum();
@@ -219,6 +224,26 @@ namespace CheckSumTool
             }
         }
 
+        [Test]
+        [ExpectedException(typeof(ArgumentException))]
+        public void VerifyNullArray()
+        {
+            Sha1Sum sum = new Sha1Sum();
+            Assert.IsNotNull(sum);
+
+            bool match = sum.Verify((byte[])null, new byte[1]);
+        }
+
+        [Test]
+        [ExpectedException(typeof(ArgumentException))]
+        public void VerifyNullArray2()
+        {
+            Sha1Sum sum = new Sha1Sum();
+            Assert.IsNotNull(sum);
+
+            bool match = sum.Verify(new byte[1], (byte[])null);
+        }
+
         /// <summary>
         /// Verify sum calculated by this class to sum calculated by
         /// Cygwin's Sha1Tool.
@@ -229,7 +254,7 @@ namespace CheckSumTool
             Sha1Sum sum = new Sha1Sum();
             Assert.IsNotNull(sum);
 
-               byte[] array = File.ReadAllBytes("../../TestData/TextFile1.txt");
+            byte[] array = File.ReadAllBytes("../../TestData/TextFile1.txt");
             bool match = sum.Verify(array, File1Sum);
             Assert.IsTrue(match);
         }
@@ -266,7 +291,7 @@ namespace CheckSumTool
             Array.Copy(File1Sum, invalidSum, 20);
             invalidSum[3] = 0x00;
 
-               byte[] array = File.ReadAllBytes("../../TestData/TextFile1.txt");
+            byte[] array = File.ReadAllBytes("../../TestData/TextFile1.txt");
             bool match = sum.Verify(array, invalidSum);
             Assert.IsFalse(match);
         }
