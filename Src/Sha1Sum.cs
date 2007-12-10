@@ -37,6 +37,11 @@ namespace CheckSumTool
     public class Sha1Sum : ICheckSum
     {
         /// <summary>
+        /// Size of the byte table for SHA1 sum.
+        /// </summary>
+        public static readonly int SumSize = 20;
+
+        /// <summary>
         /// SHA1 checksum calculator
         /// </summary>
         private SHA1Managed _sha1;
@@ -58,7 +63,7 @@ namespace CheckSumTool
         public byte[] Calculate(byte[] data)
         {
             if (data == null)
-                throw new ArgumentException("Parameter cannot be null", "data");
+                throw new ArgumentNullException("data");
 
             byte[] hash = _sha1.ComputeHash(data);
             return hash;
@@ -84,9 +89,9 @@ namespace CheckSumTool
         public bool Verify(byte[] data, byte[] sum)
         {
             if (data == null)
-                throw new ArgumentException("Parameter cannot be null", "data");
+                throw new ArgumentNullException("data");
             if (sum == null)
-                throw new ArgumentException("Parameter cannot be null", "sum");
+                throw new ArgumentNullException("sum");
 
             byte[] newSum = Calculate(data);
             if (sum.Length != newSum.Length)
@@ -147,7 +152,7 @@ namespace CheckSumTool
         /// Test giving null parameter to sum method.
         /// </summary>
         [Test]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(ArgumentNullException))]
         public void CalculateFromBytesNull()
         {
             Sha1Sum sum = new Sha1Sum();
@@ -169,7 +174,7 @@ namespace CheckSumTool
             byte[] array = new byte[0];
             byte[] check = sum.Calculate(array);
             Assert.IsNotNull(check);
-            Assert.AreEqual(20, check.Length);
+            Assert.AreEqual(Sha1Sum.SumSize, check.Length);
         }
 
         /// <summary>
@@ -186,12 +191,12 @@ namespace CheckSumTool
             byte[] check = sum.Calculate(array);
 
             Assert.IsNotNull(check);
-            Assert.AreEqual(20, check.Length);
+            Assert.AreEqual(Sha1Sum.SumSize, check.Length);
             for (int i = 0; i < File1Sum.Length; i++)
             {
                 if (check[i] != File1Sum[i])
                 {
-                    Assert.Fail("Result byte {0} does not match! Was {1}, expected {2}",
+                    Assert.Fail("Result byte {0} does not match! Was {1:x2}, expected {2:x2}",
                         i, check[i], File1Sum[i]);
                 }
             }
@@ -213,19 +218,19 @@ namespace CheckSumTool
             file.Close();
 
             Assert.IsNotNull(check);
-            Assert.AreEqual(20, check.Length);
+            Assert.AreEqual(Sha1Sum.SumSize, check.Length);
             for (int i = 0; i < File1Sum.Length; i++)
             {
                 if (check[i] != File1Sum[i])
                 {
-                    Assert.Fail("Result byte {0} does not match! Was {1}, expected {2}",
+                    Assert.Fail("Result byte {0} does not match! Was {1:x2}, expected {2:x2}",
                         i, check[i], File1Sum[i]);
                 }
             }
         }
 
         [Test]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(ArgumentNullException))]
         public void VerifyNullArray()
         {
             Sha1Sum sum = new Sha1Sum();
@@ -235,7 +240,7 @@ namespace CheckSumTool
         }
 
         [Test]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(ArgumentNullException))]
         public void VerifyNullArray2()
         {
             Sha1Sum sum = new Sha1Sum();
@@ -287,8 +292,8 @@ namespace CheckSumTool
             Assert.IsNotNull(sum);
 
             // Create invalid checksum
-            byte[] invalidSum = new byte[20];
-            Array.Copy(File1Sum, invalidSum, 20);
+            byte[] invalidSum = new byte[Sha1Sum.SumSize];
+            Array.Copy(File1Sum, invalidSum, Sha1Sum.SumSize);
             invalidSum[3] = 0x00;
 
             byte[] array = File.ReadAllBytes("../../TestData/TextFile1.txt");
@@ -307,8 +312,8 @@ namespace CheckSumTool
             Assert.IsNotNull(sum);
 
             // Create invalid checksum
-            byte[] invalidSum = new byte[20];
-            Array.Copy(File1Sum, invalidSum, 20);
+            byte[] invalidSum = new byte[Sha1Sum.SumSize];
+            Array.Copy(File1Sum, invalidSum, Sha1Sum.SumSize);
             invalidSum[3] = 0x00;
 
             FileStream file = new FileStream("../../TestData/TextFile1.txt",
