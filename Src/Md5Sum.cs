@@ -58,7 +58,7 @@ namespace CheckSumTool
         public byte[] Calculate(byte[] data)
         {
             if (data == null)
-                throw new ArgumentException("Parameter cannot be null", "data");
+                throw new ArgumentNullException("data");
             byte[] sum = _md5Sum.ComputeHash(data);
             return sum;
         }
@@ -83,9 +83,9 @@ namespace CheckSumTool
         public bool Verify(byte[] data, byte[] sum)
         {
             if (data == null)
-                throw new ArgumentException("Parameter cannot be null", "data");
+                throw new ArgumentNullException("data");
             if (sum == null)
-                throw new ArgumentException("Parameter cannot be null", "sum");
+                throw new ArgumentNullException("sum");
 
             byte[] newSum = _md5Sum.ComputeHash(data);
             if (sum.Length != newSum.Length)
@@ -142,7 +142,7 @@ namespace CheckSumTool
         /// Test giving null parameter for calculate.
         /// </summary>
         [Test]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(ArgumentNullException))]
         public void CalculateBytesFromNull()
         {
             Md5Sum sum = new Md5Sum();
@@ -222,7 +222,7 @@ namespace CheckSumTool
         /// Test givin empty array for verification.
         /// </summary>
         [Test]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(ArgumentNullException))]
         public void VerifyNullArray()
         {
              Md5Sum sum = new Md5Sum();
@@ -235,7 +235,7 @@ namespace CheckSumTool
         /// Test giving null array for verification.
         /// </summary>
         [Test]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(ArgumentNullException))]
         public void VerifyNullArray2()
         {
              Md5Sum sum = new Md5Sum();
