@@ -60,9 +60,13 @@
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="Calculator.cs" />
     <Compile Include="CheckSumData.cs" />
+    <Compile Include="CheckSumDataCRC32.cs" />
+    <Compile Include="CheckSumDataMD5.cs" />
+    <Compile Include="ChecksumDataSHA1.cs" />
     <Compile Include="CheckSumImplList.cs" />
     <Compile Include="CRC32.cs" />
     <Compile Include="CRC32Sum.cs" />
+    <Compile Include="ICheckSumData.cs" />
     <Compile Include="Pair.cs" />
     <Compile Include="Sha1File.cs" />
     <Compile Include="StringUtil.cs" />

@@ -22,6 +22,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 
+// $Id$
+
 using System;
 
 namespace CheckSumTool
@@ -52,13 +54,13 @@ namespace CheckSumTool
         public string FileName
         {
             get
-            { 
+            {
                 int ind = _fullPath.LastIndexOf('\\');
                 string filename = _fullPath.Substring(ind + 1);
                 return filename;
             }
         }
-        
+
         /// <summary>
         /// Full path (inc. filename) for the item.
         /// </summary>
@@ -67,7 +69,7 @@ namespace CheckSumTool
             get { return _fullPath; }
             set { _fullPath = value; }
         }
-       
+
         /// <summary>
         /// Checksum calculated for the item.
         /// </summary>
@@ -75,7 +77,7 @@ namespace CheckSumTool
         {
             get { return _checkSum; }
         }
-        
+
         /// <summary>
         /// Is item verified against checksum?
         /// </summary>
@@ -84,7 +86,7 @@ namespace CheckSumTool
             get { return _verified; }
             set { _verified = value; }
         }
-        
+
         /// <summary>
         /// Constructor.
         /// </summary>
@@ -93,23 +95,37 @@ namespace CheckSumTool
         {
             _fullPath = path;
         }
-        
+
         /// <summary>
         /// Set the checksum.
         /// </summary>
         /// <param name="data">Checksum as byte table.</param>
         public void SetSum(byte[] data)
         {
-            _checkSum = new CheckSumData(data);
+            if (data.Length == CheckSumDataSHA1.Length)
+                _checkSum = new CheckSumDataSHA1(data);
+            else if (data.Length == CheckSumDataMD5.Length)
+                _checkSum = new CheckSumDataMD5(data);
+            else if (data.Length == CheckSumDataCRC32.Length)
+                _checkSum = new CheckSumDataCRC32(data);
+            else
+                throw new NotImplementedException();
         }
-        
+
         /// <summary>
         /// Set the checksum.
         /// </summary>
         /// <param name="data">Checksum as string.</param>
         public void SetSum(string data)
         {
-            _checkSum = new CheckSumData(data);
+            if (data.Length == CheckSumDataSHA1.Length)
+                _checkSum = new CheckSumDataSHA1(data);
+            else if (data.Length == CheckSumDataMD5.Length)
+                _checkSum = new CheckSumDataMD5(data);
+            else if (data.Length == CheckSumDataCRC32.Length)
+                _checkSum = new CheckSumDataCRC32(data);
+            else
+                throw new NotImplementedException();
         }
     }
 }

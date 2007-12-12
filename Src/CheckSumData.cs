@@ -30,27 +30,34 @@ using System.Globalization;
 namespace CheckSumTool
 {
     /// <summary>
-    /// A class holding checksum data. This class is a general checksum data
-    /// storage, that can hold any type of checksum data in byte table.
+    /// An abstract class holding checksum data. This class is a base class
+    /// for checksum data storage classes.
     /// </summary>
     /// <remarks>
-    /// Should replace this class with a class using generics. 
+    /// Should replace this class with a class using generics.
     /// </remarks>
-    public class CheckSumData
+    public abstract class CheckSumData : ICheckSumData
     {
         /// <summary>
         /// Byte table of checksum data.
         /// </summary>
         private byte[] _data;
-        
+
         /// <summary>
         /// Return current data.
         /// </summary>
-        public byte[] Data
+        public virtual byte[] Data
         {
             get { return _data; }
         }
-        
+
+        /// <summary>
+        /// Default constructor.
+        /// </summary>
+        public CheckSumData()
+        {
+        }
+
         /// <summary>
         /// Constructor.
         /// </summary>
@@ -59,7 +66,7 @@ namespace CheckSumTool
         {
             Set(data);
         }
-        
+
         /// <summary>
         /// Constructor.
         /// </summary>
@@ -68,29 +75,21 @@ namespace CheckSumTool
         {
             Set(data);
         }
-        
+
         /// <summary>
         /// Return checksum as a string.
         /// </summary>
         /// <returns>Checksum as a string, empty string if no data.</returns>
         public override string ToString()
         {
-            string retStr = "";
-            if (_data == null)
-                return "";
-
-            foreach (byte by in _data)
-            {
-                retStr += string.Format("{0:x2}",  by);
-            }
-            return retStr;
+            return GetAsString();
         }
-        
+
         /// <summary>
         /// Set checksum.
         /// </summary>
         /// <param name="data">Data as a byte table.</param>
-        public void Set(byte[] data)
+        public virtual void Set(byte[] data)
         {
             _data = new byte[data.Length];
             Array.Copy(data, _data, data.Length);
@@ -100,11 +99,11 @@ namespace CheckSumTool
         /// Set checksum.
         /// </summary>
         /// <param name="data">Data as a string.</param>
-        public void Set(string data)
+        public virtual void Set(string data)
         {
             System.Text.ASCIIEncoding encoding = new System.Text.ASCIIEncoding();
             byte[] bytes = new byte[data.Length / 2];
-            int newIndex = 0; 
+            int newIndex = 0;
             for (int i = 0; i < data.Length; i += 2)
             {
                 string conv = data.Substring(i, 2);
@@ -113,13 +112,39 @@ namespace CheckSumTool
             }
             _data = bytes;
         }
-        
+
         /// <summary>
         /// Clear data.
         /// </summary>
-        public void Clear()
+        public virtual void Clear()
         {
             _data = null;
+        }
+
+        /// <summary>
+        /// Get checksum data as a string.
+        /// </summary>
+        /// <returns>Sum as string.</returns>
+        public virtual string GetAsString()
+        {
+            if (_data == null)
+                return "";
+
+            string retStr = "";
+            foreach (byte by in _data)
+            {
+                retStr += string.Format("{0:x2}",  by);
+            }
+            return retStr;
+        }
+
+        /// <summary>
+        /// Get checksum data as a byte array.
+        /// </summary>
+        /// <returns>Sum as byte array.</returns>
+        public virtual byte[] GetAsByteArray()
+        {
+            return _data;
         }
     }
 }
