@@ -49,31 +49,6 @@ namespace CheckSumTool
         }
 
         /// <summary>
-        /// Default constructor.
-        /// </summary>
-        public CheckSumData()
-        {
-        }
-
-        /// <summary>
-        /// Constructor.
-        /// </summary>
-        /// <param name="data">Checksumdata as byte table.</param>
-        public CheckSumData(byte[] data)
-        {
-            Set(data);
-        }
-
-        /// <summary>
-        /// Constructor.
-        /// </summary>
-        /// <param name="data">Checksumdata as string.</param>
-        public CheckSumData(string data)
-        {
-            Set(data);
-        }
-
-        /// <summary>
         /// Return checksum as a string.
         /// </summary>
         /// <returns>Checksum as a string, empty string if no data.</returns>
