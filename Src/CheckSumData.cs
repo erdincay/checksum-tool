@@ -33,9 +33,6 @@ namespace CheckSumTool
     /// An abstract class holding checksum data. This class is a base class
     /// for checksum data storage classes.
     /// </summary>
-    /// <remarks>
-    /// Should replace this class with a class using generics.
-    /// </remarks>
     public abstract class CheckSumData : ICheckSumData
     {
         /// <summary>
