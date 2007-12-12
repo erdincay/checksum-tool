@@ -39,7 +39,7 @@ namespace CheckSumTool
         /// Type of checksums used for calculation/verifying.
         /// </summary>
         private CheckSumImplList.SumImplementation _sumType;
-        
+
         /// <summary>
         /// Type of checksum used.
         /// </summary>
@@ -48,14 +48,14 @@ namespace CheckSumTool
             get { return _sumType; }
             set { _sumType = value; }
         }
-        
+
         /// <summary>
         /// Default constructor.
         /// </summary>
         public Calculator()
         {
         }
-        
+
         /// <summary>
         /// Constructor selecting checksum type.
         /// </summary>
@@ -64,7 +64,7 @@ namespace CheckSumTool
         {
             _sumType = sumtype;
         }
-        
+
         /// <summary>
         /// Calculate checksums.
         /// </summary>
@@ -72,7 +72,7 @@ namespace CheckSumTool
         public void Calculate(List<CheckSumItem> itemList)
         {
             ICheckSum sumImpl = CheckSumImplList.GetImplementation(_sumType);
-            
+
             foreach (CheckSumItem ci in itemList)
             {
                 // Check if fhe file is found and accessible
@@ -88,7 +88,7 @@ namespace CheckSumTool
                     // TODO: Should we inform user?
                     continue;
                 }
-                
+
                 FileStream filestream = new FileStream(ci.FullPath, FileMode.Open);
 
                 byte[] hash = sumImpl.Calculate(filestream);
@@ -96,7 +96,7 @@ namespace CheckSumTool
                 ci.SetSum(hash);
             }
         }
-        
+
         /// <summary>
         /// Verify checksums.
         /// </summary>
@@ -123,15 +123,16 @@ namespace CheckSumTool
 
                 FileStream filestream = new FileStream(ci.FullPath, FileMode.Open);
                 bool verified = false;
-                
+
                 try
                 {
-                    verified = sumImpl.Verify(filestream, ci.CheckSum.Data);
+                    verified = sumImpl.Verify(filestream,
+                            ci.CheckSum.GetAsByteArray());
                 }
                 catch (NotImplementedException)
                 {
                     // Let verification just fail when not implemented
-                    
+
                     // TODO: Need to inform the user, but how?
                     // For debug builds just throw the exception for reminder..
                     #if DEBUG
@@ -139,7 +140,7 @@ namespace CheckSumTool
                     #endif
                 }
                 filestream.Close();
-                
+
                 if (verified)
                 {
                     ci.Verified = true;

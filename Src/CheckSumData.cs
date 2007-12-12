@@ -26,6 +26,7 @@ THE SOFTWARE.
 
 using System;
 using System.Globalization;
+using System.Text;
 
 namespace CheckSumTool
 {
@@ -41,14 +42,6 @@ namespace CheckSumTool
         private byte[] _data;
 
         /// <summary>
-        /// Return current data.
-        /// </summary>
-        public virtual byte[] Data
-        {
-            get { return _data; }
-        }
-
-        /// <summary>
         /// Return checksum as a string.
         /// </summary>
         /// <returns>Checksum as a string, empty string if no data.</returns>
@@ -61,8 +54,15 @@ namespace CheckSumTool
         /// Set checksum.
         /// </summary>
         /// <param name="data">Data as a byte table.</param>
+        /// <exception cref="ArgumentNullException">Data array is null.</exception>
+        /// <exception cref="ArgumentException">Data array is empty.</exception>
         public virtual void Set(byte[] data)
         {
+            if (data == null)
+                throw new ArgumentNullException("data");
+            if (data.Length == 0)
+                throw new ArgumentException("Empty table as parameter.", "data");
+
             _data = new byte[data.Length];
             Array.Copy(data, _data, data.Length);
         }
@@ -71,9 +71,15 @@ namespace CheckSumTool
         /// Set checksum.
         /// </summary>
         /// <param name="data">Data as a string.</param>
+        /// <exception cref="ArgumentNullException">Data is null.</exception>
+        /// <exception cref="ArgumentException">Data is empty.</exception>
         public virtual void Set(string data)
         {
-            System.Text.ASCIIEncoding encoding = new System.Text.ASCIIEncoding();
+            if (data == null)
+                throw new ArgumentNullException("data");
+            if (data.Length == 0)
+                throw new ArgumentException("Empty string as parameter.", "data");
+            
             byte[] bytes = new byte[data.Length / 2];
             int newIndex = 0;
             for (int i = 0; i < data.Length; i += 2)
@@ -102,12 +108,12 @@ namespace CheckSumTool
             if (_data == null)
                 return "";
 
-            string retStr = "";
+            StringBuilder retString = new StringBuilder();
             foreach (byte by in _data)
             {
-                retStr += string.Format("{0:x2}",  by);
+                retString.AppendFormat("{0:x2}", by);
             }
-            return retStr;
+            return retString.ToString();
         }
 
         /// <summary>
