@@ -118,11 +118,14 @@ namespace CheckSumTool
         /// <param name="data">Checksum as string.</param>
         public void SetSum(string data)
         {
-            if (data.Length == CheckSumDataSHA1.Length)
+            data.Trim();
+
+            // In string every byte has two chars
+            if (data.Length == CheckSumDataSHA1.Length * 2)
                 _checkSum = new CheckSumDataSHA1(data);
-            else if (data.Length == CheckSumDataMD5.Length)
+            else if (data.Length == CheckSumDataMD5.Length * 2)
                 _checkSum = new CheckSumDataMD5(data);
-            else if (data.Length == CheckSumDataCRC32.Length)
+            else if (data.Length == CheckSumDataCRC32.Length * 2)
                 _checkSum = new CheckSumDataCRC32(data);
             else
                 throw new NotImplementedException();
