@@ -1,6 +1,9 @@
 This file list changes done in each version of the CheckSum Tool.
 
 CheckSum Tool 0.2.0
+  Added current filename to program title
+  Keep track of current filename, ask filename only if not previously selected
+  Add menuitems for creating new file and saving file with new filename (save As)
   Added unit tests for SHA1-, MD5- and CRC32- calculation and verification
   Bugfix: CRC32 sum was not calculated or verified correctly (found by unit tests)
 

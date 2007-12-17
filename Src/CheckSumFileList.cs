@@ -40,7 +40,7 @@ namespace CheckSumTool
         /// List of files to process.
         /// </summary>
         private List<CheckSumItem> _fileList = new List<CheckSumItem>();
-        
+
         /// <summary>
         /// List of files to process.
         /// </summary>
@@ -48,7 +48,7 @@ namespace CheckSumTool
         {
             get { return _fileList; }
         }
-        
+
         /// <summary>
         /// Count of items in the list.
         /// </summary>
@@ -56,14 +56,14 @@ namespace CheckSumTool
         {
             get { return _fileList.Count; }
         }
-        
+
         /// <summary>
         /// Default constructor.
         /// </summary>
         public CheckSumFileList()
         {
         }
-        
+
         /// <summary>
         /// Add file or folder (files in that folder) to list of files to
         /// process.
@@ -73,7 +73,7 @@ namespace CheckSumTool
         {
             DirectoryInfo info = new DirectoryInfo(path);
             bool isDir = ((info.Attributes & FileAttributes.Directory) != 0);
-            
+
             if (isDir)
             {
                 AddFolder(path);
@@ -83,7 +83,7 @@ namespace CheckSumTool
                 AddFile(path);
             }
         }
-        
+
         /// <summary>
         /// Add file to list of items to process.
         /// </summary>
@@ -92,7 +92,7 @@ namespace CheckSumTool
         {
             AddFile(file, "");
         }
-        
+
         /// <summary>
         /// Add file and its checksum for verification.
         /// </summary>
@@ -101,11 +101,12 @@ namespace CheckSumTool
         public void AddFile(string file, string checksum)
         {
             CheckSumItem newItem = new CheckSumItem(file);
-            newItem.SetSum(checksum);
+            if (checksum != null && checksum != "")
+                newItem.SetSum(checksum);
             _fileList.Add(newItem);
-            
+
         }
-        
+
         /// <summary>
         /// Add files in folder to items to process.
         /// </summary>
@@ -114,14 +115,14 @@ namespace CheckSumTool
         {
             DirectoryInfo info = new DirectoryInfo(folder);
             FileInfo[] files = info.GetFiles();
-            
+
             foreach (FileInfo fi in files)
             {
                 CheckSumItem newItem = new CheckSumItem(fi.FullName);
                 _fileList.Add(newItem);
             }
         }
-        
+
         /// <summary>
         /// Remove file from items to process.
         /// </summary>
@@ -138,7 +139,7 @@ namespace CheckSumTool
                 }
             }
         }
-        
+
         /// <summary>
         /// Remove all items from list to process.
         /// </summary>
