@@ -10,6 +10,9 @@
 !define PRODUCT_UNINST_KEY "Software\Microsoft\Windows\CurrentVersion\Uninstall\${PRODUCT_NAME}"
 !define PRODUCT_UNINST_ROOT_KEY "HKLM"
 
+; Installer executable must not contain spaces (SourceForge doesn't allow them)
+!define INSTALLER_EXECUTABLE "CheckSumTool"
+
 ; Dotnet 2.0 installer script -----
 ; The script (called in Core Files -section) checks if DotNet 2.0 is installed.
 ; If not found, it downloads and installs it.
@@ -48,7 +51,7 @@
 ; MUI end ------
 
 Name "${PRODUCT_NAME} ${PRODUCT_VERSION}"
-OutFile "..\..\Build\${PRODUCT_NAME}-${PRODUCT_VERSION}.exe"
+OutFile "..\..\Build\${INSTALLER_EXECUTABLE}-${PRODUCT_VERSION}.exe"
 InstallDir "$PROGRAMFILES\CheckSum Tool"
 InstallDirRegKey HKLM "${PRODUCT_DIR_REGKEY}" ""
 ShowInstDetails show

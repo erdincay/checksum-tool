@@ -1,5 +1,8 @@
 This file list changes done in each version of the CheckSum Tool.
 
+CheckSum Tool 0.3.0
+  BugFix: Don't add space to installer executable filename
+
 CheckSum Tool 0.2.0 - 2007-12-18 (r57)
   Added current filename to program title
   Keep track of current filename, ask filename only if not previously selected
