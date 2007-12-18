@@ -6,12 +6,16 @@ CheckSum Tool NAnt build file.
 This build file also requires NAntContrib to be setup. Environment variable
 NANTCONTRIB_DIR must point to NAntContrib folder.
 
-Targets to call:
-# clean - removes build files
-# debug - builds debug version
-# release - builds release version
-# source zip - exports sources and creates zip file from them
+Main targets to call:
+# clean - removes workspace build files
+# debug - builds debug version in workspace
+# release - builds release version in workspace
 # svn_build - exports sources and builds them (release build)
+# distribution - creates CheckSum Tool distribution from SVN
+ - includes source- and binary-zips and installer
+
+Targets that can be also called:
+# source zip - exports sources and creates zip file from them
 # build_installer - builds installer
 # create_bin_zip - creates zip file from binaries + docs
 
@@ -22,18 +26,22 @@ $Id$
  	
  	<!-- [1] SETUP -->
  	<!-- Various propertis defining folders and other settings. -->
+    <!-- Modify these (especially the paths!) to match your environment! -->
     <property name="project.name" value="CheckSumTool" />
     <property name="executable.name" value="${project.name}.exe" />
 
     <property name="project.config" value="debug" overwrite="false" />
 	<!-- Relative folder for binaries created -->
     <property name="build.dir" value="../Build/Debug" overwrite="false" />
+    <!-- NUnit installation folder -->
+    <property name="nunit.dir" value="C:/Program Files/NUnit 2.4.5/bin" />
     
     <!-- SVN repository URL / path -->
     <property name="svn.repository.uri"
         value="https://checksumtool.svn.sourceforge.net/svnroot/checksumtool/trunk"/>
     <!-- Folder for repository builds -->
     <property name="svn.checkout.dir" value="G:/${project.name}/export"/>
+    <!-- Folder where distribution is created -->
     <property name="dist.dir" value="${svn.checkout.dir}/dist/${project.name}" />
     
     <!-- Additional defines for C# compiler -->
@@ -43,9 +51,11 @@ $Id$
     <property name="nsis.bin" value="C:/Program Files/NSIS/makensis.exe" />
     <property name="nsis.script" value="../installer/NSIS/CheckSumTool.nsi" />
     <property name="nsis.log" value="nsis.log" />
+
     
-    <!-- [2] BUILD TARGETS -->
+    <!-- [2] LOCAL BUILD TARGETS -->
     <!-- These are directly-callable high-level build targets. -->
+    <!-- These builds happen in current workspace. -->
     
     <!-- This is directly runnable debug target -->
     <target name="debug" description="Runs debug target">
@@ -61,7 +71,38 @@ $Id$
         <call target="build" />
     </target>
 
-    <!-- [3] ENVIRONMENT SETUP TARGETS -->
+
+    <!-- [3] REPOSITORY BUILD TARGETS -->
+    <!-- These are directly-callable high-level build targets. -->
+    <!-- These builds happen from checked-out sources, not from workspace. -->
+    
+    <!-- This target builds sources exported from the SVN repository. -->
+    <!-- The idea is to call build file from exported source directory! -->
+    <target name="svn_build" description="Build sources exported from SVN"
+            depends="svn_export">
+        <loadtasks assembly="${path::combine(environment::get-variable('NANTCONTRIB_DIR'),
+            'bin/NAnt.Contrib.Tasks.dll')}" />
+        
+        <!-- We only do release builds from SVN -->
+        <property name="build.dir" value="../Build/Release/" />
+        <property name="project.config" value="release" />
+        
+        <!-- Now we have exported sources, lets build them.. -->
+        <!-- No need to run clean target as this is clean checkout from SVN! -->
+        <nant buildfile="${svn.checkout.dir}/Src/CheckSumTool.build"
+                inheritall="true" target="${project.config}"/>
+    </target>
+    
+    <target name="distribution" description="Creates a distribution from SVN"
+        depends="svn_build">
+        <call target="source_zip" />
+        <call target="create_dist" />
+        <call target="create_bin_zip" />
+        <call target="build_installer" />
+    </target>
+    
+    
+    <!-- [4] ENVIRONMENT SETUP TARGETS -->
     
     <!-- Called by 'build' target to setup target-specific properties -->
     <target name="init">
@@ -88,65 +129,6 @@ $Id$
         <mkdir dir="../Build/Release" />
     </target>
 
-    <!-- [4] REPOSITORY BUILD TARGETS -->
-    
-    <!-- This target exports sources from SVN to separate build folder -->
-    <!-- Intent is to do "repository" builds and distributions, not workspace ones. -->
-    <target name="svn_export" description="Export sources from SVN">
-        <loadtasks assembly="${path::combine(environment::get-variable('NANTCONTRIB_DIR'),
-            'bin/NAnt.Contrib.Tasks.dll')}" />
-        
-        <svn uri="${svn.repository.uri}" destination="${svn.checkout.dir}" verbose="true">
-            <arg line="export --force ${svn.repository.uri} ${svn.checkout.dir}"/>
-        </svn>
-    </target>
-    
-    <!-- This target creates a ZIP from exported sources -->
-    <target name="source_zip" description="Create a zip package from sources"
-            depends="svn_export">
-        <zip zipfile="${svn.checkout.dir}/${project.name}_src.zip">
-            <fileset basedir="${svn.checkout.dir}">
-            <include name="**/*"/>
-            </fileset>
-        </zip>
-    </target>
-    
-    <!-- This target builds sources exported from the SVN repository. -->
-    <!-- The idea is to call build file from exported source directory! -->
-    <target name="svn_build" description="Build sources exported from SVN"
-            depends="svn_export">
-        <loadtasks assembly="${path::combine(environment::get-variable('NANTCONTRIB_DIR'),
-            'bin/NAnt.Contrib.Tasks.dll')}" />
-        
-        <!-- We only do release builds from SVN -->
-        <property name="build.dir" value="../Build/Release/" />
-        <property name="project.config" value="release" />
-        
-        <!-- Now we have exported sources, lets build them.. -->
-        <!-- No need to run clean target as this is clean checkout from SVN! -->
-        <nant buildfile="${svn.checkout.dir}/Src/CheckSumTool.build"
-                inheritall="true" target="${project.config}"/>
-    </target>
-    
-    <!-- Copy binary files and docs to dist folder for making a zip. -->
-    <target name="create_dist" description="Creates distribution folder"
-        depends="svn_build">
-        <mkdir dir="${dist.dir}" />
-        <copy file="${build.dir}${executable.name}" todir="${dist.dir}" />
-        <copy file="${svn.checkout.dir}/Documents/Readme.txt" todir="${dist.dir}" />
-        <copy file="${svn.checkout.dir}/Documents/COPYING" todir="${dist.dir}" />
-    </target>
-    
-    <!-- Create a binary file zip, including executable + docs. -->
-    <target name="create_bin_zip" description="Create binary zip"
-        depends="create_dist">
-        <zip zipfile="${svn.checkout.dir}/${project.name}_bin.zip">
-            <fileset basedir="${dist.dir}">
-            <include name="**/*"/>
-            </fileset>
-        </zip>
-    </target>
-
     <!-- [5] BUILD TARGETS - CALLED BY OTHER TARGETS -->
     
     <!-- This target removes all files copied/created by build -->
@@ -167,7 +149,50 @@ $Id$
             <resources>
                 <include name="*.resx" />
             </resources>
+            <references>
+                <include name="${nunit.dir}/nunit.framework.dll" />
+            </references>
         </csc>
+    </target>
+
+    <!-- This target exports sources from SVN to separate build folder -->
+    <!-- Intent is to do "repository" builds and distributions, not workspace ones. -->
+    <target name="svn_export" description="Export sources from SVN">
+        <loadtasks assembly="${path::combine(environment::get-variable('NANTCONTRIB_DIR'),
+            'bin/NAnt.Contrib.Tasks.dll')}" />
+        
+        <svn uri="${svn.repository.uri}" destination="${svn.checkout.dir}" verbose="true">
+            <arg line="export --force ${svn.repository.uri} ${svn.checkout.dir}"/>
+        </svn>
+    </target>
+
+    <!-- Copy binary files and docs to dist folder for making a zip. -->
+    <target name="create_dist" description="Creates distribution folder"
+        depends="svn_build">
+        <mkdir dir="${dist.dir}" />
+        <copy file="${build.dir}${executable.name}" todir="${dist.dir}" />
+        <copy file="${svn.checkout.dir}/Documents/Readme.txt" todir="${dist.dir}" />
+        <copy file="${svn.checkout.dir}/Documents/COPYING" todir="${dist.dir}" />
+    </target>
+
+   <!-- Create a binary file zip, including executable + docs. -->
+    <target name="create_bin_zip" description="Create binary zip"
+        depends="create_dist">
+        <zip zipfile="${svn.checkout.dir}/${project.name}_bin.zip">
+            <fileset basedir="${dist.dir}">
+            <include name="**/*"/>
+            </fileset>
+        </zip>
+    </target>
+
+    <!-- This target creates a ZIP from exported sources -->
+    <target name="source_zip" description="Create a zip package from sources"
+            depends="svn_export">
+        <zip zipfile="${svn.checkout.dir}/${project.name}_src.zip">
+            <fileset basedir="${svn.checkout.dir}">
+            <include name="**/*"/>
+            </fileset>
+        </zip>
     </target>
 
     <!-- Build NSIS installer -->

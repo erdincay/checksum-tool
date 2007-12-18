@@ -5,6 +5,8 @@ CheckSum Tool 0.2.0
   Keep track of current filename, ask filename only if not previously selected
   Add menuitems for creating new file and saving file with new filename (save As)
   Added unit tests for SHA1-, MD5- and CRC32- calculation and verification
+  Improved NAnt build file by reorganizing targets
+  Added NAnt "distribution" target for building a distribution from SVN
   Bugfix: CRC32 sum was not calculated or verified correctly (found by unit tests)
 
 CheckSum Tool 0.1.0 - 2007-12-04 (r37)
