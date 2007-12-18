@@ -93,6 +93,9 @@ $Id$
                 inheritall="true" target="${project.config}"/>
     </target>
     
+    <!-- This targets exports and builds whole CheckSum Tool distribution from
+      SVN. The task produces binary- and source zips and installer
+      executable. -->
     <target name="distribution" description="Creates a distribution from SVN"
         depends="svn_build">
         <call target="source_zip" />
@@ -131,6 +134,10 @@ $Id$
 
     <!-- [5] BUILD TARGETS - CALLED BY OTHER TARGETS -->
     
+    <!-- Do not add SVN export / build dependencies to targets called by other
+      targets. Rather call needed targets in high-level tasks. Especially be
+      careful not to call SVN export target from multiple targets. -->
+    
     <!-- This target removes all files copied/created by build -->
     <target name="clean" description="Clean build files">
         <echo message="Cleaning build files." />
@@ -167,8 +174,7 @@ $Id$
     </target>
 
     <!-- Copy binary files and docs to dist folder for making a zip. -->
-    <target name="create_dist" description="Creates distribution folder"
-        depends="svn_build">
+    <target name="create_dist" description="Creates distribution folder">
         <mkdir dir="${dist.dir}" />
         <copy file="${build.dir}${executable.name}" todir="${dist.dir}" />
         <copy file="${svn.checkout.dir}/Documents/Readme.txt" todir="${dist.dir}" />
@@ -186,8 +192,7 @@ $Id$
     </target>
 
     <!-- This target creates a ZIP from exported sources -->
-    <target name="source_zip" description="Create a zip package from sources"
-            depends="svn_export">
+    <target name="source_zip" description="Create a zip package from sources">
         <zip zipfile="${svn.checkout.dir}/${project.name}_src.zip">
             <fileset basedir="${svn.checkout.dir}">
             <include name="**/*"/>
