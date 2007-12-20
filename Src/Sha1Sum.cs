@@ -34,7 +34,7 @@ namespace CheckSumTool
     /// <summary>
     /// Class for SHA1 checksum calculating and verifying.
     /// </summary>
-    public class Sha1Sum : ICheckSum
+    public class Sha1Sum : ICheckSum, IDisposable
     {
         /// <summary>
         /// Size of the byte table for SHA1 sum.
@@ -45,6 +45,11 @@ namespace CheckSumTool
         /// SHA1 checksum calculator
         /// </summary>
         private SHA1Managed _sha1;
+
+        /// <summary>
+        /// Has the object been disposed?
+        /// </summary>
+        private bool _disposed;
 
         /// <summary>
         /// Constructor.
@@ -123,6 +128,31 @@ namespace CheckSumTool
                     return false;
             }
             return true;
+        }
+
+        /// <summary>
+        /// Implement IDisposable pattern for cleanup.
+        /// </summary>
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        /// <summary>
+        /// Dispose resources.
+        /// </summary>
+        /// <param name="disposing">If true, cleanup managed resources.</param>
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!_disposed)
+            {
+                if (disposing)
+                {
+                    _sha1.Clear();
+                }
+                _disposed = true;
+            }
         }
     }
 
