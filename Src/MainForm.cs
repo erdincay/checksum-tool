@@ -38,6 +38,11 @@ namespace CheckSumTool
     public partial class MainForm : Form
     {
         /// <summary>
+        /// Relative path to manual file to open.
+        /// </summary>
+        static readonly string ManualFile = "Manual/Manual.html";
+
+        /// <summary>
         /// Indices for list view columns
         /// </summary>
         enum ListIndices
@@ -823,6 +828,37 @@ namespace CheckSumTool
         void MainMenuFileSaveAsClick(object sender, EventArgs e)
         {
             SaveFileAs();
+        }
+
+        /// <summary>
+        /// Show the user manual for user in the browser.
+        /// </summary>
+        static void OpenManual()
+        {
+            FileInfo fi = new FileInfo(ManualFile);
+            if (fi.Exists)
+            {
+                // Format local URL for the manual file
+                string path = "file://";
+                path += fi.FullName;
+                System.Diagnostics.Process.Start(path);
+            }
+            else
+            {
+                string message = string.Format("Cannot find file:\n{0}", ManualFile);
+                MessageBox.Show(message, "CheckSum Tool", MessageBoxButtons.OK,
+                                MessageBoxIcon.Error);
+            }
+        }
+
+        /// <summary>
+        /// Called when user selects Help/Manual.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        void MainMenuHelpManualClick(object sender, EventArgs e)
+        {
+            OpenManual();
         }
     }
 }
