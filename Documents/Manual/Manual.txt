@@ -1,0 +1,78 @@
+CheckSum Tool Manual
+====================
+Kimmo Varis <kimmov@sourceforge.net>
+v0.1, December 2007
+
+// $id: $
+
+About this Manual
+-----------------
+This is user manual for the CheckSum Tool. It is still work in progress,
+as is the tool itself.
+
+The most important chapter is the Quick Start chapter which show how to
+get started with the CheckSum Tool. Other chapters have more in detail
+information about the tool.
+
+Quick Start
+-----------
+The main window of the tool contains toolbar,list of filenames and checksums
+and statusbar. The toolbar has controls to most frequently used features,
+like creating and verifying checksums and changing checksum type. The file
+list contains filename (and some other attributes) and checksum for the file.
+The statusbar show some status information from the tool, like amount of
+files in the list.
+
+.The main window
+image:Images/MainWindow1.png[Main Window]
+
+Opening the File Containing Checksums
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+To open a file containing checksums, select File|Open from main menu. Or
+click the first button in the toolbar.
+
+In the dialog, browse for and select the file to open. At current version,
+the tool only understands .svf, .md5 and .sha1 files.
+
+If the tool can read the file, files in the checksum file are added into
+the list in the main window. Checksums are also visible, but not yet
+verified.
+
+Verifying the Checksums
+~~~~~~~~~~~~~~~~~~~~~~~
+When there is files with checksums in the main window, those checksums can be
+verified against checksums of actual files in disk. Select Checksums|Verify All
+from the main menu or click verify icon from the toolbar.
+
+The tool compares checksums in the main window and checksums calculated from
+files in the disk. If the checksums are identical, "OK" text is added to
+"Verified" column in the main window. After all files are checked message is
+shown if all files were verified OK or not.
+
+NOTE: Verifying might take some time if files are big.
+
+Adding Files to the List
+~~~~~~~~~~~~~~~~~~~~~~~~
+To add (more) files to the list, select File|Add Files... or File|Add Folder...
+from the main menu. The former adds just one selected file, while the latter
+adds contents of the selected folder.
+
+NOTE: Files are added in selected folder, not in subfolders.
+
+Saving File List to Checksum File
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+When the main window contains list of files which have checksums calculated,
+they can be saved to checksum file. Select File|Save or File|Save As... from
+the main menu. Select the filename and location for the file.
+
+NOTE: While you can change filename extension, you cannot change the checksum
+type in this dialog. Changing the filename extension migh cause problems for
+this tool and other programs reading the file.
+
+Installing
+----------
+The easiest way to install CheckSum Tool is to download and run the installer
+from http://checksumtool.sourceforge.net[]
+
+Running the installer copies program- and documentation files to the system
+and adds the tool to Windows Start-menu.
