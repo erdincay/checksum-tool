@@ -210,7 +210,7 @@ namespace CheckSumTool
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        void AboutSHA1ToolToolStripMenuItemClick(object sender, EventArgs e)
+        void AboutCheckSumToolMainMenuItemClick(object sender, EventArgs e)
         {
             AboutForm form = new AboutForm();
             form.Show(this);

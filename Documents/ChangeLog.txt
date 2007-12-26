@@ -3,6 +3,7 @@ This file list changes done in each version of the CheckSum Tool.
 CheckSum Tool 0.3.0
   Manual: Add initial version of user manual (in html format)
   Add manual item to Help-menu
+  Rename About-menu to Help-menu
   BugFix: Don't add space to installer executable filename
 
 CheckSum Tool 0.2.0 - 2007-12-18 (r57)
