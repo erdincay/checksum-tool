@@ -13,6 +13,7 @@ Main targets to call:
 # svn_build - exports sources and builds them (release build)
 # distribution - creates CheckSum Tool distribution from SVN
  - includes source- and binary-zips and installer
+# build_manual - builds user manual
 
 Targets that can be also called:
 # source zip - exports sources and creates zip file from them
@@ -44,6 +45,10 @@ $Id$
     <!-- Folder where distribution is created -->
     <property name="dist.dir" value="${svn.checkout.dir}/dist/${project.name}" />
     
+    <!-- Manual's folders -->
+    <property name="src.dir.manual" value="../Documents/Manual" />
+    <property name="build.dir.manual" value="${build.dir}/Manual" />
+    
     <!-- Additional defines for C# compiler -->
     <property name="csc.defines" value=""/>
     
@@ -52,6 +57,9 @@ $Id$
     <property name="nsis.script" value="../installer/NSIS/CheckSumTool.nsi" />
     <property name="nsis.log" value="nsis.log" />
 
+    <!-- Additional tools for building manual -->
+    <property name="python" value="c:/python25/python.exe" />
+    <property name="asciidoc" value="c:/Tools/AsciiDoc/asciidoc.py" />
     
     <!-- [2] LOCAL BUILD TARGETS -->
     <!-- These are directly-callable high-level build targets. -->
@@ -98,6 +106,7 @@ $Id$
       executable. -->
     <target name="distribution" description="Creates a distribution from SVN"
         depends="svn_build">
+        <call target="build_manual" />
         <call target="source_zip" />
         <call target="create_dist" />
         <call target="create_bin_zip" />
@@ -206,5 +215,27 @@ $Id$
         <exec
             program="${nsis.bin}"
             commandline=" /V3 /O${nsis.log} ${nsis.script}" />
+    </target>
+
+    <!-- Build user manual -->
+    <!-- This task uses python and asciidoc to build manual. -->
+    <target name="build_manual" description="Builds user manual">
+        <echo message="Building user manual..." />
+        <exec
+            workingdir="${src.dir.manual}"
+            program="${python}"
+            commandline="${asciidoc} Manual.txt" />
+        <mkdir dir="${build.dir.manual}" failonerror="false" />
+        <copy todir="${build.dir.manual}">
+            <fileset basedir="${src.dir.manual}">
+                <include name="*.html" />
+            </fileset>
+        </copy>
+        <mkdir dir="${build.dir.manual}/Images" failonerror="false" />
+        <copy todir="${build.dir.manual}/Images">c
+            <fileset basedir="${src.dir.manual}/Images">
+                <include name="*.png" />
+            </fileset>
+        </copy>
     </target>
 </project>
