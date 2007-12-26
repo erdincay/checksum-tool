@@ -37,3 +37,24 @@ NAnt:
 - NAnt can be used to build the tool
 - NAntContrib is also required
 - Build file is Src/CheckSumTool.build
+
+
+The User Manual
+---------------
+
+User manual files reside in Documents/Manual.
+
+Manual uses AsciiDoc for lightweight markup that can be procecced to several other formats.
+AsciiDoc files are .txt files with some embedded markup.
+
+To process AsciiDoc files you'll need:
+- Python (2.5.x recommended) from http://www.python.org
+- AsciiDoc from http://www.methods.co.nz/asciidoc/
+
+Manual can be converted in command line:
+- open command prompt
+- go to Documents/Manual folder
+- run command:
+  > python [path to asciidoc]/asciidoc.py Manual.txt
+
+CheckSumTool's NAnt build file also contains a task for building manual.
