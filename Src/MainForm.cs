@@ -476,38 +476,6 @@ namespace CheckSumTool
         }
 
         /// <summary>
-        /// Checks that given path and filename exists.
-        /// </summary>
-        /// <param name="filename">Filename to check.</param>
-        /// <param name="fullpath">Returns full absolute path to the file.</param>
-        /// <param name="ext">Returns filename's extension.</param>
-        /// <returns>true if file and path exists, false otherwise.</returns>
-        bool CheckFileAndPathExists(string filename, out string fullpath,
-            out string ext)
-        {
-            bool retval = true;
-
-            FileInfo fi = null;
-            try
-            {
-                fi = new FileInfo(filename);
-                fullpath = fi.FullName;
-                ext = fi.Extension;
-            }
-            catch (Exception)
-            {
-                String msg = "Cannot open selected file!\n\n";
-                msg += "Please select a valid checksum file!";
-                MessageBox.Show(this, msg, "CheckSum Tool", MessageBoxButtons.OK,
-                    MessageBoxIcon.Error);
-                fullpath = "";
-                ext = "";
-                retval = false;
-            }
-            return retval;
-        }
-
-        /// <summary>
         /// Called when user selecs Open-item from File-menu.
         /// </summary>
         /// <param name="sender"></param>
