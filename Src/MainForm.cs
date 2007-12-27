@@ -319,6 +319,7 @@ namespace CheckSumTool
             dlg.Filter += "|SHA-1 File (*.sha1)|*.sha1";
             dlg.AddExtension = true;
             dlg.InitialDirectory = _lastFolder;
+            dlg.Title = "Save the checksum list as";
 
             // Determine extension to select by default
             switch (_currentSumType)
@@ -459,7 +460,7 @@ namespace CheckSumTool
                     ind = toolStripComboSumTypes.FindStringExact("MD5");
                     toolStripComboSumTypes.SelectedIndex = ind;
                     break;
-            
+
                 case SumFileType.SFV:
                     ind = toolStripComboSumTypes.FindStringExact("CRC32");
                     toolStripComboSumTypes.SelectedIndex = ind;
@@ -468,7 +469,7 @@ namespace CheckSumTool
                     ind = toolStripComboSumTypes.FindStringExact("SHA-1");
                     toolStripComboSumTypes.SelectedIndex = ind;
                     break;
-                    
+
                 default:
                     throw new NotImplementedException("Unknown checksum file type");
             }
@@ -527,11 +528,12 @@ namespace CheckSumTool
             dlg.Filter += "|Simple File Verification Files (*.SFV)|*.SFV";
             dlg.Filter += "|SHA-1 Files (*.sha1)|*.sha1";
             dlg.Filter += "|All Files (*.*)|*.*";
+            dlg.Title = "Open checksum file";
             DialogResult res = dlg.ShowDialog();
             if (res == DialogResult.OK)
             {
                 SumFileType fileType;
-                
+
                 try
                 {
                     fileType = SumFileUtils.FindFileType(dlg.FileName);
@@ -544,7 +546,7 @@ namespace CheckSumTool
                             MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
-                
+
                 if (fileType != SumFileType.Unknown)
                 {
                     // Clear all items before adding new ones
