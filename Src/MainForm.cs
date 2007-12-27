@@ -65,12 +65,6 @@ namespace CheckSumTool
         CheckSumType _currentSumType;
 
         /// <summary>
-        /// Do the file list has calculated sums?
-        /// I.e. do it need to be cleared before calculating new sums?
-        /// </summary>
-        bool _listHasSums;
-
-        /// <summary>
         /// User's last selected folder.
         /// We remember user's last selected folder and use that folder
         /// when opening new selection dialogs. Also sum file is most naturally
@@ -167,7 +161,6 @@ namespace CheckSumTool
                     itemList.Items[index].SubItems[(int)ListIndices.CheckSum].Text = fi.CheckSum.ToString();
                 }
             }
-            _listHasSums = true;
             statusbarLabel1.Text = "Ready.";
             this.UseWaitCursor = false;
         }
@@ -201,7 +194,6 @@ namespace CheckSumTool
         {
             itemList.Items.Clear();
             _checksumItemList.RemoveAll();
-            _listHasSums = false;
             statusbarLabelCount.Text = "0 items";
         }
 
@@ -271,7 +263,6 @@ namespace CheckSumTool
                                 "Verification Failed", MessageBoxButtons.OK,
                                 MessageBoxIcon.Warning);
             }
-            _listHasSums = true;
             statusbarLabel1.Text = "Ready.";
             this.UseWaitCursor = false;
         }
@@ -292,7 +283,8 @@ namespace CheckSumTool
         /// </summary>
         void SaveFile()
         {
-            if (_checksumItemList.FileList.Count == 0 || _listHasSums == false)
+            if (_checksumItemList.FileList.Count == 0 ||
+                _checksumItemList.HasCheckSums == false)
             {
                 MessageBox.Show(this, "No checksums to save!", "CheckSum Tool",
                     MessageBoxButtons.OK,MessageBoxIcon.Error);
@@ -534,7 +526,6 @@ namespace CheckSumTool
                         }
 
                         SetSumTypeCombo(fileType);
-                        _listHasSums = true;
                         string statustext = string.Format("{0} items", items);
                         statusbarLabelCount.Text = statustext;
 
@@ -738,7 +729,7 @@ namespace CheckSumTool
         /// <param name="e"></param>
         void ToolStripComboSumTypesSelectedIndexChanged(object sender, EventArgs e)
         {
-             if (_listHasSums)
+             if (_checksumItemList.HasCheckSums)
                 ClearSums();
 
             int sumSelection = toolStripComboSumTypes.SelectedIndex;

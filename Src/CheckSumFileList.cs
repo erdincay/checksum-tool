@@ -58,6 +58,25 @@ namespace CheckSumTool
         }
 
         /// <summary>
+        /// Check if the list has calculated checksums.
+        /// Returns true if one or more items have checksums,
+        /// and false if all items are without checksum.
+        /// </summary>
+        public bool HasCheckSums
+        {
+            get
+            {
+                foreach (CheckSumItem item in _fileList)
+                {
+                    byte[] data = item.CheckSum.GetAsByteArray();
+                    if (data != null && data.Length > 0)
+                        return true;
+                }
+                return false;
+            }
+        }
+
+        /// <summary>
         /// Default constructor.
         /// </summary>
         public CheckSumFileList()
