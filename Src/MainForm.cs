@@ -411,33 +411,31 @@ namespace CheckSumTool
                 MessageBox.Show(this, msg, "CheckSum Tool",
                                 MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-
         }
 
         /// <summary>
         /// Create sumfile instance for checksum file.
         /// </summary>
-        /// <param name="ext">File extension for sum file.</param>
+        /// <param name="fileType">Type of checksum file to initialize.</param>
         /// <returns>ISumFile instance.</returns>
-        ISumFile InitSumFile(string ext)
+        ISumFile InitSumFile(SumFileType fileType)
         {
             ISumFile newSumFile = null;
-            ext = ext.ToLower();
-            if (ext == ".md5")
+            if (fileType == SumFileType.MD5)
             {
                 MD5File sumfile = new MD5File();
                 newSumFile = sumfile;
                 int ind = toolStripComboSumTypes.FindStringExact("MD5");
                 toolStripComboSumTypes.SelectedIndex = ind;
             }
-            else if (ext == ".sfv")
+            else if (fileType == SumFileType.SFV)
             {
                 SFVFile sumfile = new SFVFile();
                 newSumFile = sumfile;
                 int ind = toolStripComboSumTypes.FindStringExact("CRC32");
                 toolStripComboSumTypes.SelectedIndex = ind;
             }
-            else if (ext == ".sha1")
+            else if (fileType == SumFileType.SHA1)
             {
                 Sha1File sumfile = new Sha1File();
                 newSumFile = sumfile;
@@ -449,30 +447,30 @@ namespace CheckSumTool
 
         /// <summary>
         /// Select correct sumtype into the sumtype combobox, based on loaded
-        /// sumfile.
+        /// sumfile type.
         /// </summary>
-        /// <param name="ext">File extension of the loaded file.</param>
-        /// <remarks>
-        /// Currently this method uses filename extension, but it should
-        /// use real sumfile type instead. As extension in some cases does not
-        /// tell the file type.
-        /// </remarks>
-        void SetSumTypeCombo(string ext)
+        /// <param name="fileType">File type loaded.</param>
+        void SetSumTypeCombo(SumFileType fileType)
         {
-            if (ext == ".md5")
+            int ind;
+            switch (fileType)
             {
-                int ind = toolStripComboSumTypes.FindStringExact("MD5");
-                toolStripComboSumTypes.SelectedIndex = ind;
-            }
-            else if (ext == ".sfv")
-            {
-                int ind = toolStripComboSumTypes.FindStringExact("CRC32");
-                toolStripComboSumTypes.SelectedIndex = ind;
-            }
-            else if (ext == ".sha1")
-            {
-                int ind = toolStripComboSumTypes.FindStringExact("SHA-1");
-                toolStripComboSumTypes.SelectedIndex = ind;
+                case SumFileType.MD5:
+                    ind = toolStripComboSumTypes.FindStringExact("MD5");
+                    toolStripComboSumTypes.SelectedIndex = ind;
+                    break;
+            
+                case SumFileType.SFV:
+                    ind = toolStripComboSumTypes.FindStringExact("CRC32");
+                    toolStripComboSumTypes.SelectedIndex = ind;
+                    break;
+                case SumFileType.SHA1:
+                    ind = toolStripComboSumTypes.FindStringExact("SHA-1");
+                    toolStripComboSumTypes.SelectedIndex = ind;
+                    break;
+                    
+                default:
+                    throw new NotImplementedException("Unknown checksum file type");
             }
         }
 
@@ -525,25 +523,39 @@ namespace CheckSumTool
         void LoadFile()
         {
             OpenFileDialog dlg = new OpenFileDialog();
+            dlg.Filter = "MD5 Files (*.MD5)|*.MD5";
+            dlg.Filter += "|Simple File Verification Files (*.SFV)|*.SFV";
+            dlg.Filter += "|SHA-1 Files (*.sha1)|*.sha1";
+            dlg.Filter += "|All Files (*.*)|*.*";
             DialogResult res = dlg.ShowDialog();
             if (res == DialogResult.OK)
             {
-                string fullpath;
-                string ext;
-                bool fileOk = CheckFileAndPathExists(dlg.FileName,
-                    out fullpath, out ext);
-
-                if (fileOk)
+                SumFileType fileType;
+                
+                try
+                {
+                    fileType = SumFileUtils.FindFileType(dlg.FileName);
+                }
+                catch (FileNotFoundException ex)
+                {
+                    string message = "Cannot find/open the file:\n";
+                    message += ex.FileName;
+                    MessageBox.Show(this, message, "CheckSum Tool",
+                            MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+                
+                if (fileType != SumFileType.Unknown)
                 {
                     // Clear all items before adding new ones
                     ClearAllItems();
 
-                    ISumFile newSumFile = InitSumFile(ext);
+                    ISumFile newSumFile = InitSumFile(fileType);
 
                     if (newSumFile != null)
                     {
                         newSumFile.SetFileList(_checksumItemList);
-                        int items = newSumFile.ReadFile(fullpath);
+                        int items = newSumFile.ReadFile(dlg.FileName);
 
                         List<CheckSumItem> itemlist = _checksumItemList.FileList;
                         foreach (CheckSumItem it in itemlist)
@@ -551,7 +563,7 @@ namespace CheckSumTool
                             AddItemToList(it.FullPath, it.CheckSum.ToString());
                         }
 
-                        SetSumTypeCombo(ext);
+                        SetSumTypeCombo(fileType);
                         _listHasSums = true;
                         string statustext = string.Format("{0} items", items);
                         statusbarLabelCount.Text = statustext;
@@ -561,6 +573,9 @@ namespace CheckSumTool
                     }
                     else
                     {
+                        string message = "Cannot determine checksum file type.";
+                        message += "\n\nPlease rename the file to have a proper";
+                        message += "filename extension (.md5, .sfv, or .sha1)";
                         MessageBox.Show(this, "Unknown checksum file type!",
                             "CheckSum Tool", MessageBoxButtons.OK,
                             MessageBoxIcon.Error);

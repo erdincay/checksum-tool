@@ -86,6 +86,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Sha1Sum.cs" />
     <Compile Include="SumFileInfo.cs" />
+    <Compile Include="SumFileUtils.cs" />
     <Compile Include="TextFileReader.cs" />
     <EmbeddedResource Include="AboutForm.resx">
       <DependentUpon>AboutForm.cs</DependentUpon>
