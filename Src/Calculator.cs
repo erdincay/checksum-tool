@@ -38,12 +38,12 @@ namespace CheckSumTool
         /// <summary>
         /// Type of checksums used for calculation/verifying.
         /// </summary>
-        private CheckSumImplList.SumImplementation _sumType;
+        private CheckSumType _sumType;
 
         /// <summary>
         /// Type of checksum used.
         /// </summary>
-        public CheckSumTool.CheckSumImplList.SumImplementation SumType
+        public CheckSumType SumType
         {
             get { return _sumType; }
             set { _sumType = value; }
@@ -60,7 +60,7 @@ namespace CheckSumTool
         /// Constructor selecting checksum type.
         /// </summary>
         /// <param name="sumtype">Checksum type.</param>
-        public Calculator(CheckSumImplList.SumImplementation sumtype)
+        public Calculator(CheckSumType sumtype)
         {
             _sumType = sumtype;
         }

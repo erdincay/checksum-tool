@@ -62,7 +62,7 @@ namespace CheckSumTool
         /// <summary>
         /// Currently selected/active checksum type.
         /// </summary>
-        CheckSumImplList.SumImplementation _currentSumType;
+        CheckSumType _currentSumType;
 
         /// <summary>
         /// Do the file list has calculated sums?
@@ -101,7 +101,7 @@ namespace CheckSumTool
             statusbarLabel1.Text = "";
             statusbarLabelCount.Text = "0 items";
             this.toolStripComboSumTypes.SelectedIndex = 0;
-            _currentSumType = CheckSumImplList.SumImplementation.SHA1;
+            _currentSumType = CheckSumType.SHA1;
             SetFilename("");
         }
 
@@ -324,17 +324,17 @@ namespace CheckSumTool
             // Determine extension to select by default
             switch (_currentSumType)
             {
-                case CheckSumImplList.SumImplementation.CRC32:
+                case CheckSumType.CRC32:
                     dlg.FilterIndex = 2;
                     sumtype = 2;
                     break;
 
-                case CheckSumImplList.SumImplementation.MD5:
+                case CheckSumType.MD5:
                     dlg.FilterIndex = 1;
                     sumtype = 1;
                     break;
 
-                case CheckSumImplList.SumImplementation.SHA1:
+                case CheckSumType.SHA1:
                     dlg.FilterIndex = 3;
                     sumtype = 3;
                     break;
@@ -377,21 +377,21 @@ namespace CheckSumTool
             {
                 switch (_currentSumType)
                 {
-                    case CheckSumImplList.SumImplementation.CRC32:
+                    case CheckSumType.CRC32:
                         SFVFile SvfSumfile = new SFVFile();
                         SvfSumfile.SetFileList(_checksumItemList);
                         SvfSumfile.WriteFile(fileName);
                         SetFilename(fileName);
                         break;
 
-                    case CheckSumImplList.SumImplementation.MD5:
+                    case CheckSumType.MD5:
                         MD5File Md5Sumfile = new MD5File();
                         Md5Sumfile.SetFileList(_checksumItemList);
                         Md5Sumfile.WriteFile(fileName);
                         SetFilename(fileName);
                         break;
 
-                    case CheckSumImplList.SumImplementation.SHA1:
+                    case CheckSumType.SHA1:
                         Sha1File Sha1Sumfile = new Sha1File();
                         Sha1Sumfile.SetFileList(_checksumItemList);
                         Sha1Sumfile.WriteFile(fileName);
@@ -624,7 +624,7 @@ namespace CheckSumTool
         /// Set the checsum tyle for GUI list.
         /// </summary>
         /// <param name="sumtype">Checksum type.</param>
-        void SetListSumType(CheckSumImplList.SumImplementation sumtype)
+        void SetListSumType(CheckSumType sumtype)
         {
             string colname = CheckSumImplList.GetImplementationName(sumtype);
             SetListColumnHeader(ListIndices.CheckSum, colname);
@@ -742,14 +742,14 @@ namespace CheckSumTool
                 ClearSums();
 
             int sumSelection = toolStripComboSumTypes.SelectedIndex;
-            SetCurrentSumType((CheckSumImplList.SumImplementation) sumSelection);
+            SetCurrentSumType((CheckSumType) sumSelection);
         }
 
         /// <summary>
         /// Set current checksum type.
         /// </summary>
         /// <param name="sumtype">Checksumtype to set as current.</param>
-        void SetCurrentSumType(CheckSumImplList.SumImplementation sumtype)
+        void SetCurrentSumType(CheckSumType sumtype)
         {
             _currentSumType = sumtype;
             SetListSumType(sumtype);

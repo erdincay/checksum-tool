@@ -22,64 +22,64 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 
+// $Id$
+
 using System;
 
 namespace CheckSumTool
 {
+    /// <summary>
+    /// Checksum types tool handles.
+    /// </summary>
+    public enum CheckSumType
+    {
+        SHA1,
+        MD5,
+        CRC32,
+    }
+
     /// <summary>
     /// Class containing list of the available checksum implementations.
     /// </summary>
     public class CheckSumImplList
     {
         /// <summary>
-        /// List of available checksum implementations.
-        /// </summary>
-        public enum SumImplementation
-        {
-            SHA1,
-            MD5,
-            CRC32,
-            Count,  // Keep this as last item to get count of items
-        }
-        
-        /// <summary>
         /// String names for available checksum implementations.
         /// </summary>
         public static readonly string[] SumNames = { "SHA-1", "MD5", "CRC32", };
 
-    
         /// <summary>
         /// Get checksum calculator for given checksum type.
         /// </summary>
         /// <param name="impl">Checksum type.</param>
         /// <returns>Checksum calculator.</returns>
-        public static ICheckSum GetImplementation(SumImplementation impl)
+        public static ICheckSum GetImplementation(CheckSumType impl)
         {
             ICheckSum sum;
             switch (impl)
             {
-                case SumImplementation.SHA1:
+                case CheckSumType.SHA1:
                     sum = new Sha1Sum();
                     break;
-                case SumImplementation.MD5:
+                case CheckSumType.MD5:
                     sum = new Md5Sum();
                     break;
-                case SumImplementation.CRC32:
+                case CheckSumType.CRC32:
                     sum = new CRC32Sum();
                     break;
                 default:
                     sum = new Sha1Sum();
                     break;
             }
-            return sum;            
+            return sum;
         }
-        
+
         /// <summary>
         /// Get name for checksum implementation.
         /// </summary>
         /// <param name="impl">Checkcum implementation.</param>
         /// <returns>Name of checksum implementation.</returns>
-        public static string GetImplementationName(SumImplementation impl)
+        public static string GetImplementationName(CheckSumType impl)
         {
             string name = SumNames[(int) impl];
             return name;
