@@ -95,6 +95,9 @@ $Id$
         <property name="build.dir" value="../Build/Release/" />
         <property name="project.config" value="release" />
         
+        <copy file="CheckSumTool.build" todir="${svn.checkout.dir}/Src"
+              overwrite="true" />
+        
         <!-- Now we have exported sources, lets build them.. -->
         <!-- No need to run clean target as this is clean checkout from SVN! -->
         <nant buildfile="${svn.checkout.dir}/Src/CheckSumTool.build"
@@ -232,7 +235,7 @@ $Id$
             </fileset>
         </copy>
         <mkdir dir="${build.dir.manual}/Images" failonerror="false" />
-        <copy todir="${build.dir.manual}/Images">c
+        <copy todir="${build.dir.manual}/Images">
             <fileset basedir="${src.dir.manual}/Images">
                 <include name="*.png" />
             </fileset>
