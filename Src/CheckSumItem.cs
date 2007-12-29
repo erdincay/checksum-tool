@@ -29,6 +29,25 @@ using System;
 namespace CheckSumTool
 {
     /// <summary>
+    /// Verification states to CheckSumItem.
+    /// </summary>
+    public enum VerificationState
+    {
+        /// <summary>
+        /// Not yet verified, status unknown.
+        /// </summary>
+        NotVerified,
+        /// <summary>
+        /// Verification succeeded.
+        /// </summary>
+        VerifyOK,
+        /// <summary>
+        /// Verification failed.
+        /// </summary>
+        VerifyFailed,
+    }
+
+    /// <summary>
     /// This class combines information of file and checksum.
     /// </summary>
     public class CheckSumItem
@@ -46,7 +65,7 @@ namespace CheckSumTool
         /// <summary>
         /// Is item verified against checksum?
         /// </summary>
-        private bool _verified;
+        private VerificationState _verified;
 
         /// <summary>
         /// Filename (without path) for the item.
@@ -81,7 +100,7 @@ namespace CheckSumTool
         /// <summary>
         /// Is item verified against checksum?
         /// </summary>
-        public bool Verified
+        public VerificationState Verified
         {
             get { return _verified; }
             set { _verified = value; }

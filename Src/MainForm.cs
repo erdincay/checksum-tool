@@ -117,10 +117,21 @@ namespace CheckSumTool
             else
                 listItems[(int)ListIndices.CheckSum - 1] = "";
 
-            if (item.Verified)
-                listItems[(int)ListIndices.Verified - 1] = "OK";
-            else
-                listItems[(int)ListIndices.Verified - 1] = "NO";
+            switch (item.Verified)
+            {
+                case VerificationState.NotVerified:
+                    listItems[(int)ListIndices.Verified - 1] = "";
+                    break;
+                case VerificationState.VerifyOK:
+                    listItems[(int)ListIndices.Verified - 1] = "OK";
+                    break;
+                case VerificationState.VerifyFailed:
+                    listItems[(int)ListIndices.Verified - 1] = "FAIL";
+                    break;
+                default:
+                    throw new ApplicationException();
+                    break;
+            }
 
             listItems[(int)ListIndices.FullPath - 1] = item.FullPath;
             itemList.Items[listItem.Index].SubItems.AddRange(listItems);

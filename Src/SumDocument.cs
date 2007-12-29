@@ -91,7 +91,7 @@ namespace CheckSumTool
             foreach (CheckSumItem fi in list)
             {
                 fi.CheckSum.Clear();
-                fi.Verified = false;
+                fi.Verified = VerificationState.NotVerified;
             }
         }
 

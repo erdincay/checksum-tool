@@ -143,7 +143,7 @@ namespace CheckSumTool
 
                 if (verified)
                 {
-                    ci.Verified = true;
+                    ci.Verified = VerificationState.VerifyOK;
                 }
             }
         }
