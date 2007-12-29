@@ -107,6 +107,12 @@ namespace CheckSumTool
 
             foreach (CheckSumItem ci in itemList)
             {
+                // If verification finds an item which does not have checksum
+                // (not calculated yet?) just ignore the item. Or maybe we
+                // should calculate checksum first?
+                if (ci.CheckSum == null)
+                    continue;
+
                 // Check if fhe file is found and accessible
                 try
                 {
