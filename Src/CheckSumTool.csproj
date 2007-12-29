@@ -85,6 +85,7 @@
     <Compile Include="Md5Sum.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Sha1Sum.cs" />
+    <Compile Include="SumDocument.cs" />
     <Compile Include="SumFileInfo.cs" />
     <Compile Include="SumFileUtils.cs" />
     <Compile Include="TextFileReader.cs" />

@@ -55,16 +55,6 @@ namespace CheckSumTool
         }
 
         /// <summary>
-        /// List of files to handle.
-        /// </summary>
-        CheckSumFileList _checksumItemList = new CheckSumFileList();
-
-        /// <summary>
-        /// Currently selected/active checksum type.
-        /// </summary>
-        CheckSumType _currentSumType;
-
-        /// <summary>
         /// User's last selected folder.
         /// We remember user's last selected folder and use that folder
         /// when opening new selection dialogs. Also sum file is most naturally
@@ -72,10 +62,7 @@ namespace CheckSumTool
         /// </summary>
         string _lastFolder;
 
-        /// <summary>
-        /// Current filename (full path) for the checksum file.
-        /// </summary>
-        string _filename;
+        SumDocument _document = new SumDocument();
 
         /// <summary>
         /// Constructor.
@@ -95,7 +82,7 @@ namespace CheckSumTool
             statusbarLabel1.Text = "";
             statusbarLabelCount.Text = "0 items";
             this.toolStripComboSumTypes.SelectedIndex = 0;
-            _currentSumType = CheckSumType.SHA1;
+            _document.SumType = CheckSumType.SHA1;
             SetFilename("");
         }
 
@@ -146,12 +133,10 @@ namespace CheckSumTool
             statusbarLabel1.Text = "Calculating checksums...";
             ListView.ListViewItemCollection items = itemList.Items;
 
-            int sumSelection = toolStripComboSumTypes.SelectedIndex;
+            _document.CalculateSums();
 
-            Calculator sumCalculator = new Calculator(_currentSumType);
-            sumCalculator.Calculate(_checksumItemList.FileList);
-
-            List<CheckSumItem> list = _checksumItemList.FileList;
+            //List<CheckSumItem> list = _checksumItemList.FileList;
+            List<CheckSumItem> list = _document.Items.FileList;
 
             foreach (CheckSumItem fi in list)
             {
@@ -182,7 +167,7 @@ namespace CheckSumTool
             }
             for (int i = 0; i < indices.Length; i++)
             {
-                _checksumItemList.Remove(itemList.Items[indices[i]].Name);
+                _document.Items.Remove(itemList.Items[indices[i]].Name);
                 itemList.Items.RemoveAt(indices[i]);
             }
         }
@@ -193,7 +178,7 @@ namespace CheckSumTool
         void ClearAllItems()
         {
             itemList.Items.Clear();
-            _checksumItemList.RemoveAll();
+            _document.Items.RemoveAll();
             statusbarLabelCount.Text = "0 items";
         }
 
@@ -230,10 +215,8 @@ namespace CheckSumTool
             statusbarLabel1.Text = "Verifying checksums...";
             ListView.ListViewItemCollection items = itemList.Items;
 
-            Calculator sumCalculator = new Calculator(_currentSumType);
-            sumCalculator.Verify(_checksumItemList.FileList);
-
-            List<CheckSumItem> list = _checksumItemList.FileList;
+            _document.VerifySums();
+            List<CheckSumItem> list = _document.Items.FileList;
 
             bool allOk = true;
             foreach (CheckSumItem fi in list)
@@ -283,16 +266,16 @@ namespace CheckSumTool
         /// </summary>
         void SaveFile()
         {
-            if (_checksumItemList.FileList.Count == 0 ||
-                _checksumItemList.HasCheckSums == false)
+            if (_document.Items.FileList.Count == 0 ||
+                _document.Items.HasCheckSums == false)
             {
                 MessageBox.Show(this, "No checksums to save!", "CheckSum Tool",
                     MessageBoxButtons.OK,MessageBoxIcon.Error);
                 return;
             }
 
-            if (_filename != null && _filename.Length > 0)
-                SaveFile(_filename);
+            if (_document.Filename != null && _document.Filename.Length > 0)
+                SaveFile(_document.Filename);
             else
                 SaveFileAs();
         }
@@ -314,7 +297,7 @@ namespace CheckSumTool
             dlg.Title = "Save the checksum list as";
 
             // Determine extension to select by default
-            switch (_currentSumType)
+            switch (_document.SumType)
             {
                 case CheckSumType.CRC32:
                     dlg.FilterIndex = 2;
@@ -365,36 +348,19 @@ namespace CheckSumTool
                 return;
             }
 
+            _document.Filename = fileName;
             try
             {
-                switch (_currentSumType)
+                bool success = _document.SaveToFile();
+                if (success)
                 {
-                    case CheckSumType.CRC32:
-                        SFVFile SvfSumfile = new SFVFile();
-                        SvfSumfile.SetFileList(_checksumItemList);
-                        SvfSumfile.WriteFile(fileName);
-                        SetFilename(fileName);
-                        break;
-
-                    case CheckSumType.MD5:
-                        MD5File Md5Sumfile = new MD5File();
-                        Md5Sumfile.SetFileList(_checksumItemList);
-                        Md5Sumfile.WriteFile(fileName);
-                        SetFilename(fileName);
-                        break;
-
-                    case CheckSumType.SHA1:
-                        Sha1File Sha1Sumfile = new Sha1File();
-                        Sha1Sumfile.SetFileList(_checksumItemList);
-                        Sha1Sumfile.WriteFile(fileName);
-                        SetFilename(fileName);
-                        break;
-
-                    default:
-                        MessageBox.Show(this, "Unknown checksum file type!",
-                                    "CheckSum Tool", MessageBoxButtons.OK,
-                                    MessageBoxIcon.Error);
-                        break;
+                    SetFilename(_document.Filename);
+                }
+                else
+                {
+                    string msg = "Unknown checksum type.";
+                    MessageBox.Show(this, msg, "CheckSum Tool",
+                            MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
             catch (Exception)
@@ -404,38 +370,6 @@ namespace CheckSumTool
                 MessageBox.Show(this, msg, "CheckSum Tool",
                                 MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-        }
-
-        /// <summary>
-        /// Create sumfile instance for checksum file.
-        /// </summary>
-        /// <param name="fileType">Type of checksum file to initialize.</param>
-        /// <returns>ISumFile instance.</returns>
-        ISumFile InitSumFile(SumFileType fileType)
-        {
-            ISumFile newSumFile = null;
-            if (fileType == SumFileType.MD5)
-            {
-                MD5File sumfile = new MD5File();
-                newSumFile = sumfile;
-                int ind = toolStripComboSumTypes.FindStringExact("MD5");
-                toolStripComboSumTypes.SelectedIndex = ind;
-            }
-            else if (fileType == SumFileType.SFV)
-            {
-                SFVFile sumfile = new SFVFile();
-                newSumFile = sumfile;
-                int ind = toolStripComboSumTypes.FindStringExact("CRC32");
-                toolStripComboSumTypes.SelectedIndex = ind;
-            }
-            else if (fileType == SumFileType.SHA1)
-            {
-                Sha1File sumfile = new Sha1File();
-                newSumFile = sumfile;
-                int ind = toolStripComboSumTypes.FindStringExact("SHA-1");
-                toolStripComboSumTypes.SelectedIndex = ind;
-            }
-            return newSumFile;
         }
 
         /// <summary>
@@ -512,21 +446,19 @@ namespace CheckSumTool
                     // Clear all items before adding new ones
                     ClearAllItems();
 
-                    ISumFile newSumFile = InitSumFile(fileType);
+                    _document.Items.RemoveAll();
+                    bool success = _document.LoadFile(dlg.FileName, fileType);
 
-                    if (newSumFile != null)
+                    if (success)
                     {
-                        newSumFile.SetFileList(_checksumItemList);
-                        int items = newSumFile.ReadFile(dlg.FileName);
-
-                        List<CheckSumItem> itemlist = _checksumItemList.FileList;
+                        List<CheckSumItem> itemlist = _document.Items.FileList;
                         foreach (CheckSumItem it in itemlist)
                         {
                             AddItemToList(it.FullPath, it.CheckSum.ToString());
                         }
 
                         SetSumTypeCombo(fileType);
-                        string statustext = string.Format("{0} items", items);
+                        string statustext = string.Format("{0} items", itemlist.Count);
                         statusbarLabelCount.Text = statustext;
 
                         string filename = Path.GetFileName(dlg.FileName);
@@ -560,14 +492,15 @@ namespace CheckSumTool
             {
                 foreach (string path in dlg.FileNames)
                 {
-                    _checksumItemList.AddFile(path);
+                    _document.Items.AddFile(path);
 
                     if (path.Length > 0)
                     {
                         AddItemToList(path);
                     }
                 }
-                string statustext = string.Format("{0} items", _checksumItemList.Count);
+                string statustext = string.Format("{0} items",
+                    _document.Items.Count);
                 statusbarLabelCount.Text = statustext;
                 _lastFolder = Path.GetDirectoryName(dlg.FileNames[0]);
             }
@@ -587,7 +520,7 @@ namespace CheckSumTool
             if (res == DialogResult.OK)
             {
                 string path = dlg.SelectedPath;
-                _checksumItemList.AddFolder(path);
+                _document.Items.AddFolder(path);
                 DirectoryInfo info = new DirectoryInfo(path);
                 FileInfo[] files = info.GetFiles();
 
@@ -595,7 +528,8 @@ namespace CheckSumTool
                 {
                     AddItemToList(fi.FullName);
                 }
-                string statustext = string.Format("{0} items", _checksumItemList.Count);
+                string statustext = string.Format("{0} items",
+                        _document.Items.Count);
                 statusbarLabelCount.Text = statustext;
                 _lastFolder = path;
             }
@@ -626,15 +560,9 @@ namespace CheckSumTool
         /// </summary>
         void ClearSums()
         {
-            List<CheckSumItem> list = _checksumItemList.FileList;
-            foreach (CheckSumItem fi in list)
-            {
-                fi.CheckSum.Clear();
-                fi.Verified = false;
-            }
+            _document.ClearAllSums();
 
             int itemcount = itemList.Items.Count;
-            //foreach (ListViewItem li in itemList)
             for (int i = 0; i < itemcount; i++)
             {
                 itemList.Items[i].SubItems[(int)ListIndices.CheckSum].Text = "";
@@ -729,7 +657,7 @@ namespace CheckSumTool
         /// <param name="e"></param>
         void ToolStripComboSumTypesSelectedIndexChanged(object sender, EventArgs e)
         {
-             if (_checksumItemList.HasCheckSums)
+             if (_document.Items.HasCheckSums)
                 ClearSums();
 
             int sumSelection = toolStripComboSumTypes.SelectedIndex;
@@ -742,7 +670,7 @@ namespace CheckSumTool
         /// <param name="sumtype">Checksumtype to set as current.</param>
         void SetCurrentSumType(CheckSumType sumtype)
         {
-            _currentSumType = sumtype;
+            _document.SumType = sumtype;
             SetListSumType(sumtype);
         }
 
@@ -784,7 +712,7 @@ namespace CheckSumTool
         /// <param name="filename">Filename to use, null or empty if no file.</param>
         void SetFilename(string filename)
         {
-            _filename = filename;
+            _document.Filename = filename;
             if (filename == null || filename == "")
             {
                 SetTitle("Untitled");
