@@ -62,6 +62,9 @@ namespace CheckSumTool
         /// </summary>
         string _lastFolder;
 
+        /// <summary>
+        /// One and only instance of document having list of checksum items.
+        /// </summary>
         SumDocument _document = new SumDocument();
 
         /// <summary>
@@ -97,28 +100,42 @@ namespace CheckSumTool
         }
 
         /// <summary>
-        /// Add new item to GUI list.
+        /// Add item to the GUI item list.
         /// </summary>
-        /// <param name="fullpath">Full path to the file.</param>
-        void AddItemToList(string fullpath)
+        /// <param name="item">Checksum item to add.</param>
+        void AddItemToList(CheckSumItem item)
         {
-            AddItemToList(fullpath, "");
+            ListViewItem listItem = itemList.Items.Add(item.FullPath,
+                    item.FileName, "");
+            string[] listItems = new string[(int)ListIndices.Count - 1];
+
+            if (item.CheckSum != null)
+            {
+                listItems[(int)ListIndices.CheckSum - 1] =
+                        item.CheckSum.ToString();
+            }
+            else
+                listItems[(int)ListIndices.CheckSum - 1] = "";
+
+            if (item.Verified)
+                listItems[(int)ListIndices.Verified - 1] = "OK";
+            else
+                listItems[(int)ListIndices.Verified - 1] = "NO";
+
+            listItems[(int)ListIndices.FullPath - 1] = item.FullPath;
+            itemList.Items[listItem.Index].SubItems.AddRange(listItems);
         }
 
         /// <summary>
-        /// Add new item to the GUI list.
+        /// Clears GUI list and adds items from docment to it.
         /// </summary>
-        /// <param name="fullpath">Full path to the file.</param>
-        /// <param name="checksum">Checksum of the file.</param>
-        void AddItemToList(string fullpath, string checksum)
+        void UpdateGUIListFromDoc()
         {
-            FileInfo fi = new FileInfo(fullpath);
-            ListViewItem listItem = itemList.Items.Add(fullpath, fi.Name, "");
-            string[] listItems = new string[(int)ListIndices.Count - 1];
-            listItems[(int)ListIndices.CheckSum - 1] = checksum;
-            listItems[(int)ListIndices.Verified - 1] = "";
-            listItems[(int)ListIndices.FullPath - 1] = fi.FullName;
-            itemList.Items[listItem.Index].SubItems.AddRange(listItems);
+            itemList.Items.Clear();
+            foreach (CheckSumItem item in _document.Items.FileList)
+            {
+                AddItemToList(item);
+            }
         }
 
         /// <summary>
@@ -135,17 +152,7 @@ namespace CheckSumTool
 
             _document.CalculateSums();
 
-            //List<CheckSumItem> list = _checksumItemList.FileList;
-            List<CheckSumItem> list = _document.Items.FileList;
-
-            foreach (CheckSumItem fi in list)
-            {
-                int index = itemList.Items.IndexOfKey(fi.FullPath);
-                if (index != -1)
-                {
-                    itemList.Items[index].SubItems[(int)ListIndices.CheckSum].Text = fi.CheckSum.ToString();
-                }
-            }
+            UpdateGUIListFromDoc();
             statusbarLabel1.Text = "Ready.";
             this.UseWaitCursor = false;
         }
@@ -168,8 +175,8 @@ namespace CheckSumTool
             for (int i = 0; i < indices.Length; i++)
             {
                 _document.Items.Remove(itemList.Items[indices[i]].Name);
-                itemList.Items.RemoveAt(indices[i]);
             }
+            UpdateGUIListFromDoc();
         }
 
         /// <summary>
@@ -216,24 +223,9 @@ namespace CheckSumTool
             ListView.ListViewItemCollection items = itemList.Items;
 
             _document.VerifySums();
-            List<CheckSumItem> list = _document.Items.FileList;
+            UpdateGUIListFromDoc();
 
             bool allOk = true;
-            foreach (CheckSumItem fi in list)
-            {
-                int index = itemList.Items.IndexOfKey(fi.FullPath);
-                if (index != -1)
-                {
-                    if (fi.Verified)
-                        itemList.Items[index].SubItems[(int)ListIndices.Verified].Text = "OK";
-                    else
-                    {
-                        itemList.Items[index].SubItems[(int)ListIndices.Verified].Text = "NOK";
-                        allOk = false;
-                    }
-                }
-            }
-
             if (allOk)
             {
                 MessageBox.Show(this, "All items verified to match checksum.",
@@ -451,14 +443,10 @@ namespace CheckSumTool
 
                     if (success)
                     {
-                        List<CheckSumItem> itemlist = _document.Items.FileList;
-                        foreach (CheckSumItem it in itemlist)
-                        {
-                            AddItemToList(it.FullPath, it.CheckSum.ToString());
-                        }
-
+                        UpdateGUIListFromDoc();
                         SetSumTypeCombo(fileType);
-                        string statustext = string.Format("{0} items", itemlist.Count);
+                        string statustext = string.Format("{0} items",
+                                _document.Items.FileList.Count);
                         statusbarLabelCount.Text = statustext;
 
                         string filename = Path.GetFileName(dlg.FileName);
@@ -493,12 +481,9 @@ namespace CheckSumTool
                 foreach (string path in dlg.FileNames)
                 {
                     _document.Items.AddFile(path);
-
-                    if (path.Length > 0)
-                    {
-                        AddItemToList(path);
-                    }
                 }
+
+                UpdateGUIListFromDoc();
                 string statustext = string.Format("{0} items",
                     _document.Items.Count);
                 statusbarLabelCount.Text = statustext;
@@ -521,13 +506,8 @@ namespace CheckSumTool
             {
                 string path = dlg.SelectedPath;
                 _document.Items.AddFolder(path);
-                DirectoryInfo info = new DirectoryInfo(path);
-                FileInfo[] files = info.GetFiles();
 
-                foreach (FileInfo fi in files)
-                {
-                    AddItemToList(fi.FullName);
-                }
+                UpdateGUIListFromDoc();
                 string statustext = string.Format("{0} items",
                         _document.Items.Count);
                 statusbarLabelCount.Text = statustext;
