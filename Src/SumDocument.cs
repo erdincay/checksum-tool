@@ -121,20 +121,19 @@ namespace CheckSumTool
         ISumFile InitSumFile(SumFileType fileType)
         {
             ISumFile newSumFile = null;
-            if (fileType == SumFileType.MD5)
+            switch (fileType)
             {
-                MD5File sumfile = new MD5File();
-                newSumFile = sumfile;
-            }
-            else if (fileType == SumFileType.SFV)
-            {
-                SFVFile sumfile = new SFVFile();
-                newSumFile = sumfile;
-            }
-            else if (fileType == SumFileType.SHA1)
-            {
-                Sha1File sumfile = new Sha1File();
-                newSumFile = sumfile;
+                case SumFileType.MD5:
+                    newSumFile = (ISumFile) new MD5File();
+                    break;
+                case SumFileType.SFV:
+                    newSumFile = (ISumFile) new SFVFile();
+                    break;
+                case SumFileType.SHA1:
+                    newSumFile = (ISumFile) new Sha1File();
+                    break;
+                default:
+                    throw new NotImplementedException();
             }
             return newSumFile;
         }
