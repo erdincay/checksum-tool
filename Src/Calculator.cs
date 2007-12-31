@@ -156,10 +156,14 @@ namespace CheckSumTool
                 {
                     ci.Verified = VerificationState.VerifyOK;
                 }
-                else if (verifysucceeded == true)
+                else
                 {
-                    // Set to false when we find first failed item
-                    verifysucceeded = false;
+                    ci.Verified = VerificationState.VerifyFailed;
+                    if (verifysucceeded == true)
+                    {
+                        // Set to false when we find first failed item
+                        verifysucceeded = false;
+                    }
                 }
             }
             return verifysucceeded;
