@@ -233,19 +233,18 @@ namespace CheckSumTool
             statusbarLabel1.Text = "Verifying checksums...";
             ListView.ListViewItemCollection items = itemList.Items;
 
-            _document.VerifySums();
+            bool allSucceeded = _document.VerifySums();
             UpdateGUIListFromDoc();
 
-            bool allOk = true;
-            if (allOk)
+            if (allSucceeded)
             {
-                MessageBox.Show(this, "All items verified to match checksum.",
+                MessageBox.Show(this, "All items verified to match their checksums.",
                                 "Verification Succeeded", MessageBoxButtons.OK,
                                 MessageBoxIcon.Information);
             }
             else
             {
-                MessageBox.Show(this, "One ore more items could not be verified to match checksum.",
+                MessageBox.Show(this, "One ore more items could not be verified to match their checksums.",
                                 "Verification Failed", MessageBoxButtons.OK,
                                 MessageBoxIcon.Warning);
             }

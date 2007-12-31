@@ -107,10 +107,15 @@ namespace CheckSumTool
         /// <summary>
         /// Verify checksums for all items in the list.
         /// </summary>
-        public void VerifySums()
+        /// <returns>
+        /// true if all items were verified successfully, false if
+        /// one or more items failed the verification.
+        ///</returns>
+        public bool VerifySums()
         {
             Calculator sumCalculator = new Calculator(_currentSumType);
-            sumCalculator.Verify(_checksumItemList.FileList);
+            bool succeeded = sumCalculator.Verify(_checksumItemList.FileList);
+            return succeeded;
         }
 
         /// <summary>

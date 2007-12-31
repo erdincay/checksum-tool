@@ -101,8 +101,13 @@ namespace CheckSumTool
         /// Verify checksums.
         /// </summary>
         /// <param name="itemList">List of items to verify.</param>
-        public void Verify(List<CheckSumItem> itemList)
+        /// <returns>
+        /// true if all items succeeded the verification, false if
+        /// one or more items failed verification.
+        /// </returns>
+        public bool Verify(List<CheckSumItem> itemList)
         {
+            bool verifysucceeded = true;
             ICheckSum sumImpl = CheckSumImplList.GetImplementation(_sumType);
 
             foreach (CheckSumItem ci in itemList)
@@ -151,7 +156,13 @@ namespace CheckSumTool
                 {
                     ci.Verified = VerificationState.VerifyOK;
                 }
+                else if (verifysucceeded == true)
+                {
+                    // Set to false when we find first failed item
+                    verifysucceeded = false;
+                }
             }
+            return verifysucceeded;
         }
     }
 }
