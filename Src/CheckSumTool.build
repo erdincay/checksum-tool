@@ -114,11 +114,7 @@ $Id$
     <target name="distribution" description="Creates a distribution from SVN"
         depends="svn_build">
         <property name="build.file" value="${svn.checkout.dir}/Src/CheckSumTool.build" />
-        <nant buildfile="${build.file}" inheritall="true" target="build_manual"/>
-        <nant buildfile="${build.file}" inheritall="true" target="source_zip"/>
-        <nant buildfile="${build.file}" inheritall="true" target="create_dist"/>
-        <nant buildfile="${build.file}" inheritall="true" target="create_bin_zip"/>
-        <nant buildfile="${build.file}" inheritall="true" target="build_installer"/>
+        <nant buildfile="${build.file}" inheritall="true" target="exported_distrib"/>
     </target>
     
     
@@ -190,6 +186,17 @@ $Id$
         </svn>
     </target>
 
+    <!-- Calls other tasks for creating a distribution. This task is called from
+      build file in source folder (while build file which gets called is in the
+      export folder. This way we can call tasks in correct context. -->
+    <target name="exported_distrib" description="Calls other tasks to create distribution">
+        <call target="build_manual" />
+        <call target="source_zip" />
+        <call target="create_dist" />
+        <call target="create_bin_zip" />
+        <call target="build_installer" />
+    </target>
+    
     <!-- Copy binary files and docs to dist folder for making a zip. -->
     <target name="create_dist" description="Creates distribution folder">
         <mkdir dir="${dist.dir}" />
