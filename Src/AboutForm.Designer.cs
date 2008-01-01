@@ -71,9 +71,9 @@ namespace CheckSumTool
         	// 
         	this.label2.Location = new System.Drawing.Point(67, 42);
         	this.label2.Name = "label2";
-        	this.label2.Size = new System.Drawing.Size(196, 23);
+        	this.label2.Size = new System.Drawing.Size(233, 23);
         	this.label2.TabIndex = 2;
-        	this.label2.Text = "(c) 2007 Ixonos Plc, Kimmo Varis";
+        	this.label2.Text = "(c) 2007-2008 Ixonos Plc, Kimmo Varis";
         	// 
         	// pictureIcon
         	// 
