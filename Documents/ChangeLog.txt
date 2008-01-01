@@ -9,6 +9,7 @@ CheckSum Tool 0.3.0
   Make verified status three-state (not verified, verified OK and verify failed)
   Installer: Exit install if required DotNet version is not found
   Installer: Install user manual
+  Update copyright year to contain 2008 in About-dialog and in documents
   BugFix: Don't add space to installer executable filename
 
 CheckSum Tool 0.2.0 - 2007-12-18 (r57)
