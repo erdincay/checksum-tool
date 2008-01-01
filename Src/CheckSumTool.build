@@ -23,9 +23,9 @@ Targets that can be also called:
 $Id$
 -->
 
-<project name="CheckSumTool" default="build">
+<project name="CheckSumTool" default="build" basedir=".">
  	
- 	<!-- [1] SETUP -->
+    <!-- [1] SETUP -->
  	<!-- Various propertis defining folders and other settings. -->
     <!-- Modify these (especially the paths!) to match your environment! -->
     <property name="project.name" value="CheckSumTool" />
@@ -54,7 +54,7 @@ $Id$
     
     <!-- Settings for NSIS installer -->
     <property name="nsis.bin" value="C:/Program Files/NSIS/makensis.exe" />
-    <property name="nsis.script" value="../installer/NSIS/CheckSumTool.nsi" />
+    <property name="nsis.script" value="CheckSumTool.nsi" />
     <property name="nsis.log" value="nsis.log" />
 
     <!-- Additional tools for building manual -->
@@ -95,6 +95,10 @@ $Id$
         <property name="build.dir" value="../Build/Release/" />
         <property name="project.config" value="release" />
         
+        <!-- Copy build file from source folder to export folder. -->
+        <!-- This allows local modifications and tests without committing
+          the build file. And allows people not having write access to SVN to
+          modify build file. -->
         <copy file="CheckSumTool.build" todir="${svn.checkout.dir}/Src"
               overwrite="true" />
         
@@ -109,11 +113,12 @@ $Id$
       executable. -->
     <target name="distribution" description="Creates a distribution from SVN"
         depends="svn_build">
-        <call target="build_manual" />
-        <call target="source_zip" />
-        <call target="create_dist" />
-        <call target="create_bin_zip" />
-        <call target="build_installer" />
+        <property name="build.file" value="${svn.checkout.dir}/Src/CheckSumTool.build" />
+        <nant buildfile="${build.file}" inheritall="true" target="build_manual"/>
+        <nant buildfile="${build.file}" inheritall="true" target="source_zip"/>
+        <nant buildfile="${build.file}" inheritall="true" target="create_dist"/>
+        <nant buildfile="${build.file}" inheritall="true" target="create_bin_zip"/>
+        <nant buildfile="${build.file}" inheritall="true" target="build_installer"/>
     </target>
     
     
@@ -216,6 +221,7 @@ $Id$
     <target name="build_installer" description="Builds NSIS installer">
         <echo message="Building installer..." />
         <exec
+            workingdir="../installer/NSIS/"
             program="${nsis.bin}"
             commandline=" /V3 /O${nsis.log} ${nsis.script}" />
     </target>
