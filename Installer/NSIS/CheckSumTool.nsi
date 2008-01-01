@@ -72,6 +72,15 @@ Section "Core Files" SEC01
   File "..\..\Documents\Readme.txt"
 SectionEnd
 
+Section "User Manual" SEC02
+  SetOutPath "$INSTDIR\Manual"
+  SetOverwrite ifnewer
+  File "..\..\Build\Release\Manual\Manual.html"
+  SetOutPath "$INSTDIR\Manual\Images"
+  CreateDirectory "$INSTDIR\Manual\Images"
+  File "..\..\Build\Release\Manual\Images\MainWindow1.png"
+SectionEnd
+
 Section -AdditionalIcons
   WriteIniStr "$INSTDIR\${PRODUCT_NAME}.url" "InternetShortcut" "URL" "${PRODUCT_WEB_SITE}"
   CreateShortCut "$SMPROGRAMS\CheckSum Tool\Website.lnk" "$INSTDIR\${PRODUCT_NAME}.url"
@@ -106,6 +115,11 @@ Section Uninstall
   Delete "$INSTDIR\Readme.txt"
   Delete "$INSTDIR\COPYING"
   Delete "$INSTDIR\CheckSumTool.exe"
+
+  Delete "$INSTDIR\Manual\Manual.html"
+  Delete "$INSTDIR\Manual\Images\MainWindow1.png"
+  RMDir "$INSTDIR\Manual\Images"
+  RMDir "$INSTDIR\Manual"
 
   Delete "$SMPROGRAMS\CheckSum Tool\Uninstall.lnk"
   Delete "$SMPROGRAMS\CheckSum Tool\Website.lnk"
