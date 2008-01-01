@@ -29,6 +29,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
+using System.Reflection;
 
 namespace CheckSumTool
 {
@@ -38,9 +39,13 @@ namespace CheckSumTool
     public partial class MainForm : Form
     {
         /// <summary>
-        /// Relative path to manual file to open.
+        /// Relative path for folder where user manual is.
         /// </summary>
-        static readonly string ManualFile = "Manual/Manual.html";
+        static readonly string ManualFolder = "Manual";
+        /// <summary>
+        /// Filename of the user manual.
+        /// </summary>
+        static readonly string ManualFile = "Manual.html";
 
         /// <summary>
         /// Indices for list view columns
@@ -725,11 +730,27 @@ namespace CheckSumTool
         }
 
         /// <summary>
+        /// Get full path to the manual file.
+        /// </summary>
+        /// <returns>Full path to the manual file.</returns>
+        static string GetManualFile()
+        {
+            string programPath = Assembly.GetExecutingAssembly().Location;
+            string programFile = Path.GetFileName(programPath);
+            int index = programPath.LastIndexOf(programFile);
+            programPath = programPath.Remove(index);
+            string manualRelative = Path.Combine(ManualFolder, ManualFile);
+            string manual = Path.Combine(programPath, manualRelative);
+            return manual;
+        }
+
+        /// <summary>
         /// Show the user manual for user in the browser.
         /// </summary>
         static void OpenManual()
         {
-            FileInfo fi = new FileInfo(ManualFile);
+            string manualPath = GetManualFile();
+            FileInfo fi = new FileInfo(manualPath);
             if (fi.Exists)
             {
                 // Format local URL for the manual file
@@ -739,7 +760,8 @@ namespace CheckSumTool
             }
             else
             {
-                string message = string.Format("Cannot find file:\n{0}", ManualFile);
+                string message = string.Format("Cannot find the manual file:\n{0}",
+                        manualPath);
                 MessageBox.Show(message, "CheckSum Tool", MessageBoxButtons.OK,
                                 MessageBoxIcon.Error);
             }
