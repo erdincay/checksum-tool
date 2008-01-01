@@ -7,6 +7,7 @@ CheckSum Tool 0.3.0
   Try to detemine file's type from filename when opening checksum file
   Add titles to Open- and Save As-dialogs
   Make verified status three-state (not verified, verified OK and verify failed)
+  Installer: Exit install if required DotNet version is not found
   BugFix: Don't add space to installer executable filename
 
 CheckSum Tool 0.2.0 - 2007-12-18 (r57)
