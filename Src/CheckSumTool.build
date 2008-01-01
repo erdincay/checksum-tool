@@ -203,6 +203,19 @@ $Id$
         <copy file="${build.dir}${executable.name}" todir="${dist.dir}" />
         <copy file="${svn.checkout.dir}/Documents/Readme.txt" todir="${dist.dir}" />
         <copy file="${svn.checkout.dir}/Documents/COPYING" todir="${dist.dir}" />
+
+        <mkdir dir="${dist.dir}/Manual" />
+        <copy todir="${dist.dir}/Manual">
+            <fileset basedir="${build.dir.manual}">
+                <include name="*.html" />
+            </fileset>
+        </copy>
+        <mkdir dir="${dist.dir}/Manual/Images" />
+        <copy todir="${dist.dir}/Manual/Images">
+            <fileset basedir="${build.dir.manual}/Images">
+                <include name="*.png" />
+            </fileset>
+        </copy>
     </target>
 
    <!-- Create a binary file zip, including executable + docs. -->
