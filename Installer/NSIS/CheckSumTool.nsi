@@ -120,6 +120,9 @@ Section Uninstall
   SetAutoClose true
 SectionEnd
 
+; Function below copied from NSIS web site:
+; http://nsis.sourceforge.net/How_to_insure_a_required_version_of_.NETFramework_is_installed
+
 ; Usage
 ; Define in your script two constants:
 ;   DOT_MAJOR "(Major framework version)"
