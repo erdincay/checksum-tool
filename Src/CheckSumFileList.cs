@@ -68,9 +68,12 @@ namespace CheckSumTool
             {
                 foreach (CheckSumItem item in _fileList)
                 {
-                    byte[] data = item.CheckSum.GetAsByteArray();
-                    if (data != null && data.Length > 0)
-                        return true;
+                    if (item.CheckSum != null)
+                    {
+                        byte[] data = item.CheckSum.GetAsByteArray();
+                        if (data != null && data.Length > 0)
+                            return true;
+                    }
                 }
                 return false;
             }
