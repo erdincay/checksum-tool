@@ -117,6 +117,7 @@ namespace CheckSumTool
                 file.Write(filename);
                 file.Write(Environment.NewLine);
             }
+            file.Flush();
             file.Close();
         }
     }
