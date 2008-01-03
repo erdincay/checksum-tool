@@ -1,15 +1,24 @@
 CheckSum Tool
+=============
 
-CheckSum Tool is open source tool for calculating and verifying file checksums.
+http://checksumtool.sourceforge.net/
 
-CheckSum Tool home page is at http://checksumtool.sourceforge.net/
+CheckSum Tool is open source software tool for calculating and verifying file
+checksums. Currently it supports CRC32, MD5 and SHA-1 checksums.
 
-.Net Framework 2.0 is required to run CheckSum Tool. You can download the
-framework from URL:
+
+Prerequisites
+-------------
+.Net Framework 2.0 or later is required to run CheckSum Tool.
+
+.Net Framework can be downloaded for 32-bit windows from:
 http://www.microsoft.com/downloads/details.aspx?familyid=0856eacb-4362-4b0d-8edd-aab15c5e04f5&displaylang=en
-or you can let the installer download and install it.
+and for 64-bit Windows from:
+http://www.microsoft.com/downloads/details.aspx?familyid=B44A0000-ACF8-4FA1-AFFB-40E78D788B00&displaylang=en
 
-CheckSum Tool (c) 2007-2008 Ixonos Plc, Kimmo Varis
-CheckSum Tool is licenced under MIT licence, see Documents/COPYING file for
-full licence text.
 
+COPYING
+-------
+Copyright (c) 2007-2008 Ixonos Plc, Kimmo Varis <kimmo.varis@ixonos.com>
+CheckSum Tool is licensed under MIT licence, see Documents/COPYING file for
+full license text.
