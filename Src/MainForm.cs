@@ -347,6 +347,10 @@ namespace CheckSumTool
         /// <param name="fileName">Filename to save to (full path).</param>
         void SaveFile(string fileName)
         {
+            // No changes, don't bother saving.
+            if (!_document.Items.HasChanged)
+                return;
+
             if (fileName == null || fileName.Length == 0)
             {
                 MessageBox.Show(this, "No filename to save!",
@@ -362,6 +366,7 @@ namespace CheckSumTool
                 if (success)
                 {
                     SetFilename(_document.Filename);
+                    _document.Items.ResetChanges();
                 }
                 else
                 {

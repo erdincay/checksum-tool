@@ -42,6 +42,11 @@ namespace CheckSumTool
         private List<CheckSumItem> _fileList = new List<CheckSumItem>();
 
         /// <summary>
+        /// Has list contents been changed since last ResetChanges().
+        /// </summary>
+        private bool _listChanged;
+
+        /// <summary>
         /// List of files to process.
         /// </summary>
         public List<CheckSumItem> FileList
@@ -77,6 +82,14 @@ namespace CheckSumTool
                 }
                 return false;
             }
+        }
+
+        /// <summary>
+        /// Return if list has been changed since last ResetChanges().
+        /// </summary>
+        public bool HasChanged
+        {
+            get { return _listChanged; }
         }
 
         /// <summary>
@@ -125,6 +138,8 @@ namespace CheckSumTool
             CheckSumItem newItem = new CheckSumItem(file);
             if (checksum != null && checksum != "")
                 newItem.SetSum(checksum);
+
+            _listChanged = true;
             _fileList.Add(newItem);
 
         }
@@ -138,6 +153,7 @@ namespace CheckSumTool
             DirectoryInfo info = new DirectoryInfo(folder);
             FileInfo[] files = info.GetFiles();
 
+            _listChanged = true;
             foreach (FileInfo fi in files)
             {
                 CheckSumItem newItem = new CheckSumItem(fi.FullName);
@@ -151,6 +167,7 @@ namespace CheckSumTool
         /// <param name="path">File to remove</param>
         public void Remove(string path)
         {
+            _listChanged = true;
             foreach (CheckSumItem fi in _fileList)
             {
                 if (fi.FullPath == path)
@@ -167,7 +184,16 @@ namespace CheckSumTool
         /// </summary>
         public void RemoveAll()
         {
+            _listChanged = true;
             _fileList.RemoveRange(0, _fileList.Count);
+        }
+
+        /// <summary>
+        /// Reset change tracking.
+        /// </summary>
+        public void ResetChanges()
+        {
+            _listChanged = false;
         }
     }
 }
