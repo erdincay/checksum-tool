@@ -1,7 +1,7 @@
 ﻿/*
 The MIT License
 
-Copyright (c) 2007 Ixonos Plc, Kimmo Varis <kimmo.varis@ixonos.com>
+Copyright (c) 2007-2008 Ixonos Plc, Kimmo Varis <kimmo.varis@ixonos.com>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -182,7 +182,11 @@ namespace CheckSumTool
                 newSumFile.SetFileList(_checksumItemList);
                 int items = newSumFile.ReadFile(path);
                 if (items > 0)
+                {
                     success = true;
+                    // File just loaded, reset change tracking.
+                    _checksumItemList.ResetChanges();
+                }
             }
             return success;
         }
