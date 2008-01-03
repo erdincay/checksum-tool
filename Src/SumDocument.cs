@@ -102,6 +102,10 @@ namespace CheckSumTool
         {
             Calculator sumCalculator = new Calculator(_currentSumType);
             sumCalculator.Calculate(_checksumItemList.FileList);
+
+            // Set list changed as even existing checksum values could change
+            // during calculation (file in disc changed between calculations).
+            _checksumItemList.SetChanged();
         }
 
         /// <summary>

@@ -1,7 +1,7 @@
 ﻿/*
 The MIT License
 
-Copyright (c) 2007 Ixonos Plc, Kimmo Varis <kimmo.varis@ixonos.com>
+Copyright (c) 2007-2008 Ixonos Plc, Kimmo Varis <kimmo.varis@ixonos.com>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -194,6 +194,14 @@ namespace CheckSumTool
         public void ResetChanges()
         {
             _listChanged = false;
+        }
+
+        /// <summary>
+        /// Set list status to changed.
+        /// </summary>
+        public void SetChanged()
+        {
+            _listChanged = true;
         }
     }
 }
