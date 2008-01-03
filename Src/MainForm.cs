@@ -91,7 +91,8 @@ namespace CheckSumTool
             statusbarLabelCount.Text = "0 items";
             this.toolStripComboSumTypes.SelectedIndex = 0;
             _document.SumType = CheckSumType.SHA1;
-            SetFilename("");
+
+            InitNewList();
 
             // Setup idle even handler.
             Application.Idle += Application_Idle;
@@ -119,6 +120,16 @@ namespace CheckSumTool
                 toolStripBtnSave.Enabled = false;
                 mainMenuFileSave.Enabled = false;
             }
+        }
+
+        /// <summary>
+        /// Initialize new file list.
+        /// </summary>
+        void InitNewList()
+        {
+            ClearAllItems();
+            SetFilename("");
+            _document.Items.ResetChanges();
         }
 
         /// <summary>
@@ -728,9 +739,7 @@ namespace CheckSumTool
         /// <param name="e"></param>
         void MainMenuFileNewClick(object sender, EventArgs e)
         {
-            ClearAllItems();
-            SetFilename("");
-
+            InitNewList();
         }
 
         /// <summary>
