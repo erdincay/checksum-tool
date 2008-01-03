@@ -1,7 +1,7 @@
 ﻿/*
 The MIT License
 
-Copyright (c) 2007 Ixonos Plc, Kimmo Varis <kimmo.varis@ixonos.com>
+Copyright (c) 2007-2008 Ixonos Plc, Kimmo Varis <kimmo.varis@ixonos.com>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -92,6 +92,33 @@ namespace CheckSumTool
             this.toolStripComboSumTypes.SelectedIndex = 0;
             _document.SumType = CheckSumType.SHA1;
             SetFilename("");
+
+            // Setup idle even handler.
+            Application.Idle += Application_Idle;
+        }
+
+        /// <summary>
+        /// Event called when application becomes idle.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        /// <remarks>
+        /// This idle event handler is used to set statuses of various GUI
+        /// controls, based on program state. E.g. Save* controls are disabled
+        /// when there is no changed data to save.s
+        /// </remarks>
+        private void Application_Idle(Object sender, EventArgs e)
+        {
+            if (_document.Items.HasChanged)
+            {
+                toolStripBtnSave.Enabled = true;
+                mainMenuFileSave.Enabled = true;
+            }
+            else
+            {
+                toolStripBtnSave.Enabled = false;
+                mainMenuFileSave.Enabled = false;
+            }
         }
 
         /// <summary>
