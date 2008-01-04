@@ -14,6 +14,7 @@ CheckSum Tool 0.3.0
   Bugfix: Don't add space to installer executable filename
   Bugfix: Run installer task from correct place when doing distribution
   Bugfix: Sometimes all files in list were not saved to checksum file
+  Bugfix: Reset filename after changing checksum type (don't overwrite file)
 
 CheckSum Tool 0.2.0 - 2007-12-18 (r57)
   Added current filename to program title

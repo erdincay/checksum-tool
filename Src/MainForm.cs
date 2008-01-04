@@ -700,6 +700,10 @@ namespace CheckSumTool
 
             int sumSelection = toolStripComboSumTypes.SelectedIndex;
             SetCurrentSumType((CheckSumType) sumSelection);
+
+            // Clear filename so we ask it while saving
+            // and don't override file with wrong (old) name.
+            SetFilename("");
         }
 
         /// <summary>
