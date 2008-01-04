@@ -1,9 +1,9 @@
 CheckSum Tool Manual
 ====================
 Kimmo Varis <kimmov@sourceforge.net>
-v0.1, December 2007
+v0.1, January 2008
 
-// $id: $
+// $Id$
 
 About this Manual
 -----------------
@@ -37,9 +37,9 @@ The most frequently used features are explained shortly below:
 Opening the File Containing Checksums
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 To open a file containing checksums, select _File | Open_ from main menu. Or
-click the first button in the toolbar. In the dialog, browse for and select the
-file to open. At current version, the tool only understands +.svf+, +.md5+ and
-+.sha1+ files.
+click the _Open_ button in the toolbar. In the dialog, browse for and select
+the file to open. The filename must contain or have an extension one of +sfv+,
++md5+ or +sha1+. Otherwise CheckSum Tool does not recognize the file type.
 
 If the tool can read the file, files in the checksum file are added into
 the list in the main window. Checksums are visible, but the tool does not
@@ -52,8 +52,8 @@ verified against checksums of actual files in disk. Select _Checksums |
 Verify All_ from the main menu or click verify icon from the toolbar.
 
 The tool compares checksums in the main window and checksums calculated from
-files in the disk. If the checksums are identical, "OK" text is added to
-"Verified" column in the main window. After all files are checked message is
+files in the disk. If the checksums are identical, *OK* text is added to
+_Verified_ column in the main window. After all files are checked message is
 shown if all files were verified OK or not.
 
 NOTE: Verifying might take some time if files are big.
@@ -73,38 +73,45 @@ they can be saved to checksum file. Select _File | Save_ or _File |
 Save As..._ from the main menu. Select the filename and location for the file.
 
 NOTE: While you can change filename extension, you cannot change the checksum
-type in this dialog. Changing the filename extension migh cause problems for
+type in this dialog. Changing the filename extension might cause problems for
 this tool and other programs reading the file.
 
 Installing
 ----------
 
-Prequisities
-~~~~~~~~~~~~
-To install and run CheckSum Tool you'll need:
+Prerequisities
+~~~~~~~~~~~~~~
+CheckSum Tool requires:
 
 - Windows operating system
-- .Net 2.0 or later installed - http://www.microsoft.com/downloads/details.aspx?FamilyId=0856EACB-4362-4B0D-8EDD-AAB15C5E04F5&displaylang=en[download link]
+- .Net 2.0 framework or later installed
 
-Basically requirements are the same than for .Net 2.0. If the .Net 2.0 runtime
-works in the machine, CheckSum Tool will work too.
+Download links for the .Net 2.0 framework:
+
+- http://www.microsoft.com/downloads/details.aspx?familyid=0856eacb-4362-4b0d-8edd-aab15c5e04f5&displaylang=en[.Net framework for 32-bit Windows versions]
+- http://www.microsoft.com/downloads/details.aspx?familyid=B44A0000-ACF8-4FA1-AFFB-40E78D788B00&displaylang=en[.Net framework for 64-bit Windows versions]
 
 Using the Installer
 ~~~~~~~~~~~~~~~~~~~
 The easiest way to install CheckSum Tool is to download and run the installer
 executable from http://checksumtool.sourceforge.net[]. The installer checks
-if the required .Net 2.0 runtime (or later) is installed. If the runtime is
-not found, the installer aborts.
+if the required .Net 2.0 runtime (or later) is installed. If the .Net framework
+cannot be found, the installer aborts.
 
 Running the installer copies program- and documentation files to the system
 and adds the tool to Windows Start-menu.
 
 Using the Archive Files
 ~~~~~~~~~~~~~~~~~~~~~~~
-Another way to install CheckSum Tool is to download binary archive file and
+The another way to install CheckSum Tool is to download binary archive file and
 extract files in it to some folder. All required files are in the archive file
 and CheckSum Tool can be run from the folder where the binary file was
 extracted.
+
+Binary archive files can be downloaded from 
+http://sourceforge.net/project/showfiles.php?group_id=208291[CheckSum Tool's downloads].
+Files are named +CheckSumTool-version-bin.zip+, for example
++CheckSumTool-0.2.0-bin.zip+.
 
 About the Checksums
 -------------------
@@ -118,16 +125,17 @@ checksum. That means there should not be possibility for two files with the
 same checksum. With some older algorithms those duplicates are possible. With
 newest algorithms duplicates are not possible in practice.
 
-Naming of the CheckSum Tool can be a bit misleading - strictly speaking MDx and
-SHA-x are not checksums but cryptographic hashes. But generally speaking they
-can be called as checksums as they are used like traditional CRC checksums.
+Naming of the CheckSum Tool can be a bit misleading - strictly speaking MD_x_
+and SHA-_x_ are not checksums but cryptographic hashes. But generally speaking
+they can be called as checksums as they are used like traditional CRC checksums.
 
-See Wikipedia articles:
-- Checksum: http://en.wikipedia.org/wiki/Checksum[]
-- Hash functions: http://en.wikipedia.org/wiki/Hash_function[]
+See Wikipedia articles for:
+
+- http://en.wikipedia.org/wiki/Checksum[Checksum]
+- http://en.wikipedia.org/wiki/Hash_function[Hash functions]
 
 Wikipedia also has articles for most common checksum and hash functions. Please
-see those articles for more information about them.
+see those articles for more information.
 
 Uses for the Checksums
 ~~~~~~~~~~~~~~~~~~~~~~
@@ -142,6 +150,7 @@ checksums for the downloaded files and comparing checksums to checksums in the
 checksum file.
 
 How CheckSum Tool helps?
+
 - it makes easy to create checksum file for your file(s)
 - it makes it easy to open checksum file and verify files in disk match to
   checksums in checksum file
@@ -152,6 +161,9 @@ Using the CheckSum Tool
 The main window is where almost all the work happens. As described in the 
 <<QuickStartCh,Quick Start>> -chapter, it contains list of files for which to
 calculate and/or verify checksum.
+
+.The main window
+image:Images/MainWindow1.png[Main Window]
 
 The File List
 ~~~~~~~~~~~~~
@@ -165,26 +177,60 @@ the checksum. Visible columns and their data are:
   * calculated from the file in the disk
 - Verification status, which can be:
   * empty - not yet verified
-  * OK - checksum matches to the file in the disk
-  * FAIL - checksum does not match the file in the disk
+  * *OK* - checksum matches to the file in the disk
+  * *FAIL* - checksum does not match the file in the disk
 - Full path to the file
 
 The checksum is shown as a hexadecimal string. The length of the checksum
 depends on the checksum type.
 
 Calculating Checksums
-^^^^^^^^^^^^^^^^^^^^^
-Checksums for the files in the list are calculated by selecting the Calculate
-feature (from the toolbar or the menu). The checksum type can be selected from
-the dropdown control in the toolbar.
+~~~~~~~~~~~~~~~~~~~~~
+First select the checksum type from the toolbar. Note that when checksum type
+is changed all checksums from the list are cleared.
 
-When checksums for all files are calculated, they are added to the list.
+Checksums for the files in the list are calculated by selecting the _Calculate_
+feature (from the toolbar or from the _CheckSums_ menu). After the checksums
+for all files are calculated, they are added to the list. Length of the
+checksum varies by used algorithm.
 
 Verifying Checksums
-^^^^^^^^^^^^^^^^^^^
-Checksums int the list can be verified by selecting the Verify feature (from
+~~~~~~~~~~~~~~~~~~~
+Checksums in the list can be verified by selecting the _Verify_ feature (from
 the toolbar or the menu). If one or more files do not have checksum in the list,
 those files are not verified (as there is nothing to verify).
 
-When all files (that can be verified) are verified, verification status is
-added to the list.
+When all files (that can be verified) are verified, verification status (*Ok*
+or *FAIL* is added to the list.
+
+.Verified Checksums
+image:Images/MainWindow_verifiedok.png[Successful verification]
+
+Loading Checksum file
+~~~~~~~~~~~~~~~~~~~~~
+Existing checksum file can be loaded by selecting _File | Open_ from main menu
+or clicking the _Open_ button in the toolbar. In the dialog, browse for and
+select the checksum file to open. The filename must contain or have an
+extension one of +sfv+, +md5+ or +sha1+. Otherwise CheckSum Tool does not
+recognize the file type. (_This will be improved in later versions._)
+
+CheckSum Tool considers lines that begin with semicolon (+;+) in checksum file
+as comment lines and ignores them. E.g. line +; Created 1/4/2008 1:23:17 AM+ is
+ignored.
+
+Saving Checksum file
+~~~~~~~~~~~~~~~~~~~~~
+When one or more files have calculated checksums in the list, they can be saved
+to the checksum file. Only files that have checksum calculated are added to the
+file. Verification status is not added.
+
+Select _File | Save_ or _File | Save As..._ from the main menu. Select the
+filename and location for the file in the dialog. It is recommeded to use file
+extensions that the dialog suggests:
+
+- +sfv+ for CRC32 files
+- +md5+ for MD5 files
+- +sha1+ for SHA-1 files
+
+Using these file extensions makes sure CheckSum tool (and many other tools)
+recognize the file type.
