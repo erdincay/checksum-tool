@@ -81,11 +81,7 @@ namespace CheckSumTool
             // The InitializeComponent() call is required for Windows Forms designer support.
             //
             InitializeComponent();
-
-            foreach (string name in CheckSumImplList.SumNames)
-            {
-                this.toolStripComboSumTypes.Items.Add(name);
-            }
+            InitChecksumsGui();
 
             statusbarLabel1.Text = "";
             statusbarLabelCount.Text = "0 items";
@@ -123,6 +119,24 @@ namespace CheckSumTool
         }
 
         /// <summary>
+        /// Initialize various GUI items related to different checksums.
+        /// </summary>
+        void InitChecksumsGui()
+        {
+            mainMenuChecksumsMenu.DropDownItems.Add(new ToolStripSeparator());
+
+            foreach (string name in CheckSumImplList.SumNames)
+            {
+                // Add checksum name to toolbar dropdown
+                toolStripComboSumTypes.Items.Add(name);
+
+                // Add checksum name to Checksums -menu
+                mainMenuChecksumsMenu.DropDownItems.Add(name, null,
+                    new System.EventHandler(this.MenuCheckSumtype_OnClick));
+            }
+        }
+
+        /// <summary>
         /// Initialize new file list.
         /// </summary>
         void InitNewList()
@@ -130,6 +144,20 @@ namespace CheckSumTool
             ClearAllItems();
             SetFilename("");
             _document.Items.ResetChanges();
+        }
+
+        /// <summary>
+        /// Called when of of checksum type menuitems is clicked.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void MenuCheckSumtype_OnClick(System.Object sender,
+                System.EventArgs e)
+        {
+            ToolStripMenuItem menuitem = (ToolStripMenuItem) sender;
+
+            int ind = toolStripComboSumTypes.FindStringExact(menuitem.Text);
+            toolStripComboSumTypes.SelectedIndex = ind;
         }
 
         /// <summary>
@@ -820,6 +848,31 @@ namespace CheckSumTool
         void MainMenuHelpManualClick(object sender, EventArgs e)
         {
             OpenManual();
+        }
+
+        /// <summary>
+        /// Adds checkmark to current cheksum menuitem.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        void MainMenuChecksumsMenuDropDownOpening(object sender, EventArgs e)
+        {
+            string name = CheckSumImplList.GetImplementationName(_document.SumType);
+            foreach (ToolStripItem item in mainMenuChecksumsMenu.DropDownItems)
+            {
+                if (item is ToolStripMenuItem)
+                {
+                    ToolStripMenuItem menuitem = (ToolStripMenuItem)item;
+                    foreach (string sum in CheckSumImplList.SumNames)
+                    {
+                        if (menuitem.Text == sum)
+                            menuitem.CheckState = CheckState.Unchecked;
+                    }
+
+                    if (menuitem.Text == name)
+                        menuitem.CheckState = CheckState.Checked;
+                }
+            }
         }
     }
 }

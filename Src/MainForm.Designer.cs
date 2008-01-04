@@ -1,11 +1,29 @@
 ﻿/*
- * Created by SharpDevelop.
- * User: variski
- * Date: 19.9.2007
- * Time: 9:36
- * 
- * To change this template use Tools | Options | Coding | Edit Standard Headers.
- */
+The MIT License
+
+Copyright (c) 2007-2008 Ixonos Plc, Kimmo Varis <kimmo.varis@ixonos.com>
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+*/
+
+// $Id$
+
 namespace CheckSumTool
 {
     partial class MainForm
@@ -56,7 +74,7 @@ namespace CheckSumTool
         	this.mainMenuEditMenu = new System.Windows.Forms.ToolStripMenuItem();
         	this.mainMenuEditClear = new System.Windows.Forms.ToolStripMenuItem();
         	this.mainMenuEditRemoveSelected = new System.Windows.Forms.ToolStripMenuItem();
-        	this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+        	this.mainMenuChecksumsMenu = new System.Windows.Forms.ToolStripMenuItem();
         	this.mainMenuChecksumsCalculateAll = new System.Windows.Forms.ToolStripMenuItem();
         	this.mainMenuChecksumsVerifyAll = new System.Windows.Forms.ToolStripMenuItem();
         	this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -120,7 +138,7 @@ namespace CheckSumTool
         	this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
         	        	        	this.fileToolStripMenuItem,
         	        	        	this.mainMenuEditMenu,
-        	        	        	this.toolStripMenuItem1,
+        	        	        	this.mainMenuChecksumsMenu,
         	        	        	this.aboutToolStripMenuItem});
         	this.menuStrip1.Location = new System.Drawing.Point(0, 0);
         	this.menuStrip1.Name = "menuStrip1";
@@ -243,14 +261,15 @@ namespace CheckSumTool
         	this.mainMenuEditRemoveSelected.ToolTipText = "Remove selected items from the list";
         	this.mainMenuEditRemoveSelected.Click += new System.EventHandler(this.MainMenuEditRemoveSelectedClick);
         	// 
-        	// toolStripMenuItem1
+        	// mainMenuChecksumsMenu
         	// 
-        	this.toolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+        	this.mainMenuChecksumsMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
         	        	        	this.mainMenuChecksumsCalculateAll,
         	        	        	this.mainMenuChecksumsVerifyAll});
-        	this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-        	this.toolStripMenuItem1.Size = new System.Drawing.Size(72, 20);
-        	this.toolStripMenuItem1.Text = "&Checksums";
+        	this.mainMenuChecksumsMenu.Name = "mainMenuChecksumsMenu";
+        	this.mainMenuChecksumsMenu.Size = new System.Drawing.Size(72, 20);
+        	this.mainMenuChecksumsMenu.Text = "&Checksums";
+        	this.mainMenuChecksumsMenu.DropDownOpening += new System.EventHandler(this.MainMenuChecksumsMenuDropDownOpening);
         	// 
         	// mainMenuChecksumsCalculateAll
         	// 
@@ -416,6 +435,7 @@ namespace CheckSumTool
         	this.ResumeLayout(false);
         	this.PerformLayout();
         }
+        private System.Windows.Forms.ToolStripMenuItem mainMenuChecksumsMenu;
         private System.Windows.Forms.ToolStripMenuItem mainMenuHelpAbout;
         private System.Windows.Forms.ToolStripMenuItem mainMenuHelpManual;
         private System.Windows.Forms.ToolStripMenuItem mainMenuFileSaveAs;
@@ -425,7 +445,6 @@ namespace CheckSumTool
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.ToolStripMenuItem mainMenuChecksumsVerifyAll;
         private System.Windows.Forms.ToolStripMenuItem mainMenuChecksumsCalculateAll;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
         private System.Windows.Forms.ToolStripComboBox toolStripComboSumTypes;
         private System.Windows.Forms.ToolStripButton toolStripBtnVerify;
         private System.Windows.Forms.ToolStripButton toolStripBtnCalculate;
