@@ -12,6 +12,7 @@ CheckSum Tool 0.3.0
   Update copyright year to contain 2008 in About-dialog and in documents
   Disable Save-button in toolbar and Save-item in File-menu when list has no changes
   Add Checksum types to CheckSums-menu
+  Add star to program title when filelist is changed
   Bugfix: Don't add space to installer executable filename
   Bugfix: Run installer task from correct place when doing distribution
   Bugfix: Sometimes all files in list were not saved to checksum file

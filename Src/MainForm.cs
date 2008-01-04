@@ -102,7 +102,7 @@ namespace CheckSumTool
         /// <remarks>
         /// This idle event handler is used to set statuses of various GUI
         /// controls, based on program state. E.g. Save* controls are disabled
-        /// when there is no changed data to save.s
+        /// when there is no changed data to save.
         /// </remarks>
         private void Application_Idle(Object sender, EventArgs e)
         {
@@ -110,11 +110,19 @@ namespace CheckSumTool
             {
                 toolStripBtnSave.Enabled = true;
                 mainMenuFileSave.Enabled = true;
+
+                // Add star to caption if changed
+                if (!this.Text.StartsWith("*"))
+                    this.Text = this.Text.Insert(0, "* ");
             }
             else
             {
                 toolStripBtnSave.Enabled = false;
                 mainMenuFileSave.Enabled = false;
+
+                // Remove star from caption it not changed
+                if (this.Text.StartsWith("*"))
+                    this.Text = this.Text.Remove(0, 2);
             }
         }
 
