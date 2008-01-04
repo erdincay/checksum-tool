@@ -1,6 +1,6 @@
 CheckSum Tool Manual
 ====================
-Kimmo Varis <kimmov@sourceforge.net>
+Kimmo Varis
 v0.1, January 2008
 
 // $Id$
