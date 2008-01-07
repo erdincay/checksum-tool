@@ -5,8 +5,8 @@ Sourceforge project page is:
 http://sourceforge.net/projects/checksumtool/
 
 Sources:
-CheckSumTools sources are available from SourceForge.net Subversion:
-https://checksumtool.svn.sourceforge.net/svnroot/checksumtool/
+CheckSumTool sources are available from SourceForge.net Subversion:
+http://checksumtool.svn.sourceforge.net/svnroot/checksumtool/
 or in SourceForge file releases
 
 
@@ -58,3 +58,13 @@ Manual can be converted in command line:
   > python [path to asciidoc]/asciidoc.py Manual.txt
 
 CheckSumTool's NAnt build file also contains a task for building manual.
+
+
+setting the Version Number
+--------------------------
+Version number is set in two places:
+
+- for executable program it is in end of file:
+  Src/AssemblyInfo.cs
+- for installer it is in begin of installer script:
+  Installer/NSIS/CheckSumTool.nsi
