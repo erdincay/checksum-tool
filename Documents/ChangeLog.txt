@@ -1,6 +1,6 @@
 This file list changes done in each version of the CheckSum Tool.
 
-CheckSum Tool 0.3.0
+CheckSum Tool 0.3.0 - 2008-01-07 (r107)
   Manual: Add initial version of user manual (in html format)
   Add manual item to Help-menu
   Rename About-menu to Help-menu
