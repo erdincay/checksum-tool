@@ -234,3 +234,24 @@ extensions that the dialog suggests:
 
 Using these file extensions makes sure CheckSum tool (and many other tools)
 recognize the file type.
+
+Support
+-------
+There are several ways to get answers to questions:
+
+.Discussion forums
+Two different http://sourceforge.net/forum/?group_id=208291[discussion forums]
+are available.
+
+.Mailing list
+http://sourceforge.net/mail/?group_id=208291[Support-list] is one of the
+mailing lists.
+
+.Bug report
+Bug reports should be submitted to 
+http://sourceforge.net/tracker/?group_id=208291&atid=1005105[bug tracker].
+
+.Feature request
+Suggestions for new features should be submitted to
+https://sourceforge.net/tracker/?group_id=208291&atid=1005108[Feature requests]
+tracker.
