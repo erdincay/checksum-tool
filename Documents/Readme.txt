@@ -17,6 +17,21 @@ and for 64-bit Windows from:
 http://www.microsoft.com/downloads/details.aspx?familyid=B44A0000-ACF8-4FA1-AFFB-40E78D788B00&displaylang=en
 
 
+Support
+-------
+Discussion forums:
+http://sourceforge.net/forum/?group_id=208291
+
+Mailing lists:
+https://sourceforge.net/mail/?group_id=208291
+
+Bug tracker:
+https://sourceforge.net/tracker/?group_id=208291&atid=1005105
+
+Feature requests tracker:
+https://sourceforge.net/tracker/?group_id=208291&atid=1005108
+
+
 COPYING
 -------
 Copyright (c) 2007-2008 Ixonos Plc, Kimmo Varis <kimmo.varis@ixonos.com>
