@@ -16,7 +16,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Ixonos Plc")]
 [assembly: AssemblyProduct("CheckSumTool")]
-[assembly: AssemblyCopyright("(c) 2007 Ixonos Plc, Kimmo Varis")]
+[assembly: AssemblyCopyright("(c) 2008 Ixonos Plc, Kimmo Varis")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -30,4 +30,4 @@ using System.Runtime.InteropServices;
 //
 // You can specify all the values or you can use the default the Revision and 
 // Build Numbers by using the '*' as shown below:
-[assembly: AssemblyVersion("0.3.0.*")]
+[assembly: AssemblyVersion("0.4.0.*")]
