@@ -20,7 +20,7 @@ a {color: #048;}
 a:hover {color: #06C;}
 
 body {
-	background: #E7E7E2 url('img/body.jpg') no-repeat center top;
+	background: #E7E7E2 url('../img/body.jpg') no-repeat center top;
 	color: #444;
 	font: normal 62.5% Tahoma,sans-serif;
 	padding-top: 64px;
@@ -50,7 +50,7 @@ code {
 }
 
 blockquote {
-	background: url(img/quote.gif) no-repeat;
+	background: url(../img/quote.gif) no-repeat;
 	display: block;
 	font-weight: bold;
 	padding-left: 28px;
@@ -74,13 +74,13 @@ h1,h2,h3 {padding-top: 6px; color: #553; margin-bottom: 4px;}
 }
 
 .outer-container {
-	background: url('img/container.jpg') no-repeat center bottom;
+	background: url('../img/container.jpg') no-repeat center bottom;
 	padding-bottom: 64px;
 }
 
 /* headere & title */
 .header {
-	background: #222 url('img/header.jpg') no-repeat;
+	background: #222 url('../img/header.jpg') no-repeat;
 	height: 160px;
 	margin-bottom: 5px;
 	text-align: center;
@@ -120,7 +120,7 @@ h1,h2,h3 {padding-top: 6px; color: #553; margin-bottom: 4px;}
 
 /* main */
 .main {
-	background: url(img/main.gif) repeat-y;
+	background: url(../img/main.gif) repeat-y;
 	border-top: 4px solid #FFF;
 	padding: 8px 12px 0 0;
 }
@@ -136,7 +136,7 @@ h1,h2,h3 {padding-top: 6px; color: #553; margin-bottom: 4px;}
 	margin-bottom: 6px;
 }
 .content li {
-	list-style: url(img/li.gif);
+	list-style: url(../img/li.gif);
 	margin-left: 18px;
 }
 .content p {font-family: "Lucida Sans Unicode",sans-serif;}
