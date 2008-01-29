@@ -90,6 +90,8 @@ namespace CheckSumTool
         	this.statusStrip1 = new System.Windows.Forms.StatusStrip();
         	this.statusbarLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
         	this.statusbarLabelCount = new System.Windows.Forms.ToolStripStatusLabel();
+        	this.mainMenuEditSelectAll = new System.Windows.Forms.ToolStripMenuItem();
+        	this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
         	this.menuStrip1.SuspendLayout();
         	this.toolStripMain.SuspendLayout();
         	this.statusStrip1.SuspendLayout();
@@ -240,7 +242,9 @@ namespace CheckSumTool
         	// 
         	this.mainMenuEditMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
         	        	        	this.mainMenuEditClear,
-        	        	        	this.mainMenuEditRemoveSelected});
+        	        	        	this.mainMenuEditRemoveSelected,
+        	        	        	this.toolStripSeparator4,
+        	        	        	this.mainMenuEditSelectAll});
         	this.mainMenuEditMenu.Name = "mainMenuEditMenu";
         	this.mainMenuEditMenu.Size = new System.Drawing.Size(37, 20);
         	this.mainMenuEditMenu.Text = "&Edit";
@@ -411,6 +415,20 @@ namespace CheckSumTool
         	this.statusbarLabelCount.Size = new System.Drawing.Size(109, 17);
         	this.statusbarLabelCount.Text = "toolStripStatusLabel1";
         	// 
+        	// mainMenuEditSelectAll
+        	// 
+        	this.mainMenuEditSelectAll.Name = "mainMenuEditSelectAll";
+        	this.mainMenuEditSelectAll.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.A)));
+        	this.mainMenuEditSelectAll.Size = new System.Drawing.Size(190, 22);
+        	this.mainMenuEditSelectAll.Text = "Select All";
+        	this.mainMenuEditSelectAll.ToolTipText = "Select all items in the list";
+        	this.mainMenuEditSelectAll.Click += new System.EventHandler(this.MainMenuEditSelectAllClick);
+        	// 
+        	// toolStripSeparator4
+        	// 
+        	this.toolStripSeparator4.Name = "toolStripSeparator4";
+        	this.toolStripSeparator4.Size = new System.Drawing.Size(187, 6);
+        	// 
         	// MainForm
         	// 
         	this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -435,6 +453,8 @@ namespace CheckSumTool
         	this.ResumeLayout(false);
         	this.PerformLayout();
         }
+        private System.Windows.Forms.ToolStripMenuItem mainMenuEditSelectAll;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
         private System.Windows.Forms.ToolStripMenuItem mainMenuChecksumsMenu;
         private System.Windows.Forms.ToolStripMenuItem mainMenuHelpAbout;
         private System.Windows.Forms.ToolStripMenuItem mainMenuHelpManual;

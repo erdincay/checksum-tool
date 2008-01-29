@@ -882,5 +882,18 @@ namespace CheckSumTool
                 }
             }
         }
+
+        /// <summary>
+        /// Selects all items in the list.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        void MainMenuEditSelectAllClick(object sender, EventArgs e)
+        {
+            foreach (ListViewItem item in itemList.Items)
+            {
+                item.Selected = true;
+            }
+        }
     }
 }
