@@ -1,6 +1,9 @@
 ﻿/*
  * CRC32 implementation for C#, by William ??
  * http://staceyw.spaces.live.com/blog/cns!F4A38E96E598161E!402.entry
+ *
+ * Further modifications,
+ * Copyright (c) 2008 Ixonos Plc, Kimmo Varis <kimmo.varis@ixonos.com>
  */
 
 // $Id$
@@ -104,19 +107,30 @@ namespace CheckSumTool
         /// <summary>
         /// Returns the CRC32 data checksum computed so far.
         /// </summary>
-        public uint Value
+        public byte[] Value
         {
             get
             {
-                return crc;
-            }
-            set
-            {
-                crc = value;
+                return UIntAsByteArray(crc);
             }
         }
 
-        public static uint GetStreamCRC32(Stream stream)
+        /// <summary>
+        /// Convert uint type number to byte array.
+        /// </summary>
+        /// <param name="number">Number to convert.</param>
+        /// <returns>Number as byte array.</returns>
+        byte[] UIntAsByteArray(uint number)
+        {
+            byte[] hexSum = new byte[4];
+            hexSum[0] = (byte)((number & 0xff000000) >> 24);
+            hexSum[1] = (byte)((number & 0x00ff0000) >> 16);
+            hexSum[2] = (byte)((number & 0x0000ff00) >> 8);
+            hexSum[3] = (byte)(number & 0x000000ff);
+            return hexSum;
+        }
+
+        public static byte[] GetStreamCRC32(Stream stream)
         {
             if ( stream == null )
                 throw new ArgumentNullException("stream");
@@ -134,7 +148,7 @@ namespace CheckSumTool
             return crc32.Value;
         }
 
-        public static uint GetFileCRC32(string path)
+        public static byte[] GetFileCRC32(string path)
         {
             if ( path == null )
                 throw new ArgumentNullException("path");
@@ -218,15 +232,19 @@ namespace CheckSumTool
             crc ^= CrcSeed;
         }
     }
-    
+
+    /// <summary>
+    /// Unit test class for CRC32 calculation. Checks file checksums against
+    /// values computed by another tool.
+    /// </summary>
     [TestFixture]
     public class TestCrc32
     {
         /// <summary>
         /// CRC32-checksum calculated for TextFile1.txt with fsum tool.
         /// </summary>
-        static uint File1Sum = 0xb046e6f2;
-        
+        static byte[] File1Sum = {0xb0, 0x46, 0xe6, 0xf2};
+
         /// <summary>
         /// Test Crc32 with null filename.
         /// </summary>
@@ -234,9 +252,9 @@ namespace CheckSumTool
         [ExpectedException(typeof(ArgumentNullException))]
         public void GetCrcNullPath()
         {
-            uint crc = Crc32.GetFileCRC32(null);
+            byte[] crc = Crc32.GetFileCRC32(null);
         }
-        
+
         /// <summary>
         /// Test Crc32 with invalid filename.
         /// </summary>
@@ -244,9 +262,9 @@ namespace CheckSumTool
         [ExpectedException(typeof(FileNotFoundException))]
         public void GetCrcInvalidPath()
         {
-            uint crc = Crc32.GetFileCRC32("poo");
+            byte[] crc = Crc32.GetFileCRC32("poo");
         }
-        
+
         /// <summary>
         /// Test Crc32 with null stream.
         /// </summary>
@@ -254,19 +272,28 @@ namespace CheckSumTool
         [ExpectedException(typeof(ArgumentNullException))]
         public void GetCrc32NullStream()
         {
-            uint crc = Crc32.GetStreamCRC32(null);
+            byte[] crc = Crc32.GetStreamCRC32(null);
         }
-        
+
         /// <summary>
         /// Test Crc32 for TextFile1.txt.
         /// </summary>
         [Test]
         public void GetCrcFile1()
         {
-            uint crc = Crc32.GetFileCRC32("../../TestData/TextFile1.txt");
-            Assert.AreEqual(File1Sum, crc);
+            byte[] check = Crc32.GetFileCRC32("../../TestData/TextFile1.txt");
+            Assert.IsNotNull(check);
+            Assert.AreEqual(4, check.Length);
+            for (int i = 0; i < File1Sum.Length; i++)
+            {
+                if (check[i] != File1Sum[i])
+                {
+                    Assert.Fail("Result byte {0} does not match! Was {1}, expected {2}",
+                        i, check[i], File1Sum[i]);
+                }
+            }
         }
-        
+
         /// <summary>
         /// Test crc32 with TextFile1.txt stream.
         /// </summary>
@@ -275,9 +302,19 @@ namespace CheckSumTool
         {
             FileStream file = new FileStream("../../TestData/TextFile1.txt",
                 FileMode.Open);
-            uint crc = Crc32.GetStreamCRC32(file);
+            byte[] check = Crc32.GetStreamCRC32(file);
             file.Close();
-            Assert.AreEqual(File1Sum, crc);
+
+            Assert.IsNotNull(check);
+            Assert.AreEqual(4, check.Length);
+            for (int i = 0; i < File1Sum.Length; i++)
+            {
+                if (check[i] != File1Sum[i])
+                {
+                    Assert.Fail("Result byte {0} does not match! Was {1}, expected {2}",
+                        i, check[i], File1Sum[i]);
+                }
+            }
         }
     }
 }

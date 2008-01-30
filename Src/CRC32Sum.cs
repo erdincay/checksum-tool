@@ -1,7 +1,7 @@
 ﻿/*
 The MIT License
 
-Copyright (c) 2007 Ixonos Plc, Kimmo Varis <kimmo.varis@ixonos.com>
+Copyright (c) 2007-2008 Ixonos Plc, Kimmo Varis <kimmo.varis@ixonos.com>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -52,8 +52,7 @@ namespace CheckSumTool
         /// <returns>Checksum.</returns>
         public byte[] Calculate(Stream stream)
         {
-            uint sum = Crc32.GetStreamCRC32(stream);
-            byte[] hexSum = UintToByteTable(sum);
+            byte[] hexSum = Crc32.GetStreamCRC32(stream);
             return hexSum;
         }
 
@@ -83,9 +82,7 @@ namespace CheckSumTool
             if (sum.Length != 4)
                 return false;
 
-            uint newsum = Crc32.GetStreamCRC32(stream);
-            byte[] hexSum = UintToByteTable(newsum);
-
+            byte[] hexSum = Crc32.GetStreamCRC32(stream);
             for (int i = 0; i < hexSum.Length; i++)
             {
                 if (hexSum[i] != sum[i])
@@ -94,20 +91,6 @@ namespace CheckSumTool
             return true;
         }
 
-        /// <summary>
-        /// Convert integer to byte array.
-        /// </summary>
-        /// <param name="number">Number to convert.</param>
-        /// <returns>Number as byte array.</returns>
-        byte[] UintToByteTable(uint number)
-        {
-            byte[] hexSum = new byte[4];
-            hexSum[0] = (byte)((number & 0xff000000) >> 24);
-            hexSum[1] = (byte)((number & 0x00ff0000) >> 16);
-            hexSum[2] = (byte)((number & 0x0000ff00) >> 8);
-            hexSum[3] = (byte)(number & 0x000000ff);
-            return hexSum;
-        }
     }
 
     /// <summary>
