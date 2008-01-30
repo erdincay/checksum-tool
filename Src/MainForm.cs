@@ -921,7 +921,10 @@ namespace CheckSumTool
                 string filename = itemList.Items[selindex].SubItems[(int)ListIndices.FileName].Text;
                 string sum = itemList.Items[selindex].SubItems[(int)ListIndices.CheckSum].Text;
                 if (filename.Length > 0 && sum.Length > 0)
-                    selectedItems.Append(string.Format("{0}\t{1}\n", sum, filename));
+                {
+                    selectedItems.Append(string.Format("{0}\t{1}{2}", sum,
+                            filename, Environment.NewLine));
+                }
             }
 
             if (selectedItems.Length > 0)
