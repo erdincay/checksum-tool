@@ -25,6 +25,7 @@ THE SOFTWARE.
 using System;
 using System.IO;
 using System.Collections.Generic;
+using NUnit.Framework;
 
 namespace CheckSumTool
 {
@@ -37,7 +38,7 @@ namespace CheckSumTool
         /// Full path of the file.
         /// </summary>
         string _path;
-        
+
         /// <summary>
         /// Constructor.
         /// </summary>
@@ -48,7 +49,7 @@ namespace CheckSumTool
             FileInfo fi = new FileInfo(path);
             _path = path;
         }
-        
+
         /// <summary>
         /// Read file contents to list of strings.
         /// </summary>
@@ -57,24 +58,24 @@ namespace CheckSumTool
         {
             string[] lines = File.ReadAllLines(_path);
             List<string> processlines = new List<string>();
-            
+
             foreach (string line in lines)
             {
                 line.Trim();
-                
+
                 // Ignore empty lines
                 if (line.Length == 0)
                     continue;
-                
+
                 // Ignore comment lines
                 if (line[0] == ';')
                     continue;
-                
+
                 processlines.Add(line);
             }
             return processlines;
         }
-        
+
         /// <summary>
         /// Read all valid lines from the text file. Ingnore invalid lines,
         /// like comment-lines and empty lines.
@@ -83,7 +84,7 @@ namespace CheckSumTool
         public string[] ReadLines()
         {
             List<string> lines = ReadLineList();
-            
+
             // Copy strings to one array for returning for the caller
             string[] retlines = new string[lines.Count];
             int index = 0;
@@ -94,7 +95,7 @@ namespace CheckSumTool
             }
             return retlines;
         }
-        
+
         /// <summary>
         /// Read lines to list of Pairs, using whitespace separators.
         /// </summary>
@@ -105,7 +106,7 @@ namespace CheckSumTool
             List<Pair<string>> items = ReadSplittedLines(separators, false);
             return items;
         }
-        
+
         /// <summary>
         /// Read lines to list of Pairs using custom separator chars.
         /// </summary>
@@ -116,7 +117,7 @@ namespace CheckSumTool
             List<Pair<string>> items = ReadSplittedLines(separators, false);
             return items;
         }
-        
+
         /// <summary>
         /// Read lines to list of Pairs, reversing line parsing.
         /// </summary>
@@ -141,7 +142,7 @@ namespace CheckSumTool
         {
             List<string> lines = ReadLineList();
             List<Pair<string>> list = new List<Pair<string>>();
-            
+
             foreach (string line in lines)
             {
                 Pair<string> pair = SplitLine(line, separators, reverse);
@@ -150,7 +151,7 @@ namespace CheckSumTool
             }
             return list;
         }
-        
+
         /// <summary>
         /// Split line to two items (one Pair).
         /// </summary>
@@ -162,7 +163,7 @@ namespace CheckSumTool
             Pair<String> pair = SplitLine(line, separators, false);
             return pair;
         }
-        
+
         /// <summary>
         /// Split line to two items (one Pair).
         /// </summary>
@@ -177,9 +178,9 @@ namespace CheckSumTool
                 separatorInd = line.LastIndexOfAny(separators);
             else
                 separatorInd = line.IndexOfAny(separators);
-            
+
             Pair<string> lineItem = null;
-            
+
             if (separatorInd != -1)
             {
                 string first = "";
@@ -190,12 +191,63 @@ namespace CheckSumTool
                     first = first.Trim();
                     second = line.Substring(separatorInd + 1);
                     second = second.Trim();
-                    
+
                     if (first.Length > 0 && second.Length > 0)
                         lineItem = new Pair<string>(first, second);
                 }
             }
             return lineItem;
+        }
+    }
+
+    [TestFixture]
+    public class TestTextFileReader
+    {
+         /// <summary>
+         /// Test creating TextFileReader.
+         /// </summary>
+        [Test]
+        public void Create()
+        {
+            TextFileReader textFile = new TextFileReader("../../TestData/TextFile2.txt");
+            Assert.IsNotNull(textFile);
+        }
+
+        /// <summary>
+         /// Test reading lines from TextFile2.txt
+         /// </summary>
+        [Test]
+        public void ReadLinesFromTestFile2()
+        {
+            TextFileReader textFile = new TextFileReader("../../TestData/TextFile2.txt");
+            string[] lines = textFile.ReadLines();
+            Assert.AreEqual(3, lines.Length);
+        }
+
+        /// <summary>
+        /// Test giving wrong file string.
+        /// </summary>
+        [Test]
+        [ExpectedException(typeof(FileNotFoundException))]
+        public void ReadSplittedLinesFromTestFile()
+        {
+            TextFileReader textFile = new TextFileReader("../../TestData/TextFile4.txt");
+            List<Pair<string>> items = textFile.ReadSplittedLines();
+        }
+
+        /// <summary>
+        /// Test reading splitted lines from TextFile3.txt
+        /// </summary>
+        [Test]
+        public void ReadSplittedLinesFromTestFile3()
+        {
+            TextFileReader textFile = new TextFileReader("../../TestData/TextFile3.txt");
+            List<Pair<string>> items = textFile.ReadSplittedLines();
+
+            Pair<string> pairItems = items[0];
+
+            Assert.AreEqual(pairItems.Item1.ToString(), "1");
+            Assert.AreEqual(pairItems.Item2.ToString(), "2");
         }
     }
 }
