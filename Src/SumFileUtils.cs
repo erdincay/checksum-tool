@@ -1,7 +1,7 @@
 ﻿/*
 The MIT License
 
-Copyright (c) 2007 Ixonos Plc, Kimmo Varis <kimmo.varis@ixonos.com>
+Copyright (c) 2007-2008 Ixonos Plc, Kimmo Varis <kimmo.varis@ixonos.com>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -26,6 +26,7 @@ THE SOFTWARE.
 
 using System;
 using System.IO;
+using NUnit.Framework;
 
 namespace CheckSumTool
 {
@@ -51,7 +52,7 @@ namespace CheckSumTool
         /// </summary>
         SHA1,
     }
-    
+
     /// <summary>
     /// Utility methods for handlind checksum files.
     /// </summary>
@@ -63,6 +64,7 @@ namespace CheckSumTool
         /// <param name="path">Full path to the file.</param>
         /// <returns>File's type if it could be determined.</returns>
         /// <exception cref="ArgumentNullException">Path was null.</exception>
+        /// <exception cref="ArgumentException">Path was empty.</exception>
         /// <exception cref="FileNotfoundException">
         /// Given file was not found.
         ///</exception>
@@ -70,11 +72,14 @@ namespace CheckSumTool
         {
             if (path == null)
                 throw new ArgumentNullException(path);
-            
+            if (path == "")
+                throw new ArgumentException("Path is empty", "path");
+
             FileInfo fi = new FileInfo(path);
             if (!fi.Exists)
                 throw new FileNotFoundException("Cannot find the file", path);
-            
+
+            // First try checking for filename extension
             SumFileType fileType = SumFileType.Unknown;
             if (fi.Extension == ".md5")
                 fileType = SumFileType.MD5;
@@ -82,12 +87,14 @@ namespace CheckSumTool
                 fileType = SumFileType.SFV;
             else if (fi.Extension == ".sha1")
                 fileType = SumFileType.SHA1;
-            
+
+            // If we could not determine file type from filename extension,
+            // try to find some hints from filename itself.
             if (fileType == SumFileType.Unknown)
             {
                 string name = fi.Name;
                 name = name.ToLower();
-                
+
                 if (name.Contains("md5"))
                     fileType = SumFileType.MD5;
                 else if (name.Contains("sha1"))
@@ -96,6 +103,44 @@ namespace CheckSumTool
                     fileType = SumFileType.SFV;
             }
             return fileType;
+        }
+    }
+
+    /// <summary>
+    /// Unit test class for SumFileUtils.FindFileType()
+    /// </summary>
+    [TestFixture]
+    public class TestSumFileUtilsFindFileType
+    {
+        /// <summary>
+        /// Test we get expection from null argument.
+        /// </summary>
+        [Test]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void NullFilename()
+        {
+            SumFileType ft = SumFileUtils.FindFileType(null);
+        }
+
+        /// <summary>
+        /// Test we get exception from empty argument.
+        /// </summary>
+        [Test]
+        [ExpectedException(typeof(ArgumentException))]
+        public void EmptyFileName()
+        {
+            SumFileType ft = SumFileUtils.FindFileType("");
+        }
+
+        /// <summary>
+        /// Test we get exception from file that is not found.
+        /// </summary>
+        [Test]
+        [ExpectedException(typeof(FileNotFoundException))]
+        public void FileNotFound()
+        {
+            // Expect user doen't have this file..
+            SumFileType ft = SumFileUtils.FindFileType(@"C:\unique.txt");
         }
     }
 }
