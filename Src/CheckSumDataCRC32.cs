@@ -1,7 +1,7 @@
 ﻿/*
 The MIT License
 
-Copyright (c) 2007 Ixonos Plc, Kimmo Varis <kimmo.varis@ixonos.com>
+Copyright (c) 2007-2008 Ixonos Plc, Kimmo Varis <kimmo.varis@ixonos.com>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -36,7 +36,7 @@ namespace CheckSumTool
         /// <summary>
         /// Length of the CRC32 checksum (in bytes).
         /// </summary>
-        public static readonly uint Length = 4;
+        public static readonly int Length = 4;
 
         /// <summary>
         /// Constructor taking the checksum data as a byte array.

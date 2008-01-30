@@ -1,7 +1,7 @@
 ﻿/*
 The MIT License
 
-Copyright (c) 2007 Ixonos Plc, Kimmo Varis <kimmo.varis@ixonos.com>
+Copyright (c) 2007-2008 Ixonos Plc, Kimmo Varis <kimmo.varis@ixonos.com>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -36,8 +36,8 @@ namespace CheckSumTool
         /// <summary>
         ///  Length of the MD5 checksum data (in bytes).
         /// </summary>
-        public static readonly uint Length = 16;
-        
+        public static readonly int Length = 16;
+
         /// <summary>
         /// Constructor setting data as a byte array.
         /// </summary>
@@ -48,7 +48,7 @@ namespace CheckSumTool
                 throw new ArgumentException("data", "Invalid MD5 checksum");
             Set(data);
         }
-        
+
         /// <summary>
         /// Constructor setting data as a string.
         /// </summary>
