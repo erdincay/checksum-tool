@@ -42,7 +42,10 @@ namespace CheckSumTool
         /// <returns>Checksum.</returns>
         public byte[] Calculate(byte[] data)
         {
-            throw new NotImplementedException();
+            MemoryStream ms = new MemoryStream(data);
+            byte[] hexSum = Crc32.GetStreamCRC32(ms);
+            ms.Close();
+            return hexSum;
         }
 
         /// <summary>
@@ -64,7 +67,31 @@ namespace CheckSumTool
         /// <returns>true if data matches checksum, false otherwise.</returns>
         public bool Verify(byte[] data, byte[] sum)
         {
-            throw new NotImplementedException();
+            if (data == null)
+                throw new ArgumentNullException("data");
+            if (sum == null)
+                throw new ArgumentNullException("sum");
+
+            // CRC32 sum is 4 bytes
+            if (sum.Length != 4)
+                return false;
+
+            MemoryStream msData = new MemoryStream(data);
+            MemoryStream msSum = new MemoryStream(sum);
+
+            byte[] hexSum = Crc32.GetStreamCRC32(msData);
+            int ind = 0;
+            bool valid = true;
+            while (ind < hexSum.Length && valid)
+            {
+                if (hexSum[ind] != sum[ind])
+                    valid = false;
+                else
+                    ++ind;
+            }
+            msData.Close();
+            msSum.Close();
+            return valid;
         }
 
         /// <summary>
@@ -116,7 +143,7 @@ namespace CheckSumTool
         }
 
         /// <summary>
-        /// Test calculating CRC32 for TextFile1.txt
+        /// Test calculating CRC32 for TextFile1.txt using stream interface.
         /// </summary>
         [Test]
         public void CalculateFile1Stream()
@@ -134,6 +161,40 @@ namespace CheckSumTool
                 if (check[i] != File1Sum[i])
                 {
                     Assert.Fail("Result byte {0} does not match! Was {1:x2}, expected {2:x2}",
+                        i, check[i], File1Sum[i]);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Test calculating with null byte array.
+        /// </summary>
+        [Test]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void CalculateNullArray()
+        {
+            CRC32Sum sum = new CRC32Sum();
+            byte[] check = sum.Calculate((byte[])null);
+
+        }
+
+        /// <summary>
+        /// Test calculating CRC32 for TextFile1.txt using byte array interface.
+        /// </summary>
+        [Test]
+        public void CalculateFile1ByteArray()
+        {
+            CRC32Sum sum = new CRC32Sum();
+            byte[] array = File.ReadAllBytes("../../TestData/TextFile1.txt");
+            byte[] check = sum.Calculate(array);
+
+            Assert.IsNotNull(check);
+            Assert.AreEqual(4, check.Length);
+            for (int i = 0; i < File1Sum.Length; i++)
+            {
+                if (check[i] != File1Sum[i])
+                {
+                    Assert.Fail("Result byte {0} does not match! Was {1}, expected {2}",
                         i, check[i], File1Sum[i]);
                 }
             }
@@ -176,7 +237,30 @@ namespace CheckSumTool
         }
 
         /// <summary>
-        /// Test verifying TextFile1.txt
+        /// Test verifying null filedata.
+        /// </summary>
+        [Test]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void VerifyNullByteData()
+        {
+            CRC32Sum sum = new CRC32Sum();
+            bool correct = sum.Verify((byte[])null, new byte[4]);
+        }
+
+        /// <summary>
+        /// Test verifying null checksum.
+        /// </summary>
+        [Test]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void VerifyNullSumData()
+        {
+            byte[] fileArray = File.ReadAllBytes("../../TestData/TextFile1.txt");
+            CRC32Sum sum = new CRC32Sum();
+            bool correct = sum.Verify(fileArray, null);
+        }
+
+        /// <summary>
+        /// Test verifying TextFile1.txt using file stream.
         /// </summary>
         [Test]
         public void VerifyFile1Stream()
@@ -186,6 +270,18 @@ namespace CheckSumTool
             CRC32Sum sum = new CRC32Sum();
             bool correct = sum.Verify(file, File1Sum);
             file.Close();
+            Assert.IsTrue(correct);
+        }
+
+        /// <summary>
+        /// Test verifying TextFile1.txt using byte array interface.
+        /// </summary>
+        [Test]
+        public void VerifyFile1ByteArray()
+        {
+            byte[] fileArray = File.ReadAllBytes("../../TestData/TextFile1.txt");
+            CRC32Sum sum = new CRC32Sum();
+            bool correct = sum.Verify(fileArray, File1Sum);
             Assert.IsTrue(correct);
         }
 
