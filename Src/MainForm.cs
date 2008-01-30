@@ -30,6 +30,7 @@ using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 using System.Reflection;
+using System.Text;
 
 namespace CheckSumTool
 {
@@ -894,6 +895,39 @@ namespace CheckSumTool
             {
                 item.Selected = true;
             }
+        }
+
+        /// <summary>
+        /// Called when user selects Edit/Copy from main menu.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        void MainMenuEditCopyClick(object sender, EventArgs e)
+        {
+            CopySumsToClipboard();
+        }
+
+        /// <summary>
+        /// Copy calculated and selected checksums to clipboard with filenames.
+        /// </summary>
+        void CopySumsToClipboard()
+        {
+            ListView.SelectedIndexCollection selections = itemList.SelectedIndices;
+            int[] indices = new int[selections.Count];
+            StringBuilder selectedItems = new StringBuilder();
+
+            foreach (int selindex in selections)
+            {
+                string filename = itemList.Items[selindex].SubItems[(int)ListIndices.FileName].Text;
+                string sum = itemList.Items[selindex].SubItems[(int)ListIndices.CheckSum].Text;
+                if (filename.Length > 0 && sum.Length > 0)
+                    selectedItems.Append(string.Format("{0}\t{1}\n", sum, filename));
+            }
+
+            if (selectedItems.Length > 0)
+                Clipboard.SetText(selectedItems.ToString());
+            else
+                Clipboard.Clear();
         }
     }
 }
