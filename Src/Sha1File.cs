@@ -27,6 +27,7 @@ THE SOFTWARE.
 using System;
 using System.IO;
 using System.Collections.Generic;
+using NUnit.Framework;
 
 namespace CheckSumTool
 {
@@ -39,7 +40,7 @@ namespace CheckSumTool
         /// List where items are added.
         /// </summary>
         CheckSumFileList _list;
-        
+
         /// <summary>
         /// Set the list into which items are added.
         /// </summary>
@@ -48,7 +49,7 @@ namespace CheckSumTool
         {
             _list = list;
         }
-        
+
         /// <summary>
         /// Read items from a file.
         /// </summary>
@@ -58,21 +59,21 @@ namespace CheckSumTool
         {
             TextFileReader reader = new TextFileReader(path);
             List<Pair<string>> itemList = reader.ReadSplittedLines();
-            
+
             int items = 0;
             foreach (Pair<string> item in itemList)
             {
                 // TODO: must validity-check values!
                 string filename = item.Item2;
                 FileInfo fi = new FileInfo(filename);
-                string fullpath = Path.Combine(fi.DirectoryName, filename);
-                
+                string fullpath = Path.Combine(fi.DirectoryName, fi.Name);
+
                 _list.AddFile(fullpath, item.Item1);
                 ++items;
             }
             return items;
         }
-        
+
         /// <summary>
         /// Write items to the file.
         /// </summary>
@@ -91,31 +92,86 @@ namespace CheckSumTool
             prognameline += info.ProgramVersion;
             prognameline += Environment.NewLine;
             file.Write(prognameline);
-            
+
             // Write program url as comment
             string urlline = "; ";
             urlline += info.ProgramUrl;
             urlline += Environment.NewLine;
             file.Write(urlline);
-            
+
             // Write file creation time as comment
             string timeline = "; Created ";
             timeline += Convert.ToString(DateTime.Now);
             timeline += Environment.NewLine;
             file.Write(timeline);
-            
+
             for (int i = 0; i < _list.FileList.Count; i++)
             {
                 string filename = _list.FileList[i].FileName;
                 string checksum = _list.FileList[i].CheckSum.ToString();
+                string relativePath = _list.FileList[i].FullPath.Replace(Path.GetDirectoryName(path) + Path.DirectorySeparatorChar, "");
+                relativePath = relativePath.Replace(@"\", "/");
 
                 file.Write(checksum);
                 file.Write(separator);
-                file.Write(filename);
+                file.Write(relativePath);
                 file.Write(Environment.NewLine);
             }
             file.Flush();
             file.Close();
+        }
+    }
+
+    [TestFixture]
+    public class TestSha1File
+    {
+        /// <summary>
+        /// Test reading file from C:\Projects\test.sha1
+        /// </summary>
+        [Test]
+        public void ReadFile()
+        {
+            SumDocument document = new SumDocument();
+            bool success = document.LoadFile(@"../../TestData/UnitTestFolder/TestFile1.sha1", SumFileType.SHA1);
+
+            Assert.AreEqual(success, true);
+        }
+
+         /// <summary>
+        /// Trying read file from C:\Projects\test.sh1
+        /// Throw FileNotFoundException
+        /// </summary>
+        [Test]
+        [ExpectedException(typeof(FileNotFoundException))]
+        public void ReadFileFileNotFoundException()
+        {
+            SumDocument document = new SumDocument();
+            bool success = document.LoadFile(@"../../TestData/UnitTestFolder/TestFile1.sh1", SumFileType.SHA1);
+        }
+
+        /// <summary>
+        /// Test reading file from C:\Projects\test.sha1
+        /// </summary>
+        [Test]
+        public void ReadFileIsExcists()
+        {
+            SumDocument document = new SumDocument();
+
+            string filePath = @"../../TestData/UnitTestFolder/TestFile1.sha1";
+
+            SumFileType fileType;
+            fileType = SumFileUtils.FindFileType(filePath);
+
+            document.Items.RemoveAll();
+
+            bool success = document.LoadFile(filePath, fileType);
+
+            foreach (CheckSumItem item in document.Items.FileList)
+            {
+                string fullPath = item.FullPath.Replace(@"Build\Debug", @"TestData\UnitTestFolder");
+
+                Assert.AreEqual(File.Exists(fullPath), true);
+            }
         }
     }
 }
