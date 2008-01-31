@@ -5,5 +5,8 @@ People who have contributed to CheckSum Tool
 Project admin, main developer:
 Kimmo Varis (kimmo.varis at ixonos.com)
 
+Developers:
+Jalmari Lehto (jalmari.lehto at ixonos.com)
+
 Contributors:
 Tim Gerundt (tim at gerundt.de)
