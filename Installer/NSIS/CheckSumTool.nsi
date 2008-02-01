@@ -81,6 +81,13 @@ Section "User Manual" SEC02
   File "..\..\Build\Release\Manual\Images\MainWindow1.png"
 SectionEnd
 
+Section "Docs" SEC03
+  SetOutPath "$INSTDIR\Docs"
+  SetOverwrite ifnewer
+  File "..\..\Documents\ChangeLog.txt"
+  File "..\..\Documents\Contributors.txt"
+SectionEnd
+
 Section -AdditionalIcons
   WriteIniStr "$INSTDIR\${PRODUCT_NAME}.url" "InternetShortcut" "URL" "${PRODUCT_WEB_SITE}"
   CreateShortCut "$SMPROGRAMS\CheckSum Tool\Website.lnk" "$INSTDIR\${PRODUCT_NAME}.url"
