@@ -552,7 +552,7 @@ namespace CheckSumTool
                                 _document.Items.FileList.Count);
                         statusbarLabelCount.Text = statustext;
 
-                        string filename = Path.GetFileName(dlg.FileName);
+                        string filename = Path.GetFullPath(dlg.FileName);
                         SetFilename(filename);
                     }
                     else
