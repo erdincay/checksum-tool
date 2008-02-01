@@ -47,6 +47,14 @@ namespace CheckSumTool
         /// Filename of the user manual.
         /// </summary>
         static readonly string ManualFile = "Manual.html";
+        /// <summary>
+        /// Relative path to folder containing documents.
+        /// </summary>
+        static readonly string DocsFolder = "Docs";
+        /// <summary>
+        /// Filename for the contributors list file.
+        /// </summary>
+        static readonly string ContributorsFile = "Contributors.txt";
 
         /// <summary>
         /// Indices for list view columns
@@ -825,6 +833,21 @@ namespace CheckSumTool
             string manual = Path.Combine(programPath, manualRelative);
             return manual;
         }
+        
+        /// <summary>
+        /// Get full path to the contributors list file.
+        /// </summary>
+        /// <returns>Full path to the contributors list file.</returns>
+        static string GetContributorsFile()
+        {
+            string programPath = Assembly.GetExecutingAssembly().Location;
+            string programFile = Path.GetFileName(programPath);
+            int index = programPath.LastIndexOf(programFile);
+            programPath = programPath.Remove(index);
+            string contribsRelative = Path.Combine(DocsFolder, ContributorsFile);
+            string contributors = Path.Combine(programPath, contribsRelative);
+            return contributors;
+        }
 
         /// <summary>
         /// Show the user manual for user in the browser.
@@ -857,6 +880,26 @@ namespace CheckSumTool
         void MainMenuHelpManualClick(object sender, EventArgs e)
         {
             OpenManual();
+        }
+        
+        /// <summary>
+        /// Opens a list of contributors.
+        /// </summary>
+        static void OpenContributors()
+        {
+            string contribPath = GetContributorsFile();
+            FileInfo fi = new FileInfo(contribPath);
+            if (fi.Exists)
+            {
+                System.Diagnostics.Process.Start(fi.FullName);
+            }
+            else
+            {
+                string message = string.Format("Cannot find the contributors file:\n{0}",
+                        contribPath);
+                MessageBox.Show(message, "CheckSum Tool", MessageBoxButtons.OK,
+                                MessageBoxIcon.Error);
+            }
         }
 
         /// <summary>
@@ -931,6 +974,16 @@ namespace CheckSumTool
                 Clipboard.SetText(selectedItems.ToString());
             else
                 Clipboard.Clear();
+        }
+        
+        /// <summary>
+        /// Called when user selects Help / Contributors from main menu.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        void MainMenuHelpContributorsClick(object sender, EventArgs e)
+        {
+            OpenContributors();
         }
     }
 }

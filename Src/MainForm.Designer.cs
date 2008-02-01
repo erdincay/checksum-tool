@@ -72,6 +72,7 @@ namespace CheckSumTool
         	this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
         	this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
         	this.mainMenuEditMenu = new System.Windows.Forms.ToolStripMenuItem();
+        	this.mainMenuEditCopy = new System.Windows.Forms.ToolStripMenuItem();
         	this.mainMenuEditClear = new System.Windows.Forms.ToolStripMenuItem();
         	this.mainMenuEditRemoveSelected = new System.Windows.Forms.ToolStripMenuItem();
         	this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
@@ -92,7 +93,7 @@ namespace CheckSumTool
         	this.statusStrip1 = new System.Windows.Forms.StatusStrip();
         	this.statusbarLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
         	this.statusbarLabelCount = new System.Windows.Forms.ToolStripStatusLabel();
-        	this.mainMenuEditCopy = new System.Windows.Forms.ToolStripMenuItem();
+        	this.mainMenuHelpContributors = new System.Windows.Forms.ToolStripMenuItem();
         	this.menuStrip1.SuspendLayout();
         	this.toolStripMain.SuspendLayout();
         	this.statusStrip1.SuspendLayout();
@@ -251,6 +252,15 @@ namespace CheckSumTool
         	this.mainMenuEditMenu.Size = new System.Drawing.Size(37, 20);
         	this.mainMenuEditMenu.Text = "&Edit";
         	// 
+        	// mainMenuEditCopy
+        	// 
+        	this.mainMenuEditCopy.Name = "mainMenuEditCopy";
+        	this.mainMenuEditCopy.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
+        	this.mainMenuEditCopy.Size = new System.Drawing.Size(190, 22);
+        	this.mainMenuEditCopy.Text = "Copy";
+        	this.mainMenuEditCopy.ToolTipText = "Copy selected items to clipboard";
+        	this.mainMenuEditCopy.Click += new System.EventHandler(this.MainMenuEditCopyClick);
+        	// 
         	// mainMenuEditClear
         	// 
         	this.mainMenuEditClear.Name = "mainMenuEditClear";
@@ -313,6 +323,7 @@ namespace CheckSumTool
         	// 
         	this.aboutToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
         	        	        	this.mainMenuHelpManual,
+        	        	        	this.mainMenuHelpContributors,
         	        	        	this.mainMenuHelpAbout});
         	this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
         	this.aboutToolStripMenuItem.Size = new System.Drawing.Size(40, 20);
@@ -431,14 +442,13 @@ namespace CheckSumTool
         	this.statusbarLabelCount.Size = new System.Drawing.Size(109, 17);
         	this.statusbarLabelCount.Text = "toolStripStatusLabel1";
         	// 
-        	// mainMenuEditCopy
+        	// mainMenuHelpContributors
         	// 
-        	this.mainMenuEditCopy.Name = "mainMenuEditCopy";
-        	this.mainMenuEditCopy.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
-        	this.mainMenuEditCopy.Size = new System.Drawing.Size(190, 22);
-        	this.mainMenuEditCopy.Text = "Copy";
-        	this.mainMenuEditCopy.ToolTipText = "Copy selected items to clipboard";
-        	this.mainMenuEditCopy.Click += new System.EventHandler(this.MainMenuEditCopyClick);
+        	this.mainMenuHelpContributors.Name = "mainMenuHelpContributors";
+        	this.mainMenuHelpContributors.Size = new System.Drawing.Size(189, 22);
+        	this.mainMenuHelpContributors.Text = "&Contributors";
+        	this.mainMenuHelpContributors.ToolTipText = "Shows a list of contributors";
+        	this.mainMenuHelpContributors.Click += new System.EventHandler(this.MainMenuHelpContributorsClick);
         	// 
         	// MainForm
         	// 
@@ -464,6 +474,7 @@ namespace CheckSumTool
         	this.ResumeLayout(false);
         	this.PerformLayout();
         }
+        private System.Windows.Forms.ToolStripMenuItem mainMenuHelpContributors;
         private System.Windows.Forms.ToolStripMenuItem mainMenuEditCopy;
         private System.Windows.Forms.ToolStripMenuItem mainMenuEditSelectAll;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
