@@ -5,6 +5,7 @@ CheckSum Tool 0.4.0
   Add Copy -item to Edit-menu (copies checksums to clipboard)
   Add Help / Contributors menu item to main menu for opening contributors list
   Add missing mnemonic characters to menu items
+  Bugfix: First load of other than default (SHA-1) sum file failed to load sums
 
 CheckSum Tool 0.3.0 - 2008-01-07 (r107)
   Manual: Add initial version of user manual (in html format)

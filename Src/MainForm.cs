@@ -740,15 +740,8 @@ namespace CheckSumTool
         /// <param name="e"></param>
         void ToolBarSumTypesSelectionChanged(object sender, EventArgs e)
         {
-             if (_document.Items.HasCheckSums)
-                ClearSums();
-
             int sumSelection = toolStripComboSumTypes.SelectedIndex;
             SetCurrentSumType((CheckSumType) sumSelection);
-
-            // Clear filename so we ask it while saving
-            // and don't override file with wrong (old) name.
-            SetFilename("");
         }
 
         /// <summary>
@@ -757,8 +750,19 @@ namespace CheckSumTool
         /// <param name="sumtype">Checksumtype to set as current.</param>
         void SetCurrentSumType(CheckSumType sumtype)
         {
-            _document.SumType = sumtype;
-            SetListSumType(sumtype);
+            if (sumtype != _document.SumType)
+            {
+                // Clear existing sums as they are now of wrong type
+                if (_document.Items.HasCheckSums)
+                    ClearSums();
+
+                _document.SumType = sumtype;
+                SetListSumType(sumtype);
+
+                // Clear filename so we ask it while saving
+                // and don't override file with wrong (old) name.
+                SetFilename("");
+            }
         }
 
         /// <summary>
