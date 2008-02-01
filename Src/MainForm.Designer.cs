@@ -82,6 +82,7 @@ namespace CheckSumTool
         	this.mainMenuChecksumsVerifyAll = new System.Windows.Forms.ToolStripMenuItem();
         	this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
         	this.mainMenuHelpManual = new System.Windows.Forms.ToolStripMenuItem();
+        	this.mainMenuHelpContributors = new System.Windows.Forms.ToolStripMenuItem();
         	this.mainMenuHelpAbout = new System.Windows.Forms.ToolStripMenuItem();
         	this.toolStripMain = new System.Windows.Forms.ToolStrip();
         	this.toolStripBtnOpen = new System.Windows.Forms.ToolStripButton();
@@ -93,7 +94,6 @@ namespace CheckSumTool
         	this.statusStrip1 = new System.Windows.Forms.StatusStrip();
         	this.statusbarLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
         	this.statusbarLabelCount = new System.Windows.Forms.ToolStripStatusLabel();
-        	this.mainMenuHelpContributors = new System.Windows.Forms.ToolStripMenuItem();
         	this.menuStrip1.SuspendLayout();
         	this.toolStripMain.SuspendLayout();
         	this.statusStrip1.SuspendLayout();
@@ -171,7 +171,7 @@ namespace CheckSumTool
         	this.mainMenuFileNew.Name = "mainMenuFileNew";
         	this.mainMenuFileNew.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
         	this.mainMenuFileNew.Size = new System.Drawing.Size(163, 22);
-        	this.mainMenuFileNew.Text = "New";
+        	this.mainMenuFileNew.Text = "&New";
         	this.mainMenuFileNew.ToolTipText = "Create new checksum file";
         	this.mainMenuFileNew.Click += new System.EventHandler(this.MainMenuFileNewClick);
         	// 
@@ -183,7 +183,7 @@ namespace CheckSumTool
         	this.mainMenuFileOpen.Name = "mainMenuFileOpen";
         	this.mainMenuFileOpen.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
         	this.mainMenuFileOpen.Size = new System.Drawing.Size(163, 22);
-        	this.mainMenuFileOpen.Text = "Open...";
+        	this.mainMenuFileOpen.Text = "&Open...";
         	this.mainMenuFileOpen.ToolTipText = "Open checksum file";
         	this.mainMenuFileOpen.Click += new System.EventHandler(this.MenuFileOpenClick);
         	// 
@@ -194,7 +194,7 @@ namespace CheckSumTool
         	this.mainMenuFileSave.Name = "mainMenuFileSave";
         	this.mainMenuFileSave.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
         	this.mainMenuFileSave.Size = new System.Drawing.Size(163, 22);
-        	this.mainMenuFileSave.Text = "Save...";
+        	this.mainMenuFileSave.Text = "&Save...";
         	this.mainMenuFileSave.ToolTipText = "Save checksum file";
         	this.mainMenuFileSave.Click += new System.EventHandler(this.MenuFileSaveClick);
         	// 
@@ -202,7 +202,7 @@ namespace CheckSumTool
         	// 
         	this.mainMenuFileSaveAs.Name = "mainMenuFileSaveAs";
         	this.mainMenuFileSaveAs.Size = new System.Drawing.Size(163, 22);
-        	this.mainMenuFileSaveAs.Text = "Save As...";
+        	this.mainMenuFileSaveAs.Text = "Sa&ve As...";
         	this.mainMenuFileSaveAs.ToolTipText = "Save the file with new name";
         	this.mainMenuFileSaveAs.Click += new System.EventHandler(this.MainMenuFileSaveAsClick);
         	// 
@@ -215,7 +215,7 @@ namespace CheckSumTool
         	// 
         	this.mainMenuFileAddFile.Name = "mainMenuFileAddFile";
         	this.mainMenuFileAddFile.Size = new System.Drawing.Size(163, 22);
-        	this.mainMenuFileAddFile.Text = "Add Files...";
+        	this.mainMenuFileAddFile.Text = "&Add Files...";
         	this.mainMenuFileAddFile.ToolTipText = "Add files to checksum list";
         	this.mainMenuFileAddFile.Click += new System.EventHandler(this.MainMenuFileAddFileClick);
         	// 
@@ -223,7 +223,7 @@ namespace CheckSumTool
         	// 
         	this.mainMenuFileAddFolder.Name = "mainMenuFileAddFolder";
         	this.mainMenuFileAddFolder.Size = new System.Drawing.Size(163, 22);
-        	this.mainMenuFileAddFolder.Text = "Add Folder...";
+        	this.mainMenuFileAddFolder.Text = "A&dd Folder...";
         	this.mainMenuFileAddFolder.ToolTipText = "Add files in folder to checsum list";
         	this.mainMenuFileAddFolder.Click += new System.EventHandler(this.MainMenuFileAddFolderClick);
         	// 
@@ -257,7 +257,7 @@ namespace CheckSumTool
         	this.mainMenuEditCopy.Name = "mainMenuEditCopy";
         	this.mainMenuEditCopy.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
         	this.mainMenuEditCopy.Size = new System.Drawing.Size(190, 22);
-        	this.mainMenuEditCopy.Text = "Copy";
+        	this.mainMenuEditCopy.Text = "&Copy";
         	this.mainMenuEditCopy.ToolTipText = "Copy selected items to clipboard";
         	this.mainMenuEditCopy.Click += new System.EventHandler(this.MainMenuEditCopyClick);
         	// 
@@ -265,7 +265,7 @@ namespace CheckSumTool
         	// 
         	this.mainMenuEditClear.Name = "mainMenuEditClear";
         	this.mainMenuEditClear.Size = new System.Drawing.Size(190, 22);
-        	this.mainMenuEditClear.Text = "&Clear";
+        	this.mainMenuEditClear.Text = "Cl&ear";
         	this.mainMenuEditClear.Click += new System.EventHandler(this.ClearToolStripMenuItemClick);
         	// 
         	// mainMenuEditRemoveSelected
@@ -287,7 +287,7 @@ namespace CheckSumTool
         	this.mainMenuEditSelectAll.Name = "mainMenuEditSelectAll";
         	this.mainMenuEditSelectAll.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.A)));
         	this.mainMenuEditSelectAll.Size = new System.Drawing.Size(190, 22);
-        	this.mainMenuEditSelectAll.Text = "Select All";
+        	this.mainMenuEditSelectAll.Text = "&Select All";
         	this.mainMenuEditSelectAll.ToolTipText = "Select all items in the list";
         	this.mainMenuEditSelectAll.Click += new System.EventHandler(this.MainMenuEditSelectAllClick);
         	// 
@@ -337,6 +337,14 @@ namespace CheckSumTool
         	this.mainMenuHelpManual.Text = "&User Manual";
         	this.mainMenuHelpManual.ToolTipText = "Open user manual";
         	this.mainMenuHelpManual.Click += new System.EventHandler(this.MainMenuHelpManualClick);
+        	// 
+        	// mainMenuHelpContributors
+        	// 
+        	this.mainMenuHelpContributors.Name = "mainMenuHelpContributors";
+        	this.mainMenuHelpContributors.Size = new System.Drawing.Size(189, 22);
+        	this.mainMenuHelpContributors.Text = "&Contributors";
+        	this.mainMenuHelpContributors.ToolTipText = "Shows a list of contributors";
+        	this.mainMenuHelpContributors.Click += new System.EventHandler(this.MainMenuHelpContributorsClick);
         	// 
         	// mainMenuHelpAbout
         	// 
@@ -441,14 +449,6 @@ namespace CheckSumTool
         	this.statusbarLabelCount.Name = "statusbarLabelCount";
         	this.statusbarLabelCount.Size = new System.Drawing.Size(109, 17);
         	this.statusbarLabelCount.Text = "toolStripStatusLabel1";
-        	// 
-        	// mainMenuHelpContributors
-        	// 
-        	this.mainMenuHelpContributors.Name = "mainMenuHelpContributors";
-        	this.mainMenuHelpContributors.Size = new System.Drawing.Size(189, 22);
-        	this.mainMenuHelpContributors.Text = "&Contributors";
-        	this.mainMenuHelpContributors.ToolTipText = "Shows a list of contributors";
-        	this.mainMenuHelpContributors.Click += new System.EventHandler(this.MainMenuHelpContributorsClick);
         	// 
         	// MainForm
         	// 

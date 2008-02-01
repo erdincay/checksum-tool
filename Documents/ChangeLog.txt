@@ -4,6 +4,7 @@ CheckSum Tool 0.4.0
   Add Select All to Edit-menu (also CTRL+A shortcut key)
   Add Copy -item to Edit-menu (copies checksums to clipboard)
   Add Help / Contributors menu item to main menu for opening contributors list
+  Add missing mnemonic characters to menu items
 
 CheckSum Tool 0.3.0 - 2008-01-07 (r107)
   Manual: Add initial version of user manual (in html format)
