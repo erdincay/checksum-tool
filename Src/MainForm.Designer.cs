@@ -423,7 +423,7 @@ namespace CheckSumTool
         	this.toolStripComboSumTypes.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
         	this.toolStripComboSumTypes.Name = "toolStripComboSumTypes";
         	this.toolStripComboSumTypes.Size = new System.Drawing.Size(75, 25);
-        	this.toolStripComboSumTypes.SelectedIndexChanged += new System.EventHandler(this.ToolStripComboSumTypesSelectedIndexChanged);
+        	this.toolStripComboSumTypes.SelectedIndexChanged += new System.EventHandler(this.ToolBarSumTypesSelectionChanged);
         	// 
         	// statusStrip1
         	// 

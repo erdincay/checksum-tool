@@ -738,7 +738,7 @@ namespace CheckSumTool
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        void ToolStripComboSumTypesSelectedIndexChanged(object sender, EventArgs e)
+        void ToolBarSumTypesSelectionChanged(object sender, EventArgs e)
         {
              if (_document.Items.HasCheckSums)
                 ClearSums();
