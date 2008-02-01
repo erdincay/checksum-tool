@@ -227,6 +227,12 @@ $Id$
         <copy file="${build.dir}${executable.name}" todir="${dist.dir}" />
         <copy file="${svn.checkout.dir}/Documents/Readme.txt" todir="${dist.dir}" />
         <copy file="${svn.checkout.dir}/Documents/COPYING" todir="${dist.dir}" />
+        
+        <mkdir dir="${dist.dir}/Docs" />
+        <copy file="${svn.checkout.dir}/Documents/ChangeLog.txt"
+              todir="${dist.dir}/Docs" />
+        <copy file="${svn.checkout.dir}/Documents/Contributors.txt"
+              todir="${dist.dir}/Docs" />
 
         <mkdir dir="${dist.dir}/Manual" />
         <copy todir="${dist.dir}/Manual">
