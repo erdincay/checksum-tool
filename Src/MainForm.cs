@@ -750,6 +750,10 @@ namespace CheckSumTool
         /// <param name="sumtype">Checksumtype to set as current.</param>
         void SetCurrentSumType(CheckSumType sumtype)
         {
+            // If sumtype already matches, it means we are loading sum
+            // file and so don't want to clear existing items!
+            // TODO: This is a bit hacky fix - we'll need to handle this
+            // sum type change in some better way.
             if (sumtype != _document.SumType)
             {
                 // Clear existing sums as they are now of wrong type
@@ -757,12 +761,13 @@ namespace CheckSumTool
                     ClearSums();
 
                 _document.SumType = sumtype;
-                SetListSumType(sumtype);
-
-                // Clear filename so we ask it while saving
-                // and don't override file with wrong (old) name.
-                SetFilename("");
             }
+
+            SetListSumType(sumtype);
+
+            // Clear filename so we ask it while saving
+            // and don't override file with wrong (old) name.
+            SetFilename("");
         }
 
         /// <summary>
