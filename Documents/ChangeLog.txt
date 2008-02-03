@@ -6,6 +6,7 @@ CheckSum Tool 0.4.0
   Add Help / Contributors menu item to main menu for opening contributors list
   Add missing mnemonic characters to menu items
   Installer: Include ChangeLog.txt and Contributors.txt in installer.
+  Installer: Show license for users.
   Bugfix: First load of other than default (SHA-1) sum file failed to load sums
 
 CheckSum Tool 0.3.0 - 2008-01-07 (r107)
