@@ -56,10 +56,6 @@ InstallDirRegKey HKLM "${PRODUCT_DIR_REGKEY}" ""
 ShowInstDetails show
 ShowUnInstDetails show
 
-; Show MIT licence, don't force accepting it
-LicenseData "..\..\Documents\COPYING"
-LicenseForceSelection off
-
 ; At first, check that required dotnet version is installed
 Function .onInit
   call IsDotNetInstalledAdv
