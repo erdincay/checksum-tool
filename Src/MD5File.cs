@@ -27,6 +27,7 @@ THE SOFTWARE.
 using System;
 using System.IO;
 using System.Collections.Generic;
+using NUnit.Framework;
 
 namespace CheckSumTool
 {
@@ -41,7 +42,7 @@ namespace CheckSumTool
         /// List where items are added.
         /// </summary>
         CheckSumFileList _list;
-        
+
         /// <summary>
         /// Set the list into which items are added.
         /// </summary>
@@ -50,7 +51,7 @@ namespace CheckSumTool
         {
             _list = list;
         }
-        
+
         /// <summary>
         /// Read items from a file.
         /// </summary>
@@ -61,7 +62,7 @@ namespace CheckSumTool
             TextFileReader reader = new TextFileReader(path);
             char[] separators = new char[] {'|', };
             List<Pair<string>> itemList = reader.ReadSplittedLines(separators);
-            
+
             int items = 0;
             foreach (Pair<string> item in itemList)
             {
@@ -69,13 +70,13 @@ namespace CheckSumTool
                 string filename = item.Item2;
                 FileInfo fi = new FileInfo(filename);
                 string fullpath = Path.Combine(fi.DirectoryName, filename);
-                
+
                 _list.AddFile(fullpath, item.Item1);
                 ++items;
             }
             return items;
         }
-        
+
         /// <summary>
         /// Write items to the file.
         /// </summary>
@@ -94,19 +95,19 @@ namespace CheckSumTool
             prognameline += info.ProgramVersion;
             prognameline += Environment.NewLine;
             file.Write(prognameline);
-            
+
             // Write url as comment
             string urlline = "; ";
             urlline += info.ProgramUrl;
             urlline += Environment.NewLine;
             file.Write(urlline);
-            
+
             // Write file creation time as comment
             string timeline = "; Created ";
             timeline += Convert.ToString(DateTime.Now);
             timeline += Environment.NewLine;
             file.Write(timeline);
-            
+
             for (int i = 0; i < _list.FileList.Count; i++)
             {
                 string filename = _list.FileList[i].FileName;
@@ -119,6 +120,138 @@ namespace CheckSumTool
             }
             file.Flush();
             file.Close();
+        }
+    }
+
+    [TestFixture]
+    public class TestMD5File
+    {
+        // Precalculated MD5-checkSum
+        string[] _checkSum = {"78cf91daf373e286415c36a8b035dba9",
+                              "e76f8a2f7ae08dfa86df819e7d7639c3",
+                              "9f089d9a25ea55c459680009910bec73" };
+
+        int _testFile1RowCount = 3;
+
+        /// <summary>
+        /// Test reading file from TestFile1.md5
+        /// </summary>
+        [Test]
+        public void ReadFileIsExcists()
+        {
+            SumDocument document = new SumDocument();
+
+            string filePath = @"../../TestData/UnitTestFolder/TestFile1.md5";
+
+            SumFileType fileType;
+            fileType = SumFileUtils.FindFileType(filePath);
+
+            document.Items.RemoveAll();
+
+            bool success = document.LoadFile(filePath, fileType);
+
+            foreach (CheckSumItem item in document.Items.FileList)
+            {
+                string checkSum = item.CheckSum.ToString();
+                string fullPath = item.FullPath.Replace(@"Build\Debug", @"TestData\UnitTestFolder");
+
+                Assert.AreEqual(File.Exists(fullPath), true);
+            }
+        }
+
+        /// <summary>
+        /// Test reading file TestFile1.md5 and checking checkSum
+        /// </summary>
+        [Test]
+        public void ReadFileAndCheckCheckSum()
+        {
+            SumDocument document = new SumDocument();
+
+            string filePath = @"../../TestData/UnitTestFolder/TestFile1.md5";
+
+            SumFileType fileType;
+            fileType = SumFileUtils.FindFileType(filePath);
+
+            document.Items.RemoveAll();
+
+            bool success = document.LoadFile(filePath, fileType);
+
+            int i = 0;
+            foreach (CheckSumItem item in document.Items.FileList)
+            {
+                string checkSum = item.CheckSum.ToString();
+
+                Assert.AreEqual(checkSum, _checkSum[i]);
+                i++;
+            }
+        }
+
+        /// <summary>
+        /// Test reading  not standard file NotStandardTestFile1.md5 and checking checkSum
+        /// Exception -> CheckSumItem.cs -> SetSum
+        /// </summary>
+        [Test]
+        [ExpectedException(typeof(NotImplementedException))]
+        public void ReadNotStantardFile()
+        {
+            SumDocument document = new SumDocument();
+
+            string filePath = @"../../TestData/UnitTestFolder/NotStandardTestFile1.md5";
+
+            SumFileType fileType;
+            fileType = SumFileUtils.FindFileType(filePath);
+
+            document.Items.RemoveAll();
+
+            bool success = document.LoadFile(filePath, fileType);
+
+            int i = 0;
+            foreach (CheckSumItem item in document.Items.FileList)
+            {
+                string checkSum = item.CheckSum.ToString();
+
+                Assert.AreEqual(checkSum, _checkSum[i]);
+                i++;
+            }
+        }
+
+        /// <summary>
+        /// Test reading file TestFile1.dat
+        /// </summary>
+        [Test]
+        [ExpectedException(typeof(NotImplementedException))]
+        public void ReadDatFile()
+        {
+            SumDocument document = new SumDocument();
+
+            string filePath = @"../../TestData/UnitTestFolder/TestFile1.dat";
+
+            SumFileType fileType;
+            fileType = SumFileUtils.FindFileType(filePath);
+
+            document.Items.RemoveAll();
+
+            bool success = document.LoadFile(filePath, fileType);
+        }
+
+        /// <summary>
+        /// Test reading file TestFile1.md5 and checking checkSum
+        /// </summary>
+        [Test]
+        public void ReadFileAndCheckRowCount()
+        {
+            SumDocument document = new SumDocument();
+
+            string filePath = @"../../TestData/UnitTestFolder/TestFile1.md5";
+
+            SumFileType fileType;
+            fileType = SumFileUtils.FindFileType(filePath);
+
+            document.Items.RemoveAll();
+
+            bool success = document.LoadFile(filePath, fileType);
+
+            Assert.AreEqual(_testFile1RowCount, document.Items.Count);
         }
     }
 }

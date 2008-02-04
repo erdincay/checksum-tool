@@ -125,6 +125,16 @@ namespace CheckSumTool
     [TestFixture]
     public class TestSha1File
     {
+        // Precalculated MD5-checkSum
+        string[] _checkSum = {"94a3225c6bac573a06da75b05bcf6de59f65db2c",
+                              "3fa6b918ad3fb6ac645cdd3caa17cb6d1492c99b",
+                              "9f88f5c451feb859ff48ffe6c613437ac25c2b01",
+                              "d3486ae9136e7856bc42212385ea797094475802",
+                              "c9094305e83cb09ff11a8477e99d4ebf499bc74f",
+                              "48332327f98549fd2782ebc4622981cc99514067"};
+
+        int _testFile1RowCount = 6;
+
         /// <summary>
         /// Test reading file from C:\Projects\test.sha1
         /// </summary>
@@ -172,6 +182,101 @@ namespace CheckSumTool
 
                 Assert.AreEqual(File.Exists(fullPath), true);
             }
+        }
+
+        /// <summary>
+        /// Test reading file TestFile1.sha1 and checking checkSum
+        /// </summary>
+        [Test]
+        public void ReadFileAndCheckCheckSum()
+        {
+            SumDocument document = new SumDocument();
+
+            string filePath = @"../../TestData/UnitTestFolder/TestFile1.sha1";
+
+            SumFileType fileType;
+            fileType = SumFileUtils.FindFileType(filePath);
+
+            document.Items.RemoveAll();
+
+            bool success = document.LoadFile(filePath, fileType);
+
+            int i = 0;
+            foreach (CheckSumItem item in document.Items.FileList)
+            {
+                string checkSum = item.CheckSum.ToString();
+
+                Assert.AreEqual(checkSum, _checkSum[i]);
+                i++;
+            }
+        }
+        /// <summary>
+        /// Test reading not standard file NotStandardTestFile1.sha1 and checking checkSum
+        /// Exception -> CheckSumItem.cs -> SetSum
+        /// </summary>
+        [Test]
+        [ExpectedException(typeof(NotImplementedException))]
+        public void ReadNotStantardFile()
+        {
+            SumDocument document = new SumDocument();
+
+            string filePath = @"../../TestData/UnitTestFolder/NotStandardTestFile1.sha1";
+
+            SumFileType fileType;
+            fileType = SumFileUtils.FindFileType(filePath);
+
+            document.Items.RemoveAll();
+
+            bool success = document.LoadFile(filePath, fileType);
+
+            int i = 0;
+            foreach (CheckSumItem item in document.Items.FileList)
+            {
+                string checkSum = item.CheckSum.ToString();
+
+                Assert.AreEqual(checkSum, _checkSum[i]);
+                i++;
+            }
+        }
+
+        /// <summary>
+        /// Test reading file TestFile1.dat
+        /// It´s not sha1 syntax file.
+        /// </summary>
+        [Test]
+        [ExpectedException(typeof(NotImplementedException))]
+        public void ReadDatFile()
+        {
+            SumDocument document = new SumDocument();
+
+            string filePath = @"../../TestData/UnitTestFolder/TestFile1.dat";
+
+            SumFileType fileType;
+            fileType = SumFileUtils.FindFileType(filePath);
+
+            document.Items.RemoveAll();
+
+            bool success = document.LoadFile(filePath, fileType);
+        }
+
+        /// <summary>
+        /// Test reading file TestFile1.md5 and checking checkSum
+        /// </summary>
+        [Test]
+        public void ReadFileAndCheckRowCount()
+        {
+            SumDocument document = new SumDocument();
+
+            string filePath = @"../../TestData/UnitTestFolder/TestFile1.sha1";
+
+            SumFileType fileType;
+            fileType = SumFileUtils.FindFileType(filePath);
+
+            document.Items.RemoveAll();
+
+            bool success = document.LoadFile(filePath, fileType);
+
+            Assert.AreEqual(_testFile1RowCount, document.Items.Count);
         }
     }
 }
