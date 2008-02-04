@@ -116,19 +116,26 @@ namespace CheckSumTool
                 // (not calculated yet?) just ignore the item. Or maybe we
                 // should calculate checksum first?
                 if (ci.CheckSum == null)
+                {
+                    verifysucceeded = false;
                     continue;
+                }
 
                 // Check if fhe file is found and accessible
                 try
                 {
                     FileInfo fi = new FileInfo(ci.FullPath);
                     if (!fi.Exists)
+                    {
+                        verifysucceeded = false;
                         continue;
+                    }
                 }
                 catch
                 {
                     // Ignore non-existing and non-accessible files
                     // TODO: Should we inform user?
+                    verifysucceeded = false;
                     continue;
                 }
 

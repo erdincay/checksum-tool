@@ -5,6 +5,7 @@ CheckSum Tool 0.4.0
   Add Copy -item to Edit-menu (copies checksums to clipboard)
   Add Help / Contributors menu item to main menu for opening contributors list
   Add missing mnemonic characters to menu items
+  Show error message for items not having checksum or file not found when verifying
   Installer: Include ChangeLog.txt and Contributors.txt in installer.
   Installer: Add version resource info for installer executable file.
   Bugfix: First load of other than default (SHA-1) sum file failed to load sums
