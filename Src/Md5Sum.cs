@@ -173,7 +173,7 @@ namespace CheckSumTool
         [Test]
         public void CalculateFromTestFile1()
         {
-             Md5Sum sum = new Md5Sum();
+            Md5Sum sum = new Md5Sum();
             Assert.IsNotNull(sum);
 
             byte[] array = File.ReadAllBytes("../../TestData/TextFile1.txt");
@@ -198,7 +198,7 @@ namespace CheckSumTool
         [Test]
         public void CalculateFromTestFile1Stream()
         {
-             Md5Sum sum = new Md5Sum();
+            Md5Sum sum = new Md5Sum();
             Assert.IsNotNull(sum);
 
             FileStream file = new FileStream("../../TestData/TextFile1.txt",
@@ -264,7 +264,7 @@ namespace CheckSumTool
         [Test]
         public void VerifyFromTestFile1Stream()
         {
-             Md5Sum sum = new Md5Sum();
+            Md5Sum sum = new Md5Sum();
             Assert.IsNotNull(sum);
 
             FileStream file = new FileStream("../../TestData/TextFile1.txt",
