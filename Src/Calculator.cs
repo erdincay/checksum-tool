@@ -89,11 +89,12 @@ namespace CheckSumTool
                     continue;
                 }
 
-                FileStream filestream = new FileStream(ci.FullPath, FileMode.Open);
-
-                byte[] hash = sumImpl.Calculate(filestream);
-                filestream.Close();
-                ci.SetSum(hash);
+                using (FileStream filestream = new FileStream(ci.FullPath, FileMode.Open, FileAccess.Read))
+                {
+                    byte[] hash = sumImpl.Calculate(filestream);
+                    filestream.Close();
+                    ci.SetSum(hash);
+                }
             }
         }
 
