@@ -146,17 +146,21 @@ namespace CheckSumTool
                     verifysucceeded = false;
                     continue;
                 }
-
-                FileStream filestream = new FileStream(ci.FullPath, FileMode.Open);
+                
                 bool verified = false;
 
                 try
                 {
-                    verified = sumImpl.Verify(filestream,
-                            ci.CheckSum.GetAsByteArray());
+                    using(FileStream filestream = new FileStream(ci.FullPath, FileMode.Open, FileAccess.Read))
+                    {
+                        verified = sumImpl.Verify(filestream, ci.CheckSum.GetAsByteArray());
+                        filestream.Close();
+                    }
                 }
-                catch (NotImplementedException)
+                catch (IOException)
                 {
+                    // TODO: Set failure status to checksum item.
+
                     // Let verification just fail when not implemented
 
                     // TODO: Need to inform the user, but how?
@@ -165,7 +169,6 @@ namespace CheckSumTool
                     throw;
                     #endif
                 }
-                filestream.Close();
 
                 if (verified)
                 {
