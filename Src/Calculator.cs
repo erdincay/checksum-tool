@@ -89,11 +89,18 @@ namespace CheckSumTool
                     continue;
                 }
 
-                using (FileStream filestream = new FileStream(ci.FullPath, FileMode.Open, FileAccess.Read))
+                try
                 {
-                    byte[] hash = sumImpl.Calculate(filestream);
-                    filestream.Close();
-                    ci.SetSum(hash);
+                    using (FileStream filestream = new FileStream(ci.FullPath, FileMode.Open, FileAccess.Read))
+                    {
+                        byte[] hash = sumImpl.Calculate(filestream);
+                        filestream.Close();
+                        ci.SetSum(hash);
+                    }
+                }
+                catch (IOException)
+                {
+                    //TODO: Set failure status to checksum item.
                 }
             }
         }
