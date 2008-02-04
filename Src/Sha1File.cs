@@ -136,7 +136,7 @@ namespace CheckSumTool
         int _testFile1RowCount = 6;
 
         /// <summary>
-        /// Test reading file from C:\Projects\test.sha1
+        /// Test reading file from TestFile1.sha1
         /// </summary>
         [Test]
         public void ReadFile()
@@ -148,7 +148,7 @@ namespace CheckSumTool
         }
 
          /// <summary>
-        /// Trying read file from C:\Projects\test.sh1
+        /// Trying read file from TestFile1.sh1
         /// Throw FileNotFoundException
         /// </summary>
         [Test]
@@ -160,7 +160,7 @@ namespace CheckSumTool
         }
 
         /// <summary>
-        /// Test reading file from C:\Projects\test.sha1
+        /// Test reading file TestFile1.sha1
         /// </summary>
         [Test]
         public void ReadFileIsExcists()
