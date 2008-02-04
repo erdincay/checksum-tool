@@ -69,7 +69,7 @@ namespace CheckSumTool
                 // TODO: must validity-check values!
                 string filename = item.Item2;
                 FileInfo fi = new FileInfo(filename);
-                string fullpath = Path.Combine(fi.DirectoryName, filename);
+                string fullpath = Path.Combine(fi.DirectoryName, fi.Name);
 
                 _list.AddFile(fullpath, item.Item1);
                 ++items;
@@ -112,10 +112,12 @@ namespace CheckSumTool
             {
                 string filename = _list.FileList[i].FileName;
                 string checksum = _list.FileList[i].CheckSum.ToString();
+                string relativePath = _list.FileList[i].FullPath.Replace(Path.GetDirectoryName(path) + Path.DirectorySeparatorChar, "");
+                relativePath = relativePath.Replace(@"\", "/");
 
                 file.Write(checksum);
                 file.Write(separator);
-                file.Write(filename);
+                file.Write(relativePath);
                 file.Write(Environment.NewLine);
             }
             file.Flush();
