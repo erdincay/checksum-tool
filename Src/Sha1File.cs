@@ -110,7 +110,7 @@ namespace CheckSumTool
                 string filename = _list.FileList[i].FileName;
                 string checksum = _list.FileList[i].CheckSum.ToString();
                 string relativePath = _list.FileList[i].FullPath.Replace(Path.GetDirectoryName(path) + Path.DirectorySeparatorChar, "");
-                relativePath = relativePath.Replace(@"\", "/");
+                relativePath = relativePath.Replace(@"\", FileUtils.PathSeparator);
 
                 file.Write(checksum);
                 file.Write(separator);

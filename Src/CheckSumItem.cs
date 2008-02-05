@@ -25,6 +25,7 @@ THE SOFTWARE.
 // $Id$
 
 using System;
+using System.IO;
 
 namespace CheckSumTool
 {
@@ -74,8 +75,7 @@ namespace CheckSumTool
         {
             get
             {
-                int ind = _fullPath.LastIndexOf('\\');
-                string filename = _fullPath.Substring(ind + 1);
+                string filename = Path.GetFileName(_fullPath);
                 return filename;
             }
         }

@@ -66,6 +66,7 @@
     <Compile Include="CheckSumImplList.cs" />
     <Compile Include="CRC32.cs" />
     <Compile Include="CRC32Sum.cs" />
+    <Compile Include="FileUtils.cs" />
     <Compile Include="ICheckSumData.cs" />
     <Compile Include="Pair.cs" />
     <Compile Include="Sha1File.cs" />
