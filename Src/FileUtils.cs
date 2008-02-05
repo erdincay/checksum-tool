@@ -36,7 +36,22 @@ namespace CheckSumTool
         /// <summary>
         /// Path separator used internally.
         /// </summary>
-        public static readonly string PathSeparator = "/";        
+        public static readonly string PathSeparator = "/";
 
+        /// <summary>
+        /// Convert path to unix format. We use unix format as our internal
+        /// format and in checksum files.
+        /// </summary>
+        /// <param name="path">Path to convert.</param>
+        /// <returns>Converted path.</returns>
+        public static string GetUnixPathFormat(string path)
+        {
+            if (path.IndexOf('\\') >= 0)
+            {
+                string newpath = path.Replace(@"\", PathSeparator);
+                return newpath;
+            }
+            return path;
+        }
     }
 }
