@@ -1,7 +1,7 @@
 ﻿/*
 The MIT License
 
-Copyright (c) 2007 Ixonos Plc, Kimmo Varis <kimmo.varis@ixonos.com>
+Copyright (c) 2007-2008 Ixonos Plc, Kimmo Varis <kimmo.varis@ixonos.com>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -41,7 +41,7 @@ namespace CheckSumTool
         /// </summary>
         public static readonly string URL = @"http://checksumtool.sourceforge.net/";
         // TODO: Move this to resource?
-        
+
         /// <summary>
         /// Constructor. Set version number and link.
         /// </summary>
@@ -51,7 +51,7 @@ namespace CheckSumTool
             // The InitializeComponent() call is required for Windows Forms designer support.
             //
             InitializeComponent();
-            
+
             string version = GetVersion();
             labelVersion.Text += " ";
             labelVersion.Text += version;
@@ -59,7 +59,7 @@ namespace CheckSumTool
             // Set the homepage link
             linkHomepage.Links[0].LinkData = URL;
         }
-        
+
         /// <summary>
         /// Close the dialog when user clicks OK-button
         /// </summary>
@@ -69,7 +69,7 @@ namespace CheckSumTool
         {
             this.Close();
         }
-        
+
         /// <summary>
         /// Read version info from current assembly.
         /// </summary>

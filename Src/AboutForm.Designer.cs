@@ -44,13 +44,14 @@ namespace CheckSumTool
         	this.linkHomepage = new System.Windows.Forms.LinkLabel();
         	this.labelVersion = new System.Windows.Forms.Label();
         	this.label3 = new System.Windows.Forms.Label();
+        	this.label4 = new System.Windows.Forms.Label();
         	((System.ComponentModel.ISupportInitialize)(this.pictureIcon)).BeginInit();
         	this.SuspendLayout();
         	// 
         	// btnOk
         	// 
         	this.btnOk.DialogResult = System.Windows.Forms.DialogResult.OK;
-        	this.btnOk.Location = new System.Drawing.Point(119, 134);
+        	this.btnOk.Location = new System.Drawing.Point(119, 153);
         	this.btnOk.Name = "btnOk";
         	this.btnOk.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
         	this.btnOk.Size = new System.Drawing.Size(75, 23);
@@ -73,7 +74,7 @@ namespace CheckSumTool
         	this.label2.Name = "label2";
         	this.label2.Size = new System.Drawing.Size(233, 23);
         	this.label2.TabIndex = 2;
-        	this.label2.Text = "(c) 2007-2008 Ixonos Plc, Kimmo Varis";
+        	this.label2.Text = "(c) 2007-2008 Ixonos Plc";
         	// 
         	// pictureIcon
         	// 
@@ -86,7 +87,7 @@ namespace CheckSumTool
         	// 
         	// linkHomepage
         	// 
-        	this.linkHomepage.Location = new System.Drawing.Point(67, 99);
+        	this.linkHomepage.Location = new System.Drawing.Point(67, 121);
         	this.linkHomepage.Name = "linkHomepage";
         	this.linkHomepage.Size = new System.Drawing.Size(196, 23);
         	this.linkHomepage.TabIndex = 5;
@@ -104,17 +105,26 @@ namespace CheckSumTool
         	// 
         	// label3
         	// 
-        	this.label3.Location = new System.Drawing.Point(67, 65);
+        	this.label3.Location = new System.Drawing.Point(67, 88);
         	this.label3.Name = "label3";
         	this.label3.Size = new System.Drawing.Size(233, 23);
         	this.label3.TabIndex = 7;
         	this.label3.Text = "All rights reserved.";
         	// 
+        	// label4
+        	// 
+        	this.label4.Location = new System.Drawing.Point(67, 65);
+        	this.label4.Name = "label4";
+        	this.label4.Size = new System.Drawing.Size(233, 23);
+        	this.label4.TabIndex = 8;
+        	this.label4.Text = "(c) 2007-2008 Kimmo Varis";
+        	// 
         	// AboutForm
         	// 
         	this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
         	this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-        	this.ClientSize = new System.Drawing.Size(312, 169);
+        	this.ClientSize = new System.Drawing.Size(312, 202);
+        	this.Controls.Add(this.label4);
         	this.Controls.Add(this.label3);
         	this.Controls.Add(this.labelVersion);
         	this.Controls.Add(this.linkHomepage);
@@ -128,6 +138,7 @@ namespace CheckSumTool
         	((System.ComponentModel.ISupportInitialize)(this.pictureIcon)).EndInit();
         	this.ResumeLayout(false);
         }
+        private System.Windows.Forms.Label label4;
         private System.Windows.Forms.PictureBox pictureIcon;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label labelVersion;
