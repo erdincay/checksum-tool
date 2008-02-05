@@ -94,9 +94,14 @@ namespace CheckSumTool
         	this.statusStrip1 = new System.Windows.Forms.StatusStrip();
         	this.statusbarLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
         	this.statusbarLabelCount = new System.Windows.Forms.ToolStripStatusLabel();
+        	this.toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
         	this.menuStrip1.SuspendLayout();
         	this.toolStripMain.SuspendLayout();
         	this.statusStrip1.SuspendLayout();
+        	this.toolStripContainer1.BottomToolStripPanel.SuspendLayout();
+        	this.toolStripContainer1.ContentPanel.SuspendLayout();
+        	this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
+        	this.toolStripContainer1.SuspendLayout();
         	this.SuspendLayout();
         	// 
         	// itemList
@@ -110,10 +115,10 @@ namespace CheckSumTool
         	        	        	this.columnHeader4});
         	this.itemList.Dock = System.Windows.Forms.DockStyle.Fill;
         	this.itemList.FullRowSelect = true;
-        	this.itemList.Location = new System.Drawing.Point(0, 49);
+        	this.itemList.Location = new System.Drawing.Point(0, 0);
         	this.itemList.Name = "itemList";
         	this.itemList.ShowItemToolTips = true;
-        	this.itemList.Size = new System.Drawing.Size(631, 281);
+        	this.itemList.Size = new System.Drawing.Size(631, 259);
         	this.itemList.TabIndex = 2;
         	this.itemList.UseCompatibleStateImageBehavior = false;
         	this.itemList.View = System.Windows.Forms.View.Details;
@@ -139,6 +144,7 @@ namespace CheckSumTool
         	// 
         	// menuStrip1
         	// 
+        	this.menuStrip1.Dock = System.Windows.Forms.DockStyle.None;
         	this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
         	        	        	this.fileToolStripMenuItem,
         	        	        	this.mainMenuEditMenu,
@@ -356,6 +362,7 @@ namespace CheckSumTool
         	// 
         	// toolStripMain
         	// 
+        	this.toolStripMain.Dock = System.Windows.Forms.DockStyle.None;
         	this.toolStripMain.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
         	        	        	this.toolStripBtnOpen,
         	        	        	this.toolStripBtnSave,
@@ -363,9 +370,9 @@ namespace CheckSumTool
         	        	        	this.toolStripBtnCalculate,
         	        	        	this.toolStripBtnVerify,
         	        	        	this.toolStripComboSumTypes});
-        	this.toolStripMain.Location = new System.Drawing.Point(0, 24);
+        	this.toolStripMain.Location = new System.Drawing.Point(3, 24);
         	this.toolStripMain.Name = "toolStripMain";
-        	this.toolStripMain.Size = new System.Drawing.Size(631, 25);
+        	this.toolStripMain.Size = new System.Drawing.Size(185, 25);
         	this.toolStripMain.TabIndex = 1;
         	this.toolStripMain.Text = "toolStrip1";
         	// 
@@ -427,10 +434,11 @@ namespace CheckSumTool
         	// 
         	// statusStrip1
         	// 
+        	this.statusStrip1.Dock = System.Windows.Forms.DockStyle.None;
         	this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
         	        	        	this.statusbarLabel1,
         	        	        	this.statusbarLabelCount});
-        	this.statusStrip1.Location = new System.Drawing.Point(0, 308);
+        	this.statusStrip1.Location = new System.Drawing.Point(0, 0);
         	this.statusStrip1.Name = "statusStrip1";
         	this.statusStrip1.Size = new System.Drawing.Size(631, 22);
         	this.statusStrip1.TabIndex = 3;
@@ -450,15 +458,36 @@ namespace CheckSumTool
         	this.statusbarLabelCount.Size = new System.Drawing.Size(109, 17);
         	this.statusbarLabelCount.Text = "toolStripStatusLabel1";
         	// 
+        	// toolStripContainer1
+        	// 
+        	// 
+        	// toolStripContainer1.BottomToolStripPanel
+        	// 
+        	this.toolStripContainer1.BottomToolStripPanel.Controls.Add(this.statusStrip1);
+        	// 
+        	// toolStripContainer1.ContentPanel
+        	// 
+        	this.toolStripContainer1.ContentPanel.AutoScroll = true;
+        	this.toolStripContainer1.ContentPanel.Controls.Add(this.itemList);
+        	this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(631, 259);
+        	this.toolStripContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
+        	this.toolStripContainer1.Location = new System.Drawing.Point(0, 0);
+        	this.toolStripContainer1.Name = "toolStripContainer1";
+        	this.toolStripContainer1.Size = new System.Drawing.Size(631, 330);
+        	this.toolStripContainer1.TabIndex = 4;
+        	this.toolStripContainer1.Text = "toolStripContainer1";
+        	// 
+        	// toolStripContainer1.TopToolStripPanel
+        	// 
+        	this.toolStripContainer1.TopToolStripPanel.Controls.Add(this.toolStripMain);
+        	this.toolStripContainer1.TopToolStripPanel.Controls.Add(this.menuStrip1);
+        	// 
         	// MainForm
         	// 
         	this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
         	this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
         	this.ClientSize = new System.Drawing.Size(631, 330);
-        	this.Controls.Add(this.statusStrip1);
-        	this.Controls.Add(this.itemList);
-        	this.Controls.Add(this.toolStripMain);
-        	this.Controls.Add(this.menuStrip1);
+        	this.Controls.Add(this.toolStripContainer1);
         	this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
         	this.MainMenuStrip = this.menuStrip1;
         	this.MaximizeBox = false;
@@ -471,9 +500,16 @@ namespace CheckSumTool
         	this.toolStripMain.PerformLayout();
         	this.statusStrip1.ResumeLayout(false);
         	this.statusStrip1.PerformLayout();
+        	this.toolStripContainer1.BottomToolStripPanel.ResumeLayout(false);
+        	this.toolStripContainer1.BottomToolStripPanel.PerformLayout();
+        	this.toolStripContainer1.ContentPanel.ResumeLayout(false);
+        	this.toolStripContainer1.TopToolStripPanel.ResumeLayout(false);
+        	this.toolStripContainer1.TopToolStripPanel.PerformLayout();
+        	this.toolStripContainer1.ResumeLayout(false);
+        	this.toolStripContainer1.PerformLayout();
         	this.ResumeLayout(false);
-        	this.PerformLayout();
         }
+        private System.Windows.Forms.ToolStripContainer toolStripContainer1;
         private System.Windows.Forms.ToolStripMenuItem mainMenuHelpContributors;
         private System.Windows.Forms.ToolStripMenuItem mainMenuEditCopy;
         private System.Windows.Forms.ToolStripMenuItem mainMenuEditSelectAll;
