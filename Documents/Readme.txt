@@ -34,6 +34,8 @@ https://sourceforge.net/tracker/?group_id=208291&atid=1005108
 
 COPYING
 -------
-Copyright (c) 2007-2008 Ixonos Plc, Kimmo Varis <kimmo.varis@ixonos.com>
+Copyright (c) 2007-2008 Ixonos Plc
+Copyright (c) 2007-2008 Kimmo Varis <kimmov@winmerge.org>
+
 CheckSum Tool is licensed under MIT licence, see Documents/COPYING file for
 full license text.
