@@ -11,6 +11,7 @@ CheckSum Tool 0.4.0
   Installer: Add version resource info for installer executable file.
   Clarify copyright - it is Kimmo and Ixonos.
   Allow moving and docking of toolbar
+  Manual: Mention relative paths shortly in context of saving files.
   Bugfix: First load of other than default (SHA-1) sum file failed to load sums
 
 CheckSum Tool 0.3.0 - 2008-01-07 (r107)

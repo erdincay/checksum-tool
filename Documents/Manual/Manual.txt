@@ -1,7 +1,7 @@
 CheckSum Tool Manual
 ====================
 Kimmo Varis
-v0.1, January 2008
+v0.2, Febryary 2008
 
 // $Id$
 
@@ -223,6 +223,9 @@ Saving Checksum file
 When one or more files have calculated checksums in the list, they can be saved
 to the checksum file. Only files that have checksum calculated are added to the
 file. Verification status is not added.
+
+Files in the same folder than or in the subfolders of checksum file are stored
+with relative path. Files in other folders are stored with absolute path.
 
 Select _File | Save_ or _File | Save As..._ from the main menu. Select the
 filename and location for the file in the dialog. It is recommeded to use file
