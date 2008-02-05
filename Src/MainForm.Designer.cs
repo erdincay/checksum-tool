@@ -174,6 +174,7 @@ namespace CheckSumTool
         	// 
         	// mainMenuFileNew
         	// 
+        	this.mainMenuFileNew.Image = ((System.Drawing.Image)(resources.GetObject("mainMenuFileNew.Image")));
         	this.mainMenuFileNew.Name = "mainMenuFileNew";
         	this.mainMenuFileNew.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
         	this.mainMenuFileNew.Size = new System.Drawing.Size(163, 22);
@@ -219,6 +220,7 @@ namespace CheckSumTool
         	// 
         	// mainMenuFileAddFile
         	// 
+        	this.mainMenuFileAddFile.Image = ((System.Drawing.Image)(resources.GetObject("mainMenuFileAddFile.Image")));
         	this.mainMenuFileAddFile.Name = "mainMenuFileAddFile";
         	this.mainMenuFileAddFile.Size = new System.Drawing.Size(163, 22);
         	this.mainMenuFileAddFile.Text = "&Add Files...";
@@ -227,6 +229,7 @@ namespace CheckSumTool
         	// 
         	// mainMenuFileAddFolder
         	// 
+        	this.mainMenuFileAddFolder.Image = ((System.Drawing.Image)(resources.GetObject("mainMenuFileAddFolder.Image")));
         	this.mainMenuFileAddFolder.Name = "mainMenuFileAddFolder";
         	this.mainMenuFileAddFolder.Size = new System.Drawing.Size(163, 22);
         	this.mainMenuFileAddFolder.Text = "A&dd Folder...";
@@ -240,6 +243,7 @@ namespace CheckSumTool
         	// 
         	// exitToolStripMenuItem
         	// 
+        	this.exitToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("exitToolStripMenuItem.Image")));
         	this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
         	this.exitToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
         	this.exitToolStripMenuItem.Text = "&Exit";
@@ -260,6 +264,7 @@ namespace CheckSumTool
         	// 
         	// mainMenuEditCopy
         	// 
+        	this.mainMenuEditCopy.Image = ((System.Drawing.Image)(resources.GetObject("mainMenuEditCopy.Image")));
         	this.mainMenuEditCopy.Name = "mainMenuEditCopy";
         	this.mainMenuEditCopy.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
         	this.mainMenuEditCopy.Size = new System.Drawing.Size(190, 22);
@@ -337,6 +342,7 @@ namespace CheckSumTool
         	// 
         	// mainMenuHelpManual
         	// 
+        	this.mainMenuHelpManual.Image = ((System.Drawing.Image)(resources.GetObject("mainMenuHelpManual.Image")));
         	this.mainMenuHelpManual.Name = "mainMenuHelpManual";
         	this.mainMenuHelpManual.ShortcutKeys = System.Windows.Forms.Keys.F1;
         	this.mainMenuHelpManual.Size = new System.Drawing.Size(189, 22);
@@ -372,7 +378,7 @@ namespace CheckSumTool
         	        	        	this.toolStripComboSumTypes});
         	this.toolStripMain.Location = new System.Drawing.Point(3, 24);
         	this.toolStripMain.Name = "toolStripMain";
-        	this.toolStripMain.Size = new System.Drawing.Size(185, 25);
+        	this.toolStripMain.Size = new System.Drawing.Size(187, 25);
         	this.toolStripMain.TabIndex = 1;
         	this.toolStripMain.Text = "toolStrip1";
         	// 
@@ -479,8 +485,8 @@ namespace CheckSumTool
         	// 
         	// toolStripContainer1.TopToolStripPanel
         	// 
-        	this.toolStripContainer1.TopToolStripPanel.Controls.Add(this.toolStripMain);
         	this.toolStripContainer1.TopToolStripPanel.Controls.Add(this.menuStrip1);
+        	this.toolStripContainer1.TopToolStripPanel.Controls.Add(this.toolStripMain);
         	// 
         	// MainForm
         	// 
