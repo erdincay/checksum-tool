@@ -15,10 +15,16 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Resources", "Resources", "{F47C68AE-0D16-4D42-ABA7-07C681DC1DC2}"
 	ProjectSection(SolutionItems) = postProject
 		res\CheckSumTool.ico = res\CheckSumTool.ico
-		res\FileOpen.ico = res\FileOpen.ico
-		res\FileSave.ico = res\FileSave.ico
-		res\SumCalculate.ico = res\SumCalculate.ico
-		res\SumCheck.ico = res\SumCheck.ico
+		res\AddFiles.png = res\AddFiles.png
+		res\SumCheck.png = res\SumCheck.png
+		res\AddFolders.png = res\AddFolders.png
+		res\EditCopy.png = res\EditCopy.png
+		res\Exit.png = res\Exit.png
+		res\FileNew.png = res\FileNew.png
+		res\FileOpen.png = res\FileOpen.png
+		res\FileSave.png = res\FileSave.png
+		res\Help.png = res\Help.png
+		res\SumCalculate.png = res\SumCalculate.png
 	EndProjectSection
 EndProject
 Global
