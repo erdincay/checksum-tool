@@ -1009,5 +1009,25 @@ namespace CheckSumTool
         {
             OpenContributors();
         }
+
+        /// <summary>
+        /// Called when Add File -toolbar button is clicked.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        void ToolStripBtnAddFilesClick(object sender, EventArgs e)
+        {
+            AddFile();
+        }
+
+        /// <summary>
+        /// Called when Add Folder -toolbar button is clicked.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        void ToolStripBtnAddFoldersClick(object sender, EventArgs e)
+        {
+            AddFolder();
+        }
     }
 }
