@@ -608,11 +608,26 @@ namespace CheckSumTool
             if (res == DialogResult.OK)
             {
                 string path = dlg.SelectedPath;
-                _document.Items.AddFolder(path);
+
+                if (Directory.GetDirectories(path).Length > 0)
+                {
+                    DialogResult result = MessageBox.Show("Add all subfolders of this folder?",
+                            "CheckSum Tool", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+
+                    if ( result == DialogResult.Yes )
+                        _document.Items.AddSubFolders(path);
+                    else
+                    {
+                        _document.Items.AddFolder(path);
+                    }
+                }
+                else
+                {
+                    _document.Items.AddFolder(path);
+                }
 
                 UpdateGUIListFromDoc();
-                string statustext = string.Format("{0} items",
-                        _document.Items.Count);
+                string statustext = string.Format("{0} items", _document.Items.Count);
                 statusbarLabelCount.Text = statustext;
                 _lastFolder = path;
             }
@@ -842,7 +857,7 @@ namespace CheckSumTool
             string manual = Path.Combine(programPath, manualRelative);
             return manual;
         }
-        
+
         /// <summary>
         /// Get full path to the contributors list file.
         /// </summary>
@@ -890,7 +905,7 @@ namespace CheckSumTool
         {
             OpenManual();
         }
-        
+
         /// <summary>
         /// Opens a list of contributors.
         /// </summary>
@@ -984,7 +999,7 @@ namespace CheckSumTool
             else
                 Clipboard.Clear();
         }
-        
+
         /// <summary>
         /// Called when user selects Help / Contributors from main menu.
         /// </summary>

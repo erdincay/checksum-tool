@@ -162,6 +162,27 @@ namespace CheckSumTool
         }
 
         /// <summary>
+        /// Add folder and it´s subfolders.
+        /// </summary>
+        /// <param name="folder">Path to folder to add.</param>
+        public void AddSubFolders(string folder)
+        {
+            AddFolder(folder);
+
+            string[] subFolders = Directory.GetDirectories(folder);
+
+            for (int i=0; i<subFolders.Length; i++)
+            {
+                string currentSubFolder = subFolders[i];
+
+                if (Directory.GetDirectories(currentSubFolder).Length > 0)
+                    AddSubFolders(currentSubFolder);
+                else
+                    AddFolder(currentSubFolder);
+            }
+        }
+
+        /// <summary>
         /// Remove file from items to process.
         /// </summary>
         /// <param name="path">File to remove</param>
