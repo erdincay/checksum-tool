@@ -506,6 +506,7 @@ namespace CheckSumTool
         	this.toolStripBtnCalculate.Size = new System.Drawing.Size(23, 22);
         	this.toolStripBtnCalculate.Text = "toolStripButton1";
         	this.toolStripBtnCalculate.ToolTipText = "Calculate Sums";
+        	this.toolStripBtnCalculate.Click += new System.EventHandler(this.ToolStripBtnCalculateClick);
         	// 
         	// toolStripBtnVerify
         	// 
@@ -516,12 +517,14 @@ namespace CheckSumTool
         	this.toolStripBtnVerify.Size = new System.Drawing.Size(23, 22);
         	this.toolStripBtnVerify.Text = "toolStripButton2";
         	this.toolStripBtnVerify.ToolTipText = "Verify Sums";
+        	this.toolStripBtnVerify.Click += new System.EventHandler(this.ToolStripBtnVerifyClick);
         	// 
         	// toolStripComboSumTypes
         	// 
         	this.toolStripComboSumTypes.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
         	this.toolStripComboSumTypes.Name = "toolStripComboSumTypes";
         	this.toolStripComboSumTypes.Size = new System.Drawing.Size(75, 25);
+        	this.toolStripComboSumTypes.SelectedIndexChanged += new System.EventHandler(this.ToolBarSumTypesSelectionChanged);
         	// 
         	// MainForm
         	// 
