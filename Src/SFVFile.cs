@@ -110,8 +110,23 @@ namespace CheckSumTool
             for (int i = 0; i < _list.FileList.Count; i++)
             {
                 string filename = _list.FileList[i].FileName;
+
+                if ( _list.FileList[i].CheckSum == null )
+                    continue;
+
+                DirectoryInfo rootDirector = Directory.GetParent(path);
+
+                string relativePath = "";
                 string checksum = _list.FileList[i].CheckSum.ToString();
-                string relativePath = _list.FileList[i].FullPath.Replace(Path.GetDirectoryName(path) + Path.DirectorySeparatorChar, "");
+                if ( rootDirector.Parent == null )
+                {
+                    relativePath = _list.FileList[i].FullPath.Replace(rootDirector.Name, "");
+                }
+                else
+                {
+                    relativePath = _list.FileList[i].FullPath.Replace(Path.GetDirectoryName(path) +
+                            Path.DirectorySeparatorChar, "");
+                }
                 relativePath = FileUtils.GetUnixPathFormat(relativePath);
 
                 file.Write(relativePath);

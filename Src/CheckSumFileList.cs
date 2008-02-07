@@ -174,11 +174,18 @@ namespace CheckSumTool
             for (int i=0; i<subFolders.Length; i++)
             {
                 string currentSubFolder = subFolders[i];
-
-                if (Directory.GetDirectories(currentSubFolder).Length > 0)
-                    AddSubFolders(currentSubFolder);
-                else
-                    AddFolder(currentSubFolder);
+                try
+                {
+                    if (Directory.GetDirectories(currentSubFolder).Length > 0)
+                        AddSubFolders(currentSubFolder);
+                    else
+                        AddFolder(currentSubFolder);
+                }
+                catch (Exception)
+                {
+                    //TODO: Tell user he did not get all subfolders.
+                    //Some windows hidden folders throw this exception.
+                }
             }
         }
 
