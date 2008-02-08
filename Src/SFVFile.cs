@@ -111,14 +111,14 @@ namespace CheckSumTool
             {
                 string filename = _list.FileList[i].FileName;
 
-                if ( _list.FileList[i].CheckSum == null )
+                if (_list.FileList[i].CheckSum == null)
                     continue;
 
                 DirectoryInfo rootDirector = Directory.GetParent(path);
 
                 string relativePath = "";
                 string checksum = _list.FileList[i].CheckSum.ToString();
-                if ( rootDirector.Parent == null )
+                if (rootDirector.Parent == null)
                 {
                     relativePath = _list.FileList[i].FullPath.Replace(rootDirector.Name, "");
                 }
