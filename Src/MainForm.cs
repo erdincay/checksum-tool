@@ -548,9 +548,6 @@ namespace CheckSumTool
                     {
                         UpdateGUIListFromDoc();
                         SetSumTypeCombo(fileType);
-                        string statustext = string.Format("{0} items",
-                                _document.Items.FileList.Count);
-                        statusbarLabelCount.Text = statustext;
 
                         string filename = Path.GetFullPath(dlg.FileName);
                         SetFilename(filename);
@@ -587,9 +584,6 @@ namespace CheckSumTool
                 }
 
                 UpdateGUIListFromDoc();
-                string statustext = string.Format("{0} items",
-                    _document.Items.Count);
-                statusbarLabelCount.Text = statustext;
                 _lastFolder = Path.GetDirectoryName(dlg.FileNames[0]);
             }
         }
@@ -627,8 +621,6 @@ namespace CheckSumTool
                 }
 
                 UpdateGUIListFromDoc();
-                string statustext = string.Format("{0} items", _document.Items.Count);
-                statusbarLabelCount.Text = statustext;
                 _lastFolder = path;
             }
         }
@@ -1028,6 +1020,17 @@ namespace CheckSumTool
         void ToolStripBtnAddFoldersClick(object sender, EventArgs e)
         {
             AddFolder();
+        }
+        
+        /// <summary>
+        /// Called when item amount in the list is changed.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        void ItemListSizeChanged(object sender, System.EventArgs e)
+        {
+            string statustext = string.Format("{0} items", _document.Items.Count);
+            statusbarLabelCount.Text = statustext;
         }
     }
 }

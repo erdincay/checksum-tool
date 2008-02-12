@@ -126,6 +126,7 @@ namespace CheckSumTool
         	this.itemList.TabIndex = 2;
         	this.itemList.UseCompatibleStateImageBehavior = false;
         	this.itemList.View = System.Windows.Forms.View.Details;
+        	this.itemList.SizeChanged += new System.EventHandler(this.ItemListSizeChanged);
         	// 
         	// columnHeader1
         	// 
