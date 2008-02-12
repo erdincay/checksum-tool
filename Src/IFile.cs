@@ -1,4 +1,4 @@
-﻿/*
+/*
 The MIT License
 
 Copyright (c) 2007 Ixonos Plc, Kimmo Varis <kimmo.varis@ixonos.com>
@@ -25,31 +25,41 @@ THE SOFTWARE.
 // $Id$
 
 using System;
+using System.IO;
+using System.Collections.Generic;
 
 namespace CheckSumTool
 {
     /// <summary>
     /// Interface for reading / writing list of filenames and checksums.
     /// </summary>
-    public interface ISumFile
+    public interface IFile
     {
         /// <summary>
-        /// Set the list into which items are added.
+        /// Read data from file.
         /// </summary>
-        /// <param name="list">List getting items.</param>
-        void SetFileList(CheckSumFileList list);
+        /// <param name="reader">File for reading.</param>
+        /// <returns>Readed items, checkSum and filename.</returns>
+        List<Pair<string>> ReadData(TextFileReader reader);
 
         /// <summary>
-        /// Read items from a file.
+        /// Write header info.
         /// </summary>
-        /// <param name="path">Full path to the file.</param>
-        /// <returns>Number of items read.</returns>
-        int ReadFile(string path, CheckSumType fileType);
+        /// <param name="file">Target file to write.</param>
+        void Header(StreamWriter file);
 
         /// <summary>
         /// Write items to the file.
         /// </summary>
-        /// <param name="path">Full path to the file.</param>
-        void WriteFile(string path, CheckSumType currentSumType);
+        /// <param name="file">Target file to write.</param>
+        /// <param name="checkSum">CheckSum value.</param>
+        /// <param name="relativePath">Relative path value.</param>
+        void WriteDataRow(StreamWriter file, string checksum, string relativePath);
+
+        /// <summary>
+        /// Write header info.
+        /// </summary>
+        /// <param name="file">Target file to write.</param>
+        void Footer(StreamWriter file);
     }
 }

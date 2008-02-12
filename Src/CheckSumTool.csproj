@@ -68,6 +68,7 @@
     <Compile Include="CRC32Sum.cs" />
     <Compile Include="FileUtils.cs" />
     <Compile Include="ICheckSumData.cs" />
+    <Compile Include="IFile.cs" />
     <Compile Include="Pair.cs" />
     <Compile Include="Sha1File.cs" />
     <Compile Include="StringUtil.cs" />
@@ -87,6 +88,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Sha1Sum.cs" />
     <Compile Include="SumDocument.cs" />
+    <Compile Include="SumFile.cs" />
     <Compile Include="SumFileInfo.cs" />
     <Compile Include="SumFileUtils.cs" />
     <Compile Include="TextFileReader.cs" />

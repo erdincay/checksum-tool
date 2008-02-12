@@ -22,6 +22,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 
+// $Id$
+
 using System;
 using System.IO;
 using System.Collections.Generic;
@@ -192,8 +194,10 @@ namespace CheckSumTool
                     second = line.Substring(separatorInd + 1);
                     second = second.Trim();
 
-                    if (first.Length > 0 && second.Length > 0)
+                    if (first.Length > 0 && second.Length > 0 && reverse == false)
                         lineItem = new Pair<string>(first, second);
+                    else if (first.Length > 0 && second.Length > 0 && reverse == true)
+                        lineItem = new Pair<string>(second, first);
                 }
             }
             return lineItem;

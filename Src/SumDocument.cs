@@ -25,6 +25,7 @@ THE SOFTWARE.
 // $Id$
 
 using System;
+using System.IO;
 using System.Collections.Generic;
 
 namespace CheckSumTool
@@ -90,8 +91,15 @@ namespace CheckSumTool
             List<CheckSumItem> list = _checksumItemList.FileList;
             foreach (CheckSumItem fi in list)
             {
-                fi.CheckSum.Clear();
-                fi.Verified = VerificationState.NotVerified;
+                try
+                {
+                    fi.CheckSum.Clear();
+                    fi.Verified = VerificationState.NotVerified;
+                }
+                catch (Exception)
+                {
+
+                }
             }
         }
 
@@ -120,31 +128,6 @@ namespace CheckSumTool
             Calculator sumCalculator = new Calculator(_currentSumType);
             bool succeeded = sumCalculator.Verify(_checksumItemList.FileList);
             return succeeded;
-        }
-
-        /// <summary>
-        /// Create sumfile instance for checksum file.
-        /// </summary>
-        /// <param name="fileType">Type of checksum file to initialize.</param>
-        /// <returns>ISumFile instance.</returns>
-        ISumFile InitSumFile(SumFileType fileType)
-        {
-            ISumFile newSumFile = null;
-            switch (fileType)
-            {
-                case SumFileType.MD5:
-                    newSumFile = (ISumFile) new MD5File();
-                    break;
-                case SumFileType.SFV:
-                    newSumFile = (ISumFile) new SFVFile();
-                    break;
-                case SumFileType.SHA1:
-                    newSumFile = (ISumFile) new Sha1File();
-                    break;
-                default:
-                    throw new NotImplementedException();
-            }
-            return newSumFile;
         }
 
         /// <summary>
@@ -178,13 +161,13 @@ namespace CheckSumTool
         public bool LoadFile(string path, SumFileType fileType)
         {
             bool success = false;
-            ISumFile newSumFile = InitSumFile(fileType);
+            SumFile newSumFile = new SumFile();
 
             if (newSumFile != null)
             {
                 SetSumTypeFromFileType(fileType);
                 newSumFile.SetFileList(_checksumItemList);
-                int items = newSumFile.ReadFile(path);
+                int items = newSumFile.ReadFile(path, _currentSumType);
                 if (items > 0)
                 {
                     success = true;
@@ -202,33 +185,18 @@ namespace CheckSumTool
         public bool SaveToFile()
         {
             bool success = true;
-            switch (_currentSumType)
+
+            try
             {
-                case CheckSumType.CRC32:
-                    SFVFile SvfSumfile = new SFVFile();
-                    SvfSumfile.SetFileList(_checksumItemList);
-                    SvfSumfile.WriteFile(_filename);
-                    break;
-
-                case CheckSumType.MD5:
-                    MD5File Md5Sumfile = new MD5File();
-                    Md5Sumfile.SetFileList(_checksumItemList);
-                    Md5Sumfile.WriteFile(_filename);
-                    break;
-
-                case CheckSumType.SHA1:
-                    Sha1File Sha1Sumfile = new Sha1File();
-                    Sha1Sumfile.SetFileList(_checksumItemList);
-                    Sha1Sumfile.WriteFile(_filename);
-                    break;
-
-                default:
-#if DEBUG
-                    throw new NotImplementedException();
-#endif
-                    success = false;
-                    break;
+                SumFile newSumFile = new SumFile();
+                newSumFile.SetFileList(_checksumItemList);
+                newSumFile.WriteFile(_filename, _currentSumType);
             }
+            catch
+            {
+                success = false;
+            }
+
             return success;
         }
     }
