@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<configuration>
+  <form name="MainForm">
+    <X>-1</X>
+    <Y>-1</Y>
+    <Width>617</Width>
+    <Height>498</Height>
+  </form>
+  <toolbar name="toolStripFile">
+    <X>3</X>
+    <Y>24</Y>
+    <Visible>True</Visible>
+  </toolbar>
+  <toolbar name="toolStripSums">
+    <X>3</X>
+    <Y>49</Y>
+    <Visible>True</Visible>
+  </toolbar>
+</configuration>

@@ -31,6 +31,7 @@ using System.IO;
 using System.Windows.Forms;
 using System.Reflection;
 using System.Text;
+using CheckSumTool.Settings;
 
 namespace CheckSumTool
 {
@@ -81,11 +82,15 @@ namespace CheckSumTool
         /// </summary>
         SumDocument _document = new SumDocument();
 
+        XPathHandler _handler;
+
         /// <summary>
         /// Constructor.
         /// </summary>
         public MainForm()
         {
+            CheckConfigFile();
+
             //
             // The InitializeComponent() call is required for Windows Forms designer support.
             //
@@ -101,6 +106,30 @@ namespace CheckSumTool
 
             // Setup idle even handler.
             Application.Idle += Application_Idle;
+        }
+
+        /// <summary>
+        /// Checking if config file exist. If it doesn´t exist copy from program folder.
+        /// </summary>
+        private void CheckConfigFile()
+        {
+            string configurationFilePath = FileUtils.GetUnixPathFormat(Application.UserAppDataPath);
+            configurationFilePath = configurationFilePath.Remove(configurationFilePath.LastIndexOf(FileUtils.PathSeparator)) + FileUtils.PathSeparator + "cfg";
+
+            if(!Directory.Exists(configurationFilePath))
+            {
+                Directory.CreateDirectory(configurationFilePath);
+            }
+                       
+            configurationFilePath = configurationFilePath + "/config.xml";
+
+            if (!File.Exists(configurationFilePath))
+            {
+                string backUpConfigFilePath =  FileUtils.GetUnixPathFormat(Application.StartupPath) + "/config.xml";
+                File.Copy(backUpConfigFilePath, configurationFilePath);
+            }
+
+            _handler = new XPathHandler(configurationFilePath);
         }
 
         /// <summary>
@@ -1021,7 +1050,7 @@ namespace CheckSumTool
         {
             AddFolder();
         }
-        
+
         /// <summary>
         /// Called when item amount in the list is changed.
         /// </summary>
@@ -1031,6 +1060,110 @@ namespace CheckSumTool
         {
             string statustext = string.Format("{0} items", _document.Items.Count);
             statusbarLabelCount.Text = statustext;
+        }
+
+        /// <summary>
+        /// Called when MainForm is closing.
+        /// Setting positio and visible values in user settings.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        void MainFormFormClosing(object sender, FormClosingEventArgs e)
+        {
+            FormSetting mainFormSetting = new FormSetting(_handler);
+            mainFormSetting.Name = "MainForm";
+            mainFormSetting.X = this.Location.X;
+            mainFormSetting.Y = this.Location.Y;
+            mainFormSetting.Width = this.Width;
+            mainFormSetting.Height = this.Height;
+
+            mainFormSetting.SaveSetting();
+
+            ToolbarSetting toolStripFileSetting = new ToolbarSetting(_handler);
+            toolStripFileSetting.Name = "toolStripFile";
+            toolStripFileSetting.X = toolStripFile.Location.X;
+            toolStripFileSetting.Y = toolStripFile.Location.Y;
+            toolStripFileSetting.Visible = toolStripFile.Visible;
+
+            toolStripFileSetting.SaveSetting();
+
+            ToolbarSetting toolStripSumsSetting = new ToolbarSetting(_handler);
+            toolStripSumsSetting.Name = "toolStripSums";
+            toolStripSumsSetting.X = toolStripSums.Location.X;
+            toolStripSumsSetting.Y = toolStripSums.Location.Y;
+            toolStripSumsSetting.Visible = toolStripSums.Visible;
+
+            toolStripSumsSetting.SaveSetting();
+        }
+
+        /// <summary>
+        /// Called when MainForm is starting.
+        /// Setting positions for MainForm and Toolbars.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        void MainFormLoad(object sender, EventArgs e)
+        {  
+            //Setting MainForm starting values
+            FormSetting mainFormSetting = new FormSetting(_handler);
+            mainFormSetting.GetSetting("MainForm");
+
+            if (mainFormSetting.X == -1 || mainFormSetting.Y == -1)
+                StartPosition = FormStartPosition.CenterScreen;
+            else
+                Location = new Point(mainFormSetting.X, mainFormSetting.Y);
+
+            Width = mainFormSetting.Width;
+            Height = mainFormSetting.Height;
+
+            //Setting toolStripFile starting values
+            ToolbarSetting settingToolStripFile = new ToolbarSetting(_handler);
+            settingToolStripFile.GetSetting("toolStripFile");
+
+            if(settingToolStripFile.X == -1 || settingToolStripFile.Y == -1)
+                toolStripFile.Location = new Point(3, 24);
+            else
+                toolStripFile.Location = new Point(settingToolStripFile.X, settingToolStripFile.Y);
+            toolStripFile.Visible = settingToolStripFile.Visible;
+
+            mainMenuViewToolbarsFile.Checked  = toolStripFile.Visible;
+
+
+            //Setting toolStripSums starting values
+            ToolbarSetting settingToolStripSums = new ToolbarSetting(_handler);
+            settingToolStripSums.GetSetting("toolStripSums");
+
+            if(settingToolStripSums.X == -1 || settingToolStripSums.Y == -1)
+                toolStripSums.Location = new Point(3, 49);
+            else
+                toolStripSums.Location = new Point(settingToolStripSums.X, settingToolStripSums.Y);
+            toolStripSums.Visible = settingToolStripSums.Visible;
+
+            mainMenuViewToolbarsSums.Checked  = toolStripSums.Visible;
+        }
+
+        /// <summary>
+        /// Called when MainMenuViewToolsFile is clicked.
+        /// Setting Visible value for toolStripFile and Checked value for mainMenuViewToolbarsFile.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        void MainMenuViewToolsFileClick(object sender, EventArgs e)
+        {
+            toolStripFile.Visible = !toolStripFile.Visible;
+            mainMenuViewToolbarsFile.Checked  = toolStripFile.Visible;
+        }
+
+        /// <summary>
+        /// Called when MainMenuViewToolsSums is clicked.
+        /// Setting Visible value for toolStripSums and Checked value for mainMenuViewToolbarsSums.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        void MainMenuViewToolsSumsClick(object sender, EventArgs e)
+        {
+            toolStripSums.Visible = !toolStripSums.Visible;
+            mainMenuViewToolbarsSums.Checked  = toolStripSums.Visible;
         }
     }
 }
