@@ -66,6 +66,7 @@ namespace CheckSumTool
             CheckSum,
             Verified,
             FullPath,
+            Size,
             Count, // Keep this as last item to get count of items
         }
 
@@ -249,6 +250,23 @@ namespace CheckSumTool
                     throw new ApplicationException();
                     break;
             }
+            
+            if (item.Size != 0)
+            {
+                if (item.Size < 1024 && item.Size > 0)
+                { 
+                    listItems[(int)ListIndices.Size - 1] =
+                            "1 KB";
+                }
+                else if (item.Size > 1024)
+                {
+                    decimal sizeKb = item.Size / 1024;
+                    listItems[(int)ListIndices.Size - 1] =
+                            sizeKb.ToString("### ### ###") + " KB";                    
+                }
+            }
+            else
+                listItems[(int)ListIndices.Size - 1] = "";
 
             listItems[(int)ListIndices.FullPath - 1] = item.FullPath;
             itemList.Items[listItem.Index].SubItems.AddRange(listItems);

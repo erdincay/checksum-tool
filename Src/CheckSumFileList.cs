@@ -136,6 +136,10 @@ namespace CheckSumTool
         public void AddFile(string file, string checksum)
         {
             CheckSumItem newItem = new CheckSumItem(file);
+            
+            FileInfo fileInfo = new FileInfo(file);
+            newItem.Size = Convert.ToDecimal(fileInfo.Length);
+            
             if (checksum != null && checksum != "")
                 newItem.SetSum(checksum);
 
@@ -157,6 +161,10 @@ namespace CheckSumTool
             foreach (FileInfo fi in files)
             {
                 CheckSumItem newItem = new CheckSumItem(fi.FullName);
+                
+                FileInfo fileInfo = new FileInfo(fi.FullName);
+                newItem.Size = Convert.ToDecimal(fileInfo.Length);
+                
                 _fileList.Add(newItem);
             }
         }

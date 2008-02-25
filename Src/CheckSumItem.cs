@@ -57,6 +57,11 @@ namespace CheckSumTool
         /// Full path (full path + filename) for the item
         /// </summary>
         private string _fullPath;
+        
+        /// <summary>
+        /// Size for the item
+        /// </summary>
+        private decimal _size;
 
         /// <summary>
         /// Checksum calculated for the item
@@ -87,6 +92,15 @@ namespace CheckSumTool
         {
             get { return _fullPath; }
             set { _fullPath = value; }
+        }
+        
+        /// <summary>
+        /// Size for the item.
+        /// </summary>
+        public decimal Size
+        {
+            get { return _size; }
+            set { _size = value; }
         }
 
         /// <summary>
