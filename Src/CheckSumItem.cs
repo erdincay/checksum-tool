@@ -61,7 +61,7 @@ namespace CheckSumTool
         /// <summary>
         /// Size for the item
         /// </summary>
-        private decimal _size;
+        private int _size;
 
         /// <summary>
         /// Checksum calculated for the item
@@ -97,7 +97,7 @@ namespace CheckSumTool
         /// <summary>
         /// Size for the item.
         /// </summary>
-        public decimal Size
+        public int Size
         {
             get { return _size; }
             set { _size = value; }

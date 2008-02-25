@@ -138,7 +138,7 @@ namespace CheckSumTool
             CheckSumItem newItem = new CheckSumItem(file);
             
             FileInfo fileInfo = new FileInfo(file);
-            newItem.Size = Convert.ToDecimal(fileInfo.Length);
+            newItem.Size = Convert.ToInt32(fileInfo.Length);
             
             if (checksum != null && checksum != "")
                 newItem.SetSum(checksum);
@@ -163,7 +163,7 @@ namespace CheckSumTool
                 CheckSumItem newItem = new CheckSumItem(fi.FullName);
                 
                 FileInfo fileInfo = new FileInfo(fi.FullName);
-                newItem.Size = Convert.ToDecimal(fileInfo.Length);
+                newItem.Size = Convert.ToInt32(fileInfo.Length);
                 
                 _fileList.Add(newItem);
             }
