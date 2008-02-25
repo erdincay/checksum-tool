@@ -121,7 +121,7 @@ namespace CheckSumTool
             {
                 Directory.CreateDirectory(configurationFilePath);
             }
-                       
+
             configurationFilePath = configurationFilePath + "/config.xml";
 
             if (!File.Exists(configurationFilePath))
@@ -224,7 +224,7 @@ namespace CheckSumTool
         void AddItemToList(CheckSumItem item)
         {
             const int Kilo = 1024;
-                
+
             ListViewItem listItem = itemList.Items.Add(item.FullPath,
                     item.FileName, "");
             string[] listItems = new string[(int)ListIndices.Count - 1];
@@ -252,11 +252,11 @@ namespace CheckSumTool
                     throw new ApplicationException();
                     break;
             }
-            
+
             if (item.Size != 0)
             {
                 if (item.Size < Kilo && item.Size > 0)
-                { 
+                {
                     listItems[(int)ListIndices.Size - 1] =
                             "1 KB";
                 }
@@ -264,7 +264,7 @@ namespace CheckSumTool
                 {
                     decimal sizeKb = item.Size / Kilo;
                     listItems[(int)ListIndices.Size - 1] =
-                            sizeKb.ToString("### ### ###") + " KB";                    
+                            sizeKb.ToString("### ### ###") + " KB";
                 }
             }
             else
@@ -1123,7 +1123,7 @@ namespace CheckSumTool
         /// <param name="sender"></param>
         /// <param name="e"></param>
         void MainFormLoad(object sender, EventArgs e)
-        {  
+        {
             //Setting MainForm starting values
             FormSetting mainFormSetting = new FormSetting(_handler);
             mainFormSetting.GetSetting("MainForm");
@@ -1147,7 +1147,7 @@ namespace CheckSumTool
             toolStripFile.Visible = settingToolStripFile.Visible;
 
             mainMenuViewToolbarsFile.Checked  = toolStripFile.Visible;
-
+            contextMenuFile.Checked  = toolStripFile.Visible;
 
             //Setting toolStripSums starting values
             ToolbarSetting settingToolStripSums = new ToolbarSetting(_handler);
@@ -1160,6 +1160,7 @@ namespace CheckSumTool
             toolStripSums.Visible = settingToolStripSums.Visible;
 
             mainMenuViewToolbarsSums.Checked  = toolStripSums.Visible;
+            contextMenuSums.Checked  = toolStripSums.Visible;
         }
 
         /// <summary>
@@ -1172,6 +1173,7 @@ namespace CheckSumTool
         {
             toolStripFile.Visible = !toolStripFile.Visible;
             mainMenuViewToolbarsFile.Checked  = toolStripFile.Visible;
+            contextMenuFile.Checked  = toolStripFile.Visible;
         }
 
         /// <summary>
@@ -1184,6 +1186,7 @@ namespace CheckSumTool
         {
             toolStripSums.Visible = !toolStripSums.Visible;
             mainMenuViewToolbarsSums.Checked  = toolStripSums.Visible;
+            contextMenuSums.Checked  = toolStripSums.Visible;
         }
     }
 }
