@@ -1,14 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <configuration>
   <form name="MainForm">
-    <X>41</X>
-    <Y>19</Y>
-    <Width>635</Width>
-    <Height>516</Height>
+    <X>48</X>
+    <Y>26</Y>
+    <Width>103</Width>
+    <Height>203</Height>
   </form>
   <toolbar name="toolStripFile">
-    <X>10</X>
-    <Y>31</Y>
+    <X>16</X>
+    <Y>37</Y>
     <Visible>False</Visible>
   </toolbar>
   <toolbar name="toolStripSums">
@@ -16,4 +16,7 @@
     <Y>49</Y>
     <Visible>True</Visible>
   </toolbar>
+  <statusbar name="statusStrip1">
+    <Visible>False</Visible>
+  </statusbar>
 </configuration>

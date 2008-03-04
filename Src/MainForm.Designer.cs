@@ -83,6 +83,7 @@ namespace CheckSumTool
         	this.mainMenuViewToolbars = new System.Windows.Forms.ToolStripMenuItem();
         	this.mainMenuViewToolbarsFile = new System.Windows.Forms.ToolStripMenuItem();
         	this.mainMenuViewToolbarsSums = new System.Windows.Forms.ToolStripMenuItem();
+        	this.mainMenuViewStatusBar = new System.Windows.Forms.ToolStripMenuItem();
         	this.mainMenuChecksumsMenu = new System.Windows.Forms.ToolStripMenuItem();
         	this.mainMenuChecksumsCalculateAll = new System.Windows.Forms.ToolStripMenuItem();
         	this.mainMenuChecksumsVerifyAll = new System.Windows.Forms.ToolStripMenuItem();
@@ -328,7 +329,8 @@ namespace CheckSumTool
         	// mainMenuViewMenu
         	// 
         	this.mainMenuViewMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-        	        	        	this.mainMenuViewToolbars});
+        	        	        	this.mainMenuViewToolbars,
+        	        	        	this.mainMenuViewStatusBar});
         	this.mainMenuViewMenu.Name = "mainMenuViewMenu";
         	this.mainMenuViewMenu.Size = new System.Drawing.Size(41, 20);
         	this.mainMenuViewMenu.Text = "&View";
@@ -339,7 +341,7 @@ namespace CheckSumTool
         	        	        	this.mainMenuViewToolbarsFile,
         	        	        	this.mainMenuViewToolbarsSums});
         	this.mainMenuViewToolbars.Name = "mainMenuViewToolbars";
-        	this.mainMenuViewToolbars.Size = new System.Drawing.Size(126, 22);
+        	this.mainMenuViewToolbars.Size = new System.Drawing.Size(152, 22);
         	this.mainMenuViewToolbars.Text = "Toolbars";
         	// 
         	// mainMenuViewToolbarsFile
@@ -355,6 +357,13 @@ namespace CheckSumTool
         	this.mainMenuViewToolbarsSums.Size = new System.Drawing.Size(110, 22);
         	this.mainMenuViewToolbarsSums.Text = "Sums";
         	this.mainMenuViewToolbarsSums.Click += new System.EventHandler(this.MainMenuViewToolsSumsClick);
+        	// 
+        	// mainMenuViewStatusBar
+        	// 
+        	this.mainMenuViewStatusBar.Name = "mainMenuViewStatusBar";
+        	this.mainMenuViewStatusBar.Size = new System.Drawing.Size(152, 22);
+        	this.mainMenuViewStatusBar.Text = "Status Bar";
+        	this.mainMenuViewStatusBar.Click += new System.EventHandler(this.StatusBarToolStripMenuItemClick);
         	// 
         	// mainMenuChecksumsMenu
         	// 
@@ -633,6 +642,7 @@ namespace CheckSumTool
         	this.toolStripSums.PerformLayout();
         	this.ResumeLayout(false);
         }
+        private System.Windows.Forms.ToolStripMenuItem mainMenuViewStatusBar;
         private System.Windows.Forms.ToolStripMenuItem contextMenuSums;
         private System.Windows.Forms.ToolStripMenuItem contextMenuFile;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;

@@ -262,6 +262,7 @@ namespace CheckSumTool
                 }
                 else if (item.Size > Kilo)
                 {
+                    //TODO: Windows local style
                     decimal sizeKb = item.Size / Kilo;
                     listItems[(int)ListIndices.Size - 1] =
                             sizeKb.ToString("### ### ###") + " KB";
@@ -1090,30 +1091,30 @@ namespace CheckSumTool
         /// <param name="e"></param>
         void MainFormFormClosing(object sender, FormClosingEventArgs e)
         {
+            //Setting MainForm ending values
             FormSetting mainFormSetting = new FormSetting(_handler);
-            mainFormSetting.Name = "MainForm";
-            mainFormSetting.X = this.Location.X;
-            mainFormSetting.Y = this.Location.Y;
-            mainFormSetting.Width = this.Width;
-            mainFormSetting.Height = this.Height;
-
-            mainFormSetting.SaveSetting();
-
+            mainFormSetting.SaveSetting("MainForm",
+                                        this.Location.X,
+                                        this.Location.Y,
+                                        this.Width,
+                                        this.Height);
+            //Setting toolStripFile ending values
             ToolbarSetting toolStripFileSetting = new ToolbarSetting(_handler);
-            toolStripFileSetting.Name = "toolStripFile";
-            toolStripFileSetting.X = toolStripFile.Location.X;
-            toolStripFileSetting.Y = toolStripFile.Location.Y;
-            toolStripFileSetting.Visible = toolStripFile.Visible;
+            toolStripFileSetting.SaveSetting("toolStripFile",
+                                             toolStripFile.Location.X,
+                                             toolStripFile.Location.Y,
+                                             toolStripFile.Visible);
 
-            toolStripFileSetting.SaveSetting();
-
+            //Setting toolStripSums ending values
             ToolbarSetting toolStripSumsSetting = new ToolbarSetting(_handler);
-            toolStripSumsSetting.Name = "toolStripSums";
-            toolStripSumsSetting.X = toolStripSums.Location.X;
-            toolStripSumsSetting.Y = toolStripSums.Location.Y;
-            toolStripSumsSetting.Visible = toolStripSums.Visible;
+            toolStripSumsSetting.SaveSetting("toolStripSums",
+                                             toolStripSums.Location.X,
+                                             toolStripSums.Location.Y,
+                                             toolStripSums.Visible);
 
-            toolStripSumsSetting.SaveSetting();
+            //Setting settingStatusStrip1 ending values
+            StatusbarSetting settingStatusStrip1 = new StatusbarSetting(_handler);
+            settingStatusStrip1.SaveSetting("statusStrip1", statusStrip1.Visible);
         }
 
         /// <summary>
@@ -1161,6 +1162,14 @@ namespace CheckSumTool
 
             mainMenuViewToolbarsSums.Checked  = toolStripSums.Visible;
             contextMenuSums.Checked  = toolStripSums.Visible;
+
+
+            //Setting statusStrip1 starting values
+            StatusbarSetting settingStatusStrip1 = new StatusbarSetting(_handler);
+            settingStatusStrip1.GetSetting("statusStrip1");
+
+            statusStrip1.Visible = settingStatusStrip1.Visible;
+            mainMenuViewStatusBar.Checked  = statusStrip1.Visible;
         }
 
         /// <summary>
@@ -1187,6 +1196,18 @@ namespace CheckSumTool
             toolStripSums.Visible = !toolStripSums.Visible;
             mainMenuViewToolbarsSums.Checked  = toolStripSums.Visible;
             contextMenuSums.Checked  = toolStripSums.Visible;
+        }
+
+        /// <summary>
+        /// Called when mainMenuViewStatusBar is clicked.
+        /// Setting Visible value for statusStrip1 and Checked value for mainMenuViewStatusBar.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        void StatusBarToolStripMenuItemClick(object sender, EventArgs e)
+        {
+        	statusStrip1.Visible = !statusStrip1.Visible;
+            mainMenuViewStatusBar.Checked  = statusStrip1.Visible;
         }
     }
 }

@@ -31,12 +31,12 @@ using System.Collections.Generic;
 namespace CheckSumTool.Settings
 {
     /// <summary>
-    /// Interface for getting and setting component config values.
+    /// Interface for getting and setting component setting values.
     /// </summary>
-    public interface IComponentSetting
+    public interface ISetting
     {
         /// <summary>
-        /// Name value for component.
+        /// Name value for Setting.
         /// </summary>
         string Name
         {
@@ -45,22 +45,40 @@ namespace CheckSumTool.Settings
         }
 
         /// <summary>
-        /// Get component position and other values.
+        /// Set Setting int value.
         /// </summary>
-        /// <param name="name"></param>
-        void GetSetting(string name);
+        /// <param name="settingValue"></param>
+        void SetInt(int settingValue);
 
         /// <summary>
-        /// Setting component position values.
+        /// Get Setting int value.
         /// </summary>
-        /// <param name="x"></param>
-        /// <param name="y"></param>
-        void SetPosition(int x, int y);
+        /// <returns></returns>
+        int GetInt();
 
         /// <summary>
-        /// Saving component position and other values.
+        /// Set Setting string value.
         /// </summary>
-        void SaveSetting();
+        /// <param name="settingValue"></param>
+        void SetString(string settingValue);
+
+        /// <summary>
+        /// Get Setting string value.
+        /// </summary>
+        /// <returns></returns>
+        string GetString();
+
+        /// <summary>
+        /// Set Setting boolean value.
+        /// </summary>
+        /// <param name="settingValue"></param>
+        void SetBool(bool settingValue);
+
+        /// <summary>
+        /// Get Setting boolean value.
+        /// </summary>
+        /// <returns></returns>
+        bool GetBool();
     }
 }
 

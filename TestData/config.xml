@@ -16,4 +16,7 @@
     <Y>49</Y>
     <Visible>True</Visible>
   </toolbar>
+  <statusbar name="statusStrip1">
+    <Visible>True</Visible>
+  </statusbar>
 </configuration>

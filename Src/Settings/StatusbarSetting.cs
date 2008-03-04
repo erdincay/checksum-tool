@@ -36,7 +36,7 @@ namespace CheckSumTool.Settings
     /// <summary>
     /// Description of ToolbarSetting.
     /// </summary>
-    public class ToolbarSetting : IComponentSetting
+    public class StatusbarSetting : IComponentSetting
     {
         List<Setting> _list = new List<Setting>();
 
@@ -46,7 +46,7 @@ namespace CheckSumTool.Settings
         /// Constructor. Set default values and handler.
         /// </summary>
         /// <param name="handler"></param>
-        public ToolbarSetting(XPathHandler handler)
+        public StatusbarSetting(XPathHandler handler)
         {
             _handler = handler;
         }
@@ -65,40 +65,6 @@ namespace CheckSumTool.Settings
             set
             {
                 SettingUtils.SetSettingFromList(_list, "Name", value);
-            }
-        }
-
-        /// <summary>
-        /// X value for component.
-        /// </summary>
-        public int X
-        {
-            get
-            {
-                Setting item = SettingUtils.GetSettingFromList(_list, "X");
-                return item.GetInt();
-            }
-
-            set
-            {
-                SettingUtils.SetSettingFromList(_list, "X", value);
-            }
-        }
-
-        /// <summary>
-        /// Y value for component.
-        /// </summary>
-        public int Y
-        {
-            get
-            {
-                Setting item = SettingUtils.GetSettingFromList(_list, "Y");
-                return item.GetInt();
-            }
-
-            set
-            {
-                SettingUtils.SetSettingFromList(_list, "Y", value);
             }
         }
 
@@ -125,7 +91,7 @@ namespace CheckSumTool.Settings
         /// <param name="name"></param>
         public void GetSetting(string name)
         {
-            SettingUtils.GetSetting(_list, _handler, this, name, "toolbar");
+            SettingUtils.GetSetting(_list, _handler, this, name, "statusbar");
         }
 
         /// <summary>
@@ -134,34 +100,18 @@ namespace CheckSumTool.Settings
         public void SaveSetting()
         {
             //TODO: Save first position values and then other.
-            SettingUtils.SaveSetting(_handler, this, this.Name, "toolbar");
+            SettingUtils.SaveSetting(_handler, this, this.Name, "statusbar");
         }
 
         /// <summary>
         /// Saving component position and other values.
         /// </summary>
-        public void SaveSetting(string name, int x, int y, bool visible)
+        public void SaveSetting(string name, bool visible)
         {
             this.Name = name;
-            this.X = x;
-            this.Y = y;
             this.Visible = visible;
 
             SaveSetting();
-        }
-
-        /// <summary>
-        /// Setting component position values.
-        /// </summary>
-        /// <param name="x"></param>
-        /// <param name="y"></param>
-        public void SetPosition(int x, int y)
-        {
-           Setting settingX = new Setting(0, "X", x);
-           _list.Add(settingX);
-
-           Setting settingY = new Setting(0, "Y", y);
-           _list.Add(settingY);
         }
 
         /// <summary>
@@ -173,53 +123,57 @@ namespace CheckSumTool.Settings
            Setting settingVisible = new Setting(2, "Visible", visible);
            _list.Add(settingVisible);
         }
+
+        /// <summary>
+        /// Setting component position values.
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        public void SetPosition(int x, int y)
+        {
+
+        }
     }
 
     [TestFixture]
-    public class TestStatusbarSetting
+    public class TestToolbarSetting
     {
         /// <summary>
-        /// Test getting Statusbar values and comparing.
+        /// Test getting Toolbar values and comparing.
         /// </summary>
         [Test]
         public void TestToolbarGetSetting()
         {
             XPathHandler handler = new XPathHandler(@"../../TestData/config.xml");
-            ToolbarSetting settingToolStripFile = new ToolbarSetting(handler);
-            settingToolStripFile.GetSetting("toolStripFile");
+            StatusbarSetting settingStatusStrip1 = new StatusbarSetting(handler);
+            settingStatusStrip1.GetSetting("statusStrip1");
 
-            Assert.AreEqual(settingToolStripFile.Name, "toolStripFile");
-            Assert.AreEqual(settingToolStripFile.X, 3);
-            Assert.AreEqual(settingToolStripFile.Y, 24);
-            Assert.AreEqual(settingToolStripFile.Visible, true);
+            Assert.AreEqual(settingStatusStrip1.Name, "statusStrip1");
+            Assert.AreEqual(settingStatusStrip1.Visible, true);
         }
 
         /// <summary>
         /// Testing saving and reading.
-        /// First test gets Statusbar values, then increase values
+        /// First test gets Toolbar values, then increase values
         /// and after that gets values again and compare values.
         /// </summary>
         [Test]
         public void TestToolbarSaveSettinAndGetSetting()
         {
             XPathHandler handler = new XPathHandler(@"../../TestData/configWrite.xml");
-            ToolbarSetting settingToolStripFileFirst = new ToolbarSetting(handler);
-            settingToolStripFileFirst.GetSetting("toolStripFile");
+            StatusbarSetting settingStatusStrip1First = new StatusbarSetting(handler);
+            settingStatusStrip1First.GetSetting("statusStrip1");
 
-            ToolbarSetting settingToolStripFileSave = new ToolbarSetting(handler);
-            settingToolStripFileSave.Name = "toolStripFile";
-            settingToolStripFileSave.X = settingToolStripFileFirst.X + 1;
-            settingToolStripFileSave.Y = settingToolStripFileFirst.Y + 1;
-            settingToolStripFileSave.Visible = !settingToolStripFileFirst.Visible;
-            settingToolStripFileSave.SaveSetting();
+            StatusbarSetting settingStatusStrip1Save = new StatusbarSetting(handler);
+            settingStatusStrip1Save.Name = "statusStrip1";
+            settingStatusStrip1Save.Visible = !settingStatusStrip1First.Visible;
+            settingStatusStrip1Save.SaveSetting();
 
-            ToolbarSetting settingToolStripFileSecond = new ToolbarSetting(handler);
-            settingToolStripFileSecond.GetSetting("toolStripFile");
+            StatusbarSetting settingStatusStrip1Second = new StatusbarSetting(handler);
+            settingStatusStrip1Second.GetSetting("statusStrip1");
 
-            Assert.AreEqual(settingToolStripFileSecond.Name, settingToolStripFileSave.Name);
-            Assert.AreEqual(settingToolStripFileSecond.X,  settingToolStripFileSave.X);
-            Assert.AreEqual(settingToolStripFileSecond.Y,  settingToolStripFileSave.Y);
-            Assert.AreEqual(settingToolStripFileSecond.Visible,  settingToolStripFileSave.Visible);
+            Assert.AreEqual(settingStatusStrip1Second.Name, settingStatusStrip1Save.Name);
+            Assert.AreEqual(settingStatusStrip1Second.Visible,  settingStatusStrip1Save.Visible);
         }
     }
 }

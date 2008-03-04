@@ -27,6 +27,7 @@ THE SOFTWARE.
 using System;
 using System.Xml;
 using System.Xml.XPath;
+using System.Collections.Generic;
 using NUnit.Framework;
 
 namespace CheckSumTool.Settings
@@ -36,11 +37,7 @@ namespace CheckSumTool.Settings
     /// </summary>
     public class FormSetting : IComponentSetting
     {
-        string _name;
-        int _x;
-        int _y;
-        int _width;
-        int _height;
+        List<Setting> _list = new List<Setting>();
 
         XPathHandler _handler;
 
@@ -49,8 +46,16 @@ namespace CheckSumTool.Settings
         /// </summary>
         public string Name
         {
-            get { return _name; }
-            set { _name = value; }
+            get
+            {
+                Setting item = SettingUtils.GetSettingFromList(_list, "Name");
+                return item.GetString();
+            }
+
+            set
+            {
+                SettingUtils.SetSettingFromList(_list, "Name", value);
+            }
         }
 
         /// <summary>
@@ -58,8 +63,16 @@ namespace CheckSumTool.Settings
         /// </summary>
         public int X
         {
-            get { return _x; }
-            set { _x = value; }
+            get
+            {
+                Setting item = SettingUtils.GetSettingFromList(_list, "X");
+                return item.GetInt();
+            }
+
+            set
+            {
+                SettingUtils.SetSettingFromList(_list, "X", value);
+            }
         }
 
         /// <summary>
@@ -67,8 +80,16 @@ namespace CheckSumTool.Settings
         /// </summary>
         public int Y
         {
-            get { return _y; }
-            set { _y = value; }
+            get
+            {
+                Setting item = SettingUtils.GetSettingFromList(_list, "Y");
+                return item.GetInt();
+            }
+
+            set
+            {
+                SettingUtils.SetSettingFromList(_list, "Y", value);
+            }
         }
 
         /// <summary>
@@ -76,8 +97,16 @@ namespace CheckSumTool.Settings
         /// </summary>
         public int Width
         {
-            get { return _width; }
-            set { _width = value; }
+            get
+            {
+                Setting item = SettingUtils.GetSettingFromList(_list, "Width");
+                return item.GetInt();
+            }
+
+            set
+            {
+                SettingUtils.SetSettingFromList(_list, "Width", value);
+            }
         }
 
         /// <summary>
@@ -85,8 +114,16 @@ namespace CheckSumTool.Settings
         /// </summary>
         public int Height
         {
-            get { return _height; }
-            set { _height = value; }
+            get
+            {
+                Setting item = SettingUtils.GetSettingFromList(_list, "Height");
+                return item.GetInt();
+            }
+
+            set
+            {
+                SettingUtils.SetSettingFromList(_list, "Height", value);
+            }
         }
 
         /// <summary>
@@ -96,11 +133,6 @@ namespace CheckSumTool.Settings
         public FormSetting(XPathHandler handler)
         {
             _handler = handler;
-
-            _x = -1;
-            _y = -1;
-            _width = -1;
-            _height = -1;
         }
 
         /// <summary>
@@ -109,13 +141,7 @@ namespace CheckSumTool.Settings
         /// <param name="name"></param>
         public void GetSetting(string name)
         {
-            _name = name;
-
-            string path = @"/configuration/form[@name=""$formName""]/*".Replace("$formName", name);
-            XPathNodeIterator iterator = _handler.GetComponentSettings(path);
-            _handler.SetFormValues(this, iterator.Clone());
-            _handler.SetPositionValues(this, iterator.Clone());
-
+            SettingUtils.GetSetting(_list, _handler, this, name, "form");
         }
 
         /// <summary>
@@ -124,8 +150,21 @@ namespace CheckSumTool.Settings
         public void SaveSetting()
         {
             //TODO: Save first position values and then other.
+            SettingUtils.SaveSetting(_handler, this, this.Name, "form");
+        }
 
-            _handler.SaveForm(@"/configuration/form[@name=""$formName""]".Replace("$formName", this.Name), this);
+        /// <summary>
+        /// Saving component position and other values.
+        /// </summary>
+        public void SaveSetting(string name, int x, int y, int width, int height)
+        {
+            this.Name = name;
+            this.X = x;
+            this.Y = y;
+            this.Width = width;
+            this.Height = height;
+
+            SaveSetting();
         }
 
         /// <summary>
@@ -135,8 +174,11 @@ namespace CheckSumTool.Settings
         /// <param name="y"></param>
         public void SetPosition(int x, int y)
         {
-             _x = x;
-             _y = y;
+           Setting settingX = new Setting(0, "X", x);
+           _list.Add(settingX);
+
+           Setting settingY = new Setting(0, "Y", y);
+           _list.Add(settingY);
         }
 
         /// <summary>
@@ -146,8 +188,11 @@ namespace CheckSumTool.Settings
         /// <param name="height"></param>
         public void SetValues(int width, int height)
         {
-             _width = width;
-             _height = height;
+            Setting settingWidth = new Setting(0, "Width", width);
+           _list.Add(settingWidth);
+
+           Setting settingHeight = new Setting(0, "Height", height);
+           _list.Add(settingHeight);
         }
     }
 
