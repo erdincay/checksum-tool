@@ -71,8 +71,13 @@
     <Compile Include="ICheckSumData.cs" />
     <Compile Include="IFile.cs" />
     <Compile Include="Pair.cs" />
+    <Compile Include="ProgresInfo.cs" />
     <Compile Include="Settings\FormSetting.cs" />
     <Compile Include="Settings\IComponentSetting.cs" />
+    <Compile Include="Settings\ISetting.cs" />
+    <Compile Include="Settings\Setting.cs" />
+    <Compile Include="Settings\SettingUtils.cs" />
+    <Compile Include="Settings\StatusbarSetting.cs" />
     <Compile Include="Settings\ToolbarSetting.cs" />
     <Compile Include="Settings\XPathHandler.cs" />
     <Compile Include="Sha1File.cs" />

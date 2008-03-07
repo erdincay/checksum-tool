@@ -106,10 +106,10 @@ namespace CheckSumTool
         /// <summary>
         /// Calculate checksums for all items in the list.
         /// </summary>
-        public void CalculateSums()
+        public void CalculateSums(ref ProgresInfo progresInfo)
         {
             Calculator sumCalculator = new Calculator(_currentSumType);
-            sumCalculator.Calculate(_checksumItemList.FileList);
+            sumCalculator.Calculate(_checksumItemList.FileList, ref progresInfo);
 
             // Set list changed as even existing checksum values could change
             // during calculation (file in disc changed between calculations).
@@ -123,10 +123,10 @@ namespace CheckSumTool
         /// true if all items were verified successfully, false if
         /// one or more items failed the verification.
         ///</returns>
-        public bool VerifySums()
+        public bool VerifySums(ref ProgresInfo progresInfo)
         {
             Calculator sumCalculator = new Calculator(_currentSumType);
-            bool succeeded = sumCalculator.Verify(_checksumItemList.FileList);
+            bool succeeded = sumCalculator.Verify(_checksumItemList.FileList, ref progresInfo);
             return succeeded;
         }
 
@@ -167,7 +167,17 @@ namespace CheckSumTool
             {
                 SetSumTypeFromFileType(fileType);
                 newSumFile.SetFileList(_checksumItemList);
-                int items = newSumFile.ReadFile(path, _currentSumType);
+
+                int items = 0;
+                try
+                {
+                    items = newSumFile.ReadFile(path, _currentSumType);
+                }
+                catch (Exception)
+                {
+
+                }
+
                 if (items > 0)
                 {
                     success = true;

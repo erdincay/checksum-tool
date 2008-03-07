@@ -136,16 +136,32 @@ namespace CheckSumTool
         public void AddFile(string file, string checksum)
         {
             CheckSumItem newItem = new CheckSumItem(file);
-            
+
             FileInfo fileInfo = new FileInfo(file);
             newItem.Size = Convert.ToInt32(fileInfo.Length);
-            
+
             if (checksum != null && checksum != "")
                 newItem.SetSum(checksum);
 
             _listChanged = true;
             _fileList.Add(newItem);
+        }
 
+        /// <summary>
+        /// Add files in folder to items to process.
+        /// </summary>
+        /// <param name="folder">Path to folder to add.</param>
+        public void AddFolder(ref ProgresInfo progresInfo, string path)
+        {
+            progresInfo.DefaultSetting();
+            progresInfo.Run = true;
+            progresInfo.Max = 100;
+
+            AddFolder(path);
+
+            progresInfo.Ready = true;
+            progresInfo.Stop = true;
+            progresInfo.Run = false;
         }
 
         /// <summary>
@@ -161,12 +177,30 @@ namespace CheckSumTool
             foreach (FileInfo fi in files)
             {
                 CheckSumItem newItem = new CheckSumItem(fi.FullName);
-                
+
                 FileInfo fileInfo = new FileInfo(fi.FullName);
                 newItem.Size = Convert.ToInt32(fileInfo.Length);
-                
+
                 _fileList.Add(newItem);
             }
+        }
+
+        /// <summary>
+        /// Add folder and it´s subfolders.
+        /// </summary>
+        /// <param name="folder">Path to folder to add.</param>
+        /// <param name="progresInfo"></param>
+        public void AddSubFolders(ref ProgresInfo progresInfo, string path)
+        {
+            progresInfo.DefaultSetting();
+            progresInfo.Run = true;
+            progresInfo.Max = 100;
+
+            AddSubFolders(path);
+
+            progresInfo.Ready = true;
+            progresInfo.Stop = true;
+            progresInfo.Run = false;
         }
 
         /// <summary>

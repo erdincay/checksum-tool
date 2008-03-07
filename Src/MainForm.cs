@@ -57,6 +57,12 @@ namespace CheckSumTool
         /// </summary>
         static readonly string ContributorsFile = "Contributors.txt";
 
+        System.Windows.Forms.Timer _clock;
+        ProgresInfo _progresInfo = new ProgresInfo();
+
+        delegate void DelegateCalculateSums(ref ProgresInfo progresInfo);
+        delegate void DelegateAddFiles(ref ProgresInfo progresInfo, string path);
+
         /// <summary>
         /// Indices for list view columns
         /// </summary>
@@ -92,6 +98,9 @@ namespace CheckSumTool
         {
             CheckConfigFile();
 
+            _clock=new System.Windows.Forms.Timer();
+            _clock.Interval=1000;
+            _clock.Tick+=new EventHandler(Timer_Tick);
             //
             // The InitializeComponent() call is required for Windows Forms designer support.
             //
@@ -227,6 +236,7 @@ namespace CheckSumTool
 
             ListViewItem listItem = itemList.Items.Add(item.FullPath,
                     item.FileName, "");
+
             string[] listItems = new string[(int)ListIndices.Count - 1];
 
             if (item.CheckSum != null)
@@ -295,15 +305,12 @@ namespace CheckSumTool
             if (itemList.Items.Count == 0)
                 return;
 
-            this.UseWaitCursor = true;
             statusbarLabel1.Text = "Calculating checksums...";
-            ListView.ListViewItemCollection items = itemList.Items;
+            this.UseWaitCursor = true;
 
-            _document.CalculateSums();
-
-            UpdateGUIListFromDoc();
-            statusbarLabel1.Text = "Ready.";
-            this.UseWaitCursor = false;
+            DelegateCalculateSums delInstance = new DelegateCalculateSums (_document.CalculateSums);
+            delInstance.BeginInvoke(ref _progresInfo, null, null);
+            _clock.Start();
         }
 
         /// <summary>
@@ -362,32 +369,21 @@ namespace CheckSumTool
         /// <summary>
         /// Verify that checksums in the list match to file's actual checksums.
         /// </summary>
-        void VerifyCheckSums()
+        void VerifyCheckSums(ref ProgresInfo progresInfo)
         {
             if (itemList.Items.Count == 0)
                 return;
 
-            this.UseWaitCursor = true;
-            statusbarLabel1.Text = "Verifying checksums...";
-            ListView.ListViewItemCollection items = itemList.Items;
-
-            bool allSucceeded = _document.VerifySums();
-            UpdateGUIListFromDoc();
+            bool allSucceeded = _document.VerifySums(ref progresInfo);
 
             if (allSucceeded)
             {
-                MessageBox.Show(this, "All items verified to match their checksums.",
-                                "Verification Succeeded", MessageBoxButtons.OK,
-                                MessageBoxIcon.Information);
+                progresInfo.Succeeded = 1;
             }
             else
             {
-                MessageBox.Show(this, "One ore more items could not be verified to match their checksums.",
-                                "Verification Failed", MessageBoxButtons.OK,
-                                MessageBoxIcon.Warning);
+                progresInfo.Succeeded = 2;
             }
-            statusbarLabel1.Text = "Ready.";
-            this.UseWaitCursor = false;
         }
 
         /// <summary>
@@ -658,19 +654,30 @@ namespace CheckSumTool
                     DialogResult result = MessageBox.Show("Add all subfolders of this folder?",
                             "CheckSum Tool", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
 
+                    this.UseWaitCursor = true;
+
                     if ( result == DialogResult.Yes )
-                        _document.Items.AddSubFolders(path);
+                    {
+                        DelegateAddFiles delInstance = new DelegateAddFiles (_document.Items.AddSubFolders);
+                        delInstance.BeginInvoke(ref _progresInfo, path, null, null);
+                        _clock.Start();
+                    }
                     else
                     {
-                        _document.Items.AddFolder(path);
+                        DelegateAddFiles delInstance = new DelegateAddFiles (_document.Items.AddFolder);
+                        delInstance.BeginInvoke(ref _progresInfo, path, null, null);
+                        _clock.Start();
                     }
                 }
                 else
                 {
-                    _document.Items.AddFolder(path);
+                    this.UseWaitCursor = true;
+
+                    DelegateAddFiles delInstance = new DelegateAddFiles (_document.Items.AddFolder);
+                    delInstance.BeginInvoke(ref _progresInfo, path, null, null);
+                    _clock.Start();
                 }
 
-                UpdateGUIListFromDoc();
                 _lastFolder = path;
             }
         }
@@ -787,7 +794,12 @@ namespace CheckSumTool
         /// <param name="e"></param>
         void ToolStripBtnVerifyClick(object sender, EventArgs e)
         {
-            VerifyCheckSums();
+            statusbarLabel1.Text = "Verifying checksums...";
+            this.UseWaitCursor = true;
+
+            DelegateCalculateSums delInstance = new DelegateCalculateSums (VerifyCheckSums);
+            delInstance.BeginInvoke(ref _progresInfo, null, null);
+            _clock.Start();
         }
 
         /// <summary>
@@ -844,7 +856,7 @@ namespace CheckSumTool
         /// <param name="e"></param>
         void MainMenuChecksumsVerifyAllClick(object sender, EventArgs e)
         {
-            VerifyCheckSums();
+            ToolStripBtnVerifyClick(sender, e);
         }
 
         /// <summary>
@@ -1208,6 +1220,64 @@ namespace CheckSumTool
         {
         	statusStrip1.Visible = !statusStrip1.Visible;
             mainMenuViewStatusBar.Checked  = statusStrip1.Visible;
+        }
+
+        /// <summary>
+        /// Updating progressBar and statusBar
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="eArgs"></param>
+        void Timer_Tick(object sender,EventArgs eArgs)
+        {
+            if(sender == _clock)
+            {
+                statusbarLabelProgressBar.Maximum = _progresInfo.Max;
+
+                int now;
+
+                statusbarLabelProgressBar.Maximum = _progresInfo.Max;
+                now = _progresInfo.Now;
+
+                if(_progresInfo.Run == true)
+                {
+                    if(statusbarLabelProgressBar.Value >= 100)
+                        statusbarLabelProgressBar.Value = 0;
+
+                    statusbarLabelProgressBar.Increment(10);
+                }
+                else
+                {
+                    if(_progresInfo.Ready)
+                    {
+                        statusbarLabelProgressBar.Value = 0;
+                        _clock.Stop();
+                        UpdateGUIListFromDoc();
+                        statusbarLabel1.Text = "Ready.";
+                        this.UseWaitCursor = false;
+
+                        if(_progresInfo.Succeeded != -1)
+                        {
+                            if(_progresInfo.Succeeded == 1)
+                            {
+                                MessageBox.Show(this, "All items verified to match their checksums.",
+                                    "Verification Succeeded", MessageBoxButtons.OK,
+                                    MessageBoxIcon.Information);
+                            }
+                            else
+                            {
+                                MessageBox.Show(this, "One ore more items could not be verified to match their checksums.",
+                                    "Verification Failed", MessageBoxButtons.OK,
+                                    MessageBoxIcon.Warning);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        statusbarLabelProgressBar.Value = now;
+                        statusbarLabel1.Text = _progresInfo.Filename;
+                    }
+                }
+            }
         }
     }
 }

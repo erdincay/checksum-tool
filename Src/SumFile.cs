@@ -95,10 +95,23 @@ namespace CheckSumTool
                 // TODO: must validity-check values!
                 string filename = item.Item2;
                 FileInfo fi = new FileInfo(filename);
-                string fullpath = Path.Combine(fi.DirectoryName, fi.Name);
 
-                _list.AddFile(fullpath, item.Item1);
-                ++items;
+                // Check if fhe file is found and accessible
+                try
+                {
+                    if (fi.Exists)
+                    {
+                        string fullpath = Path.Combine(fi.DirectoryName, fi.Name);
+
+                        _list.AddFile(fullpath, item.Item1);
+                        ++items;
+                        continue;
+                    }
+                }
+                catch
+                {
+                    continue;
+                }
             }
             return items;
         }

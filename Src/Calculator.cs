@@ -69,12 +69,20 @@ namespace CheckSumTool
         /// Calculate checksums.
         /// </summary>
         /// <param name="itemList">List of items for which to calculate.</param>
-        public void Calculate(List<CheckSumItem> itemList)
+        public void Calculate(List<CheckSumItem> itemList, ref ProgresInfo progresInfo)
         {
             ICheckSum sumImpl = CheckSumImplList.GetImplementation(_sumType);
 
+            progresInfo.DefaultSetting();
+            progresInfo.Max = itemList.Count;
+
+            int i = 0;
             foreach (CheckSumItem ci in itemList)
             {
+                i++;
+                progresInfo.Now = i;
+                progresInfo.Filename = ci.FullPath;
+
                 // Check if fhe file is found and accessible
                 try
                 {
@@ -103,6 +111,8 @@ namespace CheckSumTool
                     //TODO: Set failure status to checksum item.
                 }
             }
+
+            progresInfo.Ready = true;
         }
 
         /// <summary>
@@ -113,13 +123,21 @@ namespace CheckSumTool
         /// true if all items succeeded the verification, false if
         /// one or more items failed verification.
         /// </returns>
-        public bool Verify(List<CheckSumItem> itemList)
+        public bool Verify(List<CheckSumItem> itemList, ref ProgresInfo progresInfo)
         {
             bool verifysucceeded = true;
             ICheckSum sumImpl = CheckSumImplList.GetImplementation(_sumType);
 
+            progresInfo.DefaultSetting();
+            progresInfo.Max = itemList.Count;
+
+            int i = 0;
             foreach (CheckSumItem ci in itemList)
             {
+                i++;
+                progresInfo.Now = i;
+                progresInfo.Filename = ci.FullPath;
+
                 // If verification finds an item which does not have checksum
                 // (not calculated yet?) just ignore the item. Or maybe we
                 // should calculate checksum first?
@@ -146,7 +164,7 @@ namespace CheckSumTool
                     verifysucceeded = false;
                     continue;
                 }
-                
+
                 bool verified = false;
 
                 try
@@ -184,6 +202,9 @@ namespace CheckSumTool
                     }
                 }
             }
+
+            progresInfo.Ready = true;
+
             return verifysucceeded;
         }
     }
