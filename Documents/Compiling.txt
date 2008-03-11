@@ -60,7 +60,7 @@ Manual can be converted in command line:
 CheckSumTool's NAnt build file also contains a task for building manual.
 
 
-setting the Version Number
+Setting the Version Number
 --------------------------
 Version number is set in two places:
 
@@ -68,3 +68,12 @@ Version number is set in two places:
   Src/AssemblyInfo.cs
 - for installer it is in begin of installer script:
   Installer/NSIS/CheckSumTool.nsi
+
+
+Icons
+-----
+Checksum Tool uses icons from FamFamFam's Silk -collection:
+http://famfamfam.com/lab/icons/silk/
+
+These icons are licenced under Creative Commons Attribution 2.5 License
+(http://creativecommons.org/licenses/by/2.5/).
