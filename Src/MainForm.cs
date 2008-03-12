@@ -157,7 +157,6 @@ namespace CheckSumTool
             if (_document.Items.HasChanged)
             {
                 toolStripBtnSave.Enabled = true;
-                mainMenuFileSave.Enabled = true;
 
                 // Add star to caption if changed
                 if (!this.Text.StartsWith("*"))
@@ -291,9 +290,16 @@ namespace CheckSumTool
         void UpdateGUIListFromDoc()
         {
             itemList.Items.Clear();
-            foreach (CheckSumItem item in _document.Items.FileList)
+            try
             {
-                AddItemToList(item);
+                foreach (CheckSumItem item in _document.Items.FileList)
+                {
+                    AddItemToList(item);
+                }
+            }
+            catch (Exception)
+            {
+                ///Raising when Stopping File Adding..
             }
         }
 
@@ -306,7 +312,6 @@ namespace CheckSumTool
                 return;
 
             statusbarLabel1.Text = "Calculating checksums...";
-            this.UseWaitCursor = true;
 
             DelegateCalculateSums delInstance = new DelegateCalculateSums (_document.CalculateSums);
             delInstance.BeginInvoke(ref _progresInfo, null, null);
@@ -654,7 +659,7 @@ namespace CheckSumTool
                     DialogResult result = MessageBox.Show("Add all subfolders of this folder?",
                             "CheckSum Tool", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
 
-                    this.UseWaitCursor = true;
+                    statusbarLabel1.Text = "Adding files...";
 
                     if ( result == DialogResult.Yes )
                     {
@@ -671,8 +676,7 @@ namespace CheckSumTool
                 }
                 else
                 {
-                    this.UseWaitCursor = true;
-
+                    statusbarLabel1.Text = "Adding files...";
                     DelegateAddFiles delInstance = new DelegateAddFiles (_document.Items.AddFolder);
                     delInstance.BeginInvoke(ref _progresInfo, path, null, null);
                     _clock.Start();
@@ -1218,7 +1222,7 @@ namespace CheckSumTool
         /// <param name="e"></param>
         void StatusBarToolStripMenuItemClick(object sender, EventArgs e)
         {
-        	statusStrip1.Visible = !statusStrip1.Visible;
+            statusStrip1.Visible = !statusStrip1.Visible;
             mainMenuViewStatusBar.Checked  = statusStrip1.Visible;
         }
 
@@ -1238,46 +1242,177 @@ namespace CheckSumTool
                 statusbarLabelProgressBar.Maximum = _progresInfo.Max;
                 now = _progresInfo.Now;
 
-                if(_progresInfo.Run == true)
-                {
-                    if(statusbarLabelProgressBar.Value >= 100)
-                        statusbarLabelProgressBar.Value = 0;
+                this.UseWaitCursor = true;
+                statusbarLabelCount.Visible = false;
+                statusbarLabelProgressBar.Visible = true;
+                EnableStop();
 
-                    statusbarLabelProgressBar.Increment(10);
+                if(_progresInfo.Stop)
+                {
+                    StoppingClock("Stopped.");
                 }
                 else
                 {
-                    if(_progresInfo.Ready)
+                    if(_progresInfo.Run == true)
                     {
-                        statusbarLabelProgressBar.Value = 0;
-                        _clock.Stop();
-                        UpdateGUIListFromDoc();
-                        statusbarLabel1.Text = "Ready.";
-                        this.UseWaitCursor = false;
+                        if(statusbarLabelProgressBar.Value >= 100)
+                            statusbarLabelProgressBar.Value = 0;
 
-                        if(_progresInfo.Succeeded != -1)
-                        {
-                            if(_progresInfo.Succeeded == 1)
-                            {
-                                MessageBox.Show(this, "All items verified to match their checksums.",
-                                    "Verification Succeeded", MessageBoxButtons.OK,
-                                    MessageBoxIcon.Information);
-                            }
-                            else
-                            {
-                                MessageBox.Show(this, "One ore more items could not be verified to match their checksums.",
-                                    "Verification Failed", MessageBoxButtons.OK,
-                                    MessageBoxIcon.Warning);
-                            }
-                        }
+                        statusbarLabelProgressBar.Increment(10);
                     }
                     else
                     {
-                        statusbarLabelProgressBar.Value = now;
-                        statusbarLabel1.Text = _progresInfo.Filename;
+                        if(_progresInfo.Ready)
+                        {
+                            StoppingClock("Ready.");
+
+                            if(_progresInfo.Succeeded != -1)
+                            {
+                                if(_progresInfo.Succeeded == 1)
+                                {
+                                    MessageBox.Show(this, "All items verified to match their checksums.",
+                                        "Verification Succeeded", MessageBoxButtons.OK,
+                                        MessageBoxIcon.Information);
+                                }
+                                else
+                                {
+                                    MessageBox.Show(this, "One ore more items could not be verified to match their checksums.",
+                                        "Verification Failed", MessageBoxButtons.OK,
+                                        MessageBoxIcon.Warning);
+                                }
+                            }
+                        }
+                        else
+                        {
+                            statusbarLabelProgressBar.Value = now;
+                            statusbarLabel1.Text = _progresInfo.Filename;
+                        }
                     }
                 }
             }
+        }
+
+        /// <summary>
+        /// Called when Timer_Tick is starting to progress process.
+        /// </summary>
+        void EnableStop()
+        {
+            toolStripFile.Enabled = false;
+            toolStripBtnCalculate.Enabled = false;
+            toolStripBtnVerify.Enabled = false;
+            toolStripComboSumTypes.Enabled = false;
+
+            //Menu items
+            foreach(object objectItem in fileToolStripMenuItem.DropDownItems)
+            {
+                if(objectItem is ToolStripDropDownItem)
+                {
+                    ToolStripDropDownItem item = (ToolStripDropDownItem) objectItem;
+                    item.Enabled = false;
+                }
+            }
+
+            foreach(object objectItem in mainMenuEditMenu.DropDownItems)
+            {
+                if(objectItem is ToolStripDropDownItem)
+                {
+                    ToolStripDropDownItem item = (ToolStripDropDownItem) objectItem;
+                    item.Enabled = false;
+                }
+            }
+
+            foreach(object objectItem in mainMenuChecksumsMenu.DropDownItems)
+            {
+                if(objectItem is ToolStripDropDownItem)
+                {
+                    ToolStripDropDownItem item = (ToolStripDropDownItem) objectItem;
+                    item.Enabled = false;
+                }
+            }
+
+            exitToolStripMenuItem.Enabled = true;
+
+            //Enable Stop buttons
+            toolStripBtnStop.Enabled = true;
+            mainMenuChecksumsStop.Enabled = true;
+        }
+
+        /// <summary>
+        /// Called when Timer_Tick is Ready or Stopping process
+        /// </summary>
+        void DisableStop()
+        {
+            toolStripFile.Enabled = true;
+            toolStripBtnCalculate.Enabled = true;
+            toolStripBtnVerify.Enabled = true;
+            toolStripComboSumTypes.Enabled = true;
+
+            //Menu items
+            foreach(object objectItem in fileToolStripMenuItem.DropDownItems)
+            {
+                if(objectItem is ToolStripDropDownItem)
+                {
+                    ToolStripDropDownItem item = (ToolStripDropDownItem) objectItem;
+                    item.Enabled = true;
+                }
+            }
+
+            foreach(object objectItem in mainMenuEditMenu.DropDownItems)
+            {
+                if(objectItem is ToolStripDropDownItem)
+                {
+                    ToolStripDropDownItem item = (ToolStripDropDownItem) objectItem;
+                    item.Enabled = true;
+                }
+            }
+
+            foreach(object objectItem in mainMenuChecksumsMenu.DropDownItems)
+            {
+                if(objectItem is ToolStripDropDownItem)
+                {
+                    ToolStripDropDownItem item = (ToolStripDropDownItem) objectItem;
+                    item.Enabled = true;
+                }
+            }
+
+            toolStripBtnStop.Enabled = false;
+            mainMenuChecksumsStop.Enabled = false;
+        }
+        
+        /// <summary>
+        /// Stopping Clock and insertig some UI values.
+        /// </summary>
+        /// <param name="text"></param>
+        void StoppingClock(string text)
+        {
+            _clock.Stop();
+            statusbarLabelProgressBar.Visible = false;
+            statusbarLabelProgressBar.Value = 0;
+            statusbarLabel1.Text = text;
+            statusbarLabelCount.Visible = true;
+            UpdateGUIListFromDoc();
+            DisableStop();
+            this.UseWaitCursor = false;
+        }
+
+        /// <summary>
+        /// Called when user clicks Stop-button in toolbar.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        void ToolStripBtnStopClick(object sender, EventArgs e)
+        {
+            _progresInfo.Stop = true;
+        }
+        
+        void ToolStripBtnStopMouseEnter(object sender, EventArgs e)
+        {
+        	this.UseWaitCursor = false;
+        }
+        
+        void ToolStripBtnStopMouseHover(object sender, EventArgs e)
+        {
+        	this.UseWaitCursor = false;
         }
     }
 }

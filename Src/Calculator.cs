@@ -110,6 +110,11 @@ namespace CheckSumTool
                 {
                     //TODO: Set failure status to checksum item.
                 }
+
+                if(progresInfo.Stop)
+                {
+                    break;
+                }
             }
 
             progresInfo.Ready = true;
@@ -200,6 +205,11 @@ namespace CheckSumTool
                         // Set to false when we find first failed item
                         verifysucceeded = false;
                     }
+                }
+
+                if(progresInfo.Stop)
+                {
+                    break;
                 }
             }
 
