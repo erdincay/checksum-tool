@@ -115,7 +115,15 @@ namespace CheckSumTool.Settings
                                "<Y>" + toolbar.Y + "</Y>" +
                                "<Visible>" + toolbar.Visible + "</Visible>";
 
-            root.ReplaceChild(newForm, oldForm);
+            // If existing element was not found, append setting as new element
+            if (oldForm != null)
+            {
+                root.ReplaceChild(newForm, oldForm);
+            }
+            else
+            {
+                root.AppendChild(newForm);
+            }
             doc.Save(_fileName);
         }
 
@@ -140,7 +148,15 @@ namespace CheckSumTool.Settings
 
             newForm.InnerXml = "<Visible>" + statusbar.Visible + "</Visible>";
 
-            root.ReplaceChild(newForm, oldForm);
+            // If existing element was not found, append setting as new element
+            if (oldForm != null)
+            {
+                root.ReplaceChild(newForm, oldForm);
+            }
+            else
+            {
+                root.AppendChild(newForm);
+            }
             doc.Save(_fileName);
         }
     }
