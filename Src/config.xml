@@ -1,10 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <configuration>
   <form name="MainForm">
-    <X>-1</X>
-    <Y>-1</Y>
-    <Width>617</Width>
-    <Height>498</Height>
+    <X>127</X>
+    <Y>66</Y>
+    <Width>836</Width>
+    <Height>657</Height>
   </form>
   <toolbar name="toolStripFile">
     <X>3</X>
@@ -19,4 +19,24 @@
   <statusbar name="statusStrip1">
     <Visible>True</Visible>
   </statusbar>
+  <column name="columnFilename">
+    <DisplayIndex>0</DisplayIndex>
+    <Width>171</Width>
+  </column>
+  <column name="columnSize">
+    <DisplayIndex>4</DisplayIndex>
+    <Width>51</Width>
+  </column>
+  <column name="columnFullpath">
+    <DisplayIndex>3</DisplayIndex>
+    <Width>283</Width>
+  </column>
+  <column name="columnVerified">
+    <DisplayIndex>2</DisplayIndex>
+    <Width>50</Width>
+  </column>
+  <column name="columnType">
+    <DisplayIndex>1</DisplayIndex>
+    <Width>268</Width>
+  </column>
 </configuration>

@@ -146,6 +146,9 @@ namespace CheckSumTool.Settings
                 case "statusbar":
                     SetVisibleValue((StatusbarSetting) setting, iterator.Clone());
                     break;
+                case "column":
+                    SetColumnValues((ColumnSetting) setting, iterator.Clone());
+                    break;
                 default:
                     break;
             }
@@ -160,13 +163,16 @@ namespace CheckSumTool.Settings
             switch (type)
             {
                 case "form":
-                    handler.SaveForm(@"/configuration/form[@name=""$name""]".Replace("$name", name), (FormSetting) setting);
+                    handler.SaveForm(@"/configuration/" + type + @"[@name=""$name""]".Replace("$name", name), (FormSetting) setting);
                     break;
                 case "toolbar":
-                    handler.SaveToolbar(@"/configuration/toolbar[@name=""$name""]".Replace("$name", name), (ToolbarSetting) setting);
+                    handler.SaveToolbar(@"/configuration/" + type + @"[@name=""$name""]".Replace("$name", name), (ToolbarSetting) setting);
                     break;
                 case "statusbar":
-                    handler.SaveStatusbar(@"/configuration/statusbar[@name=""$name""]".Replace("$name", name), (StatusbarSetting) setting);
+                    handler.SaveStatusbar(@"/configuration/" + type + @"[@name=""$name""]".Replace("$name", name), (StatusbarSetting) setting);
+                    break;
+                case "column":
+                    handler.SaveColumn(@"/configuration/" + type + @"[@name=""$name""]".Replace("$name", name), (ColumnSetting) setting);
                     break;
                 default:
                     break;
@@ -301,6 +307,50 @@ namespace CheckSumTool.Settings
                 StatusbarSetting statusbar = (StatusbarSetting) component;
                 statusbar.SetValues(visible);
             }
+        }
+
+        /// <summary>
+        /// Setting displayIndex value info.
+        /// </summary>
+        /// <param name="component"></param>
+        /// <param name="iterator"></param>
+        public static void SetColumnValues(ColumnSetting component, XPathNodeIterator iterator)
+        {
+            int displayIndex = 0;
+            int width = 0;
+
+            while (iterator.MoveNext())
+            {
+                XPathNavigator navigator = iterator.Current.Clone();
+
+                switch (navigator.Name)
+                {
+                    case "DisplayIndex":
+                        try
+                        {
+                            displayIndex = Convert.ToInt32(navigator.Value);
+                        }
+                        catch(Exception)
+                        {
+                            displayIndex = 0;
+                        }
+                        break;
+                    case "Width":
+                        try
+                        {
+                            width = Convert.ToInt32(navigator.Value);
+                        }
+                        catch(Exception)
+                        {
+                            width = 0;
+                        }
+                        break;
+                    default:
+                        break;
+                 }
+            }
+
+            component.SetValues(displayIndex, width);
         }
     }
 }

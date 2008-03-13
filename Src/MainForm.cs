@@ -1131,6 +1131,26 @@ namespace CheckSumTool
             //Setting settingStatusStrip1 ending values
             StatusbarSetting settingStatusStrip1 = new StatusbarSetting(_handler);
             settingStatusStrip1.SaveSetting("statusStrip1", statusStrip1.Visible);
+
+            //Setting columnSize starting ending values
+            ColumnSetting settingColumnSize = new ColumnSetting(_handler);
+            settingColumnSize.SaveSetting("columnSize", columnSize.DisplayIndex, columnSize.Width);
+
+            //Setting columnFullpath starting ending values
+            ColumnSetting settingColumnFullpath = new ColumnSetting(_handler);
+            settingColumnFullpath.SaveSetting("columnFullpath", columnFullpath.DisplayIndex, columnFullpath.Width);
+
+            //Setting columnVerified starting ending values
+            ColumnSetting settingColumnVerified = new ColumnSetting(_handler);
+            settingColumnVerified.SaveSetting("columnVerified", columnVerified.DisplayIndex, columnVerified.Width);
+
+            //Setting columnType starting ending values
+            ColumnSetting settingColumnType = new ColumnSetting(_handler);
+            settingColumnType.SaveSetting("columnType", columnType.DisplayIndex, columnType.Width);
+
+            //Setting columnFilename starting ending values
+            ColumnSetting settingColumnFilename = new ColumnSetting(_handler);
+            settingColumnFilename.SaveSetting("columnFilename", columnFilename.DisplayIndex, columnFilename.Width);
         }
 
         /// <summary>
@@ -1179,13 +1199,47 @@ namespace CheckSumTool
             mainMenuViewToolbarsSums.Checked  = toolStripSums.Visible;
             contextMenuSums.Checked  = toolStripSums.Visible;
 
-
             //Setting statusStrip1 starting values
             StatusbarSetting settingStatusStrip1 = new StatusbarSetting(_handler);
             settingStatusStrip1.GetSetting("statusStrip1");
 
             statusStrip1.Visible = settingStatusStrip1.Visible;
             mainMenuViewStatusBar.Checked  = statusStrip1.Visible;
+
+            //Setting columnSize starting values
+            ColumnSetting settingColumnSize = new ColumnSetting(_handler);
+            settingColumnSize.GetSetting("columnSize");
+
+            columnSize.DisplayIndex = settingColumnSize.DisplayIndex;
+            columnSize.Width = settingColumnSize.Width;
+
+            //Setting columnFullpath starting values
+            ColumnSetting settingColumnFullpath = new ColumnSetting(_handler);
+            settingColumnFullpath.GetSetting("columnFullpath");
+
+            columnFullpath.DisplayIndex = settingColumnFullpath.DisplayIndex;
+            columnFullpath.Width = settingColumnFullpath.Width;
+
+            //Setting columnVerified starting values
+            ColumnSetting settingColumnVerified = new ColumnSetting(_handler);
+            settingColumnVerified.GetSetting("columnVerified");
+
+            columnVerified.DisplayIndex = settingColumnVerified.DisplayIndex;
+            columnVerified.Width = settingColumnVerified.Width;
+
+            //Setting columnType starting values
+            ColumnSetting settingColumnType = new ColumnSetting(_handler);
+            settingColumnType.GetSetting("columnType");
+
+            columnType.DisplayIndex = settingColumnType.DisplayIndex;
+            columnType.Width = settingColumnType.Width;
+
+            //Setting columnFilename starting values
+            ColumnSetting settingColumnFilename = new ColumnSetting(_handler);
+            settingColumnFilename.GetSetting("columnFilename");
+
+            columnFilename.DisplayIndex = settingColumnFilename.DisplayIndex;
+            columnFilename.Width = settingColumnFilename.Width;
         }
 
         /// <summary>
@@ -1378,7 +1432,7 @@ namespace CheckSumTool
             toolStripBtnStop.Enabled = false;
             mainMenuChecksumsStop.Enabled = false;
         }
-        
+
         /// <summary>
         /// Stopping Clock and insertig some UI values.
         /// </summary>
@@ -1404,12 +1458,22 @@ namespace CheckSumTool
         {
             _progresInfo.Stop = true;
         }
-        
+
+        /// <summary>
+        /// Stop button event. Changing cursor.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         void ToolStripBtnStopMouseEnter(object sender, EventArgs e)
         {
         	this.UseWaitCursor = false;
         }
-        
+
+        /// <summary>
+        /// Stop button event. Changing cursor.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         void ToolStripBtnStopMouseHover(object sender, EventArgs e)
         {
         	this.UseWaitCursor = false;

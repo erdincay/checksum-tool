@@ -57,11 +57,11 @@ namespace CheckSumTool
         	this.components = new System.ComponentModel.Container();
         	System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
         	this.itemList = new System.Windows.Forms.ListView();
-        	this.columnHeader1 = new System.Windows.Forms.ColumnHeader();
-        	this.columnHeader2 = new System.Windows.Forms.ColumnHeader();
-        	this.columnHeader3 = new System.Windows.Forms.ColumnHeader();
-        	this.columnHeader4 = new System.Windows.Forms.ColumnHeader();
-        	this.columnHeader5 = new System.Windows.Forms.ColumnHeader();
+        	this.columnFilename = new System.Windows.Forms.ColumnHeader();
+        	this.columnType = new System.Windows.Forms.ColumnHeader();
+        	this.columnVerified = new System.Windows.Forms.ColumnHeader();
+        	this.columnFullpath = new System.Windows.Forms.ColumnHeader();
+        	this.columnSize = new System.Windows.Forms.ColumnHeader();
         	this.menuStrip1 = new System.Windows.Forms.MenuStrip();
         	this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
         	this.mainMenuFileNew = new System.Windows.Forms.ToolStripMenuItem();
@@ -127,11 +127,11 @@ namespace CheckSumTool
         	this.itemList.AllowColumnReorder = true;
         	this.itemList.AutoArrange = false;
         	this.itemList.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-        	        	        	this.columnHeader1,
-        	        	        	this.columnHeader2,
-        	        	        	this.columnHeader3,
-        	        	        	this.columnHeader4,
-        	        	        	this.columnHeader5});
+        	        	        	this.columnFilename,
+        	        	        	this.columnType,
+        	        	        	this.columnVerified,
+        	        	        	this.columnFullpath,
+        	        	        	this.columnSize});
         	this.itemList.Dock = System.Windows.Forms.DockStyle.Fill;
         	this.itemList.FullRowSelect = true;
         	this.itemList.Location = new System.Drawing.Point(0, 0);
@@ -143,30 +143,30 @@ namespace CheckSumTool
         	this.itemList.View = System.Windows.Forms.View.Details;
         	this.itemList.SizeChanged += new System.EventHandler(this.ItemListSizeChanged);
         	// 
-        	// columnHeader1
+        	// columnFilename
         	// 
-        	this.columnHeader1.Text = "Filename";
-        	this.columnHeader1.Width = 150;
+        	this.columnFilename.Text = "Filename";
+        	this.columnFilename.Width = 150;
         	// 
-        	// columnHeader2
+        	// columnType
         	// 
-        	this.columnHeader2.Text = "SHA1";
-        	this.columnHeader2.Width = 266;
+        	this.columnType.Text = "SHA1";
+        	this.columnType.Width = 266;
         	// 
-        	// columnHeader3
+        	// columnVerified
         	// 
-        	this.columnHeader3.Text = "Verified";
+        	this.columnVerified.Text = "Verified";
         	// 
-        	// columnHeader4
+        	// columnFullpath
         	// 
-        	this.columnHeader4.Text = "Full Path";
-        	this.columnHeader4.Width = 120;
+        	this.columnFullpath.Text = "Full Path";
+        	this.columnFullpath.Width = 120;
         	// 
-        	// columnHeader5
+        	// columnSize
         	// 
-        	this.columnHeader5.Text = "Size";
-        	this.columnHeader5.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-        	this.columnHeader5.Width = 80;
+        	this.columnSize.Text = "Size";
+        	this.columnSize.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+        	this.columnSize.Width = 80;
         	// 
         	// menuStrip1
         	// 
@@ -601,7 +601,7 @@ namespace CheckSumTool
         	        	        	this.toolStripComboSumTypes});
         	this.toolStripSums.Location = new System.Drawing.Point(3, 49);
         	this.toolStripSums.Name = "toolStripSums";
-        	this.toolStripSums.Size = new System.Drawing.Size(189, 25);
+        	this.toolStripSums.Size = new System.Drawing.Size(156, 25);
         	this.toolStripSums.TabIndex = 2;
         	// 
         	// toolStripBtnCalculate
@@ -679,6 +679,11 @@ namespace CheckSumTool
         	this.toolStripSums.PerformLayout();
         	this.ResumeLayout(false);
         }
+        private System.Windows.Forms.ColumnHeader columnFilename;
+        private System.Windows.Forms.ColumnHeader columnType;
+        private System.Windows.Forms.ColumnHeader columnVerified;
+        private System.Windows.Forms.ColumnHeader columnFullpath;
+        private System.Windows.Forms.ColumnHeader columnSize;
         private System.Windows.Forms.ToolStripMenuItem mainMenuChecksumsStop;
         private System.Windows.Forms.ToolStripButton toolStripBtnStop;
         private System.Windows.Forms.ToolStripProgressBar statusbarLabelProgressBar;
@@ -686,7 +691,6 @@ namespace CheckSumTool
         private System.Windows.Forms.ToolStripMenuItem contextMenuSums;
         private System.Windows.Forms.ToolStripMenuItem contextMenuFile;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
-        private System.Windows.Forms.ColumnHeader columnHeader5;
         private System.Windows.Forms.ToolStripMenuItem mainMenuViewToolbars;
         private System.Windows.Forms.ToolStripMenuItem mainMenuViewToolbarsFile;
         private System.Windows.Forms.ToolStripMenuItem mainMenuViewToolbarsSums;
@@ -725,14 +729,10 @@ namespace CheckSumTool
         private System.Windows.Forms.ToolStripButton toolStripBtnSave;
         private System.Windows.Forms.ToolStripButton toolStripBtnOpen;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
-        private System.Windows.Forms.ColumnHeader columnHeader4;
-        private System.Windows.Forms.ColumnHeader columnHeader3;
         private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ListView itemList;
-        private System.Windows.Forms.ColumnHeader columnHeader2;
-        private System.Windows.Forms.ColumnHeader columnHeader1;
     }
 }

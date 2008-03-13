@@ -159,6 +159,40 @@ namespace CheckSumTool.Settings
             }
             doc.Save(_fileName);
         }
+
+        /// <summary>
+        /// Saves column values to config file.
+        /// </summary>
+        /// <param name="path"></param>
+        /// <param name="toolbar"></param>
+        public void SaveColumn(string path, ColumnSetting column)
+        {
+            XmlTextReader reader = new XmlTextReader(_fileName);
+            XmlDocument doc = new XmlDocument();
+            doc.Load(reader);
+            reader.Close();
+
+            XmlNode oldForm;
+            XmlElement root = doc.DocumentElement;
+            oldForm = root.SelectSingleNode(path);
+
+            XmlElement newForm = doc.CreateElement("column");
+            newForm.SetAttribute("name", column.Name);
+
+            newForm.InnerXml = "<DisplayIndex>" + column.DisplayIndex + "</DisplayIndex>" +
+                               "<Width>" + column.Width + "</Width>";
+
+            // If existing element was not found, append setting as new element
+            if (oldForm != null)
+            {
+                root.ReplaceChild(newForm, oldForm);
+            }
+            else
+            {
+                root.AppendChild(newForm);
+            }
+            doc.Save(_fileName);
+        }
     }
 
     [TestFixture]
