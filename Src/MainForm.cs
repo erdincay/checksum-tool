@@ -384,11 +384,11 @@ namespace CheckSumTool
 
             if (allSucceeded)
             {
-                progressInfo.Succeeded = 1;
+                progressInfo.Succeeded = ProgressInfo.Result.Success;
             }
             else
             {
-                progressInfo.Succeeded = 2;
+                progressInfo.Succeeded = ProgressInfo.Result.PartialSuccess;
             }
         }
 
@@ -1321,20 +1321,28 @@ namespace CheckSumTool
                         {
                             StoppingClock("Ready.");
 
-                            if(_progressInfo.Succeeded != -1)
+                            switch (_progressInfo.Succeeded)
                             {
-                                if(_progressInfo.Succeeded == 1)
-                                {
-                                    MessageBox.Show(this, "All items verified to match their checksums.",
-                                        "Verification Succeeded", MessageBoxButtons.OK,
-                                        MessageBoxIcon.Information);
-                                }
-                                else
-                                {
+                                case ProgressInfo.Result.Failed:
+                                    break;
+                                    
+                                case ProgressInfo.Result.PartialSuccess:
                                     MessageBox.Show(this, "One ore more items could not be verified to match their checksums.",
                                         "Verification Failed", MessageBoxButtons.OK,
                                         MessageBoxIcon.Warning);
-                                }
+                                    break;
+                                    
+                                case ProgressInfo.Result.Success:
+                                    MessageBox.Show(this, "All items verified to match their checksums.",
+                                        "Verification Succeeded", MessageBoxButtons.OK,
+                                        MessageBoxIcon.Information);
+                                    break;
+                                    
+                                default:
+#if _DEBUG
+                                    throw new ApplicationException("Unknown result value");
+#endif
+                                    break;
                             }
                         }
                         else

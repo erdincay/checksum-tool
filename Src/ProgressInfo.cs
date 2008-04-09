@@ -33,15 +33,52 @@ namespace CheckSumTool
     /// </summary>
     public class ProgressInfo
     {
-        int _max; 
+        /// <summary>
+        /// Maximum value.
+        /// </summary>
+        int _max;
+        /// <summary>
+        /// Minimum value.
+        /// </summary>
         int _min;
+        /// <summary>
+        /// Current value.
+        /// </summary>
         int _now;
+        /// <summary>
+        /// Is progress ready?
+        /// </summary>
         bool _ready;
+        /// <summary>
+        /// Is progress stopped (or to be stopped)?
+        /// </summary>
         bool _stop;
+        /// <summary>
+        /// Is progress running?
+        /// </summary>
         bool _run;
+        /// <summary>
+        /// Associated filename.
+        /// </summary>
         string _filename;
-        int _succeeded;
+        /// <summary>
+        /// 
+        /// </summary>
+        Result _succeeded;
         
+        /// <summary>
+        /// Progress result values.
+        /// </summary>
+        public enum Result
+        {
+            Failed = 0,
+            PartialSuccess,
+            Success,
+        }
+        
+        /// <summary>
+        /// Default constructor.
+        /// </summary>
         public ProgressInfo()
         {
         }
@@ -112,7 +149,7 @@ namespace CheckSumTool
         /// <summary>
         /// ProgresInfo Succeeded value.
         /// </summary>
-        public int Succeeded
+        public Result Succeeded
         {
             get { return _succeeded; }
             set { _succeeded = value; }
@@ -129,7 +166,7 @@ namespace CheckSumTool
             _ready = false;
             _stop = false;
             _run = false;     
-            _succeeded = -1;
+            _succeeded = Result.Failed;
         }
     }
 }
