@@ -104,14 +104,15 @@ namespace CheckSumTool
         /// process.
         /// </summary>
         /// <param name="path">File or folder path to add.</param>
-        public void Add(string path, ref ProgresInfo progresInfo)
+        /// <param name="progressInfo">Returns information about progress.</param>
+        public void Add(string path, ref ProgressInfo progressInfo)
         {
             DirectoryInfo info = new DirectoryInfo(path);
             bool isDir = ((info.Attributes & FileAttributes.Directory) != 0);
 
             if (isDir)
             {
-                AddFolder(path, ref progresInfo);
+                AddFolder(path, ref progressInfo);
             }
             else
             {
@@ -151,23 +152,25 @@ namespace CheckSumTool
         /// Add files in folder to items to process.
         /// </summary>
         /// <param name="folder">Path to folder to add.</param>
-        public void AddFolder(ref ProgresInfo progresInfo, string path)
+        /// <param name="progressInfo">Returns information about progress.</param>
+        public void AddFolder(ref ProgressInfo progressInfo, string path)
         {
-            progresInfo.DefaultSetting();
-            progresInfo.Run = true;
-            progresInfo.Max = 100;
+            progressInfo.DefaultSetting();
+            progressInfo.Run = true;
+            progressInfo.Max = 100;
 
-            AddFolder(path, ref progresInfo);
+            AddFolder(path, ref progressInfo);
 
-            progresInfo.Ready = true;
-            progresInfo.Run = false;
+            progressInfo.Ready = true;
+            progressInfo.Run = false;
         }
 
         /// <summary>
         /// Add files in folder to items to process.
         /// </summary>
         /// <param name="folder">Path to folder to add.</param>
-        public void AddFolder(string folder, ref ProgresInfo progresInfo)
+        /// <param name="progressInfo">Returns information about progress.</param>
+        public void AddFolder(string folder, ref ProgressInfo progressInfo)
         {
             DirectoryInfo info = new DirectoryInfo(folder);
             FileInfo[] files = info.GetFiles();
@@ -188,26 +191,27 @@ namespace CheckSumTool
         /// Add folder and it´s subfolders.
         /// </summary>
         /// <param name="folder">Path to folder to add.</param>
-        /// <param name="progresInfo"></param>
-        public void AddSubFolders(ref ProgresInfo progresInfo, string path)
+        /// <param name="progressInfo">Returns information about progress.</param>
+        public void AddSubFolders(ref ProgressInfo progressInfo, string path)
         {
-            progresInfo.DefaultSetting();
-            progresInfo.Run = true;
-            progresInfo.Max = 100;
+            progressInfo.DefaultSetting();
+            progressInfo.Run = true;
+            progressInfo.Max = 100;
 
-            AddSubFolders(path, ref progresInfo);
+            AddSubFolders(path, ref progressInfo);
 
-            progresInfo.Ready = true;
-            progresInfo.Run = false;
+            progressInfo.Ready = true;
+            progressInfo.Run = false;
         }
 
         /// <summary>
         /// Add folder and it´s subfolders.
         /// </summary>
         /// <param name="folder">Path to folder to add.</param>
-        public void AddSubFolders(string folder, ref ProgresInfo progresInfo)
+        /// <param name="progressInfo">Returns information about progress.</param>
+        public void AddSubFolders(string folder, ref ProgressInfo progressInfo)
         {
-            AddFolder(folder, ref progresInfo);
+            AddFolder(folder, ref progressInfo);
 
             string[] subFolders = Directory.GetDirectories(folder);
 
@@ -217,9 +221,9 @@ namespace CheckSumTool
                 try
                 {
                     if (Directory.GetDirectories(currentSubFolder).Length > 0)
-                        AddSubFolders(currentSubFolder, ref progresInfo);
+                        AddSubFolders(currentSubFolder, ref progressInfo);
                     else
-                        AddFolder(currentSubFolder, ref progresInfo);
+                        AddFolder(currentSubFolder, ref progressInfo);
                 }
                 catch (Exception)
                 {
@@ -227,7 +231,7 @@ namespace CheckSumTool
                     //Some windows hidden folders throw this exception.
                 }
                 
-                if(progresInfo.Stop)
+                if(progressInfo.Stop)
                 {                    
                     break;
                 }

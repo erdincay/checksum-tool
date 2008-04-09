@@ -58,10 +58,10 @@ namespace CheckSumTool
         static readonly string ContributorsFile = "Contributors.txt";
 
         System.Windows.Forms.Timer _clock;
-        ProgresInfo _progresInfo = new ProgresInfo();
+        ProgressInfo _progressInfo = new ProgressInfo();
 
-        delegate void DelegateCalculateSums(ref ProgresInfo progresInfo);
-        delegate void DelegateAddFiles(ref ProgresInfo progresInfo, string path);
+        delegate void DelegateCalculateSums(ref ProgressInfo progressInfo);
+        delegate void DelegateAddFiles(ref ProgressInfo progressInfo, string path);
 
         /// <summary>
         /// Indices for list view columns
@@ -314,7 +314,7 @@ namespace CheckSumTool
             statusbarLabel1.Text = "Calculating checksums...";
 
             DelegateCalculateSums delInstance = new DelegateCalculateSums (_document.CalculateSums);
-            delInstance.BeginInvoke(ref _progresInfo, null, null);
+            delInstance.BeginInvoke(ref _progressInfo, null, null);
             _clock.Start();
         }
 
@@ -374,20 +374,21 @@ namespace CheckSumTool
         /// <summary>
         /// Verify that checksums in the list match to file's actual checksums.
         /// </summary>
-        void VerifyCheckSums(ref ProgresInfo progresInfo)
+        /// <param name="progressInfo">Returns information about progress.</param>
+        void VerifyCheckSums(ref ProgressInfo progressInfo)
         {
             if (itemList.Items.Count == 0)
                 return;
 
-            bool allSucceeded = _document.VerifySums(ref progresInfo);
+            bool allSucceeded = _document.VerifySums(ref progressInfo);
 
             if (allSucceeded)
             {
-                progresInfo.Succeeded = 1;
+                progressInfo.Succeeded = 1;
             }
             else
             {
-                progresInfo.Succeeded = 2;
+                progressInfo.Succeeded = 2;
             }
         }
 
@@ -664,13 +665,13 @@ namespace CheckSumTool
                     if ( result == DialogResult.Yes )
                     {
                         DelegateAddFiles delInstance = new DelegateAddFiles (_document.Items.AddSubFolders);
-                        delInstance.BeginInvoke(ref _progresInfo, path, null, null);
+                        delInstance.BeginInvoke(ref _progressInfo, path, null, null);
                         _clock.Start();
                     }
                     else
                     {
                         DelegateAddFiles delInstance = new DelegateAddFiles (_document.Items.AddFolder);
-                        delInstance.BeginInvoke(ref _progresInfo, path, null, null);
+                        delInstance.BeginInvoke(ref _progressInfo, path, null, null);
                         _clock.Start();
                     }
                 }
@@ -678,7 +679,7 @@ namespace CheckSumTool
                 {
                     statusbarLabel1.Text = "Adding files...";
                     DelegateAddFiles delInstance = new DelegateAddFiles (_document.Items.AddFolder);
-                    delInstance.BeginInvoke(ref _progresInfo, path, null, null);
+                    delInstance.BeginInvoke(ref _progressInfo, path, null, null);
                     _clock.Start();
                 }
 
@@ -802,7 +803,7 @@ namespace CheckSumTool
             this.UseWaitCursor = true;
 
             DelegateCalculateSums delInstance = new DelegateCalculateSums (VerifyCheckSums);
-            delInstance.BeginInvoke(ref _progresInfo, null, null);
+            delInstance.BeginInvoke(ref _progressInfo, null, null);
             _clock.Start();
         }
 
@@ -1289,25 +1290,25 @@ namespace CheckSumTool
         {
             if(sender == _clock)
             {
-                statusbarLabelProgressBar.Maximum = _progresInfo.Max;
+                statusbarLabelProgressBar.Maximum = _progressInfo.Max;
 
                 int now;
 
-                statusbarLabelProgressBar.Maximum = _progresInfo.Max;
-                now = _progresInfo.Now;
+                statusbarLabelProgressBar.Maximum = _progressInfo.Max;
+                now = _progressInfo.Now;
 
                 this.UseWaitCursor = true;
                 statusbarLabelCount.Visible = false;
                 statusbarLabelProgressBar.Visible = true;
                 EnableStop();
 
-                if(_progresInfo.Stop)
+                if(_progressInfo.Stop)
                 {
                     StoppingClock("Stopped.");
                 }
                 else
                 {
-                    if(_progresInfo.Run == true)
+                    if(_progressInfo.Run == true)
                     {
                         if(statusbarLabelProgressBar.Value >= 100)
                             statusbarLabelProgressBar.Value = 0;
@@ -1316,13 +1317,13 @@ namespace CheckSumTool
                     }
                     else
                     {
-                        if(_progresInfo.Ready)
+                        if(_progressInfo.Ready)
                         {
                             StoppingClock("Ready.");
 
-                            if(_progresInfo.Succeeded != -1)
+                            if(_progressInfo.Succeeded != -1)
                             {
-                                if(_progresInfo.Succeeded == 1)
+                                if(_progressInfo.Succeeded == 1)
                                 {
                                     MessageBox.Show(this, "All items verified to match their checksums.",
                                         "Verification Succeeded", MessageBoxButtons.OK,
@@ -1339,7 +1340,7 @@ namespace CheckSumTool
                         else
                         {
                             statusbarLabelProgressBar.Value = now;
-                            statusbarLabel1.Text = _progresInfo.Filename;
+                            statusbarLabel1.Text = _progressInfo.Filename;
                         }
                     }
                 }
@@ -1456,7 +1457,7 @@ namespace CheckSumTool
         /// <param name="e"></param>
         void ToolStripBtnStopClick(object sender, EventArgs e)
         {
-            _progresInfo.Stop = true;
+            _progressInfo.Stop = true;
         }
 
         /// <summary>

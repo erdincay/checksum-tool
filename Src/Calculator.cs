@@ -69,19 +69,22 @@ namespace CheckSumTool
         /// Calculate checksums.
         /// </summary>
         /// <param name="itemList">List of items for which to calculate.</param>
-        public void Calculate(List<CheckSumItem> itemList, ref ProgresInfo progresInfo)
+        /// <param name="progressInfo">Returns information about calculation
+        /// progress.</param>
+        public void Calculate(List<CheckSumItem> itemList,
+                ref ProgressInfo progressInfo)
         {
             ICheckSum sumImpl = CheckSumImplList.GetImplementation(_sumType);
 
-            progresInfo.DefaultSetting();
-            progresInfo.Max = itemList.Count;
+            progressInfo.DefaultSetting();
+            progressInfo.Max = itemList.Count;
 
             int i = 0;
             foreach (CheckSumItem ci in itemList)
             {
                 i++;
-                progresInfo.Now = i;
-                progresInfo.Filename = ci.FullPath;
+                progressInfo.Now = i;
+                progressInfo.Filename = ci.FullPath;
 
                 // Check if fhe file is found and accessible
                 try
@@ -111,37 +114,40 @@ namespace CheckSumTool
                     //TODO: Set failure status to checksum item.
                 }
 
-                if(progresInfo.Stop)
+                if(progressInfo.Stop)
                 {
                     break;
                 }
             }
 
-            progresInfo.Ready = true;
+            progressInfo.Ready = true;
         }
 
         /// <summary>
         /// Verify checksums.
         /// </summary>
         /// <param name="itemList">List of items to verify.</param>
+        /// <param name="progressInfo">Returns information about calculation
+        /// progress.</param>
         /// <returns>
         /// true if all items succeeded the verification, false if
         /// one or more items failed verification.
         /// </returns>
-        public bool Verify(List<CheckSumItem> itemList, ref ProgresInfo progresInfo)
+        public bool Verify(List<CheckSumItem> itemList,
+                ref ProgressInfo progressInfo)
         {
             bool verifysucceeded = true;
             ICheckSum sumImpl = CheckSumImplList.GetImplementation(_sumType);
 
-            progresInfo.DefaultSetting();
-            progresInfo.Max = itemList.Count;
+            progressInfo.DefaultSetting();
+            progressInfo.Max = itemList.Count;
 
             int i = 0;
             foreach (CheckSumItem ci in itemList)
             {
                 i++;
-                progresInfo.Now = i;
-                progresInfo.Filename = ci.FullPath;
+                progressInfo.Now = i;
+                progressInfo.Filename = ci.FullPath;
 
                 // If verification finds an item which does not have checksum
                 // (not calculated yet?) just ignore the item. Or maybe we
@@ -207,14 +213,13 @@ namespace CheckSumTool
                     }
                 }
 
-                if(progresInfo.Stop)
+                if(progressInfo.Stop)
                 {
                     break;
                 }
             }
 
-            progresInfo.Ready = true;
-
+            progressInfo.Ready = true;
             return verifysucceeded;
         }
     }

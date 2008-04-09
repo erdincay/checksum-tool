@@ -106,10 +106,11 @@ namespace CheckSumTool
         /// <summary>
         /// Calculate checksums for all items in the list.
         /// </summary>
-        public void CalculateSums(ref ProgresInfo progresInfo)
+        /// <param name="progressInfo">Returns information about progress.</param>
+        public void CalculateSums(ref ProgressInfo progressInfo)
         {
             Calculator sumCalculator = new Calculator(_currentSumType);
-            sumCalculator.Calculate(_checksumItemList.FileList, ref progresInfo);
+            sumCalculator.Calculate(_checksumItemList.FileList, ref progressInfo);
 
             // Set list changed as even existing checksum values could change
             // during calculation (file in disc changed between calculations).
@@ -119,14 +120,15 @@ namespace CheckSumTool
         /// <summary>
         /// Verify checksums for all items in the list.
         /// </summary>
+        /// <param name="progressInfo">Returns information about progress.</param>
         /// <returns>
         /// true if all items were verified successfully, false if
         /// one or more items failed the verification.
         ///</returns>
-        public bool VerifySums(ref ProgresInfo progresInfo)
+        public bool VerifySums(ref ProgressInfo progressInfo)
         {
             Calculator sumCalculator = new Calculator(_currentSumType);
-            bool succeeded = sumCalculator.Verify(_checksumItemList.FileList, ref progresInfo);
+            bool succeeded = sumCalculator.Verify(_checksumItemList.FileList, ref progressInfo);
             return succeeded;
         }
 

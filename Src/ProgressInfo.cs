@@ -31,7 +31,7 @@ namespace CheckSumTool
     /// <summary>
     /// ProgresInfo is used when have to updare UI in other thread.
     /// </summary>
-    public class ProgresInfo
+    public class ProgressInfo
     {
         int _max; 
         int _min;
@@ -42,7 +42,7 @@ namespace CheckSumTool
         string _filename;
         int _succeeded;
         
-        public ProgresInfo()
+        public ProgressInfo()
         {
         }
         
