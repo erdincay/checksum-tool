@@ -73,6 +73,7 @@
     <Compile Include="Pair.cs" />
     <Compile Include="ProgressInfo.cs" />
     <Compile Include="Settings\ColumnSetting.cs" />
+    <Compile Include="Settings\ConfigFile.cs" />
     <Compile Include="Settings\FormSetting.cs" />
     <Compile Include="Settings\IComponentSetting.cs" />
     <Compile Include="Settings\ISetting.cs" />

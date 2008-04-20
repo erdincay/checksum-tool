@@ -123,23 +123,14 @@ namespace CheckSumTool
         /// </summary>
         private void CheckConfigFile()
         {
-            string configurationFilePath = FileUtils.GetUnixPathFormat(Application.UserAppDataPath);
-            configurationFilePath = configurationFilePath.Remove(configurationFilePath.LastIndexOf(FileUtils.PathSeparator)) + FileUtils.PathSeparator + "cfg";
+            bool success = true;
+            ConfigFile cfile = new ConfigFile(Application.StartupPath,
+                    Application.UserAppDataPath);
+            if (!cfile.FileExists())
+                success = cfile.CreateDefaultFile();
 
-            if(!Directory.Exists(configurationFilePath))
-            {
-                Directory.CreateDirectory(configurationFilePath);
-            }
-
-            configurationFilePath = configurationFilePath + "/config.xml";
-
-            if (!File.Exists(configurationFilePath))
-            {
-                string backUpConfigFilePath =  FileUtils.GetUnixPathFormat(Application.StartupPath) + "/config.xml";
-                File.Copy(backUpConfigFilePath, configurationFilePath);
-            }
-
-            _handler = new XPathHandler(configurationFilePath);
+            if (success)
+                _handler = new XPathHandler(cfile.FilePath);
         }
 
         /// <summary>
