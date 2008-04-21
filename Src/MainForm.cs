@@ -129,6 +129,11 @@ namespace CheckSumTool
             if (!cfile.FileExists())
                 success = cfile.CreateDefaultFile();
 
+            // Check config file version
+            // If incompatible version found, overwrite it.
+            if (!cfile.IsCompatibleVersion())
+                success = cfile.ReplaceWithDefault();
+
             if (success)
                 _handler = new XPathHandler(cfile.FilePath);
         }
@@ -1304,19 +1309,19 @@ namespace CheckSumTool
                             {
                                 case ProgressInfo.Result.Failed:
                                     break;
-                                    
+
                                 case ProgressInfo.Result.PartialSuccess:
                                     MessageBox.Show(this, "One ore more items could not be verified to match their checksums.",
                                         "Verification Failed", MessageBoxButtons.OK,
                                         MessageBoxIcon.Warning);
                                     break;
-                                    
+
                                 case ProgressInfo.Result.Success:
                                     MessageBox.Show(this, "All items verified to match their checksums.",
                                         "Verification Succeeded", MessageBoxButtons.OK,
                                         MessageBoxIcon.Information);
                                     break;
-                                    
+
                                 default:
 #if _DEBUG
                                     throw new ApplicationException("Unknown result value");
@@ -1454,7 +1459,7 @@ namespace CheckSumTool
         /// <param name="e"></param>
         void ToolStripBtnStopMouseEnter(object sender, EventArgs e)
         {
-        	this.UseWaitCursor = false;
+            this.UseWaitCursor = false;
         }
 
         /// <summary>
@@ -1464,7 +1469,7 @@ namespace CheckSumTool
         /// <param name="e"></param>
         void ToolStripBtnStopMouseHover(object sender, EventArgs e)
         {
-        	this.UseWaitCursor = false;
+            this.UseWaitCursor = false;
         }
     }
 }

@@ -27,6 +27,7 @@ THE SOFTWARE.
 using System;
 using System.IO;
 using System.Reflection;
+using System.Xml.XPath;
 
 namespace CheckSumTool.Settings
 {
@@ -39,6 +40,10 @@ namespace CheckSumTool.Settings
         /// Filename of the config file.
         /// </summary>
         const string ConfigFileName = "config.xml";
+        /// <summary>
+        /// Current configuration file version.
+        /// </summary>
+        const int CurrentVersion = 1;
 
         /// <summary>
         /// Full path (including filename) to the configuration file.
@@ -148,6 +153,45 @@ namespace CheckSumTool.Settings
                 }
             }
             return success;
+        }
+
+        /// <summary>
+        /// Check if the configuration file's version number is known version.
+        /// </summary>
+        /// <returns>true if the version is compatible, false otherwise.</returns>
+        public bool IsCompatibleVersion()
+        {
+            if (FileExists())
+            {
+                string xpath = "/configuration[@version]";
+                XPathDocument doc = new XPathDocument(_path);
+                XPathNavigator nav = doc.CreateNavigator();
+                XPathExpression expr = nav.Compile(xpath);
+                XPathNodeIterator iterator = nav.Select(expr);
+                iterator.MoveNext();
+
+                string verStr = iterator.Current.GetAttribute("version", "");
+                if (Convert.ToInt32(verStr) == CurrentVersion)
+                    return true;
+                else
+                    return false;
+            }
+            else
+                return false;
+        }
+
+        /// <summary>
+        /// Replace current config file with default config file.
+        /// </summary>
+        /// <returns>true if succeeded, false otherwise.</returns>
+        public bool ReplaceWithDefault()
+        {
+            if (FileExists())
+            {
+                File.Delete(_path);
+            }
+
+            return CreateDefaultFile();
         }
     }
 }
