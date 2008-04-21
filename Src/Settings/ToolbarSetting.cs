@@ -188,10 +188,10 @@ namespace CheckSumTool.Settings
             ToolbarSetting settingToolStripFile = new ToolbarSetting(handler);
             settingToolStripFile.GetSetting("toolStripFile");
 
-            Assert.AreEqual(settingToolStripFile.Name, "toolStripFile");
-            Assert.AreEqual(settingToolStripFile.X, 3);
-            Assert.AreEqual(settingToolStripFile.Y, 24);
-            Assert.AreEqual(settingToolStripFile.Visible, true);
+            Assert.AreEqual("toolStripFile", settingToolStripFile.Name);
+            Assert.AreEqual(3, settingToolStripFile.X);
+            Assert.AreEqual(24, settingToolStripFile.Y);
+            Assert.AreEqual(true, settingToolStripFile.Visible);
         }
 
         /// <summary>
@@ -216,10 +216,10 @@ namespace CheckSumTool.Settings
             ToolbarSetting settingToolStripFileSecond = new ToolbarSetting(handler);
             settingToolStripFileSecond.GetSetting("toolStripFile");
 
-            Assert.AreEqual(settingToolStripFileSecond.Name, settingToolStripFileSave.Name);
-            Assert.AreEqual(settingToolStripFileSecond.X,  settingToolStripFileSave.X);
-            Assert.AreEqual(settingToolStripFileSecond.Y,  settingToolStripFileSave.Y);
-            Assert.AreEqual(settingToolStripFileSecond.Visible,  settingToolStripFileSave.Visible);
+            Assert.AreEqual(settingToolStripFileSave.Name, settingToolStripFileSecond.Name);
+            Assert.AreEqual(settingToolStripFileSave.X, settingToolStripFileSecond.X);
+            Assert.AreEqual(settingToolStripFileSave.Y, settingToolStripFileSecond.Y);
+            Assert.AreEqual(settingToolStripFileSave.Visible, settingToolStripFileSecond.Visible);
         }
     }
 }
