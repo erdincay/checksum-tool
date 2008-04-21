@@ -189,6 +189,7 @@ $Id$
              define="${csc.defines}" win32icon="res/CheckSumTool.ico">
             <sources>
                 <include name="*.cs"/>
+                <include name="Settings/*.cs"/>
 	        </sources>
             <resources>
                 <include name="*.resx" />
