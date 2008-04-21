@@ -119,13 +119,17 @@ namespace CheckSumTool
         }
 
         /// <summary>
-        /// Checking if config file exist. If it doesn´t exist copy from program folder.
+        /// Checking if the config file exist and is of correct version. If
+        /// the config file is not found or it is unknown version, then the
+        /// default config file (from program folder) is copied as new config
+        /// file. 
         /// </summary>
         private void CheckConfigFile()
         {
             bool success = true;
+            string appDataPath = EnvironmentUtils.GetAppdataPath();
             ConfigFile cfile = new ConfigFile(Application.StartupPath,
-                    Application.UserAppDataPath);
+                    appDataPath);
             if (!cfile.FileExists())
                 success = cfile.CreateDefaultFile();
 

@@ -86,22 +86,9 @@ namespace CheckSumTool.Settings
         /// </summary>
         private void SetConfigFilePath()
         {
-            string configurationFilePath =
-                FileUtils.GetUnixPathFormat(_appDataPath);
-            int lastSepInd = configurationFilePath.LastIndexOf(FileUtils.PathSeparator);
-
-            // Failed to get a profile folder. Now what?
-            if (lastSepInd == -1)
-            {
-                _path = "";
-                return;
-            }
-
-            configurationFilePath = configurationFilePath.Remove(lastSepInd) +
-                FileUtils.PathSeparator + "cfg";
-            configurationFilePath += FileUtils.PathSeparator + ConfigFileName;
-            _path = configurationFilePath;
-
+            if (!Directory.Exists(_appDataPath))
+                Directory.CreateDirectory(_appDataPath);
+            _path = _appDataPath + FileUtils.PathSeparator + ConfigFileName;
         }
 
         /// <summary>
