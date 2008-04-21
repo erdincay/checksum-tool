@@ -10,6 +10,7 @@ CheckSum Tool 0.5.0
   New list column named "Size", showing file size.
   Add ProgressBar for showing process progress.
   Improve file size formatting in main window.
+  Make configuration XML file more structured.
 
 CheckSum Tool 0.4.0 - 2008-02-05 (r158)
   Add Select All to Edit-menu (also CTRL+A shortcut key)

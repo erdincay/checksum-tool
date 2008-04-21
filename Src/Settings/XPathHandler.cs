@@ -1,7 +1,7 @@
 /*
 The MIT License
 
-Copyright (c) 2007 Ixonos Plc, Kimmo Varis <kimmo.varis@ixonos.com>
+Copyright (c) 2007-2008 Ixonos Plc, Kimmo Varis <kimmo.varis@ixonos.com>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -37,12 +37,15 @@ namespace CheckSumTool.Settings
     /// </summary>
     public class XPathHandler
     {
+        /// <summary>
+        /// A full path to the XML configuration file.
+        /// </summary>
         string _fileName;
 
         /// <summary>
-        /// Constructor. Set _fileName value.
+        /// Constructor. Sets configuration file path.
         /// </summary>
-        /// <param name="path"></param>
+        /// <param name="path">Configuration file's path.</param>
         public XPathHandler(string path)
         {
             _fileName = path;
@@ -79,6 +82,7 @@ namespace CheckSumTool.Settings
             XmlNode oldForm;
             XmlElement root = doc.DocumentElement;
             oldForm = root.SelectSingleNode(path);
+            XmlNode parentNode = oldForm.ParentNode;
 
             XmlElement newForm = doc.CreateElement("form");
             newForm.SetAttribute("name", form.Name);
@@ -88,7 +92,8 @@ namespace CheckSumTool.Settings
                                "<Width>" + form.Width + "</Width>" +
                                "<Height>" + form.Height + "</Height>";
 
-            root.ReplaceChild(newForm, oldForm);
+            //root.ReplaceChild(newForm, oldForm);
+            parentNode.ReplaceChild(newForm, oldForm);
             doc.Save(_fileName);
         }
 
@@ -107,6 +112,7 @@ namespace CheckSumTool.Settings
             XmlNode oldForm;
             XmlElement root = doc.DocumentElement;
             oldForm = root.SelectSingleNode(path);
+            XmlNode parentNode = oldForm.ParentNode;
 
             XmlElement newForm = doc.CreateElement("toolbar");
             newForm.SetAttribute("name", toolbar.Name);
@@ -118,11 +124,11 @@ namespace CheckSumTool.Settings
             // If existing element was not found, append setting as new element
             if (oldForm != null)
             {
-                root.ReplaceChild(newForm, oldForm);
+                parentNode.ReplaceChild(newForm, oldForm);
             }
             else
             {
-                root.AppendChild(newForm);
+                parentNode.AppendChild(newForm);
             }
             doc.Save(_fileName);
         }
@@ -142,6 +148,7 @@ namespace CheckSumTool.Settings
             XmlNode oldForm;
             XmlElement root = doc.DocumentElement;
             oldForm = root.SelectSingleNode(path);
+            XmlNode parentNode = oldForm.ParentNode;
 
             XmlElement newForm = doc.CreateElement("statusbar");
             newForm.SetAttribute("name", statusbar.Name);
@@ -151,11 +158,11 @@ namespace CheckSumTool.Settings
             // If existing element was not found, append setting as new element
             if (oldForm != null)
             {
-                root.ReplaceChild(newForm, oldForm);
+                parentNode.ReplaceChild(newForm, oldForm);
             }
             else
             {
-                root.AppendChild(newForm);
+                parentNode.AppendChild(newForm);
             }
             doc.Save(_fileName);
         }
@@ -175,6 +182,7 @@ namespace CheckSumTool.Settings
             XmlNode oldForm;
             XmlElement root = doc.DocumentElement;
             oldForm = root.SelectSingleNode(path);
+            XmlNode parentNode = oldForm.ParentNode;
 
             XmlElement newForm = doc.CreateElement("column");
             newForm.SetAttribute("name", column.Name);
@@ -185,11 +193,11 @@ namespace CheckSumTool.Settings
             // If existing element was not found, append setting as new element
             if (oldForm != null)
             {
-                root.ReplaceChild(newForm, oldForm);
+                parentNode.ReplaceChild(newForm, oldForm);
             }
             else
             {
-                root.AppendChild(newForm);
+                parentNode.AppendChild(newForm);
             }
             doc.Save(_fileName);
         }

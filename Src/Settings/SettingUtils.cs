@@ -1,7 +1,7 @@
 /*
 The MIT License
 
-Copyright (c) 2007 Ixonos Plc, Kimmo Varis <kimmo.varis@ixonos.com>
+Copyright (c) 2007-2008 Ixonos Plc, Kimmo Varis <kimmo.varis@ixonos.com>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -32,7 +32,7 @@ using System.Collections.Generic;
 namespace CheckSumTool.Settings
 {
     /// <summary>
-    /// Description of SettingUtils.
+    /// A helper class for handling settings in the XML config file.
     /// </summary>
     public class SettingUtils
     {
@@ -64,7 +64,8 @@ namespace CheckSumTool.Settings
         /// <param name="list"></param>
         /// <param name="name"></param>
         /// <param name="settingValue"></param>
-        public static void SetSettingFromList(List<Setting> list, string name, int settingValue)
+        public static void SetSettingFromList(List<Setting> list, string name,
+                int settingValue)
         {
             foreach (Setting item in list)
             {
@@ -85,7 +86,8 @@ namespace CheckSumTool.Settings
         /// <param name="list"></param>
         /// <param name="name"></param>
         /// <param name="settingValue"></param>
-        public static void SetSettingFromList(List<Setting> list, string name, string settingValue)
+        public static void SetSettingFromList(List<Setting> list, string name,
+                string settingValue)
         {
             foreach (Setting item in list)
             {
@@ -106,7 +108,8 @@ namespace CheckSumTool.Settings
         /// <param name="list"></param>
         /// <param name="name"></param>
         /// <param name="settingValue"></param>
-        public static void SetSettingFromList(List<Setting> list, string name, bool settingValue)
+        public static void SetSettingFromList(List<Setting> list, string name,
+                bool settingValue)
         {
             foreach (Setting item in list)
             {
@@ -125,14 +128,33 @@ namespace CheckSumTool.Settings
         /// Get component position and other values.
         /// </summary>
         /// <param name="name"></param>
-        public static void GetSetting(List<Setting> list, XPathHandler handler, IComponentSetting setting, string name, string type)
+        public static void GetSetting(List<Setting> list, XPathHandler handler,
+                IComponentSetting setting, string name, string type)
         {
             Setting settingName = new Setting(1, "Name", name);
             list.Add(settingName);
+            
+            string relPath = "";
+            switch (type)
+            {
+                case "form":
+                    relPath = "GUI/Forms/";
+                    break;
+                case "toolbar":
+                    relPath = "GUI/Toolbars/";
+                    break;
+                case "statusbar":
+                    relPath = "GUI/Statusbars/";
+                    break;
+                case "column":
+                    relPath = "GUI/MainWindow/Columns/";
+                    break;
+            }
 
-            string path = @"/configuration/" + type + @"[@name=""$name""]/*".Replace("$name", name);
+            string path = "/configuration/" + relPath + type +
+                    @"[@name=""$name""]/*".Replace("$name", name);
             XPathNodeIterator iterator = handler.GetComponentSettings(path);
-
+            
             switch (type)
             {
                 case "form":
@@ -157,22 +179,31 @@ namespace CheckSumTool.Settings
         /// <summary>
         /// Saving component position and other values.
         /// </summary>
-        public static void SaveSetting(XPathHandler handler, IComponentSetting setting, string name, string type)
+        public static void SaveSetting(XPathHandler handler,
+                IComponentSetting setting, string name, string type)
         {
             //TODO: Save first position values and then other.
             switch (type)
             {
                 case "form":
-                    handler.SaveForm(@"/configuration/" + type + @"[@name=""$name""]".Replace("$name", name), (FormSetting) setting);
+                    handler.SaveForm(@"/configuration/GUI/Forms/" + type +
+                            @"[@name=""$name""]".Replace("$name", name),
+                            (FormSetting) setting);
                     break;
                 case "toolbar":
-                    handler.SaveToolbar(@"/configuration/" + type + @"[@name=""$name""]".Replace("$name", name), (ToolbarSetting) setting);
+                    handler.SaveToolbar(@"/configuration/GUI/Toolbars/" +
+                            type + @"[@name=""$name""]".Replace("$name", name),
+                            (ToolbarSetting) setting);
                     break;
                 case "statusbar":
-                    handler.SaveStatusbar(@"/configuration/" + type + @"[@name=""$name""]".Replace("$name", name), (StatusbarSetting) setting);
+                    handler.SaveStatusbar(@"/configuration/GUI/Statusbars/" +
+                            type + @"[@name=""$name""]".Replace("$name", name),
+                            (StatusbarSetting) setting);
                     break;
                 case "column":
-                    handler.SaveColumn(@"/configuration/" + type + @"[@name=""$name""]".Replace("$name", name), (ColumnSetting) setting);
+                    handler.SaveColumn(@"/configuration/GUI/MainWindow/Columns/" +
+                            type + @"[@name=""$name""]".Replace("$name", name),
+                            (ColumnSetting) setting);
                     break;
                 default:
                     break;
@@ -184,7 +215,8 @@ namespace CheckSumTool.Settings
         /// </summary>
         /// <param name="component"></param>
         /// <param name="iterator"></param>
-        public static void SetPositionValues(IComponentSetting component, XPathNodeIterator iterator)
+        public static void SetPositionValues(IComponentSetting component,
+                XPathNodeIterator iterator)
         {
             int x = -1;
             int y = -1;
@@ -227,7 +259,8 @@ namespace CheckSumTool.Settings
         /// </summary>
         /// <param name="component"></param>
         /// <param name="iterator"></param>
-        public static void SetFormValues(FormSetting component, XPathNodeIterator iterator)
+        public static void SetFormValues(FormSetting component,
+                XPathNodeIterator iterator)
         {
             int height = -1;
             int width = -1;
@@ -271,7 +304,8 @@ namespace CheckSumTool.Settings
         /// </summary>
         /// <param name="component"></param>
         /// <param name="iterator"></param>
-        public static void SetVisibleValue(IComponentSetting component, XPathNodeIterator iterator)
+        public static void SetVisibleValue(IComponentSetting component,
+                XPathNodeIterator iterator)
         {
             bool visible = false;
 
@@ -314,7 +348,8 @@ namespace CheckSumTool.Settings
         /// </summary>
         /// <param name="component"></param>
         /// <param name="iterator"></param>
-        public static void SetColumnValues(ColumnSetting component, XPathNodeIterator iterator)
+        public static void SetColumnValues(ColumnSetting component,
+                XPathNodeIterator iterator)
         {
             int displayIndex = 0;
             int width = 0;

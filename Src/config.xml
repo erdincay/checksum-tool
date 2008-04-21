@@ -1,42 +1,54 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <configuration>
-  <form name="MainForm">
-    <X>127</X>
-    <Y>66</Y>
-    <Width>836</Width>
-    <Height>657</Height>
-  </form>
-  <toolbar name="toolStripFile">
-    <X>3</X>
-    <Y>24</Y>
-    <Visible>True</Visible>
-  </toolbar>
-  <toolbar name="toolStripSums">
-    <X>3</X>
-    <Y>49</Y>
-    <Visible>True</Visible>
-  </toolbar>
-  <statusbar name="statusStrip1">
-    <Visible>True</Visible>
-  </statusbar>
-  <column name="columnFilename">
-    <DisplayIndex>0</DisplayIndex>
-    <Width>171</Width>
-  </column>
-  <column name="columnSize">
-    <DisplayIndex>4</DisplayIndex>
-    <Width>51</Width>
-  </column>
-  <column name="columnFullpath">
-    <DisplayIndex>3</DisplayIndex>
-    <Width>283</Width>
-  </column>
-  <column name="columnVerified">
-    <DisplayIndex>2</DisplayIndex>
-    <Width>50</Width>
-  </column>
-  <column name="columnType">
-    <DisplayIndex>1</DisplayIndex>
-    <Width>268</Width>
-  </column>
+  <GUI>
+    <Forms>
+      <form name="MainForm">
+        <X>127</X>
+        <Y>66</Y>
+        <Width>836</Width>
+  			<Height>657</Height>
+  		</form>
+		</Forms>
+		<Toolbars>
+			<toolbar name="toolStripFile">
+				<X>3</X>
+				<Y>24</Y>
+				<Visible>True</Visible>
+			</toolbar>
+			<toolbar name="toolStripSums">
+				<X>3</X>
+				<Y>49</Y>
+				<Visible>True</Visible>
+			</toolbar>
+		</Toolbars>
+		<Statusbars>
+			<statusbar name="statusStrip1">
+				<Visible>True</Visible>
+			</statusbar>
+		</Statusbars>
+		<MainWindow>
+			<Columns>
+				<column name="columnFilename">
+					<DisplayIndex>0</DisplayIndex>
+					<Width>171</Width>
+				</column>
+				<column name="columnSize">
+					<DisplayIndex>4</DisplayIndex>
+					<Width>51</Width>
+				</column>
+				<column name="columnFullpath">
+					<DisplayIndex>3</DisplayIndex>
+					<Width>283</Width>
+				</column>
+				<column name="columnVerified">
+					<DisplayIndex>2</DisplayIndex>
+					<Width>50</Width>
+				</column>
+				<column name="columnType">
+					<DisplayIndex>1</DisplayIndex>
+					<Width>268</Width>
+				</column>
+			</Columns>
+		</MainWindow>
+	</GUI>
 </configuration>
