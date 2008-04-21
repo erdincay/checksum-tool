@@ -222,8 +222,6 @@ namespace CheckSumTool
         /// <param name="item">Checksum item to add.</param>
         void AddItemToList(CheckSumItem item)
         {
-            const int Kilo = 1024;
-
             ListViewItem listItem = itemList.Items.Add(item.FullPath,
                     item.FileName, "");
 
@@ -255,18 +253,8 @@ namespace CheckSumTool
 
             if (item.Size != 0)
             {
-                if (item.Size < Kilo && item.Size > 0)
-                {
-                    listItems[(int)ListIndices.Size - 1] =
-                            "1 KB";
-                }
-                else if (item.Size > Kilo)
-                {
-                    //TODO: Windows local style
-                    decimal sizeKb = item.Size / Kilo;
-                    listItems[(int)ListIndices.Size - 1] =
-                            sizeKb.ToString("### ### ###") + " KB";
-                }
+                string size = Locality.GetShortFileSize(item.Size);
+                listItems[(int)ListIndices.Size - 1] = size;
             }
             else
                 listItems[(int)ListIndices.Size - 1] = "";

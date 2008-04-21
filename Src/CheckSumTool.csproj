@@ -70,6 +70,7 @@
     <Compile Include="FileUtils.cs" />
     <Compile Include="ICheckSumData.cs" />
     <Compile Include="IFile.cs" />
+    <Compile Include="Locality.cs" />
     <Compile Include="Pair.cs" />
     <Compile Include="ProgressInfo.cs" />
     <Compile Include="Settings\ColumnSetting.cs" />
