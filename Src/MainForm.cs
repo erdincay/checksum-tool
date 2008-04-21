@@ -626,7 +626,9 @@ namespace CheckSumTool
 
         /// <summary>
         /// Asks user to select a folder whose contents will be added to the
-        /// checksum list. Adds folder contents to the list.
+        /// checksum list. Adds folder contents to the list. If there are
+        /// subfolders, ask if the user wants to add all files in subfolders
+        /// also.
         /// </summary>
         void AddFolder()
         {
@@ -641,8 +643,12 @@ namespace CheckSumTool
 
                 if (Directory.GetDirectories(path).Length > 0)
                 {
-                    DialogResult result = MessageBox.Show("Add all subfolders of this folder?",
-                            "CheckSum Tool", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                    const string message = "The selected folder contains one " +
+                        "or more subfolders. Do you want to add all files " +
+                        "from all the subfolders?";
+                    DialogResult result = MessageBox.Show(message, 
+                            "CheckSum Tool", MessageBoxButtons.YesNo,
+                            MessageBoxIcon.Warning);
 
                     statusbarLabel1.Text = "Adding files...";
 
