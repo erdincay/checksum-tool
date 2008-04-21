@@ -111,7 +111,7 @@ namespace CheckSumTool.Settings
             XmlElement newForm = doc.CreateElement("toolbar");
             newForm.SetAttribute("name", toolbar.Name);
 
-            newForm.InnerXml = "<X>" + toolbar. X + "</X>" +
+            newForm.InnerXml = "<X>" + toolbar.X + "</X>" +
                                "<Y>" + toolbar.Y + "</Y>" +
                                "<Visible>" + toolbar.Visible + "</Visible>";
 
@@ -214,16 +214,16 @@ namespace CheckSumTool.Settings
                 switch (navigator.Name)
                 {
                     case "X":
-                        Assert.AreEqual(navigator.Value, "23");
+                        Assert.AreEqual("23", navigator.Value);
                         break;
                     case "Y":
-                        Assert.AreEqual(navigator.Value, "1");
+                        Assert.AreEqual("1", navigator.Value);
                         break;
                     case "Width":
-                        Assert.AreEqual(navigator.Value, "617");
+                        Assert.AreEqual("617", navigator.Value);
                         break;
                     case "Height":
-                        Assert.AreEqual(navigator.Value, "498");
+                        Assert.AreEqual("498", navigator.Value);
                         break;
                     default:
                         break;

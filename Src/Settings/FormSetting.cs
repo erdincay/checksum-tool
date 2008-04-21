@@ -209,11 +209,11 @@ namespace CheckSumTool.Settings
             FormSetting mainFormSetting = new FormSetting(handler);
             mainFormSetting.GetSetting("MainForm");
 
-            Assert.AreEqual(mainFormSetting.Name, "MainForm");
-            Assert.AreEqual(mainFormSetting.X, 23);
-            Assert.AreEqual(mainFormSetting.Y, 1);
-            Assert.AreEqual(mainFormSetting.Width, 617);
-            Assert.AreEqual(mainFormSetting.Height, 498);
+            Assert.AreEqual("MainForm", mainFormSetting.Name);
+            Assert.AreEqual(23, mainFormSetting.X);
+            Assert.AreEqual(15, mainFormSetting.Y);
+            Assert.AreEqual(617, mainFormSetting.Width);
+            Assert.AreEqual(498, mainFormSetting.Height);
         }
 
         /// <summary>
