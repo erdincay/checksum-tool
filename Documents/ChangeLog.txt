@@ -14,6 +14,7 @@ CheckSum Tool 0.5.0
   Add version number for the configuration file.
   Improve message asking about adding subfolders.
   Change config file folder to %APPDATA%/ChecksumTool/
+  Added default config file to the installer.
 
 CheckSum Tool 0.4.0 - 2008-02-05 (r158)
   Add Select All to Edit-menu (also CTRL+A shortcut key)

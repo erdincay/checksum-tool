@@ -81,6 +81,7 @@ Section "Core Files" SEC01
   CreateShortCut "$DESKTOP\CheckSum Tool.lnk" "$INSTDIR\CheckSumTool.exe"
   File "..\..\Documents\COPYING"
   File "..\..\Documents\Readme.txt"
+  File "..\..\Src\config.xml"
 SectionEnd
 
 Section "User Manual" SEC02
@@ -133,6 +134,7 @@ Section Uninstall
   Delete "$INSTDIR\Readme.txt"
   Delete "$INSTDIR\COPYING"
   Delete "$INSTDIR\CheckSumTool.exe"
+  Delete "$INSTDIR\config.xml"
 
   Delete "$INSTDIR\Manual\Manual.html"
   Delete "$INSTDIR\Manual\Images\MainWindow1.png"
