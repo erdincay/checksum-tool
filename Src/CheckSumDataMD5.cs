@@ -44,8 +44,7 @@ namespace CheckSumTool
         /// <param name="data">Checksum data as a byte array.</param>
         public CheckSumDataMD5(byte[] data)
         {
-            if (data.Length != Length)
-                throw new ArgumentException("data", "Invalid MD5 checksum");
+            DataSize = Length;
             Set(data);
         }
 
@@ -55,6 +54,7 @@ namespace CheckSumTool
         /// <param name="data">Checksum data as a string.</param>
         public CheckSumDataMD5(string data)
         {
+            DataSize = Length;
             Set(data);
         }
     }

@@ -44,8 +44,7 @@ namespace CheckSumTool
         /// <param name="data">Checksum data as a byte array.</param>
         public CheckSumDataSHA1(byte[] data)
         {
-            if (data.Length != Length)
-                throw new ArgumentException("data", "Invalid SHA-1 checksum");
+            DataSize = Length;
             Set(data);
         }
 
@@ -55,6 +54,7 @@ namespace CheckSumTool
         /// <param name="data">Checksum data as a string.</param>
         public CheckSumDataSHA1(string data)
         {
+            DataSize = Length;
             Set(data);
         }
     }

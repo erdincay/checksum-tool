@@ -1,7 +1,7 @@
 ﻿/*
 The MIT License
 
-Copyright (c) 2007 Ixonos Plc, Kimmo Varis <kimmo.varis@ixonos.com>
+Copyright (c) 2007-2008 Ixonos Plc, Kimmo Varis <kimmo.varis@ixonos.com>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -42,6 +42,20 @@ namespace CheckSumTool
         private byte[] _data;
 
         /// <summary>
+        /// Size if the data. Data must be of this size. Set by the derived
+        /// class.
+        /// </summary>
+        private int _size;
+
+        /// <summary>
+        /// Protected property for derived classes to set the allowed data size.
+        /// </summary>
+        protected int DataSize
+        {
+            set { _size = value; }
+        }
+
+        /// <summary>
         /// Return checksum as a string.
         /// </summary>
         /// <returns>Checksum as a string, empty string if no data.</returns>
@@ -62,6 +76,12 @@ namespace CheckSumTool
                 throw new ArgumentNullException("data");
             if (data.Length == 0)
                 throw new ArgumentException("Empty table as parameter.", "data");
+            if (data.Length != _size)
+            {
+                string msg = String.Format("Data size is invalid, must be {0} bytes",
+                    _size);
+                throw new ArgumentException(msg, "data");
+            }
 
             _data = new byte[data.Length];
             Array.Copy(data, _data, data.Length);
@@ -79,7 +99,13 @@ namespace CheckSumTool
                 throw new ArgumentNullException("data");
             if (data.Length == 0)
                 throw new ArgumentException("Empty string as parameter.", "data");
-            
+            if ((data.Length / 2) != _size)
+            {
+                string msg = String.Format("Data size is invalid, must be {0} bytes",
+                    _size);
+                throw new ArgumentException(msg, "data");
+            }
+
             byte[] bytes = new byte[data.Length / 2];
             int newIndex = 0;
             for (int i = 0; i < data.Length; i += 2)
