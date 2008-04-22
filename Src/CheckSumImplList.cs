@@ -1,7 +1,7 @@
 ﻿/*
 The MIT License
 
-Copyright (c) 2007 Ixonos Plc, Kimmo Varis <kimmo.varis@ixonos.com>
+Copyright (c) 2007-2008 Ixonos Plc, Kimmo Varis <kimmo.varis@ixonos.com>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -25,6 +25,7 @@ THE SOFTWARE.
 // $Id$
 
 using System;
+using NUnit.Framework;
 
 namespace CheckSumTool
 {
@@ -69,7 +70,11 @@ namespace CheckSumTool
                     break;
                 default:
                     sum = new Sha1Sum();
+#if DEBUG
+                    throw new ApplicationException("Unknown Sum type!");
+#else
                     break;
+#endif
             }
             return sum;
         }
@@ -83,6 +88,73 @@ namespace CheckSumTool
         {
             string name = SumNames[(int) impl];
             return name;
+        }
+    }
+
+    /// <summary>
+    /// A unit testing class for CheckSumImplList -class.
+    /// </summary>
+    [TestFixture]
+    public class TestCheckSumImplList
+    {
+        [Test]
+        public void GetSHA1Imp()
+        {
+            ICheckSum impl = CheckSumImplList.GetImplementation(
+                CheckSumType.SHA1);
+
+            Assert.IsNotNull(impl);
+            Assert.IsInstanceOfType(typeof(Sha1Sum), impl);
+        }
+
+        [Test]
+        public void GetMD5Imp()
+        {
+            ICheckSum impl = CheckSumImplList.GetImplementation(
+                CheckSumType.MD5);
+
+            Assert.IsNotNull(impl);
+            Assert.IsInstanceOfType(typeof(Md5Sum), impl);
+        }
+
+        [Test]
+        public void GetCRC32Imp()
+        {
+            ICheckSum impl = CheckSumImplList.GetImplementation(
+                CheckSumType.CRC32);
+
+            Assert.IsNotNull(impl);
+            Assert.IsInstanceOfType(typeof(CRC32Sum), impl);
+        }
+
+        [Test]
+        public void GetSHA1Name()
+        {
+            string name = CheckSumImplList.GetImplementationName(
+                CheckSumType.SHA1);
+
+            Assert.IsNotNull(name);
+            Assert.AreEqual("SHA-1", name);
+        }
+
+        [Test]
+        public void GetMD5Name()
+        {
+            string name = CheckSumImplList.GetImplementationName(
+                CheckSumType.MD5);
+
+            Assert.IsNotNull(name);
+            Assert.AreEqual("MD5", name);
+        }
+
+        [Test]
+        public void GetCRC32Name()
+        {
+            string name = CheckSumImplList.GetImplementationName(
+                CheckSumType.CRC32);
+
+            Assert.IsNotNull(name);
+            Assert.AreEqual("CRC32", name);
         }
     }
 }
