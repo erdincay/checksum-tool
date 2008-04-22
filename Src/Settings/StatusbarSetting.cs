@@ -1,7 +1,7 @@
 /*
 The MIT License
 
-Copyright (c) 2007 Ixonos Plc, Kimmo Varis <kimmo.varis@ixonos.com>
+Copyright (c) 2007-2008 Ixonos Plc, Kimmo Varis <kimmo.varis@ixonos.com>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -25,6 +25,7 @@ THE SOFTWARE.
 // $Id$
 
 using System;
+using System.IO;
 using System.Xml;
 using System.Xml.XPath;
 using System.Collections.Generic;
@@ -138,6 +139,19 @@ namespace CheckSumTool.Settings
     [TestFixture]
     public class TestToolbarSetting
     {
+        [SetUp]
+        public void InitTest()
+        {
+            File.Copy(@"../../TestData/configWrite.xml",
+                      @"../../TestData/configWriteTemp.xml");
+        }
+
+        [TearDown]
+        public void Cleanup()
+        {
+            File.Delete(@"../../TestData/configWriteTemp.xml");
+        }
+
         /// <summary>
         /// Test getting Toolbar values and comparing.
         /// </summary>
@@ -148,8 +162,8 @@ namespace CheckSumTool.Settings
             StatusbarSetting settingStatusStrip1 = new StatusbarSetting(handler);
             settingStatusStrip1.GetSetting("statusStrip1");
 
-            Assert.AreEqual(settingStatusStrip1.Name, "statusStrip1");
-            Assert.AreEqual(settingStatusStrip1.Visible, true);
+            Assert.AreEqual("statusStrip1", settingStatusStrip1.Name);
+            Assert.AreEqual(true, settingStatusStrip1.Visible);
         }
 
         /// <summary>
@@ -160,7 +174,7 @@ namespace CheckSumTool.Settings
         [Test]
         public void TestToolbarSaveSettinAndGetSetting()
         {
-            XPathHandler handler = new XPathHandler(@"../../TestData/configWrite.xml");
+            XPathHandler handler = new XPathHandler(@"../../TestData/configWriteTemp.xml");
             StatusbarSetting settingStatusStrip1First = new StatusbarSetting(handler);
             settingStatusStrip1First.GetSetting("statusStrip1");
 
@@ -172,8 +186,8 @@ namespace CheckSumTool.Settings
             StatusbarSetting settingStatusStrip1Second = new StatusbarSetting(handler);
             settingStatusStrip1Second.GetSetting("statusStrip1");
 
-            Assert.AreEqual(settingStatusStrip1Second.Name, settingStatusStrip1Save.Name);
-            Assert.AreEqual(settingStatusStrip1Second.Visible,  settingStatusStrip1Save.Visible);
+            Assert.AreEqual(settingStatusStrip1Save.Name, settingStatusStrip1Second.Name);
+            Assert.AreEqual(settingStatusStrip1Save.Visible, settingStatusStrip1Second.Visible);
         }
     }
 }

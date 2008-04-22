@@ -1,7 +1,7 @@
 /*
 The MIT License
 
-Copyright (c) 2007 Ixonos Plc, Kimmo Varis <kimmo.varis@ixonos.com>
+Copyright (c) 2007-2008 Ixonos Plc, Kimmo Varis <kimmo.varis@ixonos.com>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -25,6 +25,7 @@ THE SOFTWARE.
 // $Id$
 
 using System;
+using System.IO;
 using System.Xml;
 using System.Xml.XPath;
 using System.Collections.Generic;
@@ -178,6 +179,19 @@ namespace CheckSumTool.Settings
     [TestFixture]
     public class TestStatusbarSetting
     {
+        [SetUp]
+        public void InitTest()
+        {
+            File.Copy(@"../../TestData/configWrite.xml",
+                      @"../../TestData/configWriteTemp.xml");
+        }
+
+        [TearDown]
+        public void Cleanup()
+        {
+            File.Delete(@"../../TestData/configWriteTemp.xml");
+        }
+
         /// <summary>
         /// Test getting Statusbar values and comparing.
         /// </summary>
@@ -202,7 +216,7 @@ namespace CheckSumTool.Settings
         [Test]
         public void TestToolbarSaveSettinAndGetSetting()
         {
-            XPathHandler handler = new XPathHandler(@"../../TestData/configWrite.xml");
+            XPathHandler handler = new XPathHandler(@"../../TestData/configWriteTemp.xml");
             ToolbarSetting settingToolStripFileFirst = new ToolbarSetting(handler);
             settingToolStripFileFirst.GetSetting("toolStripFile");
 
