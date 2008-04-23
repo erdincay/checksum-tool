@@ -25,6 +25,7 @@ THE SOFTWARE.
 // $Id$
 
 using System;
+using NUnit.Framework;
 
 namespace CheckSumTool
 {
@@ -46,12 +47,49 @@ namespace CheckSumTool
         /// <returns>Converted path.</returns>
         public static string GetUnixPathFormat(string path)
         {
+            if (path == null)
+                throw new ArgumentNullException("path");
+
             if (path.IndexOf('\\') >= 0)
             {
                 string newpath = path.Replace(@"\", PathSeparator);
                 return newpath;
             }
             return path;
+        }
+    }
+
+    /// <summary>
+    /// An unit testing class for FileUtils class.
+    /// </summary>
+    [TestFixture]
+    public class TestFileUtils
+    {
+        [Test]
+        public void PathSeparator()
+        {
+            Assert.AreEqual("/", FileUtils.PathSeparator);
+        }
+
+        [Test]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void UnixPathConvertNull()
+        {
+            string conv = FileUtils.GetUnixPathFormat((string) null);
+        }
+
+        [Test]
+        public void UnixPathConvertEmpty()
+        {
+            string conv = FileUtils.GetUnixPathFormat("");
+            Assert.IsEmpty(conv);
+        }
+
+        [Test]
+        public void UnixPathConvertSimple()
+        {
+            string conv = FileUtils.GetUnixPathFormat(@"c:\Temp\");
+            Assert.AreEqual(@"c:/Temp/", conv);
         }
     }
 }

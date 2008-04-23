@@ -26,6 +26,7 @@ THE SOFTWARE.
 
 using System;
 using System.Globalization;
+using NUnit.Framework;
 
 namespace CheckSumTool
 {
@@ -43,6 +44,9 @@ namespace CheckSumTool
         /// <returns>File size as localized short number string.</returns>
         public static string GetShortFileSize(int bytes)
         {
+            if (bytes < 0)
+                return Convert.ToString(bytes);
+
             double fsize = 0;
             string postfix = "";
             if (bytes < Kilo)
@@ -71,6 +75,55 @@ namespace CheckSumTool
             string size = Convert.ToString(fsize, numberInfo);
             size += postfix;
             return size;
+        }
+    }
+
+    /// <summary>
+    /// An unit testing class for the Locality class.
+    /// </summary>
+    [TestFixture]
+    public class TestLocality
+    {
+        [Test]
+        public void ShortSizeNegative()
+        {
+            string size = Locality.GetShortFileSize(-3);
+            Assert.AreEqual("-3", size);
+        }
+
+        [Test]
+        public void ShortSizeZero()
+        {
+            string size = Locality.GetShortFileSize(0);
+            Assert.IsTrue(size.EndsWith(" B"));
+        }
+
+        [Test]
+        public void ShortSizeBytes()
+        {
+            string size = Locality.GetShortFileSize(100);
+            Assert.IsTrue(size.EndsWith(" B"));
+        }
+
+        [Test]
+        public void ShortSizeKilo()
+        {
+            string size = Locality.GetShortFileSize(1100);
+            Assert.IsTrue(size.EndsWith(" KB"));
+        }
+
+        [Test]
+        public void ShortSizeMega()
+        {
+            string size = Locality.GetShortFileSize(1100000);
+            Assert.IsTrue(size.EndsWith(" MB"));
+        }
+
+        [Test]
+        public void ShortSizeGiga()
+        {
+            string size = Locality.GetShortFileSize(1100000000);
+            Assert.IsTrue(size.EndsWith(" GB"));
         }
     }
 }
