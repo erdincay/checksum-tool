@@ -121,6 +121,7 @@ namespace CheckSumTool
                               "25d0bd72",
                               "0e2b82e8",
                               "e4f410fe"};
+        const string TestFolder = @"../../TestData/SFVFiles/";
 
         int _testFile1RowCount = 13;
 
@@ -130,7 +131,7 @@ namespace CheckSumTool
         [Test]
         public void ReadFile()
         {
-            TextFileReader reader = new TextFileReader(@"../../TestData/UnitTestFolder/TestFile1.SFV");
+            TextFileReader reader = new TextFileReader(TestFolder + "TestFile1.SFV");
 
             SFVFile sumFile = new SFVFile();
             List<Pair<string>> itemList = sumFile.ReadData(reader);
@@ -149,7 +150,7 @@ namespace CheckSumTool
         [Test]
         public void ReadFileAndCheckRowCount()
         {
-            TextFileReader reader = new TextFileReader(@"../../TestData/UnitTestFolder/TestFile1.SFV");
+            TextFileReader reader = new TextFileReader(TestFolder + "TestFile1.SFV");
 
             SFVFile sumFile = new SFVFile();
             List<Pair<string>> itemList = sumFile.ReadData(reader);

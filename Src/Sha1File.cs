@@ -103,15 +103,17 @@ namespace CheckSumTool
     }
 
     [TestFixture]
-    public class TestSha1FileNew
+    public class TestSha1File
     {
         // Precalculated SHA-1 checkSum
-        string[] _checkSum = {"94a3225c6bac573a06da75b05bcf6de59f65db2c",
+        static readonly string[] _checkSum = {
+                              "94a3225c6bac573a06da75b05bcf6de59f65db2c",
                               "3fa6b918ad3fb6ac645cdd3caa17cb6d1492c99b",
                               "9f88f5c451feb859ff48ffe6c613437ac25c2b01",
                               "d3486ae9136e7856bc42212385ea797094475802",
                               "c9094305e83cb09ff11a8477e99d4ebf499bc74f",
                               "48332327f98549fd2782ebc4622981cc99514067"};
+        const string TestFolder = @"../../TestData/SHA1Files/";
 
         int _testFile1RowCount = 6;
 
@@ -121,7 +123,7 @@ namespace CheckSumTool
         [Test]
         public void ReadFile()
         {
-            TextFileReader reader = new TextFileReader(@"../../TestData/UnitTestFolder/TestFile1.sha1");
+            TextFileReader reader = new TextFileReader(TestFolder + "TestFile1.sha1");
 
             Sha1File sumFile = new Sha1File();
             List<Pair<string>> itemList = sumFile.ReadData(reader);
@@ -140,7 +142,7 @@ namespace CheckSumTool
         [Test]
         public void ReadFileAndCheckRowCount()
         {
-            TextFileReader reader = new TextFileReader(@"../../TestData/UnitTestFolder/TestFile1.sha1");
+            TextFileReader reader = new TextFileReader(TestFolder + "TestFile1.sha1");
 
             Sha1File sumFile = new Sha1File();
             List<Pair<string>> itemList = sumFile.ReadData(reader);

@@ -110,9 +110,11 @@ namespace CheckSumTool
     public class TestMD5File
     {
         // Precalculated SFV-checkSum
-        string[] _checkSum = {"78cf91daf373e286415c36a8b035dba9",
+        static readonly string[] _checkSum = {
+                              "78cf91daf373e286415c36a8b035dba9",
                               "e76f8a2f7ae08dfa86df819e7d7639c3",
                               "9f089d9a25ea55c459680009910bec73" };
+        const string TestFolder = @"../../TestData/MD5Files/";
 
         int _testFile1RowCount = 3;
 
@@ -122,7 +124,7 @@ namespace CheckSumTool
         [Test]
         public void ReadFile()
         {
-            TextFileReader reader = new TextFileReader(@"../../TestData/UnitTestFolder/TestFile1.md5");
+            TextFileReader reader = new TextFileReader(TestFolder + "TestFile1.md5");
 
             MD5File sumFile = new MD5File();
             List<Pair<string>> itemList = sumFile.ReadData(reader);
@@ -141,7 +143,7 @@ namespace CheckSumTool
         [Test]
         public void ReadFileAndCheckRowCount()
         {
-            TextFileReader reader = new TextFileReader(@"../../TestData/UnitTestFolder/TestFile1.md5");
+            TextFileReader reader = new TextFileReader(TestFolder + "TestFile1.md5");
 
             MD5File sumFile = new MD5File();
             List<Pair<string>> itemList = sumFile.ReadData(reader);
