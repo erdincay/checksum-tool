@@ -1,7 +1,7 @@
 ﻿/*
 The MIT License
 
-Copyright (c) 2007 Ixonos Plc, Kimmo Varis <kimmo.varis@ixonos.com>
+Copyright (c) 2007-2008 Ixonos Plc, Kimmo Varis <kimmo.varis@ixonos.com>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -146,6 +146,40 @@ namespace CheckSumTool
             List<Pair<string>> itemList = sumFile.ReadData(reader);
 
             Assert.AreEqual(itemList.Count, _testFile1RowCount);
+        }
+
+        [Test]
+        public void WriteHeader()
+        {
+            StreamWriter fileOut = new StreamWriter(@"../../TestData/UnitTestFolder/TestFileWrite1.Sha1", false);
+            Sha1File sumFile = new Sha1File();
+            sumFile.Header(fileOut);
+            fileOut.Close();
+
+            Assert.IsTrue(File.Exists(@"../../TestData/UnitTestFolder/TestFileWrite1.sha1"));
+
+            string[] lines = File.ReadAllLines(@"../../TestData/UnitTestFolder/TestFileWrite1.sha1");
+            Assert.GreaterOrEqual(lines.Length, 1);
+
+            File.Delete(@"../../TestData/UnitTestFolder/TestFileWrite1.sha1");
+        }
+
+        [Test]
+        public void WriteSums()
+        {
+            StreamWriter fileOut = new StreamWriter(@"../../TestData/UnitTestFolder/TestFileWrite2.sha1", false);
+            Sha1File sumFile = new Sha1File();
+            sumFile.WriteDataRow(fileOut, "94a3225c6bac573a06da75b05bcf6de59f65db2c",
+                                 "test.txt");
+            fileOut.Close();
+
+            Assert.IsTrue(File.Exists(@"../../TestData/UnitTestFolder/TestFileWrite2.sha1"));
+
+            string[] lines = File.ReadAllLines(@"../../TestData/UnitTestFolder/TestFileWrite2.sha1");
+            Assert.AreEqual(1, lines.Length);
+            Assert.IsTrue(lines[0] == "94a3225c6bac573a06da75b05bcf6de59f65db2c test.txt");
+
+            File.Delete(@"../../TestData/UnitTestFolder/TestFileWrite2.sha1");
         }
     }
 }

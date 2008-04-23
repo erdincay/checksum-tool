@@ -1,7 +1,7 @@
 ﻿/*
 The MIT License
 
-Copyright (c) 2007 Ixonos Plc, Kimmo Varis <kimmo.varis@ixonos.com>
+Copyright (c) 2007-2008 Ixonos Plc, Kimmo Varis <kimmo.varis@ixonos.com>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -85,7 +85,8 @@ namespace CheckSumTool
         /// <param name="file">Target file to write.</param>
         /// <param name="checkSum">CheckSum value.</param>
         /// <param name="relativePath">Relative path value.</param>
-        public void WriteDataRow(StreamWriter file, string checksum, string relativePath)
+        public void WriteDataRow(StreamWriter file, string checksum,
+                string relativePath)
         {
             string separator = "|";
 
@@ -146,6 +147,40 @@ namespace CheckSumTool
             List<Pair<string>> itemList = sumFile.ReadData(reader);
 
             Assert.AreEqual(itemList.Count, _testFile1RowCount);
+        }
+
+        [Test]
+        public void WriteHeader()
+        {
+            StreamWriter fileOut = new StreamWriter(@"../../TestData/UnitTestFolder/TestFileWrite1.md5", false);
+            MD5File sumFile = new MD5File();
+            sumFile.Header(fileOut);
+            fileOut.Close();
+
+            Assert.IsTrue(File.Exists(@"../../TestData/UnitTestFolder/TestFileWrite1.md5"));
+
+            string[] lines = File.ReadAllLines(@"../../TestData/UnitTestFolder/TestFileWrite1.md5");
+            Assert.GreaterOrEqual(lines.Length, 1);
+
+            File.Delete(@"../../TestData/UnitTestFolder/TestFileWrite1.md5");
+        }
+
+        [Test]
+        public void WriteSums()
+        {
+            StreamWriter fileOut = new StreamWriter(@"../../TestData/UnitTestFolder/TestFileWrite2.md5", false);
+            MD5File sumFile = new MD5File();
+            sumFile.WriteDataRow(fileOut, "78cf91daf373e286415c36a8b035dba9",
+                                 "test.txt");
+            fileOut.Close();
+
+            Assert.IsTrue(File.Exists(@"../../TestData/UnitTestFolder/TestFileWrite2.md5"));
+
+            string[] lines = File.ReadAllLines(@"../../TestData/UnitTestFolder/TestFileWrite2.md5");
+            Assert.AreEqual(1, lines.Length);
+            Assert.IsTrue(lines[0] == "78cf91daf373e286415c36a8b035dba9|test.txt");
+
+            File.Delete(@"../../TestData/UnitTestFolder/TestFileWrite2.md5");
         }
     }
 }
