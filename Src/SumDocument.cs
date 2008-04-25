@@ -1,7 +1,8 @@
 ﻿/*
 The MIT License
 
-Copyright (c) 2007-2008 Ixonos Plc, Kimmo Varis <kimmo.varis@ixonos.com>
+Copyright (c) 2007-2008 Ixonos Plc
+Copyright (c) Kimmo Varis <kimmov@winmerge.org>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -128,7 +129,8 @@ namespace CheckSumTool
         public bool VerifySums(ref ProgressInfo progressInfo)
         {
             Calculator sumCalculator = new Calculator(_currentSumType);
-            bool succeeded = sumCalculator.Verify(_checksumItemList.FileList, ref progressInfo);
+            bool succeeded = sumCalculator.Verify(_checksumItemList.FileList,
+                ref progressInfo);
             return succeeded;
         }
 
