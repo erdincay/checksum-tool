@@ -64,7 +64,12 @@ namespace CheckSumTool
         /// checksums.
         /// </summary>
         System.Windows.Forms.Timer _progressTimer;
-        ProgressInfo _progressInfo = new ProgressInfo();
+
+        /// <summary>
+        /// A shared class for sharing progress data between backround
+        /// processing and GUI.
+        /// </summary>
+        ProgressInfo _progressInfo;
 
         delegate void DelegateCalculateSums(ref ProgressInfo progressInfo);
         delegate void DelegateAddFiles(ref ProgressInfo progressInfo, string path);
@@ -307,7 +312,10 @@ namespace CheckSumTool
 
             statusbarLabel1.Text = "Calculating checksums...";
 
-            DelegateCalculateSums delInstance = new DelegateCalculateSums (_document.CalculateSums);
+            if (_progressInfo == null)
+                _progressInfo = new ProgressInfo();
+            DelegateCalculateSums delInstance = new DelegateCalculateSums(
+                    _document.CalculateSums);
             delInstance.BeginInvoke(ref _progressInfo, null, null);
             _progressTimer.Start();
         }
@@ -650,6 +658,8 @@ namespace CheckSumTool
             if (res == DialogResult.OK)
             {
                 string path = dlg.SelectedPath;
+                if (_progressInfo == null)
+                    _progressInfo = new ProgressInfo();
 
                 if (Directory.GetDirectories(path).Length > 0)
                 {
@@ -662,7 +672,7 @@ namespace CheckSumTool
 
                     statusbarLabel1.Text = "Adding files...";
 
-                    if ( result == DialogResult.Yes )
+                    if (result == DialogResult.Yes)
                     {
                         DelegateAddFiles delInstance = new DelegateAddFiles (_document.Items.AddSubFolders);
                         delInstance.BeginInvoke(ref _progressInfo, path, null, null);
@@ -1305,30 +1315,26 @@ namespace CheckSumTool
             statusbarLabelProgressBar.Visible = true;
             EnableStop();
 
-            if (_progressInfo.Stop)
+            if (_progressInfo.IsStopping())
             {
+                _progressInfo.Stopped();
                 StoppingClock("Stopped.");
+
             }
             else
             {
-                if (_progressInfo.Run == true)
+                if (_progressInfo.IsRunning())
                 {
                     if (statusbarLabelProgressBar.Value >= 100)
                         statusbarLabelProgressBar.Value = 0;
 
                     statusbarLabelProgressBar.Increment(10);
+                    statusbarLabelProgressBar.Value = _progressInfo.Now;
+                    statusbarLabel1.Text = _progressInfo.Filename;
                 }
-                else
+                else if (_progressInfo.IsReady())
                 {
-                    if (_progressInfo.Ready)
-                    {
-                        OnProgressReady();
-                    }
-                    else
-                    {
-                        statusbarLabelProgressBar.Value = _progressInfo.Now;
-                        statusbarLabel1.Text = _progressInfo.Filename;
-                    }
+                    OnProgressReady();
                 }
             }
         }
@@ -1476,7 +1482,8 @@ namespace CheckSumTool
         /// <param name="e"></param>
         void ToolStripBtnStopClick(object sender, EventArgs e)
         {
-            _progressInfo.Stop = true;
+            if (_progressInfo != null)
+                _progressInfo.Stop();
         }
 
         /// <summary>

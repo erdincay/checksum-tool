@@ -1,7 +1,8 @@
 ﻿/*
 The MIT License
 
-Copyright (c) 2007-2008 Ixonos Plc, Kimmo Varis <kimmo.varis@ixonos.com>
+Copyright (c) 2007-2008 Ixonos Plc
+Copyright (c) 2007-2008 Kimmo Varis <kimmov@winmerge.org>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -156,13 +157,12 @@ namespace CheckSumTool
         public void AddFolder(ref ProgressInfo progressInfo, string path)
         {
             progressInfo.DefaultSetting();
-            progressInfo.Run = true;
+            progressInfo.Start();
             progressInfo.Max = 100;
 
             AddFolder(path, ref progressInfo);
 
-            progressInfo.Ready = true;
-            progressInfo.Run = false;
+            progressInfo.Complete();
         }
 
         /// <summary>
@@ -170,7 +170,7 @@ namespace CheckSumTool
         /// </summary>
         /// <param name="folder">Path to folder to add.</param>
         /// <param name="progressInfo">Returns information about progress.</param>
-        public void AddFolder(string folder, ref ProgressInfo progressInfo)
+        void AddFolder(string folder, ref ProgressInfo progressInfo)
         {
             DirectoryInfo info = new DirectoryInfo(folder);
             FileInfo[] files = info.GetFiles();
@@ -195,13 +195,12 @@ namespace CheckSumTool
         public void AddSubFolders(ref ProgressInfo progressInfo, string path)
         {
             progressInfo.DefaultSetting();
-            progressInfo.Run = true;
+            progressInfo.Start();
             progressInfo.Max = 100;
 
             AddSubFolders(path, ref progressInfo);
 
-            progressInfo.Ready = true;
-            progressInfo.Run = false;
+            progressInfo.Complete();
         }
 
         /// <summary>
@@ -209,13 +208,13 @@ namespace CheckSumTool
         /// </summary>
         /// <param name="folder">Path to folder to add.</param>
         /// <param name="progressInfo">Returns information about progress.</param>
-        public void AddSubFolders(string folder, ref ProgressInfo progressInfo)
+        void AddSubFolders(string folder, ref ProgressInfo progressInfo)
         {
             AddFolder(folder, ref progressInfo);
 
             string[] subFolders = Directory.GetDirectories(folder);
 
-            for (int i=0; i<subFolders.Length; i++)
+            for (int i = 0; i < subFolders.Length; i++)
             {
                 string currentSubFolder = subFolders[i];
                 try
@@ -230,9 +229,9 @@ namespace CheckSumTool
                     //TODO: Tell user he did not get all subfolders.
                     //Some windows hidden folders throw this exception.
                 }
-                
-                if(progressInfo.Stop)
-                {                    
+
+                if(progressInfo.IsStopping())
+                {
                     break;
                 }
             }

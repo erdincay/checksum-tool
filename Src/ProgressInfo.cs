@@ -1,7 +1,8 @@
 /*
 The MIT License
 
-Copyright (c) 2007 Ixonos Plc, Kimmo Varis <kimmo.varis@ixonos.com>
+Copyright (c) 2007-2008 Ixonos Plc
+Copyright (c) 2007-2008 Kimmo Varis <kimmov@winmerge.org>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -29,10 +30,49 @@ using System;
 namespace CheckSumTool
 {
     /// <summary>
-    /// ProgresInfo is used when have to updare UI in other thread.
+    /// ProgresInfo is used to share progress information between threads.
+    /// Usually this means sharing progress data between backend processing
+    /// and GUI.
     /// </summary>
     public class ProgressInfo
     {
+        /// <summary>
+        /// States in which our backend processing can be.
+        /// </summary>
+        public enum State
+        {
+            /// <summary>
+            /// No processing is happening. The default state.
+            /// </summary>
+            Idle,
+            /// <summary>
+            /// The processing is currently running.
+            /// </summary>
+            Running,
+            /// <summary>
+            /// The progress is stopping (stopped by the user?).
+            /// </summary>
+            Stopping,
+            /// <summary>
+            /// The processing is ready.
+            /// </summary>
+            Ready,
+        }
+
+        /// <summary>
+        /// Progress result values.
+        /// </summary>
+        public enum Result
+        {
+            Failed = 0,
+            PartialSuccess,
+            Success,
+        }
+
+        /// <summary>
+        /// Progress state.
+        /// </summary>
+        State _state;
         /// <summary>
         /// Maximum value.
         /// </summary>
@@ -46,43 +86,21 @@ namespace CheckSumTool
         /// </summary>
         int _now;
         /// <summary>
-        /// Is progress ready?
-        /// </summary>
-        bool _ready;
-        /// <summary>
-        /// Is progress stopped (or to be stopped)?
-        /// </summary>
-        bool _stop;
-        /// <summary>
-        /// Is progress running?
-        /// </summary>
-        bool _run;
-        /// <summary>
         /// Associated filename.
         /// </summary>
         string _filename;
         /// <summary>
-        /// 
+        /// Result of the backend processing.
         /// </summary>
         Result _succeeded;
-        
-        /// <summary>
-        /// Progress result values.
-        /// </summary>
-        public enum Result
-        {
-            Failed = 0,
-            PartialSuccess,
-            Success,
-        }
-        
+
         /// <summary>
         /// Default constructor.
         /// </summary>
         public ProgressInfo()
         {
         }
-        
+
         /// <summary>
         /// ProgresInfo Max value.
         /// </summary>
@@ -91,7 +109,7 @@ namespace CheckSumTool
             get { return _max; }
             set { _max = value; }
         }
-        
+
         /// <summary>
         /// ProgresInfo Min value.
         /// </summary>
@@ -100,7 +118,7 @@ namespace CheckSumTool
             get { return _min; }
             set { _min = value; }
         }
-        
+
         /// <summary>
         /// ProgresInfo Now value.
         /// </summary>
@@ -109,34 +127,77 @@ namespace CheckSumTool
             get { return _now; }
             set { _now = value; }
         }
-        
+
         /// <summary>
-        /// ProgresInfo Ready value.
+        /// Is the processing running?
         /// </summary>
-        public bool Ready
+        /// <returns>true if the processing is running.</returns>
+        public bool IsRunning()
         {
-            get { return _ready; }
-            set { _ready = value; }
+            return _state == State.Running;
         }
-        
+
         /// <summary>
-        /// ProgresInfo Stop value.
+        /// Is the processing stopping (about to be stopped soon)?
         /// </summary>
-        public bool Stop
+        /// <returns>true if the processing is being stopped.</returns>
+        public bool IsStopping()
         {
-            get { return _stop; }
-            set { _stop = value; }
+            return _state == State.Stopping;
         }
-        
+
         /// <summary>
-        /// ProgresInfo Run value.
+        /// Is the processing ready?
         /// </summary>
-        public bool Run
+        /// <returns>true if the processing is ready.</returns>
+        public bool IsReady()
         {
-            get { return _run; }
-            set { _run = value; }
+            return _state == State.Ready;
         }
-        
+
+        /// <summary>
+        /// Start the processing.
+        /// </summary>
+        public void Start()
+        {
+            if (_state != State.Idle)
+                throw new ApplicationException("Cannot start already running process!");
+
+            _state = State.Running;
+        }
+
+        /// <summary>
+        /// Comple the processing. This stops the processing when it becomes
+        /// ready in natural way.
+        /// </summary>
+        public void Complete()
+        {
+            if (_state != State.Running)
+                throw new ApplicationException("Cannot complete non-running process!");
+
+            _state = State.Ready;
+        }
+
+        /// <summary>
+        /// Stop the processing. This stops the processing before it is ready.
+        /// </summary>
+        public void Stop()
+        {
+            if (_state != State.Running)
+                throw new ApplicationException("Cannot stop non-running process!");
+            _state = State.Stopping;
+        }
+
+        /// <summary>
+        /// Finish stopping the process that started stopping by calling Stop().
+        /// </summary>
+        public void Stopped()
+        {
+            if (_state != State.Stopping)
+                throw new ApplicationException("Cannot stop-complete non-stopped process!");
+            _state = State.Ready;
+        }
+
         /// <summary>
         /// ProgresInfo Filename value.
         /// </summary>
@@ -145,7 +206,7 @@ namespace CheckSumTool
             get { return _filename; }
             set { _filename = value; }
         }
-        
+
         /// <summary>
         /// ProgresInfo Succeeded value.
         /// </summary>
@@ -154,7 +215,7 @@ namespace CheckSumTool
             get { return _succeeded; }
             set { _succeeded = value; }
         }
-        
+
         /// <summary>
         /// Set default values for ProgresInfo.
         /// </summary>
@@ -163,9 +224,7 @@ namespace CheckSumTool
             _max = 0;
             _min = 0;
             _now = 0;
-            _ready = false;
-            _stop = false;
-            _run = false;     
+            _state = State.Idle;
             _succeeded = Result.Failed;
         }
     }
