@@ -1,7 +1,8 @@
 ﻿/*
 The MIT License
 
-Copyright (c) 2007-2008 Ixonos Plc, Kimmo Varis <kimmo.varis@ixonos.com>
+Copyright (c) 2007-2008 Ixonos Plc
+Copyright (c) 2007-2008 Kimmo Varis <kimmov@winmerge.org>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -57,7 +58,12 @@ namespace CheckSumTool
         /// </summary>
         static readonly string ContributorsFile = "Contributors.txt";
 
-        System.Windows.Forms.Timer _clock;
+        /// <summary>
+        /// A timer for updating GUI when doing background processing. This
+        /// processing can be adding (lots of) items, calculating or verifyin
+        /// checksums.
+        /// </summary>
+        System.Windows.Forms.Timer _progressTimer;
         ProgressInfo _progressInfo = new ProgressInfo();
 
         delegate void DelegateCalculateSums(ref ProgressInfo progressInfo);
@@ -98,9 +104,9 @@ namespace CheckSumTool
         {
             CheckConfigFile();
 
-            _clock=new System.Windows.Forms.Timer();
-            _clock.Interval=1000;
-            _clock.Tick+=new EventHandler(Timer_Tick);
+            _progressTimer = new System.Windows.Forms.Timer();
+            _progressTimer.Interval = 1000;
+            _progressTimer.Tick += new EventHandler(Timer_Tick);
             //
             // The InitializeComponent() call is required for Windows Forms designer support.
             //
@@ -122,7 +128,7 @@ namespace CheckSumTool
         /// Checking if the config file exist and is of correct version. If
         /// the config file is not found or it is unknown version, then the
         /// default config file (from program folder) is copied as new config
-        /// file. 
+        /// file.
         /// </summary>
         private void CheckConfigFile()
         {
@@ -303,7 +309,7 @@ namespace CheckSumTool
 
             DelegateCalculateSums delInstance = new DelegateCalculateSums (_document.CalculateSums);
             delInstance.BeginInvoke(ref _progressInfo, null, null);
-            _clock.Start();
+            _progressTimer.Start();
         }
 
         /// <summary>
@@ -650,7 +656,7 @@ namespace CheckSumTool
                     const string message = "The selected folder contains one " +
                         "or more subfolders. Do you want to add all files " +
                         "from all the subfolders?";
-                    DialogResult result = MessageBox.Show(message, 
+                    DialogResult result = MessageBox.Show(message,
                             "CheckSum Tool", MessageBoxButtons.YesNo,
                             MessageBoxIcon.Warning);
 
@@ -660,13 +666,13 @@ namespace CheckSumTool
                     {
                         DelegateAddFiles delInstance = new DelegateAddFiles (_document.Items.AddSubFolders);
                         delInstance.BeginInvoke(ref _progressInfo, path, null, null);
-                        _clock.Start();
+                        _progressTimer.Start();
                     }
                     else
                     {
                         DelegateAddFiles delInstance = new DelegateAddFiles (_document.Items.AddFolder);
                         delInstance.BeginInvoke(ref _progressInfo, path, null, null);
-                        _clock.Start();
+                        _progressTimer.Start();
                     }
                 }
                 else
@@ -674,7 +680,7 @@ namespace CheckSumTool
                     statusbarLabel1.Text = "Adding files...";
                     DelegateAddFiles delInstance = new DelegateAddFiles (_document.Items.AddFolder);
                     delInstance.BeginInvoke(ref _progressInfo, path, null, null);
-                    _clock.Start();
+                    _progressTimer.Start();
                 }
 
                 _lastFolder = path;
@@ -798,7 +804,7 @@ namespace CheckSumTool
 
             DelegateCalculateSums delInstance = new DelegateCalculateSums (VerifyCheckSums);
             delInstance.BeginInvoke(ref _progressInfo, null, null);
-            _clock.Start();
+            _progressTimer.Start();
         }
 
         /// <summary>
@@ -1282,71 +1288,82 @@ namespace CheckSumTool
         /// <param name="eArgs"></param>
         void Timer_Tick(object sender,EventArgs eArgs)
         {
-            if(sender == _clock)
+            if (sender == _progressTimer)
             {
-                statusbarLabelProgressBar.Maximum = _progressInfo.Max;
+                OnProgressTimer();
+            }
+        }
 
-                int now;
+        /// <summary>
+        /// Called when progress timer is fired.
+        /// </summary>
+        void OnProgressTimer()
+        {
+            this.UseWaitCursor = true;
+            statusbarLabelProgressBar.Maximum = _progressInfo.Max;
+            statusbarLabelCount.Visible = false;
+            statusbarLabelProgressBar.Visible = true;
+            EnableStop();
 
-                statusbarLabelProgressBar.Maximum = _progressInfo.Max;
-                now = _progressInfo.Now;
-
-                this.UseWaitCursor = true;
-                statusbarLabelCount.Visible = false;
-                statusbarLabelProgressBar.Visible = true;
-                EnableStop();
-
-                if(_progressInfo.Stop)
+            if (_progressInfo.Stop)
+            {
+                StoppingClock("Stopped.");
+            }
+            else
+            {
+                if (_progressInfo.Run == true)
                 {
-                    StoppingClock("Stopped.");
+                    if (statusbarLabelProgressBar.Value >= 100)
+                        statusbarLabelProgressBar.Value = 0;
+
+                    statusbarLabelProgressBar.Increment(10);
                 }
                 else
                 {
-                    if(_progressInfo.Run == true)
+                    if (_progressInfo.Ready)
                     {
-                        if(statusbarLabelProgressBar.Value >= 100)
-                            statusbarLabelProgressBar.Value = 0;
-
-                        statusbarLabelProgressBar.Increment(10);
+                        OnProgressReady();
                     }
                     else
                     {
-                        if(_progressInfo.Ready)
-                        {
-                            StoppingClock("Ready.");
-
-                            switch (_progressInfo.Succeeded)
-                            {
-                                case ProgressInfo.Result.Failed:
-                                    break;
-
-                                case ProgressInfo.Result.PartialSuccess:
-                                    MessageBox.Show(this, "One ore more items could not be verified to match their checksums.",
-                                        "Verification Failed", MessageBoxButtons.OK,
-                                        MessageBoxIcon.Warning);
-                                    break;
-
-                                case ProgressInfo.Result.Success:
-                                    MessageBox.Show(this, "All items verified to match their checksums.",
-                                        "Verification Succeeded", MessageBoxButtons.OK,
-                                        MessageBoxIcon.Information);
-                                    break;
-
-                                default:
-#if _DEBUG
-                                    throw new ApplicationException("Unknown result value");
-#endif
-                                    break;
-                            }
-                        }
-                        else
-                        {
-                            statusbarLabelProgressBar.Value = now;
-                            statusbarLabel1.Text = _progressInfo.Filename;
-                        }
+                        statusbarLabelProgressBar.Value = _progressInfo.Now;
+                        statusbarLabel1.Text = _progressInfo.Filename;
                     }
                 }
             }
+        }
+
+        /// <summary>
+        /// Called when progress finishes.
+        /// </summary>
+        void OnProgressReady()
+        {
+            StoppingClock("Ready.");
+
+            switch (_progressInfo.Succeeded)
+            {
+                case ProgressInfo.Result.Failed:
+                    break;
+
+                case ProgressInfo.Result.PartialSuccess:
+                    MessageBox.Show(this, "One ore more items could not be verified to match their checksums.",
+                        "Verification Failed", MessageBoxButtons.OK,
+                        MessageBoxIcon.Warning);
+                    break;
+
+                case ProgressInfo.Result.Success:
+                    MessageBox.Show(this, "All items verified to match their checksums.",
+                        "Verification Succeeded", MessageBoxButtons.OK,
+                        MessageBoxIcon.Information);
+                    break;
+
+                default:
+#if _DEBUG
+                    throw new ApplicationException("Unknown result value");
+#endif
+                    break;
+            }
+
         }
 
         /// <summary>
@@ -1442,7 +1459,7 @@ namespace CheckSumTool
         /// <param name="text"></param>
         void StoppingClock(string text)
         {
-            _clock.Stop();
+            _progressTimer.Stop();
             statusbarLabelProgressBar.Visible = false;
             statusbarLabelProgressBar.Value = 0;
             statusbarLabel1.Text = text;
