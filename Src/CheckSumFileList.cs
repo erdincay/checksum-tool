@@ -158,7 +158,6 @@ namespace CheckSumTool
         {
             progressInfo.DefaultSetting();
             progressInfo.Start();
-            progressInfo.Max = 100;
 
             AddFolder(path, ref progressInfo);
 
@@ -196,7 +195,6 @@ namespace CheckSumTool
         {
             progressInfo.DefaultSetting();
             progressInfo.Start();
-            progressInfo.Max = 100;
 
             AddSubFolders(path, ref progressInfo);
 

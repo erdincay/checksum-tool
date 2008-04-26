@@ -310,14 +310,11 @@ namespace CheckSumTool
             if (itemList.Items.Count == 0)
                 return;
 
-            statusbarLabel1.Text = "Calculating checksums...";
-
-            if (_progressInfo == null)
-                _progressInfo = new ProgressInfo();
+            StartProgress("Calculating checksums...");
+            statusbarLabelProgressBar.Maximum = _document.Items.Count;
             DelegateCalculateSums delInstance = new DelegateCalculateSums(
                     _document.CalculateSums);
             delInstance.BeginInvoke(ref _progressInfo, null, null);
-            _progressTimer.Start();
         }
 
         /// <summary>
@@ -657,9 +654,9 @@ namespace CheckSumTool
 
             if (res == DialogResult.OK)
             {
+                StartProgress("Adding files...");
+                statusbarLabelProgressBar.Maximum = 100;
                 string path = dlg.SelectedPath;
-                if (_progressInfo == null)
-                    _progressInfo = new ProgressInfo();
 
                 if (Directory.GetDirectories(path).Length > 0)
                 {
@@ -670,27 +667,21 @@ namespace CheckSumTool
                             "CheckSum Tool", MessageBoxButtons.YesNo,
                             MessageBoxIcon.Warning);
 
-                    statusbarLabel1.Text = "Adding files...";
-
                     if (result == DialogResult.Yes)
                     {
                         DelegateAddFiles delInstance = new DelegateAddFiles (_document.Items.AddSubFolders);
                         delInstance.BeginInvoke(ref _progressInfo, path, null, null);
-                        _progressTimer.Start();
                     }
                     else
                     {
                         DelegateAddFiles delInstance = new DelegateAddFiles (_document.Items.AddFolder);
                         delInstance.BeginInvoke(ref _progressInfo, path, null, null);
-                        _progressTimer.Start();
                     }
                 }
                 else
                 {
-                    statusbarLabel1.Text = "Adding files...";
                     DelegateAddFiles delInstance = new DelegateAddFiles (_document.Items.AddFolder);
                     delInstance.BeginInvoke(ref _progressInfo, path, null, null);
-                    _progressTimer.Start();
                 }
 
                 _lastFolder = path;
@@ -809,12 +800,11 @@ namespace CheckSumTool
         /// <param name="e"></param>
         void ToolStripBtnVerifyClick(object sender, EventArgs e)
         {
-            statusbarLabel1.Text = "Verifying checksums...";
-            this.UseWaitCursor = true;
+            StartProgress("Verifying checksums...");
+            statusbarLabelProgressBar.Maximum = _document.Items.Count;
 
             DelegateCalculateSums delInstance = new DelegateCalculateSums (VerifyCheckSums);
             delInstance.BeginInvoke(ref _progressInfo, null, null);
-            _progressTimer.Start();
         }
 
         /// <summary>
@@ -1292,11 +1282,31 @@ namespace CheckSumTool
         }
 
         /// <summary>
-        /// Updating progressBar and statusBar
+        /// Sets up GUI for the asynchronous processing.
         /// </summary>
-        /// <param name="sender"></param>
+        /// <param name="message">Message to show in GUI.</param>
+        void StartProgress(string message)
+        {
+            _progressTimer.Start();
+            this.UseWaitCursor = true;
+            statusbarLabel1.Text = message;
+
+            //statusbarLabelProgressBar.Maximum = _progressInfo.Max;
+            //if (statusbarLabelProgressBar.Maximum == 0)
+            statusbarLabelCount.Visible = false;
+            statusbarLabelProgressBar.Visible = true;
+            EnableStop();
+
+            if (_progressInfo == null)
+                _progressInfo = new ProgressInfo();
+        }
+
+        /// <summary>
+        /// Called when timer event is received.
+        /// </summary>
+        /// <param name="sender">The timer that fired.</param>
         /// <param name="eArgs"></param>
-        void Timer_Tick(object sender,EventArgs eArgs)
+        void Timer_Tick(object sender, EventArgs eArgs)
         {
             if (sender == _progressTimer)
             {
@@ -1309,12 +1319,6 @@ namespace CheckSumTool
         /// </summary>
         void OnProgressTimer()
         {
-            this.UseWaitCursor = true;
-            statusbarLabelProgressBar.Maximum = _progressInfo.Max;
-            statusbarLabelCount.Visible = false;
-            statusbarLabelProgressBar.Visible = true;
-            EnableStop();
-
             if (_progressInfo.IsStopping())
             {
                 _progressInfo.Stopped();
@@ -1328,9 +1332,16 @@ namespace CheckSumTool
                     if (statusbarLabelProgressBar.Value >= 100)
                         statusbarLabelProgressBar.Value = 0;
 
-                    statusbarLabelProgressBar.Increment(10);
-                    statusbarLabelProgressBar.Value = _progressInfo.Now;
-                    statusbarLabel1.Text = _progressInfo.Filename;
+                    // If Max is 0, we just "run" the progress bar
+                    if (_progressInfo.Max == 0)
+                    {
+                        statusbarLabelProgressBar.Increment(10);
+                    }
+                    else
+                    {
+                        statusbarLabelProgressBar.Value = _progressInfo.Now;
+                        statusbarLabel1.Text = _progressInfo.Filename;
+                    }
                 }
                 else if (_progressInfo.IsReady())
                 {
