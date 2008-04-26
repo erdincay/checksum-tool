@@ -310,7 +310,7 @@ namespace CheckSumTool
             if (itemList.Items.Count == 0)
                 return;
 
-            StartProgress("Calculating checksums...");
+            StartProgress("Calculating checksums...", false);
             statusbarLabelProgressBar.Maximum = _document.Items.Count;
             DelegateCalculateSums delInstance = new DelegateCalculateSums(
                     _document.CalculateSums);
@@ -654,8 +654,6 @@ namespace CheckSumTool
 
             if (res == DialogResult.OK)
             {
-                StartProgress("Adding files...");
-                statusbarLabelProgressBar.Maximum = 100;
                 string path = dlg.SelectedPath;
 
                 if (Directory.GetDirectories(path).Length > 0)
@@ -667,6 +665,8 @@ namespace CheckSumTool
                             "CheckSum Tool", MessageBoxButtons.YesNo,
                             MessageBoxIcon.Warning);
 
+                    // We can't start progress before showing the dialog!
+                    StartProgress("Adding files...", true);
                     if (result == DialogResult.Yes)
                     {
                         DelegateAddFiles delInstance = new DelegateAddFiles (_document.Items.AddSubFolders);
@@ -680,6 +680,7 @@ namespace CheckSumTool
                 }
                 else
                 {
+                    StartProgress("Adding files...", true);
                     DelegateAddFiles delInstance = new DelegateAddFiles (_document.Items.AddFolder);
                     delInstance.BeginInvoke(ref _progressInfo, path, null, null);
                 }
@@ -800,7 +801,7 @@ namespace CheckSumTool
         /// <param name="e"></param>
         void ToolStripBtnVerifyClick(object sender, EventArgs e)
         {
-            StartProgress("Verifying checksums...");
+            StartProgress("Verifying checksums...", false);
             statusbarLabelProgressBar.Maximum = _document.Items.Count;
 
             DelegateCalculateSums delInstance = new DelegateCalculateSums (VerifyCheckSums);
@@ -1285,14 +1286,24 @@ namespace CheckSumTool
         /// Sets up GUI for the asynchronous processing.
         /// </summary>
         /// <param name="message">Message to show in GUI.</param>
-        void StartProgress(string message)
+        /// <param name="noCount">Count of items not known, use the
+        /// marquee style progress bar.</param>
+        void StartProgress(string message, bool noCount)
         {
             _progressTimer.Start();
             this.UseWaitCursor = true;
             statusbarLabel1.Text = message;
 
-            //statusbarLabelProgressBar.Maximum = _progressInfo.Max;
-            //if (statusbarLabelProgressBar.Maximum == 0)
+            if (noCount)
+            {
+                statusbarLabelProgressBar.ProgressBar.Style =
+                        ProgressBarStyle.Marquee;
+            }
+            else
+            {
+                statusbarLabelProgressBar.ProgressBar.Style =
+                        ProgressBarStyle.Blocks;
+            }
             statusbarLabelCount.Visible = false;
             statusbarLabelProgressBar.Visible = true;
             EnableStop();
@@ -1332,12 +1343,9 @@ namespace CheckSumTool
                     if (statusbarLabelProgressBar.Value >= 100)
                         statusbarLabelProgressBar.Value = 0;
 
-                    // If Max is 0, we just "run" the progress bar
-                    if (_progressInfo.Max == 0)
-                    {
-                        statusbarLabelProgressBar.Increment(10);
-                    }
-                    else
+                    // If Max is 0, we have a marquee progress bar which
+                    // updates itself.
+                    if (_progressInfo.Max != 0)
                     {
                         statusbarLabelProgressBar.Value = _progressInfo.Now;
                         statusbarLabel1.Text = _progressInfo.Filename;
