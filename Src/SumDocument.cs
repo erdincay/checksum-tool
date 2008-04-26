@@ -116,6 +116,7 @@ namespace CheckSumTool
             // Set list changed as even existing checksum values could change
             // during calculation (file in disc changed between calculations).
             _checksumItemList.SetChanged();
+            progressInfo.Complete();
         }
 
         /// <summary>
@@ -131,6 +132,7 @@ namespace CheckSumTool
             Calculator sumCalculator = new Calculator(_currentSumType);
             bool succeeded = sumCalculator.Verify(_checksumItemList.FileList,
                 ref progressInfo);
+            progressInfo.Complete();
             return succeeded;
         }
 

@@ -121,8 +121,6 @@ namespace CheckSumTool
                     break;
                 }
             }
-
-            progressInfo.Complete();
         }
 
         /// <summary>
@@ -221,8 +219,6 @@ namespace CheckSumTool
                     break;
                 }
             }
-
-            progressInfo.Complete();
             return verifysucceeded;
         }
     }

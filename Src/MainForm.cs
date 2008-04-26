@@ -312,6 +312,10 @@ namespace CheckSumTool
 
             StartProgress("Calculating checksums...", false);
             statusbarLabelProgressBar.Maximum = _document.Items.Count;
+
+            _progressInfo.DefaultSetting();
+            _progressInfo.Start();
+
             DelegateCalculateSums delInstance = new DelegateCalculateSums(
                     _document.CalculateSums);
             delInstance.BeginInvoke(ref _progressInfo, null, null);
@@ -373,12 +377,27 @@ namespace CheckSumTool
         /// <summary>
         /// Verify that checksums in the list match to file's actual checksums.
         /// </summary>
-        /// <param name="progressInfo">Returns information about progress.</param>
-        void VerifyCheckSums(ref ProgressInfo progressInfo)
+        void VerifyCheckSums()
         {
             if (itemList.Items.Count == 0)
                 return;
 
+            _progressInfo.DefaultSetting();
+            _progressInfo.Start();
+
+            StartProgress("Verifying checksums...", false);
+            statusbarLabelProgressBar.Maximum = _document.Items.Count;
+
+            DelegateCalculateSums delInstance = new DelegateCalculateSums(DoVerifyCheckSums);
+            delInstance.BeginInvoke(ref _progressInfo, null, null);
+        }
+
+        /// <summary>
+        /// Calculate checksums - this is the asynchronous method.
+        /// </summary>
+        /// <param name="progressInfo">Progress information.</param>
+        void DoVerifyCheckSums(ref ProgressInfo progressInfo)
+        {
             bool allSucceeded = _document.VerifySums(ref progressInfo);
 
             if (allSucceeded)
@@ -801,11 +820,7 @@ namespace CheckSumTool
         /// <param name="e"></param>
         void ToolStripBtnVerifyClick(object sender, EventArgs e)
         {
-            StartProgress("Verifying checksums...", false);
-            statusbarLabelProgressBar.Maximum = _document.Items.Count;
-
-            DelegateCalculateSums delInstance = new DelegateCalculateSums (VerifyCheckSums);
-            delInstance.BeginInvoke(ref _progressInfo, null, null);
+            VerifyCheckSums();
         }
 
         /// <summary>
@@ -862,7 +877,7 @@ namespace CheckSumTool
         /// <param name="e"></param>
         void MainMenuChecksumsVerifyAllClick(object sender, EventArgs e)
         {
-            ToolStripBtnVerifyClick(sender, e);
+            VerifyCheckSums();
         }
 
         /// <summary>
