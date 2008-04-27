@@ -5,8 +5,9 @@ or Subversion repository revision (rxxx).
 
 CheckSum Tool 0.5.0
   New toolbar/menuitem icons from famfamfam.com (#1883992)
+  Ask adding files in all subfolders of the selected folder.
+  Save configuration to XML file (window size/position, toolbars)
   Add second toolbar for checksum-related buttons
-  Bugfix: Fix updating item count in the statusbar.
   New list column named "Size", showing file size.
   Add ProgressBar for showing process progress.
   Improve file size formatting in main window.
@@ -16,6 +17,7 @@ CheckSum Tool 0.5.0
   Change config file folder to %APPDATA%/ChecksumTool/
   Added default config file to the installer.
   Copy default config file to distribution in NAnt build file.
+  Bugfix: Fix updating item count in the statusbar.
   Bugfix: NAnt build was broken after adding Src/Settings folder.
 
 CheckSum Tool 0.4.0 - 2008-02-05 (r158)
