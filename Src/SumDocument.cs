@@ -110,6 +110,7 @@ namespace CheckSumTool
         /// <param name="progressInfo">Returns information about progress.</param>
         public void CalculateSums(ref ProgressInfo progressInfo)
         {
+            progressInfo.Max = _checksumItemList.Count;
             Calculator sumCalculator = new Calculator(_currentSumType);
             sumCalculator.Calculate(_checksumItemList.FileList, ref progressInfo);
 
@@ -129,6 +130,7 @@ namespace CheckSumTool
         ///</returns>
         public bool VerifySums(ref ProgressInfo progressInfo)
         {
+            progressInfo.Max = _checksumItemList.Count;
             Calculator sumCalculator = new Calculator(_currentSumType);
             bool succeeded = sumCalculator.Verify(_checksumItemList.FileList,
                 ref progressInfo);

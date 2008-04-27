@@ -76,10 +76,6 @@ namespace CheckSumTool
                 ref ProgressInfo progressInfo)
         {
             ICheckSum sumImpl = CheckSumImplList.GetImplementation(_sumType);
-
-            progressInfo.DefaultSetting();
-            progressInfo.Max = itemList.Count;
-
             int i = 0;
             foreach (CheckSumItem ci in itemList)
             {
@@ -138,10 +134,6 @@ namespace CheckSumTool
         {
             bool verifysucceeded = true;
             ICheckSum sumImpl = CheckSumImplList.GetImplementation(_sumType);
-
-            progressInfo.DefaultSetting();
-            progressInfo.Max = itemList.Count;
-
             int i = 0;
             foreach (CheckSumItem ci in itemList)
             {
