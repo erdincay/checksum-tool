@@ -1,7 +1,7 @@
 CheckSum Tool Manual
 ====================
 Kimmo Varis
-v0.2, Febryary 2008
+v0.3, April 2008
 
 // $Id$
 
@@ -60,11 +60,19 @@ NOTE: Verifying might take some time if files are big.
 
 Adding Files to the List
 ~~~~~~~~~~~~~~~~~~~~~~~~
-To add (more) files to the list, select _File | Add Files..._ or _File |
-Add Folder..._ from the main menu. The former adds just one selected file,
-while the latter adds contents of the selected folder.
+There are two ways to add new files to the list:
 
-NOTE: Files are added only from the selected folder, subfolders are ignored.
+- selecting single files to add
+- add all files in folder (and subfolders)
+
+Single files can be added by selecting _File | Add Files..._ from the main menu
+or from toolbar. This adds only the files selected in the dialog.
+
+All files in the folder can be added by selecting _File | Add Folder..._ from
+the main menu. This adds all files in the selected folder. If the selectec
+folder contains any subfolders, user is asked if files in those subfolders
+should be added also. Answering _No_ tho the guestion adds only the selected
+folder. Answering _Yes_ adds all files in all the subfolders too.
 
 Saving File List to Checksum File
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -180,6 +188,7 @@ the checksum. Visible columns and their data are:
   * *OK* - checksum matches to the file in the disk
   * *FAIL* - checksum does not match the file in the disk
 - Full path to the file
+- Size of the file
 
 The checksum is shown as a hexadecimal string. The length of the checksum
 depends on the checksum type.
