@@ -679,7 +679,8 @@ namespace CheckSumTool
                 {
                     const string message = "The selected folder contains one " +
                         "or more subfolders. Do you want to add all files " +
-                        "from all the subfolders?";
+                        "from all the subfolders?\n\nSelecting No adds only " +
+                        "files in the selected folder.";
                     DialogResult result = MessageBox.Show(message,
                             "CheckSum Tool", MessageBoxButtons.YesNo,
                             MessageBoxIcon.Warning);
