@@ -58,21 +58,8 @@
       <DependentUpon>AboutForm.cs</DependentUpon>
     </Compile>
     <Compile Include="AssemblyInfo.cs" />
-    <Compile Include="Calculator.cs" />
-    <Compile Include="CheckSumData.cs" />
-    <Compile Include="CheckSumDataCRC32.cs" />
-    <Compile Include="CheckSumDataMD5.cs" />
-    <Compile Include="ChecksumDataSHA1.cs" />
-    <Compile Include="CheckSumImplList.cs" />
-    <Compile Include="CRC32.cs" />
-    <Compile Include="CRC32Sum.cs" />
     <Compile Include="EnvironmentUtils.cs" />
-    <Compile Include="FileUtils.cs" />
-    <Compile Include="ICheckSumData.cs" />
-    <Compile Include="IFile.cs" />
     <Compile Include="Locality.cs" />
-    <Compile Include="Pair.cs" />
-    <Compile Include="ProgressInfo.cs" />
     <Compile Include="Settings\ColumnSetting.cs" />
     <Compile Include="Settings\ConfigFile.cs" />
     <Compile Include="Settings\FormSetting.cs" />
@@ -83,28 +70,14 @@
     <Compile Include="Settings\StatusbarSetting.cs" />
     <Compile Include="Settings\ToolbarSetting.cs" />
     <Compile Include="Settings\XPathHandler.cs" />
-    <Compile Include="Sha1File.cs" />
     <Compile Include="StringUtil.cs" />
-    <Compile Include="SFVFile.cs" />
-    <Compile Include="ICheckSum.cs" />
-    <Compile Include="CheckSumItem.cs" />
-    <Compile Include="CheckSumFileList.cs" />
-    <Compile Include="ISumFile.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="MD5File.cs" />
-    <Compile Include="Md5Sum.cs" />
     <Compile Include="Program.cs" />
-    <Compile Include="Sha1Sum.cs" />
-    <Compile Include="SumDocument.cs" />
-    <Compile Include="SumFile.cs" />
-    <Compile Include="SumFileInfo.cs" />
-    <Compile Include="SumFileUtils.cs" />
-    <Compile Include="TextFileReader.cs" />
     <EmbeddedResource Include="AboutForm.resx">
       <DependentUpon>AboutForm.cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -120,5 +93,13 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Settings" />
+    <ProjectReference Include="SumLib\SumLib.csproj">
+      <Project>{8FA4903B-41FA-4C8A-B55E-939FC5C30A1D}</Project>
+      <Name>SumLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="Utils\Utils.csproj">
+      <Project>{475B5A91-EAB2-40B4-BF05-04A32B2D6EA1}</Project>
+      <Name>Utils</Name>
+    </ProjectReference>
   </ItemGroup>
 </Project>

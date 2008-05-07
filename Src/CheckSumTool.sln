@@ -27,6 +27,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Resources", "Resources", "{
 		res\SumCalculate.png = res\SumCalculate.png
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SumLib", "SumLib\SumLib.csproj", "{8FA4903B-41FA-4C8A-B55E-939FC5C30A1D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Utils", "Utils\Utils.csproj", "{475B5A91-EAB2-40B4-BF05-04A32B2D6EA1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -57,5 +61,13 @@ Global
 		{419D0600-9B98-4C2C-BB8B-059AC0710278}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{419D0600-9B98-4C2C-BB8B-059AC0710278}.Release|Any CPU.Build.0 = Release|Any CPU
 		{419D0600-9B98-4C2C-BB8B-059AC0710278}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8FA4903B-41FA-4C8A-B55E-939FC5C30A1D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8FA4903B-41FA-4C8A-B55E-939FC5C30A1D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8FA4903B-41FA-4C8A-B55E-939FC5C30A1D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8FA4903B-41FA-4C8A-B55E-939FC5C30A1D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{475B5A91-EAB2-40B4-BF05-04A32B2D6EA1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{475B5A91-EAB2-40B4-BF05-04A32B2D6EA1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{475B5A91-EAB2-40B4-BF05-04A32B2D6EA1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{475B5A91-EAB2-40B4-BF05-04A32B2D6EA1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 EndGlobal

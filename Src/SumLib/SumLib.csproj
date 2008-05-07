@@ -1,0 +1,75 @@
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <ProjectGuid>{8FA4903B-41FA-4C8A-B55E-939FC5C30A1D}</ProjectGuid>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <OutputType>Library</OutputType>
+    <RootNamespace>CheckSumTool.SumLib</RootNamespace>
+    <AssemblyName>SumLib</AssemblyName>
+    <BaseIntermediateOutputPath>..\..\BuildTmp\</BaseIntermediateOutputPath>
+    <AllowUnsafeBlocks>False</AllowUnsafeBlocks>
+    <NoStdLib>False</NoStdLib>
+    <WarningLevel>4</WarningLevel>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <OutputPath>..\..\Build\Debug\</OutputPath>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>Full</DebugType>
+    <Optimize>False</Optimize>
+    <CheckForOverflowUnderflow>True</CheckForOverflowUnderflow>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <OutputPath>..\..\Build\Release\</OutputPath>
+    <DebugSymbols>false</DebugSymbols>
+    <DebugType>None</DebugType>
+    <Optimize>True</Optimize>
+    <CheckForOverflowUnderflow>False</CheckForOverflowUnderflow>
+    <DefineConstants>TRACE</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Platform)' == 'AnyCPU' ">
+    <RegisterForComInterop>False</RegisterForComInterop>
+    <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
+    <BaseAddress>4194304</BaseAddress>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <FileAlignment>4096</FileAlignment>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.Targets" />
+  <ItemGroup>
+    <Reference Include="nunit.framework" />
+    <Reference Include="System" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AssemblyInfo.cs" />
+    <Compile Include="Calculator.cs" />
+    <Compile Include="CheckSumData.cs" />
+    <Compile Include="CheckSumDataCRC32.cs" />
+    <Compile Include="CheckSumDataMD5.cs" />
+    <Compile Include="CheckSumDataSHA1.cs" />
+    <Compile Include="CheckSumFileList.cs" />
+    <Compile Include="CheckSumImplList.cs" />
+    <Compile Include="CheckSumItem.cs" />
+    <Compile Include="CRC32.cs" />
+    <Compile Include="CRC32Sum.cs" />
+    <Compile Include="ICheckSum.cs" />
+    <Compile Include="ICheckSumData.cs" />
+    <Compile Include="IFile.cs" />
+    <Compile Include="ISumFile.cs" />
+    <Compile Include="MD5File.cs" />
+    <Compile Include="Md5Sum.cs" />
+    <Compile Include="SFVFile.cs" />
+    <Compile Include="Sha1File.cs" />
+    <Compile Include="Sha1Sum.cs" />
+    <Compile Include="SumDocument.cs" />
+    <Compile Include="SumFile.cs" />
+    <Compile Include="SumFileUtils.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Utils\Utils.csproj">
+      <Project>{475B5A91-EAB2-40B4-BF05-04A32B2D6EA1}</Project>
+      <Name>Utils</Name>
+    </ProjectReference>
+  </ItemGroup>
+</Project>
