@@ -28,6 +28,7 @@ THE SOFTWARE.
 using System;
 using System.Collections.Generic;
 using System.IO;
+using CheckSumTool.Utils;
 
 namespace CheckSumTool.SumLib
 {

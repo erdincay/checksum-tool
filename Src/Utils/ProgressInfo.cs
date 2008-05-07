@@ -27,7 +27,7 @@ THE SOFTWARE.
 
 using System;
 
-namespace CheckSumTool
+namespace CheckSumTool.Utils
 {
     /// <summary>
     /// ProgresInfo is used to share progress information between threads.

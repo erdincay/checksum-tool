@@ -1,7 +1,8 @@
 ﻿/*
 The MIT License
 
-Copyright (c) 2007 Ixonos Plc, Kimmo Varis <kimmo.varis@ixonos.com>
+Copyright (c) 2007-2008 Ixonos Plc
+Copyright (c) 2007-2008 Kimmo Varis <kimmov@winmerge.org>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -22,10 +23,12 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 
+// $Id$
+
 using System;
 using System.Collections.Generic;
 
-namespace CheckSumTool
+namespace CheckSumTool.Utils
 {
     /// <summary>
     /// This class holds two (related) items together.

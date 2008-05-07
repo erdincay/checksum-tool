@@ -34,6 +34,7 @@ using System.Reflection;
 using System.Text;
 using CheckSumTool.SumLib;
 using CheckSumTool.Settings;
+using CheckSumTool.Utils;
 
 namespace CheckSumTool
 {

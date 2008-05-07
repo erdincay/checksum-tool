@@ -28,6 +28,7 @@ using System;
 using System.IO;
 using System.Reflection;
 using System.Xml.XPath;
+using CheckSumTool.Utils;
 
 namespace CheckSumTool.Settings
 {

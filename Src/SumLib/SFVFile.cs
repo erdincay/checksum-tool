@@ -28,6 +28,7 @@ THE SOFTWARE.
 using System;
 using System.IO;
 using System.Collections.Generic;
+using CheckSumTool.Utils;
 using NUnit.Framework;
 
 namespace CheckSumTool.SumLib

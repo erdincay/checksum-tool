@@ -25,6 +25,7 @@ THE SOFTWARE.
 // $Id$
 
 using System;
+using CheckSumTool.Utils;
 
 namespace CheckSumTool
 {

@@ -28,7 +28,7 @@ THE SOFTWARE.
 using System;
 using System.Reflection;
 
-namespace CheckSumTool
+namespace CheckSumTool.Utils
 {
     /// <summary>
     /// Class formatting info saved to sum files.
