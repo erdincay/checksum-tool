@@ -12,9 +12,9 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("Utils")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Utils")]
-[assembly: AssemblyCopyright("")]
+[assembly: AssemblyCompany("Ixonos Plc")]
+[assembly: AssemblyProduct("CheckSumTool")]
+[assembly: AssemblyCopyright("(c) 2007-2008 Ixonos Plc, Kimmo Varis")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
