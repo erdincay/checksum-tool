@@ -1,7 +1,8 @@
 ﻿/*
 The MIT License
 
-Copyright (c) 2007-2008 Ixonos Plc, Kimmo Varis <kimmo.varis@ixonos.com>
+Copyright (c) 2007-2008 Ixonos Plc
+Copyright (c) 2007-2008 Kimmo Varis <kimmov@winmerge.org>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -27,7 +28,6 @@ THE SOFTWARE.
 using System;
 using System.Drawing;
 using System.Windows.Forms;
-using System.Reflection;
 
 namespace CheckSumTool
 {
@@ -76,8 +76,7 @@ namespace CheckSumTool
         /// <returns>Version number as a string.</returns>
         public static string GetVersion()
         {
-            Assembly curAssembly = Assembly.GetExecutingAssembly();
-            return curAssembly.GetName().Version.ToString();
+            return SumFileInfo.GetVersion();
         }
 
         /// <summary>
