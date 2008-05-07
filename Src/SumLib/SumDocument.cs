@@ -2,7 +2,7 @@
 The MIT License
 
 Copyright (c) 2007-2008 Ixonos Plc
-Copyright (c) Kimmo Varis <kimmov@winmerge.org>
+Copyright (c) 2007-2008 Kimmo Varis <kimmov@winmerge.org>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -29,7 +29,7 @@ using System;
 using System.IO;
 using System.Collections.Generic;
 
-namespace CheckSumTool
+namespace CheckSumTool.SumLib
 {
     /// <summary>
     /// A class holding checksum file list and other list-related information.

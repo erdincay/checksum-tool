@@ -3,7 +3,8 @@
  * http://staceyw.spaces.live.com/blog/cns!F4A38E96E598161E!402.entry
  *
  * Further modifications,
- * Copyright (c) 2008 Ixonos Plc, Kimmo Varis <kimmo.varis@ixonos.com>
+ * Copyright (c) 2008 Ixonos Plc
+ * Copyright (c) 2008 Kimmo Varis <kimmov@winmerge.org>
  */
 
 // $Id$

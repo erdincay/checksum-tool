@@ -32,6 +32,7 @@ using System.IO;
 using System.Windows.Forms;
 using System.Reflection;
 using System.Text;
+using CheckSumTool.SumLib;
 using CheckSumTool.Settings;
 
 namespace CheckSumTool

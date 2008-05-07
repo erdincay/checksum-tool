@@ -1,7 +1,8 @@
 ﻿/*
 The MIT License
 
-Copyright (c) 2007 Ixonos Plc, Kimmo Varis <kimmo.varis@ixonos.com>
+Copyright (c) 2007-2008 Ixonos Plc
+Copyright (c) 2007-2008 Kimmo Varis <kimmov@winmerge.org>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -29,7 +30,7 @@ using System.Security.Cryptography;
 using System.IO;
 using NUnit.Framework;
 
-namespace CheckSumTool
+namespace CheckSumTool.SumLib
 {
     /// <summary>
     /// Class for SHA1 checksum calculating and verifying.

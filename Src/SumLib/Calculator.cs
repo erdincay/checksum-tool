@@ -29,7 +29,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 
-namespace CheckSumTool
+namespace CheckSumTool.SumLib
 {
     /// <summary>
     /// Class calculating and verifying checksums.
