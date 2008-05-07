@@ -36,6 +36,11 @@ namespace CheckSumTool
     public class SumFileInfo
     {
         /// <summary>
+        /// Program's URL.
+        /// </summary>
+        public static readonly string URL = @"http://checksumtool.sourceforge.net/";
+
+        /// <summary>
         /// Program's name written to sum file.
         /// </summary>
         string _programName;
@@ -75,7 +80,7 @@ namespace CheckSumTool
         {
             _programVersion = GetVersion();
             _programName = "CheckSum Tool";
-            _programUrl = AboutForm.URL;
+            _programUrl = URL;
         }
         
         /// <summary>
