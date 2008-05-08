@@ -27,6 +27,8 @@ THE SOFTWARE.
 
 using System;
 using System.Drawing;
+using System.IO;
+using System.Reflection;
 using System.Windows.Forms;
 using CheckSumTool.Utils;
 
@@ -38,21 +40,31 @@ namespace CheckSumTool
     public partial class AboutForm : Form
     {
         /// <summary>
+        /// Program version.
+        /// </summary>
+        string _version;
+        /// <summary>
+        /// Homepage URL.
+        /// </summary>
+        string _url;
+
+        /// <summary>
         /// Constructor. Set version number and link.
         /// </summary>
         public AboutForm()
         {
             //
-            // The InitializeComponent() call is required for Windows Forms designer support.
+            // The InitializeComponent() call is required for Windows Forms
+            // designer support.
             //
             InitializeComponent();
 
-            string version = GetVersion();
+            GetInfo();
             labelVersion.Text += " ";
-            labelVersion.Text += version;
+            labelVersion.Text += _version;
 
             // Set the homepage link
-            linkHomepage.Links[0].LinkData = SumFileInfo.URL;
+            linkHomepage.Links[0].LinkData = _url;
         }
 
         /// <summary>
@@ -66,12 +78,17 @@ namespace CheckSumTool
         }
 
         /// <summary>
-        /// Read version info from current assembly.
+        /// Get the program information.
         /// </summary>
-        /// <returns>Version number as a string.</returns>
-        public static string GetVersion()
+        void GetInfo()
         {
-            return SumFileInfo.GetVersion();
+            // Get name of current executable and get info from it.
+            Assembly curAssembly = Assembly.GetExecutingAssembly();
+            string filename = Path.GetFileName(curAssembly.Location);
+
+            ProgramInfo info = new ProgramInfo(filename);
+            _version = info.Version;
+            _url = info.URL;
         }
 
         /// <summary>

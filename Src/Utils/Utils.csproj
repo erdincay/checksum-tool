@@ -45,6 +45,7 @@
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="FileUtils.cs" />
     <Compile Include="Pair.cs" />
+    <Compile Include="ProgramInfo.cs" />
     <Compile Include="ProgressInfo.cs" />
     <Compile Include="SumFileInfo.cs" />
     <Compile Include="TextFileReader.cs" />

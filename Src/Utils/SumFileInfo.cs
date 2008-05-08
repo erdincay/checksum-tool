@@ -36,37 +36,41 @@ namespace CheckSumTool.Utils
     public class SumFileInfo
     {
         /// <summary>
-        /// Program's URL.
-        /// </summary>
-        public static readonly string URL = @"http://checksumtool.sourceforge.net/";
-
-        /// <summary>
         /// Program's name written to sum file.
         /// </summary>
         string _programName;
-        
+
         /// <summary>
         /// Program version written to sum file.
         /// </summary>
         string _programVersion;
-        
+
         /// <summary>
         /// Program URL written to sum file.
         /// </summary>
         string _programUrl;
-        
+
+        /// <summary>
+        /// Returns program's product name.
+        /// </summary>
         public string ProgramName
         {
             get { return _programName; }
             set { _programName = value; }
         }
-        
+
+        /// <summary>
+        /// Returns programs version number.
+        /// </summary>
         public string ProgramVersion
         {
             get { return _programVersion; }
             set { _programVersion = value; }
         }
 
+        /// <summary>
+        /// Return program's homepage URL.
+        /// </summary>
         public string ProgramUrl
         {
             get { return _programUrl; }
@@ -78,20 +82,10 @@ namespace CheckSumTool.Utils
         /// </summary>
         public SumFileInfo()
         {
-            _programVersion = GetVersion();
-            _programName = "CheckSum Tool";
-            _programUrl = URL;
+            ProgramInfo info = new ProgramInfo();
+            _programName = info.ProgramName;
+            _programUrl = info.URL;
+            _programVersion = info.Version;
         }
-        
-        /// <summary>
-        /// Return a version of current program.
-        /// <remarks>TODO: Find a good place for this method!</remarks>
-        /// </summary>
-        public static string GetVersion()
-        {
-            Assembly curAssembly = Assembly.GetExecutingAssembly();
-            return curAssembly.GetName().Version.ToString();
-        }
-        
     }
 }
