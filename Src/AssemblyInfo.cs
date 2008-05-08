@@ -16,7 +16,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Ixonos Plc")]
-[assembly: AssemblyProduct("CheckSumTool")]
+[assembly: AssemblyProduct("CheckSum Tool")]
 [assembly: AssemblyCopyright("(c) 2007-2008 Ixonos Plc, Kimmo Varis")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
