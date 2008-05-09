@@ -106,6 +106,7 @@ namespace CheckSumTool.Utils
         /// <param name="path">Filename from which to get the info.</param>
         void ReadVersionInfo(string path)
         {
+            path = FileUtils.GetUnixPathFormat(path);
             FileVersionInfo info = FileVersionInfo.GetVersionInfo(path);
             _version = info.FileVersion;
             _progName = info.ProductName;
