@@ -29,6 +29,7 @@ using System;
 using System.Diagnostics;
 using System.Reflection;
 using System.IO;
+using NUnit.Framework;
 
 namespace CheckSumTool.Utils
 {
@@ -110,6 +111,79 @@ namespace CheckSumTool.Utils
             FileVersionInfo info = FileVersionInfo.GetVersionInfo(path);
             _version = info.FileVersion;
             _progName = info.ProductName;
+        }
+    }
+
+    /// <summary>
+    /// A unit testing class for ProgramInfo class.
+    /// </summary>
+    [TestFixture]
+    public class TestProgramInfo
+    {
+        /// <summary>
+        /// Initialize testing, copy the test executable to correct folder.
+        /// </summary>
+        [SetUp]
+        public void Setup()
+        {
+            string path = GetTestFilePath();
+            File.Copy(@"../../TestData/CheckSumTool.exe", path);
+        }
+
+        /// <summary>
+        /// Cleanup after test, remove test executable from test run folder.
+        /// </summary>
+        [TearDown]
+        public void Cleanup()
+        {
+            string path = GetTestFilePath();
+            File.Delete(path);
+        }
+
+        /// <summary>
+        /// Get a path to the test executable in test run folder.
+        /// </summary>
+        /// <returns>Path to the executable.</returns>
+        private string GetTestFilePath()
+        {
+            Assembly curAssembly = Assembly.GetExecutingAssembly();
+            string path = Path.GetDirectoryName(curAssembly.Location);
+            string file = path + FileUtils.PathSeparator + "CheckSumTool.exe";
+            return file;
+        }
+
+        /// <summary>
+        /// A test reading version data from its own dll file.
+        /// </summary>
+        [Test]
+        public void Construct()
+        {
+            ProgramInfo info = new ProgramInfo();
+            Assert.IsNotNull(info);
+        }
+
+        /// <summary>
+        /// Read test executable.
+        /// </summary>
+        [Test]
+        public void ReadExe()
+        {
+            ProgramInfo info = new ProgramInfo("CheckSumTool.exe");
+            Assert.IsNotNull(info);
+        }
+
+        /// <summary>
+        /// Read information from the test executable.
+        /// </summary>
+        [Test]
+        public void ReadExeInfo()
+        {
+            ProgramInfo info = new ProgramInfo("CheckSumTool.exe");
+            Assert.IsNotNull(info);
+
+            Assert.AreEqual("0.6.0.13406", info.Version);
+            Assert.AreEqual("CheckSumTool", info.ProgramName);
+            Assert.AreEqual(@"http://checksumtool.sourceforge.net/", info.URL);
         }
     }
 }
