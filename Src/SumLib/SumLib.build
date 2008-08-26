@@ -1,0 +1,110 @@
+﻿<?xml version="1.0"?>
+
+<!--
+The MIT License
+
+Copyright (c) 2007-2008 Ixonos Plc
+Copyright (c) 2007-2008 Kimmo Varis <kimmov@winmerge.org>
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+*/
+
+// $Id$
+-->
+<project name="SumLib" default="build">
+    <!-- [1] SETUP -->
+    <!-- Various propertis defining folders and other settings. -->
+    <property name="project.name" value="CheckSumTool" />
+    <property name="library.name" value="SumLib.dll" />
+
+    <property name="project.config" value="debug" />
+    <!-- Relative folder for binaries created -->
+    <property name="build.dir" value="../../Build/Debug/" />
+    <!-- NUnit installation folder -->
+    <property name="nunit.dir" value="C:/Program Files/NUnit 2.4.8/bin" />
+
+    <!-- SVN repository URL / path -->
+    <property name="svn.repository.uri"
+        value="https://checksumtool.svn.sourceforge.net/svnroot/checksumtool/trunk"/>
+    <!-- Folder for repository builds -->
+    <property name="svn.checkout.dir" value="G:/${project.name}/export"/>
+    <!-- Folder where distribution is created -->
+    <property name="dist.dir" value="${svn.checkout.dir}/dist/${project.name}" />
+
+    <!-- Additional defines for C# compiler -->
+    <property name="csc.defines" value=""/>
+
+    <!-- This is directly runnable release target -->
+    <target name="release" description="Runs release target">
+        <property name="project.config" value="release" />
+        <call target="clean" />
+        <call target="build" />
+    </target>
+
+    <!-- [4] ENVIRONMENT SETUP TARGETS -->
+
+    <!-- Called by 'build' target to setup target-specific properties -->
+    <target name="init">
+        <call target="${project.config}_setup" />
+    </target>
+
+    <!-- This target setups environment for debug target -->
+    <target name="debug_setup" description="Sets up debug target">
+        <echo message="Setting up debug target..."/>
+        <property name="project.config" value="debug" />
+        <property name="build.debug" value="true" />
+        <property name="build.optimize" value="false"/>
+        <property name="build.dir" value="../../Build/Debug/" />
+        <mkdir dir="../../Build/Debug" />
+    </target>
+
+    <!-- This target setups environment for release target -->
+    <target name="release_setup" description="Sets up release target">
+        <echo message="Setting up release target..."/>
+        <property name="project.config" value="release" />
+        <property name="build.debug" value="false" />
+        <property name="build.optimize" value="true"/>
+        <property name="build.dir" value="../../Build/Release/" />
+        <mkdir dir="../../Build/Release" />
+    </target>
+
+    <!-- [5] BUILD TARGETS - CALLED BY OTHER TARGETS -->
+
+    <!-- This target removes all files copied/created by build -->
+    <target name="clean" description="Clean build files">
+        <echo message="Cleaning build files." />
+        <delete dir="../../Build/Debug" includeemptydirs="true" failonerror="false"/>
+        <delete dir="../../Build/Release" includeemptydirs="true" failonerror="false"/>
+    </target>
+
+    <target name="build" description="Default build target" depends="init">
+        <echo message="Running default build target." />
+        <csc target="library" output="${build.dir}${library.name}"
+             debug="${build.debug}" optimize="${build.optimize}"
+             define="${csc.defines}">
+            <sources>
+                <include name="*.cs"/>
+            </sources>
+            <references>
+                <include name="${build.dir}/Utils.dll" />
+                <include name="${nunit.dir}/nunit.framework.dll" />
+            </references>
+        </csc>
+    </target>
+</project>

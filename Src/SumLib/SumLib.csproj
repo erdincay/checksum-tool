@@ -65,6 +65,7 @@
     <Compile Include="SumDocument.cs" />
     <Compile Include="SumFile.cs" />
     <Compile Include="SumFileUtils.cs" />
+    <None Include="SumLib.build" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Utils\Utils.csproj">
