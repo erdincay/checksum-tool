@@ -59,7 +59,7 @@ $Id$
 	<!-- Relative folder for binaries created -->
     <property name="build.dir" value="../Build/Debug/" overwrite="false" />
     <!-- NUnit installation folder -->
-    <property name="nunit.dir" value="C:/Program Files/NUnit 2.4.5/bin" />
+    <property name="nunit.dir" value="C:/Program Files/NUnit 2.4.8/bin" />
     
     <!-- SVN repository URL / path -->
     <property name="svn.repository.uri"
@@ -182,6 +182,14 @@ $Id$
         <delete dir="../Build/Release" includeemptydirs="true" failonerror="false"/>
     </target>
     
+    <target name="libraries" description="Build libraries" depends="init">
+        <echo message="Building libraries..."/>
+        <nant buildfile="Utils/Utils.build"
+                inheritall="true" target="${project.config}"/>
+        <nant buildfile="SumLib/SumLib.build"
+                inheritall="true" target="${project.config}"/>
+    </target>
+    
     <target name="build" description="Default build target" depends="init">
         <echo message="Running default build target." />
         <csc target="winexe" output="${build.dir}${executable.name}"
@@ -195,6 +203,8 @@ $Id$
                 <include name="*.resx" />
             </resources>
             <references>
+                <include name="${build.dir}Utils.dll" />
+                <include name="${build.dir}SumLib.dll" />
                 <include name="${nunit.dir}/nunit.framework.dll" />
             </references>
         </csc>

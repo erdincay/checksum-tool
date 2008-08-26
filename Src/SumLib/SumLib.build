@@ -53,14 +53,12 @@ THE SOFTWARE.
     <!-- This is directly runnable debug target -->
     <target name="debug" description="Runs debug target">
         <property name="project.config" value="debug" />
-        <call target="clean" />
         <call target="build" />
     </target>
 
     <!-- This is directly runnable release target -->
     <target name="release" description="Runs release target">
         <property name="project.config" value="release" />
-        <call target="clean" />
         <call target="build" />
     </target>
 
