@@ -1,0 +1,42 @@
+Setting version numbers
+=======================
+
+$Id: 
+
+ChecksumTool version numbers are managed by the versions.ini file and
+Tools/SetVersions.py script. When the script is run it sets version numbers
+for all resources listed in the ini file.
+
+SetVersions.py script usage:
+
+!!! This script is work in progress !!!
+
+The SetVersions.py script sets versions numbers in different components.
+Components and version numbers to set are defined in configuration file. The
+configuration file is Windows INI-file kind of file, with sections and values.
+
+The section name is only descriptive for the resource to process. It gets
+printed by the script when running.
+
+All sections have these values:
+- type
+  Resource type to set
+- description
+  Short description of the resource (e.g. Installer) to set version
+- path
+  Relative path to the resource to process
+- version
+  Version string/number to set
+
+Available types are:
+NSIS: 
+  Set version number to NSIS installer script. The installer script must have
+  version defined with PRODUCT_VERSION -macro. For example:
+  !define PRODUCT_VERSION "1.2.3"
+
+For example:
+[Installer]
+type = NSIS
+description = ChecksumTool NSIS Installer
+path = Installer/NSIS/CheckSumTool.nsi
+version = "0.6.0"
