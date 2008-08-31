@@ -47,7 +47,7 @@ def process_NSIS(filename, config, sect):
   
   ret = set_NSIS_ver(nsisfile, ver)
   return ret
-  
+
 def set_NSIS_ver(file, version):
   '''Set version into NSIS installer file.'''
 
@@ -70,17 +70,68 @@ def set_NSIS_ver(file, version):
   # Replace PRODUCT_ VERSION macro value with new value
   for line in fread:
     if line.startswith('!define PRODUCT_VERSION'):
-	  ind = line.find('\"')
-	  ind2 = line.rfind('\"')
-	  if ind != -1 and ind2 != -1:
-	    line = line[:ind] + version + line[ind2 + 1:]
+    ind = line.find('\"')
+    ind2 = line.rfind('\"')
+    if ind != -1 and ind2 != -1:
+      line = line[:ind] + version + line[ind2 + 1:]
     fwrite.write(line)
-	
+
   fread.close()
   fwrite.close()
   
   shutil.move(outfile, file)
   
+  return True
+
+def process_AssemblyCs(filename, config, sect):
+  '''Process C# AssemblyInfo section in the ini file.'''
+
+  ver = config.get(sect, 'version')
+  file = config.get(sect, 'path')
+  desc = config.get(sect, 'description')
+  
+  print '%s : %s' % (sect, desc)
+  print '  File: ' + file
+  print '  Version: ' + ver
+  
+  inidir = os.path.dirname(filename)
+  nsisfile = os.path.join(inidir, file)
+  
+  ret = set_CSAssembly_ver(nsisfile, ver)
+  return ret
+
+def set_CSAssembly_ver(file, version):
+  '''Set version into C# Assembly Info file.'''
+
+  outfile = file + '.bak'
+  try:
+    fread = open(file, 'r')
+  except IOError, (errno, strerror):
+    print 'Cannot open file ' + file + ' for reading'
+    print 'Error: ' + strerror
+    return False
+
+  try:
+    fwrite = open(outfile, 'w')
+  except IOError, (errno, strerror):
+    print 'Cannot open file ' + infile + ' for writing'
+    print 'Error: ' + strerror
+    fread.close()
+    return False
+
+  # Replace PRODUCT_ VERSION macro value with new value
+  for line in fread:
+    if line.startswith('[assembly: AssemblyVersion'):
+      ind = line.find('\"')
+      ind2 = line.rfind('\"')
+      if ind != -1 and ind2 != -1:
+        line = line[:ind] + version + line[ind2 + 1:]
+    fwrite.write(line)
+
+  fread.close()
+  fwrite.close()
+  
+  shutil.move(outfile, file)
   return True
 
 def process_versions(filename):
@@ -96,11 +147,18 @@ def process_versions(filename):
     vertype = config.get(sect, 'type')
     if vertype == 'NSIS':
       ret = process_NSIS(filename, config, sect)
+    if vertype == 'CS-AssemblyInfo':
+      ret = process_AssemblyCs(filename, config, sect)
   return ret
-	  
+
 def usage():
+  '''Print script usage information.'''
+
   print 'Script to set program component version numbers.'
-  print 'Usage: SetVersions [filename]'
+  print 'Usage: SetVersions.py [-h] filename'
+  print 'Where:'
+  print '  filename is absolute or relative path to the ini file.'
+  print '  -h, --help Print this help.'
 
 def main(argv):
   filename = ''

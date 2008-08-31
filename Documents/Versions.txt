@@ -1,7 +1,7 @@
 Setting version numbers
 =======================
 
-$Id: 
+$Id$
 
 ChecksumTool version numbers are managed by the versions.ini file and
 Tools/SetVersions.py script. When the script is run it sets version numbers
@@ -29,6 +29,10 @@ All sections have these values:
   Version string/number to set
 
 Available types are:
+CS-AssemblyInfo:
+  Set version number to C# AssemblyInfo file. The script searches for line
+  having assembly: AssemblyVersion -text and sets the version number.
+
 NSIS: 
   Set version number to NSIS installer script. The installer script must have
   version defined with PRODUCT_VERSION -macro. For example:
