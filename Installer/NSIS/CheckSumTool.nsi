@@ -67,8 +67,15 @@ VIAddVersionKey /LANG=${LANG_ENGLISH} "FileDescription" "${PRODUCT_NAME} Install
 VIAddVersionKey /LANG=${LANG_ENGLISH} "FileVersion" "${PRODUCT_VERSION}"
 
 
-; At first, check that required dotnet version is installed
+; At first, check that installer is not alreardy running and required dotnet version is installed
 Function .onInit
+  System::Call 'kernel32::CreateMutexA(i 0, i 0, t "CheckSumToolInstaller") i .r1 ?e'
+  Pop $R0
+
+  StrCmp $R0 0 +3
+    MessageBox MB_OK|MB_ICONEXCLAMATION "The installer is already running."
+    Abort
+
   call IsDotNetInstalledAdv
 FunctionEnd
 
