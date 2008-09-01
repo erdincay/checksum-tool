@@ -38,6 +38,12 @@ NSIS:
   version defined with PRODUCT_VERSION -macro. For example:
   !define PRODUCT_VERSION "1.2.3"
 
+WinRC:
+  Set file- and product-version into the Windows RC file. The script searches
+  for version numbers in version resource. The script also makes sure that
+  numeric version number has always four numbers. If less numbers are given,
+  zeros are added to the end.
+
 For example:
 [Installer]
 type = NSIS

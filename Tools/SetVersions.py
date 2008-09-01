@@ -70,10 +70,10 @@ def set_NSIS_ver(file, version):
   # Replace PRODUCT_ VERSION macro value with new value
   for line in fread:
     if line.startswith('!define PRODUCT_VERSION'):
-    ind = line.find('\"')
-    ind2 = line.rfind('\"')
-    if ind != -1 and ind2 != -1:
-      line = line[:ind] + version + line[ind2 + 1:]
+      ind = line.find('\"')
+      ind2 = line.rfind('\"')
+      if ind != -1 and ind2 != -1:
+        line = line[:ind] + version + line[ind2 + 1:]
     fwrite.write(line)
 
   fread.close()
@@ -119,13 +119,10 @@ def set_CSAssembly_ver(file, version):
     fread.close()
     return False
 
-  # Replace PRODUCT_ VERSION macro value with new value
+  # Replace AssemblyVersion value with new value
   for line in fread:
     if line.startswith('[assembly: AssemblyVersion'):
-      ind = line.find('\"')
-      ind2 = line.rfind('\"')
-      if ind != -1 and ind2 != -1:
-        line = line[:ind] + version + line[ind2 + 1:]
+      replace_ver_in_quotes(line, version)
     fwrite.write(line)
 
   fread.close()
@@ -133,6 +130,102 @@ def set_CSAssembly_ver(file, version):
   
   shutil.move(outfile, file)
   return True
+
+def process_WinRC(filename, config, sect):
+  '''Process Windows RC file section in the ini file.'''
+
+  ver = config.get(sect, 'version')
+  file = config.get(sect, 'path')
+  desc = config.get(sect, 'description')
+  
+  print '%s : %s' % (sect, desc)
+  print '  File: ' + file
+  print '  Version: ' + ver
+  
+  inidir = os.path.dirname(filename)
+  nsisfile = os.path.join(inidir, file)
+  
+  ret = set_WinRC_ver(nsisfile, ver)
+  return ret
+
+def set_WinRC_ver(file, version):
+  '''Set version into Windows RC file. Currently we set both fileversion and
+     productversion to same number.
+     TODO: Allow separate file- and product -versions.
+  '''
+
+  outfile = file + '.bak'
+  try:
+    fread = open(file, 'r')
+  except IOError, (errno, strerror):
+    print 'Cannot open file ' + file + ' for reading'
+    print 'Error: ' + strerror
+    return False
+
+  try:
+    fwrite = open(outfile, 'w')
+  except IOError, (errno, strerror):
+    print 'Cannot open file ' + infile + ' for writing'
+    print 'Error: ' + strerror
+    fread.close()
+    return False
+
+  # Add ending NULL to the version string and replace dots with commas
+  verInd = version.rfind('\"')
+  if verInd != -1:
+    versionNul = version[:verInd] + '\\0' + version[verInd:]
+
+  # Replace version defines with new value
+  ret = True
+  for line in fread:
+    if line.startswith(' FILEVERSION'):
+      line = replace_rc_ver_at_end(line, version)
+    if line.startswith(' PRODUCTVERSION'):
+      line = replace_rc_ver_at_end(line, version)
+    if line.find('VALUE \"FileVersion\"') != -1:
+      line = replace_ver_in_quotes(line, versionNul)
+    if line.find('VALUE \"ProductVersion\"') != -1:
+      line = replace_ver_in_quotes(line, versionNul)
+    fwrite.write(line)
+
+  fread.close()
+  fwrite.close()
+  
+  shutil.move(outfile, file)
+  return ret
+
+def replace_rc_ver_at_end(line, version):
+  '''Replace plain version number at the end of the line in RC file.
+     Also make sure we have four numbers.
+  '''
+
+  version = version.strip('\"')
+  version = version.replace('.', ',')
+
+  # Make sure there are four numbers, add zeros if necessary
+  commas = version.count(',')
+  if commas < 3:
+    add = 3 - commas
+    for i in range(0, add):
+      version = version + ',0'
+
+  ind = line.rfind(' ')
+  if ind != -1:
+    line = line[:ind + 1] + version + '\n'
+  return line
+
+def replace_ver_in_quotes(line, version):
+  '''Replace version number in line in quotes with given version string.
+     Eg. if line is 'Version "1.2.3"' and version is "4.5.6" the return value is
+     'Version "3.4.5"'
+  '''
+
+  # Find quote marks between which we set the version number
+  lineInd2 = line.rfind('\"')
+  lineInd1 = line.rfind('\"', 0, lineInd2)
+  if lineInd1 != -1 and lineInd2 != -1:
+    line = line[:lineInd1] + version + line[lineInd2 + 1:]
+  return line
 
 def process_versions(filename):
   '''Process all sections found from the given ini file.'''
@@ -149,6 +242,8 @@ def process_versions(filename):
       ret = process_NSIS(filename, config, sect)
     if vertype == 'CS-AssemblyInfo':
       ret = process_AssemblyCs(filename, config, sect)
+    if vertype == 'WinRC':
+      ret = process_WinRC(filename, config, sect)
   return ret
 
 def usage():
