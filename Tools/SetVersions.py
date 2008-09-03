@@ -143,9 +143,9 @@ def process_WinRC(filename, config, sect):
   print '  Version: ' + ver
   
   inidir = os.path.dirname(filename)
-  nsisfile = os.path.join(inidir, file)
+  rcfile = os.path.join(inidir, file)
   
-  ret = set_WinRC_ver(nsisfile, ver)
+  ret = set_WinRC_ver(rcfile, ver)
   return ret
 
 def set_WinRC_ver(file, version):
@@ -193,6 +193,64 @@ def set_WinRC_ver(file, version):
   
   shutil.move(outfile, file)
   return ret
+
+def process_InnoSetup(filename, config, sect):
+  ver = config.get(sect, 'version')
+  file = config.get(sect, 'path')
+  desc = config.get(sect, 'description')
+  macro = config.get(sect, 'macro')
+  
+  print '%s : %s' % (sect, desc)
+  print '  File: ' + file
+  print '  Version: ' + ver
+  if len(macro):
+    print '  Macro: ' + macro
+  else:
+    print '  ERROR: You must set macro name in the INI file.'
+    return False
+  
+  inidir = os.path.dirname(filename)
+  innofile = os.path.join(inidir, file)
+  
+  ret = set_InnoSetup_ver(innofile, ver, macro)
+  return ret
+
+def set_InnoSetup_ver(file, version, macro):
+  '''Set version into InnoSetup script. If the macro setting was found
+     from the INI file replace only that macro's value. Currently the script
+     supports only replacing initial macro value.
+
+     TODO: support other means (not just macro) to set version.
+  '''
+
+  outfile = file + '.bak'
+  try:
+    fread = open(file, 'r')
+  except IOError, (errno, strerror):
+    print 'Cannot open file ' + file + ' for reading'
+    print 'Error: ' + strerror
+    return False
+
+  try:
+    fwrite = open(outfile, 'w')
+  except IOError, (errno, strerror):
+    print 'Cannot open file ' + infile + ' for writing'
+    print 'Error: ' + strerror
+    fread.close()
+    return False
+
+  # Replace version macro value with new value
+  macroline = '#define ' +  macro
+  for line in fread:
+    if line.startswith(macroline):
+      line = line[:len(macroline)] + ' ' + version + '\n'
+    fwrite.write(line)
+
+  fread.close()
+  fwrite.close()
+  
+  shutil.move(outfile, file)
+  return True
 
 def replace_rc_ver_at_end(line, version):
   '''Replace plain version number at the end of the line in RC file.
@@ -244,6 +302,8 @@ def process_versions(filename):
       ret = process_AssemblyCs(filename, config, sect)
     if vertype == 'WinRC':
       ret = process_WinRC(filename, config, sect)
+    if vertype == 'InnoSetup':
+      ret = process_InnoSetup(filename, config, sect)
   return ret
 
 def usage():

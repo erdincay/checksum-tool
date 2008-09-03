@@ -33,6 +33,11 @@ CS-AssemblyInfo:
   Set version number to C# AssemblyInfo file. The script searches for line
   having assembly: AssemblyVersion -text and sets the version number.
 
+InnoSetup:
+  Set version number to InnoSetup installer script. The installer script
+  must have preprocessor define for the version number. The script replaces
+  value of this macro.
+
 NSIS: 
   Set version number to NSIS installer script. The installer script must have
   version defined with PRODUCT_VERSION -macro. For example:
@@ -50,3 +55,10 @@ type = NSIS
 description = ChecksumTool NSIS Installer
 path = Installer/NSIS/CheckSumTool.nsi
 version = "0.6.0"
+
+[Installer]
+type = InnoSetup
+description = WinMerge InnoSetup installer
+path = Installer/InnoSetup/WinMerge.iss
+macro = AppVersion
+version = "2.9.12"
