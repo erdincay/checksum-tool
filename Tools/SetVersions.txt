@@ -1,6 +1,5 @@
-Setting version numbers
-=======================
-
+SetVersions.py
+==============
 $Id$
 
 ChecksumTool version numbers are managed by the versions.ini file and
