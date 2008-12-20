@@ -32,7 +32,7 @@ import shutil
 import sys
 
 # The version of the script
-script_version = 0.8
+script_version = 0.9
 
 def get_product_version(filename):
   '''Get product version used in archive paths etc.
@@ -122,7 +122,7 @@ def process_AssemblyCs(filename, config, sect):
 
   if config.has_option(sect, 'version') and \
       config.has_option(sect, 'path') and \
-	  config.has_option(sect, 'description'):
+      config.has_option(sect, 'description'):
 
     ver = config.get(sect, 'version')
     file = config.get(sect, 'path')
@@ -550,7 +550,7 @@ def process_versions(filename):
 
 def usage():
   '''Print script usage information.'''
-  print 'SetVersions.py - version ' + script_version
+  print 'SetVersions.py - version ' + str(script_version)
   print 'Script to set program component version numbers.'
   print 'Usage: SetVersions.py [-h] filename'
   print 'Where:'
