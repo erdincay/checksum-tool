@@ -1565,16 +1565,16 @@ namespace CheckSumTool
             if (e.Data.GetDataPresent(DataFormats.Text))
             {
                 string filename = (string)e.Data.GetData(DataFormats.Text);
-                _document.Items.AddFile(filename);
+                _document.Items.Add(path, ref _progressInfo);
                 itemsAdded = true;
             }
             else if (e.Data.GetDataPresent(DataFormats.FileDrop))
             {
-                // Handle dropping files from Windows Explorer.
-                string[] fileNames = (string[])e.Data.GetData(DataFormats.FileDrop);
-                foreach (string filename in fileNames)
+                // Handle dropping files and folders from Windows Explorer.
+                string[] paths = (string[])e.Data.GetData(DataFormats.FileDrop);
+                foreach (string path in paths)
                 {
-                    _document.Items.AddFile(filename);
+                    _document.Items.Add(path, ref _progressInfo);
                 }
                 itemsAdded = true;
             }
