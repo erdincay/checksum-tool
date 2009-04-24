@@ -5,6 +5,7 @@ or Subversion repository revision (rxxx).
 
 CheckSum Tool 0.6.0
   Split code to two additional libraries (SumLib and Utils).
+  Allow drag&drop files from Windows Explorer
   Installer: Prevent starting second instance
   Bugfix: Product name was wrong (without space) in About-dialog.
 

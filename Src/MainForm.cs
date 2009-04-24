@@ -1543,5 +1543,44 @@ namespace CheckSumTool
         {
             this.UseWaitCursor = false;
         }
+
+        /// <summary>
+        /// Determine if d&d is allowed
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        void ItemListDragOver(object sender, DragEventArgs e)
+        {
+            e.Effect = DragDropEffects.All;
+        }
+
+        /// <summary>
+        /// Handle dropping items to list.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        void ItemListDragDrop(object sender, DragEventArgs e)
+        {
+            bool itemsAdded = false;
+            if (e.Data.GetDataPresent(DataFormats.Text))
+            {
+                string filename = (string)e.Data.GetData(DataFormats.Text);
+                _document.Items.AddFile(filename);
+                itemsAdded = true;
+            }
+            else if (e.Data.GetDataPresent(DataFormats.FileDrop))
+            {
+                // Handle dropping files from Windows Explorer.
+                string[] fileNames = (string[])e.Data.GetData(DataFormats.FileDrop);
+                foreach (string filename in fileNames)
+                {
+                    _document.Items.AddFile(filename);
+                }
+                itemsAdded = true;
+            }
+
+            if (itemsAdded)
+                UpdateGUIListFromDoc();
+        }
     }
 }
