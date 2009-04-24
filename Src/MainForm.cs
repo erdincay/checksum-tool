@@ -1564,7 +1564,7 @@ namespace CheckSumTool
             bool itemsAdded = false;
             if (e.Data.GetDataPresent(DataFormats.Text))
             {
-                string filename = (string)e.Data.GetData(DataFormats.Text);
+                string path = (string)e.Data.GetData(DataFormats.Text);
                 _document.Items.Add(path, ref _progressInfo);
                 itemsAdded = true;
             }
