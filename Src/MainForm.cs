@@ -46,19 +46,19 @@ namespace CheckSumTool
         /// <summary>
         /// Relative path for folder where user manual is.
         /// </summary>
-        static readonly string ManualFolder = "Manual";
+        const string ManualFolder = "Manual";
         /// <summary>
         /// Filename of the user manual.
         /// </summary>
-        static readonly string ManualFile = "Manual.html";
+        const string ManualFile = "Manual.html";
         /// <summary>
         /// Relative path to folder containing documents.
         /// </summary>
-        static readonly string DocsFolder = "Docs";
+        const string DocsFolder = "Docs";
         /// <summary>
         /// Filename for the contributors list file.
         /// </summary>
-        static readonly string ContributorsFile = "Contributors.txt";
+        const string ContributorsFile = "Contributors.txt";
 
         /// <summary>
         /// A timer for updating GUI when doing background processing. This
@@ -210,6 +210,7 @@ namespace CheckSumTool
         void InitNewList()
         {
             ClearAllItems();
+            //SetFilename(null);
             SetFilename("");
             _document.Items.ResetChanges();
         }
