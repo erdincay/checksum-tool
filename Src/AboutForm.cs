@@ -2,7 +2,7 @@
 The MIT License
 
 Copyright (c) 2007-2008 Ixonos Plc
-Copyright (c) 2007-2008 Kimmo Varis <kimmov@winmerge.org>
+Copyright (c) 2007-2009 Kimmo Varis <kimmov@winmerge.org>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -42,21 +42,20 @@ namespace CheckSumTool
         /// <summary>
         /// Program version.
         /// </summary>
-        string _version;
+        private string _version;
+
         /// <summary>
         /// Homepage URL.
         /// </summary>
-        string _url;
+        private string _url;
 
         /// <summary>
         /// Constructor. Set version number and link.
         /// </summary>
         public AboutForm()
         {
-            //
             // The InitializeComponent() call is required for Windows Forms
             // designer support.
-            //
             InitializeComponent();
 
             GetInfo();
@@ -72,7 +71,7 @@ namespace CheckSumTool
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        void BtnOkClick(object sender, EventArgs e)
+        private void BtnOkClick(object sender, EventArgs e)
         {
             this.Close();
         }
@@ -80,7 +79,7 @@ namespace CheckSumTool
         /// <summary>
         /// Get the program information.
         /// </summary>
-        void GetInfo()
+        private void GetInfo()
         {
             // Get name of current executable and get info from it.
             Assembly curAssembly = Assembly.GetExecutingAssembly();
@@ -96,11 +95,11 @@ namespace CheckSumTool
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        void LinkLabel1LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        private void LinkLabel1LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             string target = e.Link.LinkData as string;
 
-            //Check that link looks like an URL and open it to browser.
+            // Check that link looks like an URL and open it to browser.
             if (target.StartsWith(@"http://") || target.StartsWith("www."))
             {
                 System.Diagnostics.Process.Start(target);

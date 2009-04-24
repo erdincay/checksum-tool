@@ -2,7 +2,7 @@
 The MIT License
 
 Copyright (c) 2007-2008 Ixonos Plc
-Copyright (c) 2007-2008 Kimmo Varis <kimmov@winmerge.org>
+Copyright (c) 2007-2009 Kimmo Varis <kimmov@winmerge.org>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -46,45 +46,68 @@ namespace CheckSumTool
         /// <summary>
         /// Relative path for folder where user manual is.
         /// </summary>
-        const string ManualFolder = "Manual";
+        private const string ManualFolder = "Manual";
+
         /// <summary>
         /// Filename of the user manual.
         /// </summary>
-        const string ManualFile = "Manual.html";
+        private const string ManualFile = "Manual.html";
+
         /// <summary>
         /// Relative path to folder containing documents.
         /// </summary>
-        const string DocsFolder = "Docs";
+        private const string DocsFolder = "Docs";
+
         /// <summary>
         /// Filename for the contributors list file.
         /// </summary>
-        const string ContributorsFile = "Contributors.txt";
+        private const string ContributorsFile = "Contributors.txt";
 
         /// <summary>
         /// A timer for updating GUI when doing background processing. This
         /// processing can be adding (lots of) items, calculating or verifyin
         /// checksums.
         /// </summary>
-        System.Windows.Forms.Timer _progressTimer;
+        private System.Windows.Forms.Timer _progressTimer;
 
         /// <summary>
         /// A shared class for sharing progress data between backround
         /// processing and GUI.
         /// </summary>
-        ProgressInfo _progressInfo;
+        private ProgressInfo _progressInfo;
 
-        delegate void DelegateCalculateSums(ref ProgressInfo progressInfo);
-        delegate void DelegateAddFiles(ref ProgressInfo progressInfo, string path);
+        private delegate void DelegateCalculateSums(ref ProgressInfo progressInfo);
+        private delegate void DelegateAddFiles(ref ProgressInfo progressInfo, string path);
 
         /// <summary>
         /// Indices for list view columns
         /// </summary>
-        enum ListIndices
+        private enum ListIndices
         {
+            /// <summary>
+            /// Column for the filename.
+            /// </summary>
             FileName,
+
+            /// <summary>
+            /// Column for the checksum.
+            /// </summary>
             CheckSum,
+
+            /// <summary>
+            /// Column telling if the checksum is verified and if verification
+            /// succeeded or failed.
+            /// </summary>
             Verified,
+
+            /// <summary>
+            /// Column for item's full path.
+            /// </summary>
             FullPath,
+
+            /// <summary>
+            /// Column for file size.
+            /// </summary>
             Size,
             Count, // Keep this as last item to get count of items
         }
@@ -95,14 +118,14 @@ namespace CheckSumTool
         /// when opening new selection dialogs. Also sum file is most naturally
         /// saved to last selected folder.
         /// </summary>
-        string _lastFolder;
+        private string _lastFolder;
 
         /// <summary>
         /// One and only instance of document having list of checksum items.
         /// </summary>
-        SumDocument _document = new SumDocument();
+        private SumDocument _document = new SumDocument();
 
-        XPathHandler _handler;
+        private XPathHandler _handler;
 
         /// <summary>
         /// Constructor.
@@ -120,7 +143,7 @@ namespace CheckSumTool
             InitializeComponent();
             InitChecksumsGui();
 
-            statusbarLabel1.Text = "";
+            statusbarLabel1.Text = String.Empty;
             statusbarLabelCount.Text = "0 items";
             this.toolStripComboSumTypes.SelectedIndex = 0;
             _document.SumType = CheckSumType.SHA1;
@@ -189,7 +212,7 @@ namespace CheckSumTool
         /// <summary>
         /// Initialize various GUI items related to different checksums.
         /// </summary>
-        void InitChecksumsGui()
+        private void InitChecksumsGui()
         {
             mainMenuChecksumsMenu.DropDownItems.Add(new ToolStripSeparator());
 
@@ -207,11 +230,11 @@ namespace CheckSumTool
         /// <summary>
         /// Initialize new file list.
         /// </summary>
-        void InitNewList()
+        private void InitNewList()
         {
             ClearAllItems();
             //SetFilename(null);
-            SetFilename("");
+            SetFilename(String.Empty);
             _document.Items.ResetChanges();
         }
 
@@ -233,7 +256,7 @@ namespace CheckSumTool
         /// Set the program title.
         /// </summary>
         /// <param name="filename">Filename to add to title.</param>
-        void SetTitle(string filename)
+        private void SetTitle(string filename)
         {
             string title = filename + " - CheckSum Tool";
             this.Text = title;
@@ -243,10 +266,10 @@ namespace CheckSumTool
         /// Add item to the GUI item list.
         /// </summary>
         /// <param name="item">Checksum item to add.</param>
-        void AddItemToList(CheckSumItem item)
+        private void AddItemToList(CheckSumItem item)
         {
             ListViewItem listItem = itemList.Items.Add(item.FullPath,
-                    item.FileName, "");
+                    item.FileName, String.Empty);
 
             string[] listItems = new string[(int)ListIndices.Count - 1];
 
@@ -256,12 +279,12 @@ namespace CheckSumTool
                         item.CheckSum.ToString();
             }
             else
-                listItems[(int)ListIndices.CheckSum - 1] = "";
+                listItems[(int)ListIndices.CheckSum - 1] = String.Empty;
 
             switch (item.Verified)
             {
                 case VerificationState.NotVerified:
-                    listItems[(int)ListIndices.Verified - 1] = "";
+                    listItems[(int)ListIndices.Verified - 1] = String.Empty;
                     break;
                 case VerificationState.VerifyOK:
                     listItems[(int)ListIndices.Verified - 1] = "OK";
@@ -280,7 +303,7 @@ namespace CheckSumTool
                 listItems[(int)ListIndices.Size - 1] = size;
             }
             else
-                listItems[(int)ListIndices.Size - 1] = "";
+                listItems[(int)ListIndices.Size - 1] = String.Empty;
 
             listItems[(int)ListIndices.FullPath - 1] = item.FullPath;
             itemList.Items[listItem.Index].SubItems.AddRange(listItems);
@@ -289,7 +312,7 @@ namespace CheckSumTool
         /// <summary>
         /// Clears GUI list and adds items from docment to it.
         /// </summary>
-        void UpdateGUIListFromDoc()
+        private void UpdateGUIListFromDoc()
         {
             itemList.Items.Clear();
             try
@@ -308,7 +331,7 @@ namespace CheckSumTool
         /// <summary>
         /// Calculate checksums for items in the list.
         /// </summary>
-        void CalculateCheckSums()
+        private void CalculateCheckSums()
         {
             if (itemList.Items.Count == 0)
                 return;
@@ -327,7 +350,7 @@ namespace CheckSumTool
         /// <summary>
         /// Removes selected items from the list.
         /// </summary>
-        void RemoveSelectedItems()
+        private void RemoveSelectedItems()
         {
             ListView.SelectedIndexCollection selections = itemList.SelectedIndices;
             int[] indices = new int[selections.Count];
@@ -349,7 +372,7 @@ namespace CheckSumTool
         /// <summary>
         /// Removes all items from list and from GUI.
         /// </summary>
-        void ClearAllItems()
+        private void ClearAllItems()
         {
             itemList.Items.Clear();
             _document.Items.RemoveAll();
@@ -361,7 +384,7 @@ namespace CheckSumTool
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        void AboutCheckSumToolMainMenuItemClick(object sender, EventArgs e)
+        private void AboutCheckSumToolMainMenuItemClick(object sender, EventArgs e)
         {
             AboutForm form = new AboutForm();
             form.Show(this);
@@ -372,7 +395,7 @@ namespace CheckSumTool
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        void ExitToolStripMenuItemClick(object sender, EventArgs e)
+        private void ExitToolStripMenuItemClick(object sender, EventArgs e)
         {
             this.Close();
         }
@@ -380,7 +403,7 @@ namespace CheckSumTool
         /// <summary>
         /// Verify that checksums in the list match to file's actual checksums.
         /// </summary>
-        void VerifyCheckSums()
+        private void VerifyCheckSums()
         {
             if (itemList.Items.Count == 0)
                 return;
@@ -399,7 +422,7 @@ namespace CheckSumTool
         /// Calculate checksums - this is the asynchronous method.
         /// </summary>
         /// <param name="progressInfo">Progress information.</param>
-        void DoVerifyCheckSums(ref ProgressInfo progressInfo)
+        private void DoVerifyCheckSums(ref ProgressInfo progressInfo)
         {
             bool allSucceeded = _document.VerifySums(ref progressInfo);
 
@@ -418,7 +441,7 @@ namespace CheckSumTool
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        void MenuFileSaveClick(object sender, EventArgs e)
+        private void MenuFileSaveClick(object sender, EventArgs e)
         {
             SaveFile();
         }
@@ -427,7 +450,7 @@ namespace CheckSumTool
         /// Save the file with previously selected filename. Or if no selected
         /// filename, asks for it.
         /// </summary>
-        void SaveFile()
+        private void SaveFile()
         {
             if (_document.Items.FileList.Count == 0 ||
                 _document.Items.HasCheckSums == false)
@@ -447,7 +470,7 @@ namespace CheckSumTool
         /// Asks user filename to use when saving the checksums and saves
         /// checksums to the file.
         /// </summary>
-        void SaveFileAs()
+        private void SaveFileAs()
         {
             int sumtype = 0;
 
@@ -501,7 +524,7 @@ namespace CheckSumTool
         /// Save the file with given filename (full path).
         /// </summary>
         /// <param name="fileName">Filename to save to (full path).</param>
-        void SaveFile(string fileName)
+        private void SaveFile(string fileName)
         {
             // No changes, don't bother saving.
             if (!_document.Items.HasChanged)
@@ -545,7 +568,7 @@ namespace CheckSumTool
         /// sumfile type.
         /// </summary>
         /// <param name="fileType">File type loaded.</param>
-        void SetSumTypeCombo(SumFileType fileType)
+        private void SetSumTypeCombo(SumFileType fileType)
         {
             int ind;
             switch (fileType)
@@ -574,7 +597,7 @@ namespace CheckSumTool
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        void MenuFileOpenClick(object sender, EventArgs e)
+        private void MenuFileOpenClick(object sender, EventArgs e)
         {
             LoadFile();
         }
@@ -583,7 +606,7 @@ namespace CheckSumTool
         /// Shows Open-dialog for user to select the file to load. And opens
         /// the file user selected.
         /// </summary>
-        void LoadFile()
+        private void LoadFile()
         {
             OpenFileDialog dlg = new OpenFileDialog();
             dlg.Filter = "MD5 Files (*.MD5)|*.MD5";
@@ -641,7 +664,7 @@ namespace CheckSumTool
         /// <summary>
         /// Asks user to select one or more files to add to checksum list.
         /// </summary>
-        void AddFile()
+        private void AddFile()
         {
             OpenFileDialog dlg = new OpenFileDialog();
             dlg.Multiselect = true;
@@ -667,7 +690,7 @@ namespace CheckSumTool
         /// subfolders, ask if the user wants to add all files in subfolders
         /// also.
         /// </summary>
-        void AddFolder()
+        private void AddFolder()
         {
             FolderBrowserDialog dlg = new FolderBrowserDialog();
             dlg.Description = "Select folder whose contents to add to the list.";
@@ -680,11 +703,11 @@ namespace CheckSumTool
 
                 if (Directory.GetDirectories(path).Length > 0)
                 {
-                    const string message = "The selected folder contains one " +
+                    const string Message = "The selected folder contains one " +
                         "or more subfolders. Do you want to add all files " +
                         "from all the subfolders?\n\nSelecting No adds only " +
                         "files in the selected folder.";
-                    DialogResult result = MessageBox.Show(message,
+                    DialogResult result = MessageBox.Show(Message,
                             "CheckSum Tool", MessageBoxButtons.YesNo,
                             MessageBoxIcon.Warning);
 
@@ -692,19 +715,19 @@ namespace CheckSumTool
                     StartProgress("Adding files...", true);
                     if (result == DialogResult.Yes)
                     {
-                        DelegateAddFiles delInstance = new DelegateAddFiles (_document.Items.AddSubFolders);
+                        DelegateAddFiles delInstance = new DelegateAddFiles(_document.Items.AddSubFolders);
                         delInstance.BeginInvoke(ref _progressInfo, path, null, null);
                     }
                     else
                     {
-                        DelegateAddFiles delInstance = new DelegateAddFiles (_document.Items.AddFolder);
+                        DelegateAddFiles delInstance = new DelegateAddFiles(_document.Items.AddFolder);
                         delInstance.BeginInvoke(ref _progressInfo, path, null, null);
                     }
                 }
                 else
                 {
                     StartProgress("Adding files...", true);
-                    DelegateAddFiles delInstance = new DelegateAddFiles (_document.Items.AddFolder);
+                    DelegateAddFiles delInstance = new DelegateAddFiles(_document.Items.AddFolder);
                     delInstance.BeginInvoke(ref _progressInfo, path, null, null);
                 }
 
@@ -717,7 +740,7 @@ namespace CheckSumTool
         /// </summary>
         /// <param name="column">Column to change.</param>
         /// <param name="text">New column name.</param>
-        void SetListColumnHeader(ListIndices column, string text)
+        private void SetListColumnHeader(ListIndices column, string text)
         {
             itemList.Columns[(int)column].Text = text;
         }
@@ -726,7 +749,7 @@ namespace CheckSumTool
         /// Set the checsum tyle for GUI list.
         /// </summary>
         /// <param name="sumtype">Checksum type.</param>
-        void SetListSumType(CheckSumType sumtype)
+        private void SetListSumType(CheckSumType sumtype)
         {
             string colname = CheckSumImplList.GetImplementationName(sumtype);
             SetListColumnHeader(ListIndices.CheckSum, colname);
@@ -735,15 +758,15 @@ namespace CheckSumTool
         /// <summary>
         /// Clear checksums and verification status from list's items.
         /// </summary>
-        void ClearSums()
+        private void ClearSums()
         {
             _document.ClearAllSums();
 
             int itemcount = itemList.Items.Count;
             for (int i = 0; i < itemcount; i++)
             {
-                itemList.Items[i].SubItems[(int)ListIndices.CheckSum].Text = "";
-                itemList.Items[i].SubItems[(int)ListIndices.Verified].Text = "";
+                itemList.Items[i].SubItems[(int)ListIndices.CheckSum].Text = String.Empty;
+                itemList.Items[i].SubItems[(int)ListIndices.Verified].Text = String.Empty;
             }
         }
 
@@ -752,7 +775,7 @@ namespace CheckSumTool
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        void ToolStripBtnOpenClick(object sender, EventArgs e)
+        private void ToolStripBtnOpenClick(object sender, EventArgs e)
         {
             LoadFile();
         }
@@ -762,7 +785,7 @@ namespace CheckSumTool
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        void ToolStripBtnSaveClick(object sender, EventArgs e)
+        private void ToolStripBtnSaveClick(object sender, EventArgs e)
         {
             SaveFile();
         }
@@ -772,7 +795,7 @@ namespace CheckSumTool
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        void MainMenuFileAddFileClick(object sender, EventArgs e)
+        private void MainMenuFileAddFileClick(object sender, EventArgs e)
         {
             AddFile();
         }
@@ -782,7 +805,7 @@ namespace CheckSumTool
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        void MainMenuFileAddFolderClick(object sender, EventArgs e)
+        private void MainMenuFileAddFolderClick(object sender, EventArgs e)
         {
             AddFolder();
         }
@@ -792,7 +815,7 @@ namespace CheckSumTool
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        void ClearToolStripMenuItemClick(object sender, EventArgs e)
+        private void ClearToolStripMenuItemClick(object sender, EventArgs e)
         {
             ClearAllItems();
         }
@@ -802,7 +825,7 @@ namespace CheckSumTool
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        void MainMenuEditRemoveSelectedClick(object sender, EventArgs e)
+        private void MainMenuEditRemoveSelectedClick(object sender, EventArgs e)
         {
             RemoveSelectedItems();
         }
@@ -812,7 +835,7 @@ namespace CheckSumTool
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        void ToolStripBtnCalculateClick(object sender, EventArgs e)
+        private void ToolStripBtnCalculateClick(object sender, EventArgs e)
         {
             CalculateCheckSums();
         }
@@ -822,7 +845,7 @@ namespace CheckSumTool
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        void ToolStripBtnVerifyClick(object sender, EventArgs e)
+        private void ToolStripBtnVerifyClick(object sender, EventArgs e)
         {
             VerifyCheckSums();
         }
@@ -832,7 +855,7 @@ namespace CheckSumTool
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        void ToolBarSumTypesSelectionChanged(object sender, EventArgs e)
+        private void ToolBarSumTypesSelectionChanged(object sender, EventArgs e)
         {
             int sumSelection = toolStripComboSumTypes.SelectedIndex;
             SetCurrentSumType((CheckSumType) sumSelection);
@@ -842,7 +865,7 @@ namespace CheckSumTool
         /// Set current checksum type.
         /// </summary>
         /// <param name="sumtype">Checksumtype to set as current.</param>
-        void SetCurrentSumType(CheckSumType sumtype)
+        private void SetCurrentSumType(CheckSumType sumtype)
         {
             // If sumtype already matches, it means we are loading sum
             // file and so don't want to clear existing items!
@@ -861,7 +884,7 @@ namespace CheckSumTool
 
             // Clear filename so we ask it while saving
             // and don't override file with wrong (old) name.
-            SetFilename("");
+            SetFilename(String.Empty);
         }
 
         /// <summary>
@@ -869,7 +892,7 @@ namespace CheckSumTool
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        void MainMenuChecksumsCalculateAllClick(object sender, EventArgs e)
+        private void MainMenuChecksumsCalculateAllClick(object sender, EventArgs e)
         {
             CalculateCheckSums();
         }
@@ -879,7 +902,7 @@ namespace CheckSumTool
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        void MainMenuChecksumsVerifyAllClick(object sender, EventArgs e)
+        private void MainMenuChecksumsVerifyAllClick(object sender, EventArgs e)
         {
             VerifyCheckSums();
         }
@@ -889,7 +912,7 @@ namespace CheckSumTool
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        void MainMenuFileNewClick(object sender, EventArgs e)
+        private void MainMenuFileNewClick(object sender, EventArgs e)
         {
             InitNewList();
         }
@@ -898,10 +921,10 @@ namespace CheckSumTool
         /// Set the current filename.
         /// </summary>
         /// <param name="filename">Filename to use, null or empty if no file.</param>
-        void SetFilename(string filename)
+        private void SetFilename(string filename)
         {
             _document.Filename = filename;
-            if (filename == null || filename == "")
+            if (filename == null || filename == String.Empty)
             {
                 SetTitle("Untitled");
             }
@@ -917,7 +940,7 @@ namespace CheckSumTool
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        void MainMenuFileSaveAsClick(object sender, EventArgs e)
+        private void MainMenuFileSaveAsClick(object sender, EventArgs e)
         {
             SaveFileAs();
         }
@@ -926,7 +949,7 @@ namespace CheckSumTool
         /// Get full path to the manual file.
         /// </summary>
         /// <returns>Full path to the manual file.</returns>
-        static string GetManualFile()
+        private static string GetManualFile()
         {
             string programPath = Assembly.GetExecutingAssembly().Location;
             string programFile = Path.GetFileName(programPath);
@@ -941,7 +964,7 @@ namespace CheckSumTool
         /// Get full path to the contributors list file.
         /// </summary>
         /// <returns>Full path to the contributors list file.</returns>
-        static string GetContributorsFile()
+        private static string GetContributorsFile()
         {
             string programPath = Assembly.GetExecutingAssembly().Location;
             string programFile = Path.GetFileName(programPath);
@@ -955,7 +978,7 @@ namespace CheckSumTool
         /// <summary>
         /// Show the user manual for user in the browser.
         /// </summary>
-        static void OpenManual()
+        private static void OpenManual()
         {
             string manualPath = GetManualFile();
             FileInfo fi = new FileInfo(manualPath);
@@ -980,7 +1003,7 @@ namespace CheckSumTool
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        void MainMenuHelpManualClick(object sender, EventArgs e)
+        private void MainMenuHelpManualClick(object sender, EventArgs e)
         {
             OpenManual();
         }
@@ -988,7 +1011,7 @@ namespace CheckSumTool
         /// <summary>
         /// Opens a list of contributors.
         /// </summary>
-        static void OpenContributors()
+        private static void OpenContributors()
         {
             string contribPath = GetContributorsFile();
             FileInfo fi = new FileInfo(contribPath);
@@ -1010,7 +1033,7 @@ namespace CheckSumTool
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        void MainMenuChecksumsMenuDropDownOpening(object sender, EventArgs e)
+        private void MainMenuChecksumsMenuDropDownOpening(object sender, EventArgs e)
         {
             string name = CheckSumImplList.GetImplementationName(_document.SumType);
             foreach (ToolStripItem item in mainMenuChecksumsMenu.DropDownItems)
@@ -1035,7 +1058,7 @@ namespace CheckSumTool
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        void MainMenuEditSelectAllClick(object sender, EventArgs e)
+        private void MainMenuEditSelectAllClick(object sender, EventArgs e)
         {
             foreach (ListViewItem item in itemList.Items)
             {
@@ -1048,7 +1071,7 @@ namespace CheckSumTool
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        void MainMenuEditCopyClick(object sender, EventArgs e)
+        private void MainMenuEditCopyClick(object sender, EventArgs e)
         {
             CopySumsToClipboard();
         }
@@ -1056,7 +1079,7 @@ namespace CheckSumTool
         /// <summary>
         /// Copy calculated and selected checksums to clipboard with filenames.
         /// </summary>
-        void CopySumsToClipboard()
+        private void CopySumsToClipboard()
         {
             ListView.SelectedIndexCollection selections = itemList.SelectedIndices;
             int[] indices = new int[selections.Count];
@@ -1084,7 +1107,7 @@ namespace CheckSumTool
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        void MainMenuHelpContributorsClick(object sender, EventArgs e)
+        private void MainMenuHelpContributorsClick(object sender, EventArgs e)
         {
             OpenContributors();
         }
@@ -1094,7 +1117,7 @@ namespace CheckSumTool
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        void ToolStripBtnAddFilesClick(object sender, EventArgs e)
+        private void ToolStripBtnAddFilesClick(object sender, EventArgs e)
         {
             AddFile();
         }
@@ -1104,7 +1127,7 @@ namespace CheckSumTool
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        void ToolStripBtnAddFoldersClick(object sender, EventArgs e)
+        private void ToolStripBtnAddFoldersClick(object sender, EventArgs e)
         {
             AddFolder();
         }
@@ -1114,7 +1137,7 @@ namespace CheckSumTool
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        void ItemListSizeChanged(object sender, System.EventArgs e)
+        private void ItemListSizeChanged(object sender, System.EventArgs e)
         {
             string statustext = string.Format("{0} items", _document.Items.Count);
             statusbarLabelCount.Text = statustext;
@@ -1126,23 +1149,23 @@ namespace CheckSumTool
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        void MainFormFormClosing(object sender, FormClosingEventArgs e)
+        private void MainFormFormClosing(object sender, FormClosingEventArgs e)
         {
-            //Setting MainForm ending values
+            // Setting MainForm ending values
             FormSetting mainFormSetting = new FormSetting(_handler);
             mainFormSetting.SaveSetting("MainForm",
                                         this.Location.X,
                                         this.Location.Y,
                                         this.Width,
                                         this.Height);
-            //Setting toolStripFile ending values
+            // Setting toolStripFile ending values
             ToolbarSetting toolStripFileSetting = new ToolbarSetting(_handler);
             toolStripFileSetting.SaveSetting("toolStripFile",
                                              toolStripFile.Location.X,
                                              toolStripFile.Location.Y,
                                              toolStripFile.Visible);
 
-            //Setting toolStripSums ending values
+            // Setting toolStripSums ending values
             ToolbarSetting toolStripSumsSetting = new ToolbarSetting(_handler);
             toolStripSumsSetting.SaveSetting("toolStripSums",
                                              toolStripSums.Location.X,
@@ -1180,9 +1203,9 @@ namespace CheckSumTool
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        void MainFormLoad(object sender, EventArgs e)
+        private void MainFormLoad(object sender, EventArgs e)
         {
-            //Setting MainForm starting values
+            // Setting MainForm starting values
             FormSetting mainFormSetting = new FormSetting(_handler);
             mainFormSetting.GetSetting("MainForm");
 
@@ -1194,11 +1217,11 @@ namespace CheckSumTool
             Width = mainFormSetting.Width;
             Height = mainFormSetting.Height;
 
-            //Setting toolStripFile starting values
+            // Setting toolStripFile starting values
             ToolbarSetting settingToolStripFile = new ToolbarSetting(_handler);
             settingToolStripFile.GetSetting("toolStripFile");
 
-            if(settingToolStripFile.X == -1 || settingToolStripFile.Y == -1)
+            if (settingToolStripFile.X == -1 || settingToolStripFile.Y == -1)
                 toolStripFile.Location = new Point(3, 24);
             else
                 toolStripFile.Location = new Point(settingToolStripFile.X, settingToolStripFile.Y);
@@ -1207,11 +1230,11 @@ namespace CheckSumTool
             mainMenuViewToolbarsFile.Checked  = toolStripFile.Visible;
             contextMenuFile.Checked  = toolStripFile.Visible;
 
-            //Setting toolStripSums starting values
+            // Setting toolStripSums starting values
             ToolbarSetting settingToolStripSums = new ToolbarSetting(_handler);
             settingToolStripSums.GetSetting("toolStripSums");
 
-            if(settingToolStripSums.X == -1 || settingToolStripSums.Y == -1)
+            if (settingToolStripSums.X == -1 || settingToolStripSums.Y == -1)
                 toolStripSums.Location = new Point(3, 49);
             else
                 toolStripSums.Location = new Point(settingToolStripSums.X, settingToolStripSums.Y);
@@ -1220,21 +1243,21 @@ namespace CheckSumTool
             mainMenuViewToolbarsSums.Checked  = toolStripSums.Visible;
             contextMenuSums.Checked  = toolStripSums.Visible;
 
-            //Setting statusStrip1 starting values
+            // Setting statusStrip1 starting values
             StatusbarSetting settingStatusStrip1 = new StatusbarSetting(_handler);
             settingStatusStrip1.GetSetting("statusStrip1");
 
             statusStrip1.Visible = settingStatusStrip1.Visible;
             mainMenuViewStatusBar.Checked  = statusStrip1.Visible;
 
-            //Setting columnSize starting values
+            // Setting columnSize starting values
             ColumnSetting settingColumnSize = new ColumnSetting(_handler);
             settingColumnSize.GetSetting("columnSize");
 
             columnSize.DisplayIndex = settingColumnSize.DisplayIndex;
             columnSize.Width = settingColumnSize.Width;
 
-            //Setting columnFullpath starting values
+            // Setting columnFullpath starting values
             ColumnSetting settingColumnFullpath = new ColumnSetting(_handler);
             settingColumnFullpath.GetSetting("columnFullpath");
 
@@ -1248,14 +1271,14 @@ namespace CheckSumTool
             columnVerified.DisplayIndex = settingColumnVerified.DisplayIndex;
             columnVerified.Width = settingColumnVerified.Width;
 
-            //Setting columnType starting values
+            // Setting columnType starting values
             ColumnSetting settingColumnType = new ColumnSetting(_handler);
             settingColumnType.GetSetting("columnType");
 
             columnType.DisplayIndex = settingColumnType.DisplayIndex;
             columnType.Width = settingColumnType.Width;
 
-            //Setting columnFilename starting values
+            // Setting columnFilename starting values
             ColumnSetting settingColumnFilename = new ColumnSetting(_handler);
             settingColumnFilename.GetSetting("columnFilename");
 
@@ -1269,7 +1292,7 @@ namespace CheckSumTool
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        void MainMenuViewToolsFileClick(object sender, EventArgs e)
+        private void MainMenuViewToolsFileClick(object sender, EventArgs e)
         {
             toolStripFile.Visible = !toolStripFile.Visible;
             mainMenuViewToolbarsFile.Checked  = toolStripFile.Visible;
@@ -1282,7 +1305,7 @@ namespace CheckSumTool
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        void MainMenuViewToolsSumsClick(object sender, EventArgs e)
+        private void MainMenuViewToolsSumsClick(object sender, EventArgs e)
         {
             toolStripSums.Visible = !toolStripSums.Visible;
             mainMenuViewToolbarsSums.Checked  = toolStripSums.Visible;
@@ -1295,7 +1318,7 @@ namespace CheckSumTool
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        void StatusBarToolStripMenuItemClick(object sender, EventArgs e)
+        private void StatusBarToolStripMenuItemClick(object sender, EventArgs e)
         {
             statusStrip1.Visible = !statusStrip1.Visible;
             mainMenuViewStatusBar.Checked  = statusStrip1.Visible;
@@ -1307,7 +1330,7 @@ namespace CheckSumTool
         /// <param name="message">Message to show in GUI.</param>
         /// <param name="noCount">Count of items not known, use the
         /// marquee style progress bar.</param>
-        void StartProgress(string message, bool noCount)
+        private void StartProgress(string message, bool noCount)
         {
             _progressTimer.Start();
             this.UseWaitCursor = true;
@@ -1335,8 +1358,8 @@ namespace CheckSumTool
         /// Called when timer event is received.
         /// </summary>
         /// <param name="sender">The timer that fired.</param>
-        /// <param name="eArgs"></param>
-        void Timer_Tick(object sender, EventArgs eArgs)
+        /// <param name="args"></param>
+        private void Timer_Tick(object sender, EventArgs args)
         {
             if (sender == _progressTimer)
             {
@@ -1347,7 +1370,7 @@ namespace CheckSumTool
         /// <summary>
         /// Called when progress timer is fired.
         /// </summary>
-        void OnProgressTimer()
+        private void OnProgressTimer()
         {
             if (_progressInfo.IsStopping())
             {
@@ -1380,7 +1403,7 @@ namespace CheckSumTool
         /// <summary>
         /// Called when progress finishes.
         /// </summary>
-        void OnProgressReady()
+        private void OnProgressReady()
         {
             StoppingClock("Ready.");
 
@@ -1413,35 +1436,35 @@ namespace CheckSumTool
         /// <summary>
         /// Called when Timer_Tick is starting to progress process.
         /// </summary>
-        void EnableStop()
+        private void EnableStop()
         {
             toolStripFile.Enabled = false;
             toolStripBtnCalculate.Enabled = false;
             toolStripBtnVerify.Enabled = false;
             toolStripComboSumTypes.Enabled = false;
 
-            //Menu items
+            // Menu items
             foreach(object objectItem in fileToolStripMenuItem.DropDownItems)
             {
-                if(objectItem is ToolStripDropDownItem)
+                if (objectItem is ToolStripDropDownItem)
                 {
                     ToolStripDropDownItem item = (ToolStripDropDownItem) objectItem;
                     item.Enabled = false;
                 }
             }
 
-            foreach(object objectItem in mainMenuEditMenu.DropDownItems)
+            foreach (object objectItem in mainMenuEditMenu.DropDownItems)
             {
-                if(objectItem is ToolStripDropDownItem)
+                if (objectItem is ToolStripDropDownItem)
                 {
                     ToolStripDropDownItem item = (ToolStripDropDownItem) objectItem;
                     item.Enabled = false;
                 }
             }
 
-            foreach(object objectItem in mainMenuChecksumsMenu.DropDownItems)
+            foreach (object objectItem in mainMenuChecksumsMenu.DropDownItems)
             {
-                if(objectItem is ToolStripDropDownItem)
+                if (objectItem is ToolStripDropDownItem)
                 {
                     ToolStripDropDownItem item = (ToolStripDropDownItem) objectItem;
                     item.Enabled = false;
@@ -1450,7 +1473,7 @@ namespace CheckSumTool
 
             exitToolStripMenuItem.Enabled = true;
 
-            //Enable Stop buttons
+            // Enable Stop buttons
             toolStripBtnStop.Enabled = true;
             mainMenuChecksumsStop.Enabled = true;
         }
@@ -1458,35 +1481,35 @@ namespace CheckSumTool
         /// <summary>
         /// Called when Timer_Tick is Ready or Stopping process
         /// </summary>
-        void DisableStop()
+        private void DisableStop()
         {
             toolStripFile.Enabled = true;
             toolStripBtnCalculate.Enabled = true;
             toolStripBtnVerify.Enabled = true;
             toolStripComboSumTypes.Enabled = true;
 
-            //Menu items
-            foreach(object objectItem in fileToolStripMenuItem.DropDownItems)
+            // Menu items
+            foreach (object objectItem in fileToolStripMenuItem.DropDownItems)
             {
-                if(objectItem is ToolStripDropDownItem)
+                if (objectItem is ToolStripDropDownItem)
                 {
                     ToolStripDropDownItem item = (ToolStripDropDownItem) objectItem;
                     item.Enabled = true;
                 }
             }
 
-            foreach(object objectItem in mainMenuEditMenu.DropDownItems)
+            foreach (object objectItem in mainMenuEditMenu.DropDownItems)
             {
-                if(objectItem is ToolStripDropDownItem)
+                if (objectItem is ToolStripDropDownItem)
                 {
                     ToolStripDropDownItem item = (ToolStripDropDownItem) objectItem;
                     item.Enabled = true;
                 }
             }
 
-            foreach(object objectItem in mainMenuChecksumsMenu.DropDownItems)
+            foreach (object objectItem in mainMenuChecksumsMenu.DropDownItems)
             {
-                if(objectItem is ToolStripDropDownItem)
+                if (objectItem is ToolStripDropDownItem)
                 {
                     ToolStripDropDownItem item = (ToolStripDropDownItem) objectItem;
                     item.Enabled = true;
@@ -1501,7 +1524,7 @@ namespace CheckSumTool
         /// Stopping Clock and insertig some UI values.
         /// </summary>
         /// <param name="text"></param>
-        void StoppingClock(string text)
+        private void StoppingClock(string text)
         {
             _progressTimer.Stop();
             statusbarLabelProgressBar.Visible = false;
@@ -1518,7 +1541,7 @@ namespace CheckSumTool
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        void ToolStripBtnStopClick(object sender, EventArgs e)
+        private void ToolStripBtnStopClick(object sender, EventArgs e)
         {
             if (_progressInfo != null)
                 _progressInfo.Stop();
@@ -1529,7 +1552,7 @@ namespace CheckSumTool
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        void ToolStripBtnStopMouseEnter(object sender, EventArgs e)
+        private void ToolStripBtnStopMouseEnter(object sender, EventArgs e)
         {
             this.UseWaitCursor = false;
         }
@@ -1539,7 +1562,7 @@ namespace CheckSumTool
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        void ToolStripBtnStopMouseHover(object sender, EventArgs e)
+        private void ToolStripBtnStopMouseHover(object sender, EventArgs e)
         {
             this.UseWaitCursor = false;
         }
@@ -1549,7 +1572,7 @@ namespace CheckSumTool
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        void ItemListDragOver(object sender, DragEventArgs e)
+        private void ItemListDragOver(object sender, DragEventArgs e)
         {
             e.Effect = DragDropEffects.All;
         }
@@ -1559,7 +1582,7 @@ namespace CheckSumTool
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        void ItemListDragDrop(object sender, DragEventArgs e)
+        private void ItemListDragDrop(object sender, DragEventArgs e)
         {
             bool itemsAdded = false;
             if (e.Data.GetDataPresent(DataFormats.Text))
