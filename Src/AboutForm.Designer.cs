@@ -117,7 +117,7 @@ namespace CheckSumTool
         	this.label4.Name = "label4";
         	this.label4.Size = new System.Drawing.Size(233, 23);
         	this.label4.TabIndex = 8;
-        	this.label4.Text = "(c) 2007-2008 Kimmo Varis";
+        	this.label4.Text = "(c) 2007-2009 Kimmo Varis";
         	// 
         	// AboutForm
         	// 
