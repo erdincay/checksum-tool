@@ -40,7 +40,7 @@ namespace CheckSumTool
         /// C:\Documents and Settings\User\Application Data\ChecksumTool\
         /// </summary>
         /// <returns>Application data folder.</returns>
-        public static string GetAppdataPath()
+        public static string GetAppDataPath()
         {
             string appDataPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
             appDataPath = FileUtils.GetUnixPathFormat(appDataPath);

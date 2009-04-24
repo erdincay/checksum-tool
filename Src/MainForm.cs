@@ -140,7 +140,7 @@ namespace CheckSumTool
         private void CheckConfigFile()
         {
             bool success = true;
-            string appDataPath = EnvironmentUtils.GetAppdataPath();
+            string appDataPath = EnvironmentUtils.GetAppDataPath();
             ConfigFile cfile = new ConfigFile(Application.StartupPath,
                     appDataPath);
             if (!cfile.FileExists())
