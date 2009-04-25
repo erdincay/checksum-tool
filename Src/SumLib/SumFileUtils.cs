@@ -73,7 +73,7 @@ namespace CheckSumTool.SumLib
         {
             if (path == null)
                 throw new ArgumentNullException(path);
-            if (path == "")
+            if (path == String.Empty)
                 throw new ArgumentException("Path is empty", "path");
 
             FileInfo fi = new FileInfo(path);
@@ -130,7 +130,7 @@ namespace CheckSumTool.SumLib
         [ExpectedException(typeof(ArgumentException))]
         public void EmptyFileName()
         {
-            SumFileType ft = SumFileUtils.FindFileType("");
+            SumFileType ft = SumFileUtils.FindFileType(String.Empty);
         }
 
         /// <summary>
@@ -142,6 +142,76 @@ namespace CheckSumTool.SumLib
         {
             // Expect user doen't have this file..
             SumFileType ft = SumFileUtils.FindFileType(@"C:\unique.txt");
+        }
+
+        /// <summary>
+        /// Test that SHA-1 file is recognized by filename extension.
+        /// </summary>
+        [Test]
+        public void ShaFile1()
+        {
+            SumFileType ft = SumFileUtils.FindFileType(@"../../TestData/SHA1Files/TestFile1.sha1");
+            Assert.AreEqual(SumFileType.SHA1, ft);
+        }
+
+        /// <summary>
+        /// Test that SHA-1 file is recognized by filename.
+        /// </summary>
+        [Test]
+        public void ShaFile2()
+        {
+            SumFileType ft = SumFileUtils.FindFileType(@"../../TestData/SHA1Files/file_sha1.txt");
+            Assert.AreEqual(SumFileType.SHA1, ft);
+        }
+
+        /// <summary>
+        /// Test that MD5 file is recognized by filename extension.
+        /// </summary>
+        [Test]
+        public void MD5File1()
+        {
+            SumFileType ft = SumFileUtils.FindFileType(@"../../TestData/MD5Files/TestFile1.md5");
+            Assert.AreEqual(SumFileType.MD5, ft);
+        }
+
+        /// <summary>
+        /// Test that MD5 file is recognized from filename.
+        /// </summary>
+        [Test]
+        public void MD5File2()
+        {
+            SumFileType ft = SumFileUtils.FindFileType(@"../../TestData/MD5Files/File_md5.txt");
+            Assert.AreEqual(SumFileType.MD5, ft);
+        }
+
+        /// <summary>
+        /// Test that CRC32 file is recognized by filename extension.
+        /// </summary>
+        [Test]
+        public void CRC32File1()
+        {
+            SumFileType ft = SumFileUtils.FindFileType(@"../../TestData/SFVFiles/TestFile1.sfv");
+            Assert.AreEqual(SumFileType.SFV, ft);
+        }
+
+        /// <summary>
+        /// Test that CRC32 file is recognized by filename.
+        /// </summary>
+        [Test]
+        public void CRC32File2()
+        {
+            SumFileType ft = SumFileUtils.FindFileType(@"../../TestData/SFVFiles/file_crc.txt");
+            Assert.AreEqual(SumFileType.SFV, ft);
+        }
+
+        /// <summary>
+        /// Test that CRC32 file is recognized by filename.
+        /// </summary>
+        [Test]
+        public void CRC32File3()
+        {
+            SumFileType ft = SumFileUtils.FindFileType(@"../../TestData/SFVFiles/file_sfv.txt");
+            Assert.AreEqual(SumFileType.SFV, ft);
         }
     }
 }
