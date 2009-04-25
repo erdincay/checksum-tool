@@ -1,0 +1,25 @@
+MD5 File Format Specification
+------------------------------
+$Id$
+
+MD5 files are simple text files containing MD5 sums and filenames. Files are
+in line-format, each line containing one MD5-sum and filename.
+
+MD5-sum lines are formatted as
+[sum]|[filename]
+where
+ [sum] is the MD5 sum
+ | (pipe) is a separator
+ [filename] is the filename [+ path]
+
+Empty lines are ignored. Lines starting with ';' are comments and are ignored.
+
+
+Example file:
+-------------------------------------------------
+
+; MD5 checksum file
+; Generated with Cygwin's md5sum tool
+78cf91daf373e286415c36a8b035dba9|TextFile1.txt
+e76f8a2f7ae08dfa86df819e7d7639c3|TextFile2.txt
+9f089d9a25ea55c459680009910bec73|TextFile3.txt
