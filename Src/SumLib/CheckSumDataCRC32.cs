@@ -2,7 +2,7 @@
 The MIT License
 
 Copyright (c) 2007-2008 Ixonos Plc
-Copyright (c) 2007-2008 Kimmo Varis <kimmov@winmerge.org>
+Copyright (c) 2007-2009 Kimmo Varis <kimmov@winmerge.org>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -92,6 +92,22 @@ namespace CheckSumTool.SumLib
         }
 
         [Test]
+        [ExpectedException(typeof(ArgumentException))]
+        public void ConstructSmall2()
+        {
+            byte[] data = { 2, 3, 4 };
+            CheckSumDataCRC32 csData = new CheckSumDataCRC32(data);
+        }
+
+        [Test]
+        [ExpectedException(typeof(ArgumentException))]
+        public void ConstructSLarge()
+        {
+            byte[] data = { 2, 3, 4, 5, 6 };
+            CheckSumDataCRC32 csData = new CheckSumDataCRC32(data);
+        }
+
+        [Test]
         public void Construct()
         {
             byte[] data = { 2, 3, 4, 5 };
@@ -121,6 +137,22 @@ namespace CheckSumTool.SumLib
         public void ConstructSmallStr()
         {
             string data = "0203";
+            CheckSumDataCRC32 csData = new CheckSumDataCRC32(data);
+        }
+
+        [Test]
+        [ExpectedException(typeof(ArgumentException))]
+        public void ConstructSmallStr2()
+        {
+            string data = "020304";
+            CheckSumDataCRC32 csData = new CheckSumDataCRC32(data);
+        }
+
+        [Test]
+        [ExpectedException(typeof(ArgumentException))]
+        public void ConstructLargeStr()
+        {
+            string data = "0203040506";
             CheckSumDataCRC32 csData = new CheckSumDataCRC32(data);
         }
 
