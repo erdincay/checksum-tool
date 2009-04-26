@@ -1,7 +1,8 @@
 ﻿/*
 The MIT License
 
-Copyright (c) 2007-2008 Ixonos Plc, Kimmo Varis <kimmo.varis@ixonos.com>
+Copyright (c) 2007-2008 Ixonos Plc
+Copyright (c) 2007-2009 Kimmo Varis <kimmov@winmerge.org>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -42,7 +43,7 @@ namespace CheckSumTool
         /// </summary>
         /// <param name="bytes">File size as a plain number.</param>
         /// <returns>File size as localized short number string.</returns>
-        public static string GetShortFileSize(int bytes)
+        public static string GetShortFileSize(long bytes)
         {
             if (bytes < 0)
                 return Convert.ToString(bytes);
@@ -123,6 +124,13 @@ namespace CheckSumTool
         public void ShortSizeGiga()
         {
             string size = Locality.GetShortFileSize(1100000000);
+            Assert.IsTrue(size.EndsWith(" GB"));
+        }
+
+        [Test]
+        public void ShortSizeGiga2()
+        {
+            string size = Locality.GetShortFileSize(5100000000);
             Assert.IsTrue(size.EndsWith(" GB"));
         }
     }

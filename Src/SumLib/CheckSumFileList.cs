@@ -2,7 +2,7 @@
 The MIT License
 
 Copyright (c) 2007-2008 Ixonos Plc
-Copyright (c) 2007-2008 Kimmo Varis <kimmov@winmerge.org>
+Copyright (c) 2007-2009 Kimmo Varis <kimmov@winmerge.org>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -128,7 +128,7 @@ namespace CheckSumTool.SumLib
         /// <param name="file">Path to file to add.</param>
         public void AddFile(string file)
         {
-            AddFile(file, "");
+            AddFile(file, String.Empty);
         }
 
         /// <summary>
@@ -141,9 +141,9 @@ namespace CheckSumTool.SumLib
             CheckSumItem newItem = new CheckSumItem(file);
 
             FileInfo fileInfo = new FileInfo(file);
-            newItem.Size = Convert.ToInt32(fileInfo.Length);
+            newItem.Size = fileInfo.Length;
 
-            if (checksum != null && checksum != "")
+            if (checksum != null && checksum != String.Empty)
                 newItem.SetSum(checksum);
 
             _listChanged = true;
@@ -181,7 +181,7 @@ namespace CheckSumTool.SumLib
                 CheckSumItem newItem = new CheckSumItem(fi.FullName);
 
                 FileInfo fileInfo = new FileInfo(fi.FullName);
-                newItem.Size = Convert.ToInt32(fileInfo.Length);
+                newItem.Size = fileInfo.Length;
 
                 _fileList.Add(newItem);
             }

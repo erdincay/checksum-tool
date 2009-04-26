@@ -9,6 +9,7 @@ CheckSum Tool 0.6.0
   Allow drag&drop folders from Windows Explorer
   Installer: Prevent starting second instance
   Bugfix: Product name was wrong (without space) in About-dialog.
+  Bugfix: Adding large file (over 2 GB) caused a crash (r259)
 
 CheckSum Tool 0.5.0 - 2008-04-27 (r217)
   New toolbar/menuitem icons from famfamfam.com (#1883992)

@@ -2,7 +2,7 @@
 The MIT License
 
 Copyright (c) 2007-2008 Ixonos Plc
-Copyright (c) 2007-2008 Kimmo Varis <kimmov@winmerge.org>
+Copyright (c) 2007-2009 Kimmo Varis <kimmov@winmerge.org>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -62,7 +62,7 @@ namespace CheckSumTool.SumLib
         /// <summary>
         /// Size for the item
         /// </summary>
-        private int _size;
+        private long _size;
 
         /// <summary>
         /// Checksum calculated for the item
@@ -98,7 +98,7 @@ namespace CheckSumTool.SumLib
         /// <summary>
         /// Size for the item.
         /// </summary>
-        public int Size
+        public long Size
         {
             get { return _size; }
             set { _size = value; }
