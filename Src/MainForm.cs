@@ -190,19 +190,30 @@ namespace CheckSumTool
         /// </remarks>
         private void Application_Idle(Object sender, EventArgs e)
         {
-        	// Verify-items are active only when there are checksums in the list
-        	if (_document.Items.HasCheckSums == false)
-        	{
-        		toolStripBtnVerify.Enabled = false;
+            if (_document.Items.Count == 0)
+            {
+                toolStripBtnCalculate.Enabled = false;
+                mainMenuChecksumsCalculateAll.Enabled = false;
+            }
+            else
+            {
+                toolStripBtnCalculate.Enabled = true;
+                mainMenuChecksumsCalculateAll.Enabled = true;
+            }
+
+            // Verify-items are active only when there are checksums in the list
+            if (_document.Items.HasCheckSums == false)
+            {
+                toolStripBtnVerify.Enabled = false;
                 mainMenuChecksumsVerifyAll.Enabled = false;
-        	}
-        	else
-        	{
-        		toolStripBtnVerify.Enabled = true;
+            }
+            else
+            {
+                toolStripBtnVerify.Enabled = true;
                 mainMenuChecksumsVerifyAll.Enabled = true;
-        	}
-        	
-        	if (_document.Items.HasChanged)
+            }
+
+            if (_document.Items.HasChanged)
             {
                 toolStripBtnSave.Enabled = true;
 
