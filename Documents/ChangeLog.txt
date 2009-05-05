@@ -10,6 +10,7 @@ CheckSum Tool 0.6.0
   Installer: Prevent starting second instance
   Enable Verify-feature only when there are checksums in the list (r261)
   Enable Calculate-feature only when there are items in the list (r262)
+  Ask if user wants to save unsaved items before loading new list (r263)
   Bugfix: Product name was wrong (without space) in About-dialog.
   Bugfix: Adding large file (over 2 GB) caused a crash (r259)
 

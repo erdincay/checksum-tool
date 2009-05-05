@@ -627,10 +627,34 @@ namespace CheckSumTool
 
         /// <summary>
         /// Shows Open-dialog for user to select the file to load. And opens
-        /// the file user selected.
+        /// the file user selected. If there are unsaved changes, we ask
+        /// from user if one wants to save changes first.
         /// </summary>
         private void LoadFile()
         {
+            if (_document.Items.HasChanged)
+            {
+                string message = "The list contains unsaved data.\n\n";
+                message += "Do you want to save current list first?";
+                DialogResult result = MessageBox.Show(this, message, "CheckSum Tool",
+                        MessageBoxButtons.YesNoCancel, MessageBoxIcon.Exclamation);
+                switch (result)
+                {
+                    // User wants to cancel so exit from saving
+                    case DialogResult.Cancel:
+                        return;
+
+                    // User does not want to change so just continue to opening
+                    case DialogResult.No:
+                        break;
+
+                    // User wants to save
+                    case DialogResult.Yes:
+                        SaveFile();
+                        break;
+                }
+            }
+
             OpenFileDialog dlg = new OpenFileDialog();
             dlg.Filter = "MD5 Files (*.MD5)|*.MD5";
             dlg.Filter += "|Simple File Verification Files (*.SFV)|*.SFV";
