@@ -190,7 +190,7 @@ $Id$
                 inheritall="true" target="${project.config}"/>
     </target>
     
-    <target name="build" description="Default build target" depends="init">
+    <target name="build" description="Default build target" depends="init,libraries">
         <echo message="Running default build target." />
         <csc target="winexe" output="${build.dir}${executable.name}"
              debug="${build.debug}" optimize="${build.optimize}"
