@@ -19,8 +19,8 @@ http://www.microsoft.com/downloads/details.aspx?familyid=B44A0000-ACF8-4FA1-AFFB
 
 Support
 -------
-Discussion forums:
-http://sourceforge.net/forum/?group_id=208291
+Discussion forums (new PHPBB forums):
+http://apps.sourceforge.net/phpbb/checksumtool/
 
 Mailing lists:
 https://sourceforge.net/mail/?group_id=208291
