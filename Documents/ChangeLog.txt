@@ -5,6 +5,7 @@ or Subversion repository revision (rxxx).
 
 CheckSum Tool 0.6.0 - 2009-05-07 (r266)
   Split code to two additional libraries (SumLib and Utils).
+  Installer: install new library files (r267)
   Allow drag&drop files from Windows Explorer
   Allow drag&drop folders from Windows Explorer
   Installer: Prevent starting second instance

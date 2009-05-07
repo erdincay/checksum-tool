@@ -86,6 +86,8 @@ Section "Core Files" SEC01
   CreateDirectory "$SMPROGRAMS\CheckSum Tool"
   CreateShortCut "$SMPROGRAMS\CheckSum Tool\CheckSum Tool.lnk" "$INSTDIR\CheckSumTool.exe"
   CreateShortCut "$DESKTOP\CheckSum Tool.lnk" "$INSTDIR\CheckSumTool.exe"
+  File "..\..\Build\Release\SumLib.dll"
+  File "..\..\Build\Release\Utils.dll"
   File "..\..\Documents\COPYING"
   File "..\..\Documents\Readme.txt"
   File "..\..\Src\config.xml"
