@@ -42,8 +42,20 @@ Compiling:
 
 NAnt:
 - NAnt can be used to build the tool
-- NAntContrib is also required
+- NAntContrib is also required (for supporting additional tasks used)
 - Build file is Src/CheckSumTool.build
+
+To use NAnt efficiently, add NAnt (or batch file calling it) onto your PATH-
+environment variable. Run NAnt from Src-folder:
+ nant /f:CheckSumTool.build <target>
+
+Most important targets are:
+ - clean : cleans the workspace from binary/temp files
+ - debug : build debug target in workspace
+ - release : build release target in workspace
+ - svn_build : export sources from SVN and do a release build
+ - distribution : build for distribution, export from SVN, build release-
+   target, create source- and binary-zips and create installer
 
 
 The User Manual
