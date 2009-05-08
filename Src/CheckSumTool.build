@@ -3,7 +3,8 @@
 <!--
 The MIT License
 
-Copyright (c) 2007-2008 Ixonos Plc, Kimmo Varis <kimmo.varis@ixonos.com>
+Copyright (c) 2007-2008 Ixonos Plc
+Copyright (c) 2007-2009 Kimmo Varis <kimmov@winmerge.org>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -53,6 +54,7 @@ $Id$
  	<!-- Various propertis defining folders and other settings. -->
     <!-- Modify these (especially the paths!) to match your environment! -->
     <property name="project.name" value="CheckSumTool" />
+    <property name="project.version" value="0.7" />
     <property name="executable.name" value="${project.name}.exe" />
 
     <property name="project.config" value="debug" overwrite="false" />
@@ -62,12 +64,13 @@ $Id$
     <property name="nunit.dir" value="C:/Program Files/NUnit 2.4.8/bin" />
     
     <!-- SVN repository URL / path -->
+    <property name="svn.export.local" value="true"/>
     <property name="svn.repository.uri"
         value="https://checksumtool.svn.sourceforge.net/svnroot/checksumtool/trunk"/>
     <!-- Folder for repository builds -->
-    <property name="svn.checkout.dir" value="G:/${project.name}/export"/>
+    <property name="svn.checkout.dir" value="../dist/export"/>
     <!-- Folder where distribution is created -->
-    <property name="dist.dir" value="${svn.checkout.dir}/dist/${project.name}" />
+    <property name="dist.dir" value="../dist/${project.name}-${project.version}" />
     
     <!-- Manual's folders -->
     <property name="src.dir.manual" value="../Documents/Manual" />
@@ -129,7 +132,11 @@ $Id$
         <!-- Now we have exported sources, lets build them.. -->
         <!-- No need to run clean target as this is clean checkout from SVN! -->
         <nant buildfile="${svn.checkout.dir}/Src/CheckSumTool.build"
-                inheritall="true" target="${project.config}"/>
+                inheritall="true" target="${project.config}">
+            <properties>
+                <property name="svn.checkout.dir" value="../" />
+            </properties>
+        </nant>
     </target>
     
     <!-- This targets exports and builds whole CheckSum Tool distribution from
@@ -138,7 +145,11 @@ $Id$
     <target name="distribution" description="Creates a distribution from SVN"
         depends="svn_build">
         <property name="build.file" value="${svn.checkout.dir}/Src/CheckSumTool.build" />
-        <nant buildfile="${build.file}" inheritall="true" target="exported_distrib"/>
+        <nant buildfile="${build.file}" inheritall="true" target="exported_distrib">
+            <properties>
+                <property name="svn.checkout.dir" value="../" />
+            </properties>
+        </nant>
     </target>
     
     
@@ -216,7 +227,12 @@ $Id$
         <loadtasks assembly="${path::combine(environment::get-variable('NANTCONTRIB_DIR'),
             'bin/NAnt.Contrib.Tasks.dll')}" />
         
-        <svn uri="${svn.repository.uri}" destination="${svn.checkout.dir}" verbose="true">
+        <svn uri="${svn.repository.uri}" destination="${svn.checkout.dir}"
+            verbose="true" if="${not svn.export.local}">
+            <arg line="export --force ${svn.repository.uri} ${svn.checkout.dir}"/>
+        </svn>
+
+        <svn uri="../" verbose="true" if="${svn.export.local}">
             <arg line="export --force ${svn.repository.uri} ${svn.checkout.dir}"/>
         </svn>
     </target>
