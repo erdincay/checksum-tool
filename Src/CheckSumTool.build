@@ -85,7 +85,7 @@ $Id$
     <property name="nsis.log" value="nsis.log" />
 
     <!-- Additional tools for building manual -->
-    <property name="python" value="c:/python25/python.exe" />
+    <property name="python" value="c:/python26/python.exe" />
     <property name="asciidoc" value="c:/Tools/AsciiDoc/asciidoc.py" />
     
     <!-- [2] LOCAL BUILD TARGETS -->
