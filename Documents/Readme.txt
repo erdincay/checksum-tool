@@ -9,13 +9,12 @@ checksums. Currently it supports CRC32, MD5 and SHA-1 checksums.
 
 Prerequisites
 -------------
-.Net Framework 2.0 or later is required to run CheckSum Tool.
+.Net Framework 4.0 or later is required to run CheckSum Tool.
 
-.Net Framework can be downloaded for 32-bit windows from:
-http://www.microsoft.com/downloads/details.aspx?familyid=0856eacb-4362-4b0d-8edd-aab15c5e04f5&displaylang=en
-and for 64-bit Windows from:
-http://www.microsoft.com/downloads/details.aspx?familyid=B44A0000-ACF8-4FA1-AFFB-40E78D788B00&displaylang=en
-
+.Net Framework web installer can be downloaded from:
+http://www.microsoft.com/downloads/details.aspx?FamilyID=9cfb2d51-5ff4-4491-b0e5-b386f32c0992&displaylang=en
+and standalone installer:
+http://www.microsoft.com/downloads/en/details.aspx?displaylang=en&FamilyID=0a391abd-25c1-4fc0-919f-b21f31ab88b7
 
 Support
 -------

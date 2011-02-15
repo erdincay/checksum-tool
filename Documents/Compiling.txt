@@ -5,18 +5,19 @@ Sourceforge project page is:
 http://sourceforge.net/projects/checksumtool/
 
 Sources:
-CheckSumTool sources are available from SourceForge.net Subversion:
-http://checksumtool.svn.sourceforge.net/svnroot/checksumtool/
+CheckSumTool sources are available from Bitbucket Mercurial repository:
+https://bitbucket.org/kimmov/checksum-tool
 or in SourceForge file releases
 
 
 Tools needed:
-- Microsoft .Net 2.0 SDK:
-  http://www.microsoft.com/downloads/details.aspx?familyid=fe6f2099-b7b4-4f47-a244-c96d69c35dec&displaylang=en
+- Windows SDK for Windows 7 and .NET Framework 4:
+  http://go.microsoft.com/fwlink/?LinkID=191424 (ISO file)
+  http://go.microsoft.com/fwlink/?LinkID=191420 (Web install)
 - The project was created using SharpDevelop 2.2 (free .Net IDE),
-  and currently SharpDevelop 3.0 is used:
+  and currently SharpDevelop 4.0 is used:
   http://www.icsharpcode.net/OpenSource/SD/
-  Project/solution files are compatible with Visual Studio 2005 or later, so you can use
+  Project/solution files are compatible with Visual Studio 2010, so you can use
   either commercial version of Visual Studio or free Express edition:
   http://www.microsoft.com/Express/
 - NSIS for compiling installer
