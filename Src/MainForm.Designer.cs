@@ -660,7 +660,6 @@ namespace CheckSumTool
         	this.Controls.Add(this.toolStripContainer1);
         	this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
         	this.MainMenuStrip = this.menuStrip1;
-        	this.MaximizeBox = false;
         	this.Name = "MainForm";
         	this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
         	this.Text = "CheckSum Tool";
