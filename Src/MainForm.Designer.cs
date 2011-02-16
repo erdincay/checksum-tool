@@ -109,6 +109,7 @@ namespace CheckSumTool
         	this.toolStripBtnVerify = new System.Windows.Forms.ToolStripButton();
         	this.toolStripBtnStop = new System.Windows.Forms.ToolStripButton();
         	this.toolStripComboSumTypes = new System.Windows.Forms.ToolStripComboBox();
+        	this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
         	this.menuStrip1.SuspendLayout();
         	this.toolStripFile.SuspendLayout();
         	this.contextMenuStrip1.SuspendLayout();
@@ -189,6 +190,7 @@ namespace CheckSumTool
         	this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
         	        	        	this.mainMenuFileNew,
         	        	        	this.mainMenuFileOpen,
+        	        	        	this.toolStripSeparator5,
         	        	        	this.mainMenuFileSave,
         	        	        	this.mainMenuFileSaveAs,
         	        	        	this.toolStripSeparator2,
@@ -652,6 +654,11 @@ namespace CheckSumTool
         	this.toolStripComboSumTypes.Size = new System.Drawing.Size(75, 25);
         	this.toolStripComboSumTypes.SelectedIndexChanged += new System.EventHandler(this.ToolBarSumTypesSelectionChanged);
         	// 
+        	// toolStripSeparator5
+        	// 
+        	this.toolStripSeparator5.Name = "toolStripSeparator5";
+        	this.toolStripSeparator5.Size = new System.Drawing.Size(154, 6);
+        	// 
         	// MainForm
         	// 
         	this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -738,5 +745,6 @@ namespace CheckSumTool
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ListView itemList;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
     }
 }
