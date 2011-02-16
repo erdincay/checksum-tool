@@ -11,7 +11,9 @@
 
 using System;
 using System.IO;
+#if NUNIT
 using NUnit.Framework;
+#endif
 
 namespace CheckSumTool
 {
@@ -234,6 +236,7 @@ namespace CheckSumTool
         }
     }
 
+#if NUNIT
     /// <summary>
     /// Unit test class for CRC32 calculation. Checks file checksums against
     /// values computed by another tool.
@@ -318,4 +321,5 @@ namespace CheckSumTool
             }
         }
     }
+#endif
 }

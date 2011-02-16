@@ -29,7 +29,9 @@ using System;
 using System.IO;
 using System.Collections.Generic;
 using CheckSumTool.Utils;
+#if NUNIT
 using NUnit.Framework;
+#endif
 
 namespace CheckSumTool.SumLib
 {
@@ -104,6 +106,7 @@ namespace CheckSumTool.SumLib
         }
     }
 
+#if NUNIT
     [TestFixture]
     public class TestSha1File
     {
@@ -186,4 +189,5 @@ namespace CheckSumTool.SumLib
             File.Delete(@"../../TestData/UnitTestFolder/TestFileWrite2.sha1");
         }
     }
+#endif
 }

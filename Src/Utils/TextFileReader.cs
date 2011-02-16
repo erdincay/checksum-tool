@@ -28,7 +28,9 @@ THE SOFTWARE.
 using System;
 using System.IO;
 using System.Collections.Generic;
+#if NUNIT
 using NUnit.Framework;
+#endif
 
 namespace CheckSumTool.Utils
 {
@@ -205,6 +207,7 @@ namespace CheckSumTool.Utils
         }
     }
 
+#if NUNIT
     [TestFixture]
     public class TestTextFileReader
     {
@@ -255,4 +258,5 @@ namespace CheckSumTool.Utils
             Assert.AreEqual(pairItems.Item2.ToString(), "2");
         }
     }
+#endif
 }

@@ -27,7 +27,9 @@ THE SOFTWARE.
 
 using System;
 using System.Globalization;
+#if NUNIT
 using NUnit.Framework;
+#endif
 
 namespace CheckSumTool
 {
@@ -79,6 +81,7 @@ namespace CheckSumTool
         }
     }
 
+#if NUNIT
     /// <summary>
     /// An unit testing class for the Locality class.
     /// </summary>
@@ -134,4 +137,5 @@ namespace CheckSumTool
             Assert.IsTrue(size.EndsWith(" GB"));
         }
     }
+#endif
 }

@@ -29,7 +29,9 @@ using System;
 using System.Diagnostics;
 using System.Reflection;
 using System.IO;
+#if NUNIT
 using NUnit.Framework;
+#endif
 
 namespace CheckSumTool.Utils
 {
@@ -114,6 +116,7 @@ namespace CheckSumTool.Utils
         }
     }
 
+#if NUNIT
     /// <summary>
     /// A unit testing class for ProgramInfo class.
     /// </summary>
@@ -186,4 +189,5 @@ namespace CheckSumTool.Utils
             Assert.AreEqual(@"http://checksumtool.sourceforge.net/", info.URL);
         }
     }
+#endif
 }

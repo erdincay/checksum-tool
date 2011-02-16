@@ -29,8 +29,9 @@ using System.IO;
 using System.Xml;
 using System.Xml.XPath;
 using System.Collections.Generic;
+#if NUNIT
 using NUnit.Framework;
-
+#endif
 
 namespace CheckSumTool.Settings
 {
@@ -176,6 +177,7 @@ namespace CheckSumTool.Settings
         }
     }
 
+#if NUNIT
     [TestFixture]
     public class TestStatusbarSetting
     {
@@ -236,4 +238,5 @@ namespace CheckSumTool.Settings
             Assert.AreEqual(settingToolStripFileSave.Visible, settingToolStripFileSecond.Visible);
         }
     }
+#endif
 }

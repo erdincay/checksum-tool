@@ -27,7 +27,9 @@ THE SOFTWARE.
 
 using System;
 using System.IO;
+#if NUNIT
 using NUnit.Framework;
+#endif
 
 namespace CheckSumTool.SumLib
 {
@@ -107,6 +109,7 @@ namespace CheckSumTool.SumLib
         }
     }
 
+#if NUNIT
     /// <summary>
     /// Unit test class for SumFileUtils.FindFileType()
     /// </summary>
@@ -214,4 +217,5 @@ namespace CheckSumTool.SumLib
             Assert.AreEqual(SumFileType.SFV, ft);
         }
     }
+#endif
 }

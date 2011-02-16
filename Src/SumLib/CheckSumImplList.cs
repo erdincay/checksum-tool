@@ -26,7 +26,9 @@ THE SOFTWARE.
 // $Id$
 
 using System;
+#if NUNIT
 using NUnit.Framework;
+#endif
 
 namespace CheckSumTool.SumLib
 {
@@ -92,6 +94,7 @@ namespace CheckSumTool.SumLib
         }
     }
 
+#if NUNIT
     /// <summary>
     /// A unit testing class for CheckSumImplList -class.
     /// </summary>
@@ -158,4 +161,5 @@ namespace CheckSumTool.SumLib
             Assert.AreEqual("CRC32", name);
         }
     }
+#endif
 }

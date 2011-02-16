@@ -28,7 +28,9 @@ THE SOFTWARE.
 using System;
 using System.Security.Cryptography;
 using System.IO;
+#if NUNIT
 using NUnit.Framework;
+#endif
 
 namespace CheckSumTool.SumLib
 {
@@ -157,6 +159,7 @@ namespace CheckSumTool.SumLib
         }
     }
 
+#if NUNIT
     /// <summary>
     /// Unit testing class for Sha1Sum class.
     /// </summary>
@@ -354,4 +357,5 @@ namespace CheckSumTool.SumLib
             Assert.IsFalse(match);
         }
     }
+#endif
 }

@@ -25,7 +25,9 @@ THE SOFTWARE.
 // $Id$
 
 using System;
+#if NUNIT
 using NUnit.Framework;
+#endif
 
 namespace CheckSumTool
 {
@@ -70,6 +72,7 @@ namespace CheckSumTool
         }
     }
     
+#if NUNIT
     /// <summary>
     /// Unit test class for StringToByteArray.
     /// </summary>
@@ -204,4 +207,5 @@ namespace CheckSumTool
             Assert.AreEqual("0b 0a ", str);
         }
     }
+#endif
 }

@@ -26,7 +26,9 @@ THE SOFTWARE.
 // $Id$
 
 using System;
+#if NUNIT
 using NUnit.Framework;
+#endif
 
 namespace CheckSumTool.Utils
 {
@@ -60,6 +62,7 @@ namespace CheckSumTool.Utils
         }
     }
 
+#if NUNIT
     /// <summary>
     /// An unit testing class for FileUtils class.
     /// </summary>
@@ -93,4 +96,5 @@ namespace CheckSumTool.Utils
             Assert.AreEqual(@"c:/Temp/", conv);
         }
     }
+#endif
 }

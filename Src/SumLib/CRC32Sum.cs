@@ -27,7 +27,9 @@ THE SOFTWARE.
 
 using System;
 using System.IO;
+#if NUNIT
 using NUnit.Framework;
+#endif
 
 namespace CheckSumTool.SumLib
 {
@@ -121,6 +123,7 @@ namespace CheckSumTool.SumLib
 
     }
 
+#if NUNIT
     /// <summary>
     /// Unit testing class for CRC32Sum class.
     /// </summary>
@@ -306,4 +309,5 @@ namespace CheckSumTool.SumLib
             Assert.IsFalse(correct);
         }
     }
+#endif
 }

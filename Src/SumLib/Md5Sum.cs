@@ -28,7 +28,9 @@ THE SOFTWARE.
 using System;
 using System.Security.Cryptography;
 using System.IO;
+#if NUNIT
 using NUnit.Framework;
+#endif
 
 namespace CheckSumTool.SumLib
 {
@@ -121,6 +123,7 @@ namespace CheckSumTool.SumLib
         }
     }
 
+#if NUNIT
     [TestFixture]
     public class TestMd5Sum
     {
@@ -315,4 +318,5 @@ namespace CheckSumTool.SumLib
             Assert.IsFalse(match);
         }
     }
+#endif
 }

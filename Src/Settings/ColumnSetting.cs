@@ -28,8 +28,6 @@ using System;
 using System.Xml;
 using System.Xml.XPath;
 using System.Collections.Generic;
-using NUnit.Framework;
-
 
 namespace CheckSumTool.Settings
 {

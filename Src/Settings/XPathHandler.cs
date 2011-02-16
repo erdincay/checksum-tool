@@ -28,7 +28,9 @@ using System;
 using System.IO;
 using System.Xml;
 using System.Xml.XPath;
+#if NUNIT
 using NUnit.Framework;
+#endif
 
 namespace CheckSumTool.Settings
 {
@@ -203,6 +205,7 @@ namespace CheckSumTool.Settings
         }
     }
 
+#if NUNIT
     [TestFixture]
     public class TestXPathHandler
     {
@@ -239,4 +242,5 @@ namespace CheckSumTool.Settings
             }
         }
     }
+#endif
 }
