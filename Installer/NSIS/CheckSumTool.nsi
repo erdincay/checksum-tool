@@ -1,5 +1,4 @@
 ; NSIS installer script for CheckSumTool
-; $Id$
 
 ; HM NIS Edit Wizard helper defines
 !define PRODUCT_NAME "CheckSum Tool"

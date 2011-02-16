@@ -1,6 +1,5 @@
 MD5 File Format Specification
 ------------------------------
-$Id$
 
 MD5 files are simple text files containing MD5 sums and filenames. Files are
 in line-format, each line containing one MD5-sum and filename.

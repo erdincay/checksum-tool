@@ -3,8 +3,6 @@ CheckSum Tool Manual
 Kimmo Varis
 v0.3, April 2008
 
-// $Id$
-
 About this Manual
 -----------------
 This is user manual for the CheckSum Tool. It is still work in progress,

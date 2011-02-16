@@ -7,8 +7,6 @@
  * Copyright (c) 2008 Kimmo Varis <kimmov@winmerge.org>
  */
 
-// $Id$
-
 using System;
 using System.IO;
 #if NUNIT

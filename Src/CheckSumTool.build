@@ -44,8 +44,6 @@ Targets that can be also called:
 # source zip - exports sources and creates zip file from them
 # build_installer - builds installer
 # create_bin_zip - creates zip file from binaries + docs
-
-$Id$
 -->
 
 <project name="CheckSumTool" default="build" basedir=".">

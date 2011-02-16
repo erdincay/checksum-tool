@@ -1,6 +1,5 @@
 SFV File Format Specification
 ------------------------------
-$Id$
 
 SFV files are simple text files containing CRC-32 sums and filenames. Files are
 in line-format, each line containing one CRC-32 sum and filename.

@@ -20,8 +20,6 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-# $Id$
-
 # SetVersions.py
 # A Python script to set various component's version numbers in the project.
 

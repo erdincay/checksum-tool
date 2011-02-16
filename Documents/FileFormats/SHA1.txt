@@ -1,6 +1,5 @@
 SHA1 File Format Specification
 ------------------------------
-$Id$
 
 SHA1 files are simple text files containing SHA-1 sums and filenames. Files are
 in line-format, each line containing one SHA-1 sum and filename.
