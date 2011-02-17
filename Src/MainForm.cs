@@ -190,6 +190,10 @@ namespace CheckSumTool
         /// </remarks>
         private void Application_Idle(Object sender, EventArgs e)
         {
+            if (!_progressInfo.IsRunning())
+            {
+                DisableStop();
+            }
             if (_document.Items.Count == 0)
             {
                 toolStripBtnCalculate.Enabled = false;
@@ -229,6 +233,11 @@ namespace CheckSumTool
                 // Remove star from caption it not changed
                 if (this.Text.StartsWith("*"))
                     this.Text = this.Text.Remove(0, 2);
+            }
+
+            if (_progressInfo.IsRunning())
+            {
+                EnableStop();
             }
         }
 
@@ -1396,8 +1405,6 @@ namespace CheckSumTool
             }
             
             statusbarLabelCount.Visible = false;
-            //statusbarLabelProgressBar.Visible = true;
-            EnableStop();
         }
 
         /// <summary>
@@ -1570,13 +1577,10 @@ namespace CheckSumTool
         private void EndProgress(string text)
         {
             _progressTimer.Stop();
-            //statusbarLabelProgressBar.Visible = false;
-            //statusbarLabelProgressBar.Value = 0;
             statusbarLabel1.Text = text;
             _progressForm.SetMessage(text);
             statusbarLabelCount.Visible = true;
             UpdateGUIListFromDoc();
-            DisableStop();
             _progressForm.Hide();
         }
 
