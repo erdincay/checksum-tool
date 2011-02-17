@@ -2,7 +2,7 @@
 The MIT License
 
 Copyright (c) 2007-2008 Ixonos Plc
-Copyright (c) 2007-2009 Kimmo Varis <kimmov@winmerge.org>
+Copyright (c) 2007-2011 Kimmo Varis <kimmov@gmail.com>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -1420,7 +1420,7 @@ namespace CheckSumTool
             if (_progressInfo.IsStopping())
             {
                 _progressInfo.Stopped();
-                StoppingClock("Stopped.");
+                EndProgress("Stopped.");
 
             }
             else
@@ -1450,7 +1450,7 @@ namespace CheckSumTool
         /// </summary>
         private void OnProgressReady()
         {
-            StoppingClock("Ready.");
+            EndProgress("Ready.");
 
             switch (_progressInfo.Succeeded)
             {
@@ -1566,10 +1566,10 @@ namespace CheckSumTool
         }
 
         /// <summary>
-        /// Stopping Clock and insertig some UI values.
+        /// End asynchronous processing.
         /// </summary>
-        /// <param name="text"></param>
-        private void StoppingClock(string text)
+        /// <param name="text">Text shown in statusbar when done.</param>
+        private void EndProgress(string text)
         {
             _progressTimer.Stop();
             statusbarLabelProgressBar.Visible = false;
