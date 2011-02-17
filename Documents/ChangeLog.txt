@@ -9,6 +9,7 @@ CheckSum Tool 0.7.0
   Require VS 2010 (Express) or SharpDevelop 4.0
   Add #if for including unit tests only for debug builds
   Don't hide Maximize button in application main window
+  Fix crash when adding lots of files (#2951908)
 
 CheckSum Tool 0.6.0 - 2009-05-07 (r269)
   Split code to two additional libraries (SumLib and Utils).
