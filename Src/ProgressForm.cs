@@ -93,5 +93,15 @@ namespace CheckSumTool
                 progressBar.Style = ProgressBarStyle.Continuous;
             }
         }
+
+        /// <summary>
+        /// Center the form to parent when it is shown.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ProgressForm_Shown(object sender, EventArgs e)
+        {
+            CenterToParent();
+        }
     }
 }

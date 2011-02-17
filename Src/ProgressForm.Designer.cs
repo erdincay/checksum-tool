@@ -84,6 +84,7 @@ namespace CheckSumTool
             this.Name = "ProgressForm";
             this.ShowInTaskbar = false;
             this.Text = "Progress...";
+            this.Shown += new System.EventHandler(this.ProgressForm_Shown);
             this.ResumeLayout(false);
 
         }
