@@ -63,7 +63,7 @@ namespace CheckSumTool
 
         /// <summary>
         /// A timer for updating GUI when doing background processing. This
-        /// processing can be adding (lots of) items, calculating or verifyin
+        /// processing can be adding (lots of) items, calculating or verifying
         /// checksums.
         /// </summary>
         private System.Windows.Forms.Timer _progressTimer;
