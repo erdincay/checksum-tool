@@ -72,7 +72,7 @@ namespace CheckSumTool
         /// A shared class for sharing progress data between backround
         /// processing and GUI.
         /// </summary>
-        private ProgressInfo _progressInfo;
+        private ProgressInfo _progressInfo = new ProgressInfo();
 
         private delegate void DelegateCalculateSums(ref ProgressInfo progressInfo);
         private delegate void DelegateAddFiles(ref ProgressInfo progressInfo, string path);
@@ -124,6 +124,8 @@ namespace CheckSumTool
         private SumDocument _document = new SumDocument();
 
         private XPathHandler _handler;
+
+        private ProgressForm _progressForm = new ProgressForm();
 
         /// <summary>
         /// Constructor.
@@ -357,11 +359,10 @@ namespace CheckSumTool
             if (itemList.Items.Count == 0)
                 return;
 
-            StartProgress("Calculating checksums...", false);
-            statusbarLabelProgressBar.Maximum = _document.Items.Count;
-
             _progressInfo.DefaultSetting();
+            _progressInfo.Max = _document.Items.Count;
             _progressInfo.Start();
+            StartProgress("Calculating checksums...", false);
 
             DelegateCalculateSums delInstance = new DelegateCalculateSums(
                     _document.CalculateSums);
@@ -430,10 +431,9 @@ namespace CheckSumTool
                 return;
 
             _progressInfo.DefaultSetting();
+            _progressInfo.Max = _document.Items.Count;
             _progressInfo.Start();
-
             StartProgress("Verifying checksums...", false);
-            statusbarLabelProgressBar.Maximum = _document.Items.Count;
 
             DelegateCalculateSums delInstance = new DelegateCalculateSums(DoVerifyCheckSums);
             delInstance.BeginInvoke(ref _progressInfo, null, null);
@@ -757,6 +757,8 @@ namespace CheckSumTool
                             MessageBoxIcon.Warning);
 
                     // We can't start progress before showing the dialog!
+                    _progressInfo.DefaultSetting();
+                    _progressInfo.Start();
                     StartProgress("Adding files...", true);
                     if (result == DialogResult.Yes)
                     {
@@ -771,6 +773,8 @@ namespace CheckSumTool
                 }
                 else
                 {
+                    _progressInfo.DefaultSetting();
+                    _progressInfo.Start();
                     StartProgress("Adding files...", true);
                     DelegateAddFiles delInstance = new DelegateAddFiles(_document.Items.AddFolder);
                     delInstance.BeginInvoke(ref _progressInfo, path, null, null);
@@ -1378,25 +1382,22 @@ namespace CheckSumTool
         private void StartProgress(string message, bool noCount)
         {
             _progressTimer.Start();
-            this.UseWaitCursor = true;
-            statusbarLabel1.Text = message;
-
-            if (noCount)
+            _progressForm.Show(this);
+            _progressForm.SetCaption(message);
+            _progressForm.SetMessage(message);
+            if (_progressInfo.Max == 0)
             {
-                statusbarLabelProgressBar.ProgressBar.Style =
-                        ProgressBarStyle.Marquee;
+                _progressForm.SetMarquee(true);
             }
             else
             {
-                statusbarLabelProgressBar.ProgressBar.Style =
-                        ProgressBarStyle.Blocks;
+                _progressForm.SetMarquee(false);
+                _progressForm.SetMaxProgress(_progressInfo.Max);
             }
+            
             statusbarLabelCount.Visible = false;
-            statusbarLabelProgressBar.Visible = true;
+            //statusbarLabelProgressBar.Visible = true;
             EnableStop();
-
-            if (_progressInfo == null)
-                _progressInfo = new ProgressInfo();
         }
 
         /// <summary>
@@ -1427,15 +1428,12 @@ namespace CheckSumTool
             {
                 if (_progressInfo.IsRunning())
                 {
-                    if (statusbarLabelProgressBar.Value >= 100)
-                        statusbarLabelProgressBar.Value = 0;
-
                     // If Max is 0, we have a marquee progress bar which
                     // updates itself.
                     if (_progressInfo.Max != 0)
                     {
-                        statusbarLabelProgressBar.Value = _progressInfo.Now;
-                        statusbarLabel1.Text = _progressInfo.Filename;
+                        _progressForm.SetCurrentProgress(_progressInfo.Now);
+                        _progressForm.SetMessage(_progressInfo.Filename);
                     }
                 }
                 else if (_progressInfo.IsReady())
@@ -1572,13 +1570,14 @@ namespace CheckSumTool
         private void EndProgress(string text)
         {
             _progressTimer.Stop();
-            statusbarLabelProgressBar.Visible = false;
-            statusbarLabelProgressBar.Value = 0;
+            //statusbarLabelProgressBar.Visible = false;
+            //statusbarLabelProgressBar.Value = 0;
             statusbarLabel1.Text = text;
+            _progressForm.SetMessage(text);
             statusbarLabelCount.Visible = true;
             UpdateGUIListFromDoc();
             DisableStop();
-            this.UseWaitCursor = false;
+            _progressForm.Hide();
         }
 
         /// <summary>
