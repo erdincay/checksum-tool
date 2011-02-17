@@ -192,7 +192,7 @@ namespace CheckSumTool
         {
             if (!_progressInfo.IsRunning())
             {
-                DisableStop();
+                DisableDuringProcess();
             }
             if (_document.Items.Count == 0)
             {
@@ -237,7 +237,7 @@ namespace CheckSumTool
 
             if (_progressInfo.IsRunning())
             {
-                EnableStop();
+                EnableDuringProcess();
             }
         }
 
@@ -1484,9 +1484,11 @@ namespace CheckSumTool
         }
 
         /// <summary>
-        /// Called when Timer_Tick is starting to progress process.
+        /// Called when GUI controls need to be enabled when not processing
+        /// items. The processing happens when adding items, calculating sums
+        /// or verifying sums.
         /// </summary>
-        private void EnableStop()
+        private void EnableDuringProcess()
         {
             toolStripFile.Enabled = false;
             toolStripBtnCalculate.Enabled = false;
@@ -1529,9 +1531,11 @@ namespace CheckSumTool
         }
 
         /// <summary>
-        /// Called when Timer_Tick is Ready or Stopping process
+        /// Called when GUI controls need to be disabled during processing items.
+        /// The processing happens when adding items, calculating sums or
+        /// verifying sums.
         /// </summary>
-        private void DisableStop()
+        private void DisableDuringProcess()
         {
             toolStripFile.Enabled = true;
             toolStripBtnCalculate.Enabled = true;
