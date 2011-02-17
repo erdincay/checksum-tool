@@ -13,6 +13,7 @@ CheckSum Tool 0.7.0
   Add progress dialog
   Update copyrights to 2011
   Fix bug that Calculate-toolbar button was not disabled when processing items
+  Disable Exit-item in File-menu when processing items
 
 CheckSum Tool 0.6.0 - 2009-05-07 (r269)
   Split code to two additional libraries (SumLib and Utils).

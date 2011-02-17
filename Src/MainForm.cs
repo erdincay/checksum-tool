@@ -1523,7 +1523,7 @@ namespace CheckSumTool
                 }
             }
 
-            exitToolStripMenuItem.Enabled = true;
+            exitToolStripMenuItem.Enabled = false;
 
             // Enable Stop buttons
             toolStripBtnStop.Enabled = true;
@@ -1572,6 +1572,7 @@ namespace CheckSumTool
 
             toolStripBtnStop.Enabled = false;
             mainMenuChecksumsStop.Enabled = false;
+            exitToolStripMenuItem.Enabled = true;
         }
 
         /// <summary>
