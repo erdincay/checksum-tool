@@ -74,7 +74,7 @@ namespace CheckSumTool.SumLib
                 for (int i = 0; i < _fileList.Count; i++)
                 {
                     CheckSumItem item = _fileList[i];
-                    if (item.CheckSum != null)
+                    if (item != null && item.CheckSum != null)
                     {
                         byte[] data = item.CheckSum.GetAsByteArray();
                         if (data != null && data.Length > 0)
