@@ -418,7 +418,7 @@ namespace CheckSumTool
         private void AboutCheckSumToolMainMenuItemClick(object sender, EventArgs e)
         {
             AboutForm form = new AboutForm();
-            form.Show(this);
+            form.ShowDialog(this);
         }
 
         /// <summary>
