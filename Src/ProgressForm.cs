@@ -24,6 +24,7 @@ THE SOFTWARE.
 
 using System;
 using System.Windows.Forms;
+using CheckSumTool.Utils;
 
 namespace CheckSumTool
 {
@@ -32,12 +33,15 @@ namespace CheckSumTool
     /// </summary>
     public partial class ProgressForm : Form
     {
+        private ProgressInfo _progressInfo;
+        
         /// <summary>
         /// Initialize the form.
         /// </summary>
-        public ProgressForm()
+        public ProgressForm(ProgressInfo info)
         {
             InitializeComponent();
+            _progressInfo = info;
         }
 
         /// <summary>
@@ -102,6 +106,11 @@ namespace CheckSumTool
         private void ProgressForm_Shown(object sender, EventArgs e)
         {
             CenterToParent();
+        }
+
+        private void btnStop_Click(object sender, EventArgs e)
+        {
+            _progressInfo.Stop();
         }
     }
 }

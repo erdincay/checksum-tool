@@ -125,7 +125,7 @@ namespace CheckSumTool
 
         private XPathHandler _handler;
 
-        private ProgressForm _progressForm = new ProgressForm();
+        private ProgressForm _progressForm;
 
         /// <summary>
         /// Constructor.
@@ -152,6 +152,8 @@ namespace CheckSumTool
 
             // Setup idle even handler.
             Application.Idle += Application_Idle;
+
+            _progressForm = new ProgressForm(_progressInfo);
         }
 
         /// <summary>

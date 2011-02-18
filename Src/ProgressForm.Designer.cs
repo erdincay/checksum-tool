@@ -54,6 +54,7 @@ namespace CheckSumTool
         {
             this.lblStatus = new System.Windows.Forms.Label();
             this.progressBar = new System.Windows.Forms.ProgressBar();
+            this.btnStop = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // lblStatus
@@ -72,12 +73,23 @@ namespace CheckSumTool
             this.progressBar.Size = new System.Drawing.Size(424, 23);
             this.progressBar.TabIndex = 4;
             // 
+            // btnStop
+            // 
+            this.btnStop.Location = new System.Drawing.Point(361, 89);
+            this.btnStop.Name = "btnStop";
+            this.btnStop.Size = new System.Drawing.Size(75, 23);
+            this.btnStop.TabIndex = 5;
+            this.btnStop.Text = "Stop";
+            this.btnStop.UseVisualStyleBackColor = true;
+            this.btnStop.Click += new System.EventHandler(this.btnStop_Click);
+            // 
             // ProgressForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(448, 63);
+            this.ClientSize = new System.Drawing.Size(448, 124);
             this.ControlBox = false;
+            this.Controls.Add(this.btnStop);
             this.Controls.Add(this.progressBar);
             this.Controls.Add(this.lblStatus);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
@@ -93,5 +105,6 @@ namespace CheckSumTool
 
         private System.Windows.Forms.ProgressBar progressBar;
         private System.Windows.Forms.Label lblStatus;
+        private System.Windows.Forms.Button btnStop;
     }
 }
