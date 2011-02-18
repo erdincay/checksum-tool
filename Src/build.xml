@@ -1,0 +1,19 @@
+﻿<?xml version="1.0"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTarget="Build">
+    
+    <!-- Clean build folders -->
+    <Target Name="Clean">
+        <ItemGroup>
+            <BinFiles Include="..\Build\Debug\*.*" />
+            <BinFiles Include="..\BuildTmp\Debug\*.*" />
+            <BinFiles Include="..\Build\Release\*.*" />
+            <BinFiles Include="..\BuildTmp\Release\*.*" />
+        </ItemGroup>
+        <Delete Files="@(BinFiles)" />
+    </Target>
+
+    <Target Name="Compile" DependsOnTargets="Clean">
+        <MSBuild Projects="CheckSumTool.csproj" />
+    </Target>
+
+</Project>
