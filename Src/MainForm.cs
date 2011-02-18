@@ -135,7 +135,7 @@ namespace CheckSumTool
             CheckConfigFile();
 
             _progressTimer = new System.Windows.Forms.Timer();
-            _progressTimer.Interval = 500;
+            _progressTimer.Interval = 200;
             _progressTimer.Tick += new EventHandler(Timer_Tick);
             //
             // The InitializeComponent() call is required for Windows Forms designer support.
