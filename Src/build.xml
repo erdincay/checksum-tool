@@ -1,6 +1,12 @@
 ﻿<?xml version="1.0"?>
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTarget="Build">
-    
+    <Import Project="$(MSBuildExtensionsPath)\MSBuildCommunityTasks\MSBuild.Community.Tasks.Targets"/>
+  
+    <!-- Application Configurations -->
+    <PropertyGroup>
+        <NUnit-Path>C:\Program Files (x86)\NUnit 2.5.9\bin\net-2.0</NUnit-Path>
+    </PropertyGroup>
+
     <!-- Clean build folders -->
     <Target Name="Clean">
         <ItemGroup>
@@ -15,5 +21,17 @@
     <Target Name="Compile" DependsOnTargets="Clean">
         <MSBuild Projects="CheckSumTool.csproj" />
     </Target>
+
+    <Target Name="Test" DependsOnTargets="Clean;Compile">
+        <ItemGroup>
+            <TestAssemblies Include="..\Build\Debug\CheckSumTool.exe" />
+            <TestAssemblies Include="..\Build\Debug\SumLib.dll" />
+            <TestAssemblies Include="..\Build\Debug\Utils.dll" />
+        </ItemGroup>
+
+        <NUnit ToolPath="$(NUnit-Path)"  Assemblies="@(TestAssemblies)" OutputXmlFile="test-results.xml" />
+    </Target>
+
+  <Target Name="Build" DependsOnTargets="Clean;Compile;Test;" />
 
 </Project>

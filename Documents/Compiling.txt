@@ -28,6 +28,8 @@ Tools needed:
   http://nantcontrib.sourceforge.net/
 - NUnit for unit testing
   http://www.nunit.org/
+- MSBuild community tasks (for running NUnit etc)
+  http://msbuildtasks.tigris.org/
 
 Additional (and useful tools):
 - FxCop for checking coding errors:
