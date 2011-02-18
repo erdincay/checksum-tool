@@ -691,7 +691,6 @@ namespace CheckSumTool
         private System.Windows.Forms.ColumnHeader columnSize;
         private System.Windows.Forms.ToolStripMenuItem mainMenuChecksumsStop;
         private System.Windows.Forms.ToolStripButton toolStripBtnStop;
-        private System.Windows.Forms.ToolStripProgressBar statusbarLabelProgressBar;
         private System.Windows.Forms.ToolStripMenuItem mainMenuViewStatusBar;
         private System.Windows.Forms.ToolStripMenuItem contextMenuSums;
         private System.Windows.Forms.ToolStripMenuItem contextMenuFile;
