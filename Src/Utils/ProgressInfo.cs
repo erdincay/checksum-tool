@@ -2,7 +2,7 @@
 The MIT License
 
 Copyright (c) 2007-2008 Ixonos Plc
-Copyright (c) 2007-2008 Kimmo Varis <kimmov@winmerge.org>
+Copyright (c) 2007-2011 Kimmo Varis <kimmov@gmail.com>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -31,6 +31,11 @@ namespace CheckSumTool.Utils
     /// ProgresInfo is used to share progress information between threads.
     /// Usually this means sharing progress data between backend processing
     /// and GUI.
+    /// 
+    /// There are two different states. First is the progress state as telling
+    /// if we are doing something, waiting it to be stopped etc. Second is
+    /// the activity indicator telling if we have some active processing going
+    /// on.
     /// </summary>
     public class ProgressInfo
     {
@@ -91,6 +96,10 @@ namespace CheckSumTool.Utils
         /// Result of the backend processing.
         /// </summary>
         Result _succeeded;
+        /// <summary>
+        /// Is the activity going on?
+        /// </summary>
+        bool _activity;
 
         /// <summary>
         /// Default constructor.
@@ -127,6 +136,15 @@ namespace CheckSumTool.Utils
         }
 
         /// <summary>
+        /// Is there activity currently?
+        /// </summary>
+        /// <returns>true if there is activity currently, false otherwise.</returns>
+        public bool HasActivity()
+        {
+            return _activity;
+        }
+        
+        /// <summary>
         /// Is the processing running?
         /// </summary>
         /// <returns>true if the processing is running.</returns>
@@ -162,6 +180,7 @@ namespace CheckSumTool.Utils
                 throw new ApplicationException("Cannot start already running process!");
 
             _state = State.Running;
+            _activity = true;
         }
 
         /// <summary>
@@ -170,7 +189,7 @@ namespace CheckSumTool.Utils
         /// </summary>
         public void Complete()
         {
-            if (_state != State.Running)
+            if (_state != State.Running && _state != State.Stopping)
                 throw new ApplicationException("Cannot complete non-running process!");
 
             _state = State.Ready;
@@ -187,12 +206,24 @@ namespace CheckSumTool.Utils
         }
 
         /// <summary>
+        /// Inform that the current activity is now ended.
+        /// </summary>
+        public void ActivityEnded()
+        {
+            if (_state != State.Stopping)
+                throw new ApplicationException("Must be stopping when activity is stopped!");
+            _activity = false;
+        }
+
+        /// <summary>
         /// Finish stopping the process that started stopping by calling Stop().
         /// </summary>
         public void Stopped()
         {
             if (_state != State.Stopping)
                 throw new ApplicationException("Cannot stop-complete non-stopped process!");
+            if (_activity == true)
+                throw new ApplicationException("Cannot stop when activity is not ended!");
             _state = State.Ready;
         }
 

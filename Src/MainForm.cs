@@ -1425,7 +1425,9 @@ namespace CheckSumTool
         /// </summary>
         private void OnProgressTimer()
         {
-            if (_progressInfo.IsStopping())
+            // Stop processing if we are waiting to be stopped and there is
+            // no activity.
+            if (_progressInfo.IsStopping() && !_progressInfo.HasActivity())
             {
                 _progressInfo.Stopped();
                 EndProgress("Stopped.");

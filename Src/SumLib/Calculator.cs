@@ -2,7 +2,7 @@
 The MIT License
 
 Copyright (c) 2007-2008 Ixonos Plc
-Copyright (c) 2007-2008 Kimmo Varis <kimmov@winmerge.org>
+Copyright (c) 2007-2011 Kimmo Varis <kimmov@gmail.com>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -111,8 +111,9 @@ namespace CheckSumTool.SumLib
                     //TODO: Set failure status to checksum item.
                 }
 
-                if(progressInfo.IsStopping())
+                if (progressInfo.IsStopping())
                 {
+                    progressInfo.ActivityEnded();
                     break;
                 }
             }
@@ -205,8 +206,9 @@ namespace CheckSumTool.SumLib
                     }
                 }
 
-                if(progressInfo.IsStopping())
+                if (progressInfo.IsStopping())
                 {
+                    progressInfo.ActivityEnded();
                     break;
                 }
             }
