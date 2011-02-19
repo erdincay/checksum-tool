@@ -26,7 +26,7 @@ Tools needed:
   http://nant.sourceforge.net/
   NAnt contrib -additional NAnt tasks are needed also
   http://nantcontrib.sourceforge.net/
-- NUnit for unit testing
+- NUnit version 2.5 for unit testing
   http://www.nunit.org/
 - MSBuild community tasks (for running NUnit etc)
   http://msbuildtasks.tigris.org/

@@ -106,7 +106,7 @@ namespace CheckSumTool.SumLib
                 CheckSumType.SHA1);
 
             Assert.IsNotNull(impl);
-            Assert.IsInstanceOfType(typeof(Sha1Sum), impl);
+            Assert.IsInstanceOf<Sha1Sum>(impl);
         }
 
         [Test]
@@ -116,7 +116,7 @@ namespace CheckSumTool.SumLib
                 CheckSumType.MD5);
 
             Assert.IsNotNull(impl);
-            Assert.IsInstanceOfType(typeof(Md5Sum), impl);
+            Assert.IsInstanceOf<Md5Sum>(impl);
         }
 
         [Test]
@@ -126,7 +126,7 @@ namespace CheckSumTool.SumLib
                 CheckSumType.CRC32);
 
             Assert.IsNotNull(impl);
-            Assert.IsInstanceOfType(typeof(CRC32Sum), impl);
+            Assert.IsInstanceOf<CRC32Sum>(impl);
         }
 
         [Test]
