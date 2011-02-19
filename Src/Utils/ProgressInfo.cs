@@ -24,6 +24,7 @@ THE SOFTWARE.
 */
 
 using System;
+using NUnit.Framework;
 
 namespace CheckSumTool.Utils
 {
@@ -210,7 +211,7 @@ namespace CheckSumTool.Utils
         /// </summary>
         public void ActivityEnded()
         {
-            if (_state != State.Stopping)
+            if (_state != State.Running && _state != State.Stopping)
                 throw new ApplicationException("Must be stopping when activity is stopped!");
             _activity = false;
         }
@@ -255,6 +256,88 @@ namespace CheckSumTool.Utils
             _now = 0;
             _state = State.Idle;
             _succeeded = Result.Failed;
+            _filename = null;
         }
     }
+    
+#if NUNIT
+    /// <summary>
+    /// A unit testing class for ProgressInfo -class.
+    /// </summary>
+    [TestFixture]
+    public class TestProgressInfo
+    {
+        [Test]
+        public void Construct()
+        {
+            ProgressInfo prog = new ProgressInfo();
+            Assert.AreEqual(0, prog.Max);
+            Assert.AreEqual(0, prog.Min);
+            Assert.AreEqual(0, prog.Now);
+            Assert.AreEqual(null, prog.Filename);
+            Assert.AreEqual(ProgressInfo.Result.Failed, prog.Succeeded);
+            Assert.AreEqual(false, prog.HasActivity());
+        }
+        
+        [Test]
+        public void Setters()
+        {
+            ProgressInfo prog = new ProgressInfo();
+            prog.Min = 10;
+            Assert.AreEqual(10, prog.Min);
+            prog.Max = 115;
+            Assert.AreEqual(115, prog.Max);
+            prog.Now = 48;
+            Assert.AreEqual(48, prog.Now);
+            prog.Filename = "test.cpp";
+            Assert.AreEqual("test.cpp", prog.Filename);
+            prog.Succeeded = ProgressInfo.Result.Success;
+            Assert.AreEqual(ProgressInfo.Result.Success, prog.Succeeded);
+        }
+        
+        [Test]
+        public void normalProgress()
+        {
+            ProgressInfo prog = new ProgressInfo();
+            prog.Start();
+            Assert.IsTrue(prog.HasActivity());
+            Assert.IsTrue(prog.IsRunning());
+            Assert.IsFalse(prog.IsStopping());
+            Assert.IsFalse(prog.IsReady());
+            prog.ActivityEnded();
+            Assert.IsFalse(prog.HasActivity());
+            prog.Complete();
+            Assert.IsFalse(prog.HasActivity());
+            Assert.IsFalse(prog.IsRunning());
+            Assert.IsFalse(prog.IsStopping());
+            Assert.IsTrue(prog.IsReady());
+        }
+        
+        [Test]
+        public void stoppingProgress()
+        {
+            ProgressInfo prog = new ProgressInfo();
+            prog.Start();
+            Assert.IsTrue(prog.HasActivity());
+            Assert.IsTrue(prog.IsRunning());
+            Assert.IsFalse(prog.IsStopping());
+            Assert.IsFalse(prog.IsReady());
+            prog.Stop();
+            Assert.IsTrue(prog.HasActivity());
+            Assert.IsFalse(prog.IsRunning());
+            Assert.IsTrue(prog.IsStopping());
+            Assert.IsFalse(prog.IsReady());
+            prog.ActivityEnded();
+            Assert.IsFalse(prog.HasActivity());
+            Assert.IsFalse(prog.IsRunning());
+            Assert.IsTrue(prog.IsStopping());
+            Assert.IsFalse(prog.IsReady());
+            prog.Stopped();
+            Assert.IsFalse(prog.HasActivity());
+            Assert.IsFalse(prog.IsRunning());
+            Assert.IsFalse(prog.IsStopping());
+            Assert.IsTrue(prog.IsReady());
+        }
+    }
+#endif
 }
