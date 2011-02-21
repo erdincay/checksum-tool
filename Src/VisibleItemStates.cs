@@ -44,6 +44,11 @@ namespace CheckSumTool
         private bool _nonCalculated;
 
         /// <summary>
+        /// Are verified items visible?
+        /// </summary>
+        private bool _verified;
+
+        /// <summary>
         /// Are items that have checksum calculated visible
         /// </summary>
         public bool Calculated
@@ -62,12 +67,22 @@ namespace CheckSumTool
         }
 
         /// <summary>
+        /// Are verified items visible?
+        /// </summary>
+        public bool Verified
+        {
+            get { return _verified; }
+            set { _verified = value; }
+        }
+
+        /// <summary>
         /// The constructor sets all items visible by default.
         /// </summary>
         public VisibleItemStates()
         {
             _nonCalculated = true;
             _calculated = true;
+            _verified = true;
         }
     }
 }

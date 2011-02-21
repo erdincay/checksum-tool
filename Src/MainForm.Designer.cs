@@ -113,6 +113,7 @@ namespace CheckSumTool
             this.toolStripBtnVerify = new System.Windows.Forms.ToolStripButton();
             this.toolStripBtnStop = new System.Windows.Forms.ToolStripButton();
             this.toolStripComboSumTypes = new System.Windows.Forms.ToolStripComboBox();
+            this.verifiedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.toolStripFile.SuspendLayout();
             this.contextMenuStrip1.SuspendLayout();
@@ -348,7 +349,8 @@ namespace CheckSumTool
             this.mainMenuViewStatusBar,
             this.toolStripSeparator6,
             this.calculatedToolStripMenuItem,
-            this.nonCalculatedToolStripMenuItem});
+            this.nonCalculatedToolStripMenuItem,
+            this.verifiedToolStripMenuItem});
             this.mainMenuViewMenu.Name = "mainMenuViewMenu";
             this.mainMenuViewMenu.Size = new System.Drawing.Size(44, 20);
             this.mainMenuViewMenu.Text = "&View";
@@ -677,6 +679,13 @@ namespace CheckSumTool
             this.toolStripComboSumTypes.Size = new System.Drawing.Size(75, 25);
             this.toolStripComboSumTypes.SelectedIndexChanged += new System.EventHandler(this.ToolBarSumTypesSelectionChanged);
             // 
+            // verifiedToolStripMenuItem
+            // 
+            this.verifiedToolStripMenuItem.Name = "verifiedToolStripMenuItem";
+            this.verifiedToolStripMenuItem.Size = new System.Drawing.Size(158, 22);
+            this.verifiedToolStripMenuItem.Text = "&Verified";
+            this.verifiedToolStripMenuItem.Click += new System.EventHandler(this.verifiedToolStripMenuItem_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -767,5 +776,6 @@ namespace CheckSumTool
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator6;
         private System.Windows.Forms.ToolStripMenuItem calculatedToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem nonCalculatedToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem verifiedToolStripMenuItem;
     }
 }

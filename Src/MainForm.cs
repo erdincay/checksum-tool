@@ -1680,6 +1680,7 @@ namespace CheckSumTool
         {
             calculatedToolStripMenuItem.Checked = _visibleItems.Calculated;
             nonCalculatedToolStripMenuItem.Checked = _visibleItems.NonCalculated;
+            verifiedToolStripMenuItem.Checked = _visibleItems.Verified;
         }
 
         /// <summary>
@@ -1691,7 +1692,12 @@ namespace CheckSumTool
         {
             if (item.CheckSum == null && _visibleItems.NonCalculated == false)
                 return false;
-            if (item.CheckSum != null && _visibleItems.Calculated == false)
+            if ((item.CheckSum != null && _visibleItems.Calculated == false) &&
+                (item.Verified != VerificationState.VerifyOK && _visibleItems.Verified == true))
+            {
+                return false;
+            }
+            if (item.Verified == VerificationState.VerifyOK && _visibleItems.Verified == false)
                 return false;
             return true;
         }
@@ -1721,6 +1727,21 @@ namespace CheckSumTool
             bool visible = _visibleItems.NonCalculated;
             visible = !visible;
             _visibleItems.NonCalculated = visible;
+            ToolStripMenuItem item = (ToolStripMenuItem)sender;
+            item.Checked = visible;
+            UpdateGUIListFromDoc();
+        }
+
+        /// <summary>
+        /// Called when "Verified" item is selected from View-menu
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void verifiedToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            bool visible = _visibleItems.Verified;
+            visible = !visible;
+            _visibleItems.Verified = visible;
             ToolStripMenuItem item = (ToolStripMenuItem)sender;
             item.Checked = visible;
             UpdateGUIListFromDoc();
