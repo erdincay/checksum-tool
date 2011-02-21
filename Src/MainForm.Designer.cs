@@ -84,6 +84,9 @@ namespace CheckSumTool
             this.mainMenuViewToolbarsFile = new System.Windows.Forms.ToolStripMenuItem();
             this.mainMenuViewToolbarsSums = new System.Windows.Forms.ToolStripMenuItem();
             this.mainMenuViewStatusBar = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
+            this.calculatedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.nonCalculatedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mainMenuChecksumsMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.mainMenuChecksumsCalculateAll = new System.Windows.Forms.ToolStripMenuItem();
             this.mainMenuChecksumsVerifyAll = new System.Windows.Forms.ToolStripMenuItem();
@@ -342,7 +345,10 @@ namespace CheckSumTool
             // 
             this.mainMenuViewMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.mainMenuViewToolbars,
-            this.mainMenuViewStatusBar});
+            this.mainMenuViewStatusBar,
+            this.toolStripSeparator6,
+            this.calculatedToolStripMenuItem,
+            this.nonCalculatedToolStripMenuItem});
             this.mainMenuViewMenu.Name = "mainMenuViewMenu";
             this.mainMenuViewMenu.Size = new System.Drawing.Size(44, 20);
             this.mainMenuViewMenu.Text = "&View";
@@ -353,7 +359,7 @@ namespace CheckSumTool
             this.mainMenuViewToolbarsFile,
             this.mainMenuViewToolbarsSums});
             this.mainMenuViewToolbars.Name = "mainMenuViewToolbars";
-            this.mainMenuViewToolbars.Size = new System.Drawing.Size(126, 22);
+            this.mainMenuViewToolbars.Size = new System.Drawing.Size(158, 22);
             this.mainMenuViewToolbars.Text = "Toolbars";
             // 
             // mainMenuViewToolbarsFile
@@ -373,9 +379,28 @@ namespace CheckSumTool
             // mainMenuViewStatusBar
             // 
             this.mainMenuViewStatusBar.Name = "mainMenuViewStatusBar";
-            this.mainMenuViewStatusBar.Size = new System.Drawing.Size(126, 22);
+            this.mainMenuViewStatusBar.Size = new System.Drawing.Size(158, 22);
             this.mainMenuViewStatusBar.Text = "Status Bar";
             this.mainMenuViewStatusBar.Click += new System.EventHandler(this.StatusBarToolStripMenuItemClick);
+            // 
+            // toolStripSeparator6
+            // 
+            this.toolStripSeparator6.Name = "toolStripSeparator6";
+            this.toolStripSeparator6.Size = new System.Drawing.Size(155, 6);
+            // 
+            // calculatedToolStripMenuItem
+            // 
+            this.calculatedToolStripMenuItem.Name = "calculatedToolStripMenuItem";
+            this.calculatedToolStripMenuItem.Size = new System.Drawing.Size(158, 22);
+            this.calculatedToolStripMenuItem.Text = "&Calculated";
+            this.calculatedToolStripMenuItem.Click += new System.EventHandler(this.calculatedToolStripMenuItem_Click);
+            // 
+            // nonCalculatedToolStripMenuItem
+            // 
+            this.nonCalculatedToolStripMenuItem.Name = "nonCalculatedToolStripMenuItem";
+            this.nonCalculatedToolStripMenuItem.Size = new System.Drawing.Size(158, 22);
+            this.nonCalculatedToolStripMenuItem.Text = "&Non-Calculated";
+            this.nonCalculatedToolStripMenuItem.Click += new System.EventHandler(this.nonCalculatedToolStripMenuItem_Click);
             // 
             // mainMenuChecksumsMenu
             // 
@@ -477,19 +502,19 @@ namespace CheckSumTool
             this.contextMenuFile,
             this.contextMenuSums});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(111, 48);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(104, 48);
             // 
             // contextMenuFile
             // 
             this.contextMenuFile.Name = "contextMenuFile";
-            this.contextMenuFile.Size = new System.Drawing.Size(110, 22);
+            this.contextMenuFile.Size = new System.Drawing.Size(103, 22);
             this.contextMenuFile.Text = "File";
             this.contextMenuFile.Click += new System.EventHandler(this.MainMenuViewToolsFileClick);
             // 
             // contextMenuSums
             // 
             this.contextMenuSums.Name = "contextMenuSums";
-            this.contextMenuSums.Size = new System.Drawing.Size(110, 22);
+            this.contextMenuSums.Size = new System.Drawing.Size(103, 22);
             this.contextMenuSums.Text = "Sums";
             this.contextMenuSums.Click += new System.EventHandler(this.MainMenuViewToolsSumsClick);
             // 
@@ -739,5 +764,8 @@ namespace CheckSumTool
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ListView itemList;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator6;
+        private System.Windows.Forms.ToolStripMenuItem calculatedToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem nonCalculatedToolStripMenuItem;
     }
 }

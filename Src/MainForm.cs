@@ -128,6 +128,11 @@ namespace CheckSumTool
         private ProgressForm _progressForm;
 
         /// <summary>
+        /// Which kind of items are visible in GUI.
+        /// </summary>
+        private VisibleItemStates _visibleItems = new VisibleItemStates();
+
+        /// <summary>
         /// Constructor.
         /// </summary>
         public MainForm()
@@ -354,7 +359,8 @@ namespace CheckSumTool
             {
                 foreach (CheckSumItem item in _document.Items.FileList)
                 {
-                    AddItemToList(item);
+                    if (IsItemVisible(item))
+                        AddItemToList(item);
                 }
             }
             catch (Exception)
@@ -1346,6 +1352,8 @@ namespace CheckSumTool
 
             columnFilename.DisplayIndex = settingColumnFilename.DisplayIndex;
             columnFilename.Width = settingColumnFilename.Width;
+
+            UpdateViewMenuItems();
         }
 
         /// <summary>
@@ -1663,6 +1671,59 @@ namespace CheckSumTool
 
             if (itemsAdded)
                 UpdateGUIListFromDoc();
+        }
+
+        /// <summary>
+        /// Update View-menu item's checked states.
+        /// </summary>
+        private void UpdateViewMenuItems()
+        {
+            calculatedToolStripMenuItem.Checked = _visibleItems.Calculated;
+            nonCalculatedToolStripMenuItem.Checked = _visibleItems.NonCalculated;
+        }
+
+        /// <summary>
+        /// Determines if given item should be visible in the GUI.
+        /// </summary>
+        /// <param name="item">Item to check.</param>
+        /// <returns>true if item is added to GUI, false otherwise.</returns>
+        private bool IsItemVisible(CheckSumItem item)
+        {
+            if (item.CheckSum == null && _visibleItems.NonCalculated == false)
+                return false;
+            if (item.CheckSum != null && _visibleItems.Calculated == false)
+                return false;
+            return true;
+        }
+
+        /// <summary>
+        /// Called when "Calculated" item is selected from View-menu.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void calculatedToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            bool visible = _visibleItems.Calculated;
+            visible = !visible;
+            _visibleItems.Calculated = visible;
+            ToolStripMenuItem item = (ToolStripMenuItem)sender;
+            item.Checked = visible;
+            UpdateGUIListFromDoc();
+        }
+
+        /// <summary>
+        /// Called when "Non-calculated" item is selected from View-menu.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void nonCalculatedToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            bool visible = _visibleItems.NonCalculated;
+            visible = !visible;
+            _visibleItems.NonCalculated = visible;
+            ToolStripMenuItem item = (ToolStripMenuItem)sender;
+            item.Checked = visible;
+            UpdateGUIListFromDoc();
         }
     }
 }
