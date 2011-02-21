@@ -85,7 +85,7 @@
             this.linkHomepage.TabIndex = 5;
             this.linkHomepage.TabStop = true;
             this.linkHomepage.Text = "Visit CheckSum Tool Homepage";
-            this.linkHomepage.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.LinkLabel1LinkClicked);
+            this.linkHomepage.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.LinkHomepageClicked);
             // 
             // labelVersion
             // 

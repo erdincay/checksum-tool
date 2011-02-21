@@ -89,11 +89,11 @@ namespace CheckSumTool
         }
 
         /// <summary>
-        /// Called when link in form is clicked. Opens link in browser.
+        /// Called when homepage link in form is clicked. Opens homepage in browser.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void LinkLabel1LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        private void LinkHomepageClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             string target = e.Link.LinkData as string;
 
