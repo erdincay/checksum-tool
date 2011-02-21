@@ -348,6 +348,7 @@ namespace CheckSumTool
         /// </summary>
         private void UpdateGUIListFromDoc()
         {
+            itemList.BeginUpdate();
             itemList.Items.Clear();
             try
             {
@@ -360,6 +361,7 @@ namespace CheckSumTool
             {
                 ///Raising when Stopping File Adding..
             }
+            itemList.EndUpdate();
         }
 
         /// <summary>
