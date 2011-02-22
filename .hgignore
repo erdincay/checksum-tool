@@ -1,5 +1,8 @@
 syntax: glob
 *.suo
+*.bak
+*.orig
+*.user
 
 syntax: regexp
 ^Build$
