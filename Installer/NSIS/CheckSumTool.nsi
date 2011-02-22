@@ -82,6 +82,8 @@ Section "Core Files" SEC01
   SetOutPath "$INSTDIR"
   SetOverwrite ifnewer
   File "..\..\Build\Release\CheckSumTool.exe"
+  File "..\..\Externals\WindowsAPICodePack\Microsoft.WindowsAPICodePack.dll"
+  File "..\..\Externals\WindowsAPICodePack\Microsoft.WindowsAPICodePack.Shell.dll"
   CreateDirectory "$SMPROGRAMS\CheckSum Tool"
   CreateShortCut "$SMPROGRAMS\CheckSum Tool\CheckSum Tool.lnk" "$INSTDIR\CheckSumTool.exe"
   CreateShortCut "$DESKTOP\CheckSum Tool.lnk" "$INSTDIR\CheckSumTool.exe"
