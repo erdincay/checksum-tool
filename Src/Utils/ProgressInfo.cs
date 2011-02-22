@@ -24,7 +24,9 @@ THE SOFTWARE.
 */
 
 using System;
+#if NUNIT
 using NUnit.Framework;
+#endif
 
 namespace CheckSumTool.Utils
 {
