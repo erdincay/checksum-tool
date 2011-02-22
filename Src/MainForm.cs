@@ -1409,14 +1409,18 @@ namespace CheckSumTool
             _progressForm.SetMessage(message);
             if (_progressInfo.Max == 0)
             {
-                TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.Indeterminate);
-
+                if (TaskbarManager.IsPlatformSupported)
+                {
+                    TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.Indeterminate);
+                }
                 _progressForm.SetMarquee(true);
             }
             else
             {
-                TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.Normal);
-
+                if (TaskbarManager.IsPlatformSupported)
+                {
+                    TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.Normal);
+                }
                 _progressForm.SetMarquee(false);
                 _progressForm.SetMaxProgress(_progressInfo.Max);
             }
@@ -1446,8 +1450,10 @@ namespace CheckSumTool
             // no activity.
             if (_progressInfo.IsStopping() && !_progressInfo.HasActivity())
             {
-                TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.Paused);
-
+                if (TaskbarManager.IsPlatformSupported)
+                {
+                    TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.Paused);
+                }
                 _progressInfo.Stopped();
                 EndProgress("Stopped.");
             }
@@ -1459,8 +1465,10 @@ namespace CheckSumTool
                     // updates itself.
                     if (_progressInfo.Max != 0)
                     {
-                        TaskbarManager.Instance.SetProgressValue(_progressInfo.Now, _progressInfo.Max);
-
+                        if (TaskbarManager.IsPlatformSupported)
+                        {
+                            TaskbarManager.Instance.SetProgressValue(_progressInfo.Now, _progressInfo.Max);
+                        }
                         _progressForm.SetCurrentProgress(_progressInfo.Now);
                         _progressForm.SetMessage(_progressInfo.Filename);
                     }
@@ -1603,8 +1611,10 @@ namespace CheckSumTool
         /// <param name="text">Text shown in statusbar when done.</param>
         private void EndProgress(string text)
         {
-            TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.NoProgress);
-
+            if (TaskbarManager.IsPlatformSupported)
+            {
+                TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.NoProgress);
+            }
             _progressTimer.Stop();
             statusbarLabel1.Text = text;
             _progressForm.SetMessage(text);
