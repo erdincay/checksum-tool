@@ -145,6 +145,7 @@ namespace CheckSumTool
             this.itemList.TabIndex = 2;
             this.itemList.UseCompatibleStateImageBehavior = false;
             this.itemList.View = System.Windows.Forms.View.Details;
+            this.itemList.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.itemList_ColumnClick);
             this.itemList.SizeChanged += new System.EventHandler(this.ItemListSizeChanged);
             this.itemList.DragDrop += new System.Windows.Forms.DragEventHandler(this.ItemListDragDrop);
             this.itemList.DragOver += new System.Windows.Forms.DragEventHandler(this.ItemListDragOver);

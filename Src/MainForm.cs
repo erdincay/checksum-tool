@@ -134,6 +134,11 @@ namespace CheckSumTool
         private VisibleItemStates _visibleItems = new VisibleItemStates();
 
         /// <summary>
+        /// ...
+        /// </summary>
+        private ListViewItemComparer _listViewItemComparer;
+
+        /// <summary>
         /// Constructor.
         /// </summary>
         public MainForm()
@@ -160,6 +165,10 @@ namespace CheckSumTool
             Application.Idle += Application_Idle;
 
             _progressForm = new ProgressForm(_progressInfo);
+
+            _listViewItemComparer = new ListViewItemComparer();
+            _listViewItemComparer.UseTagObject = true;
+            itemList.ListViewItemSorter = _listViewItemComparer;
         }
 
         /// <summary>
@@ -347,6 +356,9 @@ namespace CheckSumTool
 
             listItems[(int)ListIndices.FullPath - 1] = item.FullPath;
             itemList.Items[listItem.Index].SubItems.AddRange(listItems);
+
+            //Add original size as Tag for sorting
+            itemList.Items[listItem.Index].SubItems[(int)ListIndices.Size].Tag = item.Size;
         }
 
         /// <summary>
@@ -1655,6 +1667,18 @@ namespace CheckSumTool
         }
 
         /// <summary>
+        /// Sort column
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void itemList_ColumnClick(object sender, ColumnClickEventArgs e)
+        {
+            _listViewItemComparer.GuessSortOrder(e.Column);
+
+            itemList.Sort();
+        }
+
+        /// <summary>
         /// Determine if d&d is allowed
         /// </summary>
         /// <param name="sender"></param>
@@ -1766,5 +1790,6 @@ namespace CheckSumTool
             item.Checked = visible;
             UpdateGUIListFromDoc();
         }
+
     }
 }
