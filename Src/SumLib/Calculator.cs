@@ -78,9 +78,6 @@ namespace CheckSumTool.SumLib
             int i = 0;
             foreach (CheckSumItem ci in itemList)
             {
-                // Update progress information
-                i++;
-                progressInfo.Now = i;
                 progressInfo.Filename = ci.FullPath;
 
                 // Check if fhe file is found and accessible
@@ -111,6 +108,10 @@ namespace CheckSumTool.SumLib
                     //TODO: Set failure status to checksum item.
                 }
 
+                // Update progress information after item completed
+                i++;
+                progressInfo.Now = i;
+
                 if (progressInfo.IsStopping())
                 {
                     progressInfo.ActivityEnded();
@@ -137,9 +138,6 @@ namespace CheckSumTool.SumLib
             int i = 0;
             foreach (CheckSumItem ci in itemList)
             {
-                // Update progress information
-                i++;
-                progressInfo.Now = i;
                 progressInfo.Filename = ci.FullPath;
 
                 // If verification finds an item which does not have checksum
@@ -206,6 +204,10 @@ namespace CheckSumTool.SumLib
                     }
                 }
 
+                // Update progress information after item completed
+                i++;
+                progressInfo.Now = i;
+                
                 if (progressInfo.IsStopping())
                 {
                     progressInfo.ActivityEnded();
