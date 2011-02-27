@@ -1,7 +1,8 @@
 /*
 The MIT License
 
-Copyright (c) 2007 Ixonos Plc, Kimmo Varis <kimmo.varis@ixonos.com>
+Copyright (c) 2007 Ixonos Plc
+Copyright (c) 2007-2011 Kimmo Varis <kimmov@gmail.com>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -91,8 +92,10 @@ namespace CheckSumTool.Settings
                 Setting item = SettingUtils.GetSettingFromList(_list, "Width");
                 int width = item.GetInt();
                 
-                if (width == 0)
-                    width=50;
+                if (width <= 0)
+                    width = 50;
+                if (width > 500)
+                    width = 50;
                         
                 return width;
             }

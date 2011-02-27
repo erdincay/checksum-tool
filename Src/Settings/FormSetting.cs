@@ -1,7 +1,8 @@
 /*
 The MIT License
 
-Copyright (c) 2007-2008 Ixonos Plc, Kimmo Varis <kimmo.varis@ixonos.com>
+Copyright (c) 2007-2008 Ixonos Plc
+Copyright (c) 2007-2011 Kimmo Varis <kimmov@gmail.com>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -67,7 +68,12 @@ namespace CheckSumTool.Settings
             get
             {
                 Setting item = SettingUtils.GetSettingFromList(_list, "X");
-                return item.GetInt();
+                int value = item.GetInt();
+                if (value < 0)
+                    value = 0;
+                if (value > 5000)
+                    value = 500;
+                return value;
             }
 
             set
@@ -84,7 +90,12 @@ namespace CheckSumTool.Settings
             get
             {
                 Setting item = SettingUtils.GetSettingFromList(_list, "Y");
-                return item.GetInt();
+                int value = item.GetInt();
+                if (value < 0)
+                    value = 0;
+                if (value > 5000)
+                    value = 500;
+                return value;
             }
 
             set
@@ -101,7 +112,12 @@ namespace CheckSumTool.Settings
             get
             {
                 Setting item = SettingUtils.GetSettingFromList(_list, "Width");
-                return item.GetInt();
+                int value = item.GetInt();
+                if (value < 0)
+                    value = 0;
+                if (value > 5000)
+                    value = 500;
+                return value;
             }
 
             set
@@ -118,7 +134,12 @@ namespace CheckSumTool.Settings
             get
             {
                 Setting item = SettingUtils.GetSettingFromList(_list, "Height");
-                return item.GetInt();
+                int value = item.GetInt();
+                if (value < 0)
+                    value = 0;
+                if (value > 5000)
+                    value = 500;
+                return value;
             }
 
             set
