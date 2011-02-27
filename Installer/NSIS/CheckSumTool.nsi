@@ -15,9 +15,9 @@
 ; Required DotNet version
 ; If required version is not found, error is shown and installation aborted
 ; (this is better than force dotnet installation)
-!define DOT_MAJOR "2"
+!define DOT_MAJOR "4"
 !define DOT_MINOR "0"
-!define DOT_MINOR_MINOR "50727"
+!define DOT_MINOR_MINOR "30319"
 
 ; MUI 1.67 compatible ------
 !include "MUI.nsh"
