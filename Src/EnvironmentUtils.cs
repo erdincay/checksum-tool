@@ -1,7 +1,8 @@
 ﻿/*
 The MIT License
 
-Copyright (c) 2007-2008 Ixonos Plc, Kimmo Varis <kimmo.varis@ixonos.com>
+Copyright (c) 2007-2008 Ixonos Plc
+Copyright (c) 2007-2011 Kimmo Varis <kimmov@gmail.com>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -42,8 +43,7 @@ namespace CheckSumTool
         {
             string appDataPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
             appDataPath = FileUtils.FromNativeSeparators(appDataPath);
-            appDataPath += FileUtils.PathSeparator;
-            appDataPath += "ChecksumTool" + FileUtils.PathSeparator;
+            appDataPath = FileUtils.ConcatPaths(appDataPath, "ChecksumTool");
             return appDataPath;
         }
     }

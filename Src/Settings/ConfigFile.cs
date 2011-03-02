@@ -1,7 +1,8 @@
 ﻿/*
 The MIT License
 
-Copyright (c) 2007-2008 Ixonos Plc, Kimmo Varis <kimmo.varis@ixonos.com>
+Copyright (c) 2007-2008 Ixonos Plc
+Copyright (c) 2007-2011 Kimmo Varis <kimmov@gmail.com>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -87,7 +88,7 @@ namespace CheckSumTool.Settings
         {
             if (!Directory.Exists(_appDataPath))
                 Directory.CreateDirectory(_appDataPath);
-            _path = _appDataPath + FileUtils.PathSeparator + ConfigFileName;
+            _path = FileUtils.ConcatPaths(_appDataPath, ConfigFileName);
         }
 
         /// <summary>
@@ -120,9 +121,7 @@ namespace CheckSumTool.Settings
             if (!File.Exists(_path))
             {
                 string defFile = FileUtils.FromNativeSeparators(_applicationPath);
-                //defFile += Path.Combine(defFile, "config.xml");
-                defFile += FileUtils.PathSeparator;
-                defFile += ConfigFileName;
+                defFile = FileUtils.ConcatPaths(defFile, ConfigFileName);
                 try
                 {
                     File.Copy(defFile, _path);

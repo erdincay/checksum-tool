@@ -2,7 +2,7 @@
 The MIT License
 
 Copyright (c) 2007-2008 Ixonos Plc
-Copyright (c) 2007-2008 Kimmo Varis <kimmov@winmerge.org>
+Copyright (c) 2007-2011 Kimmo Varis <kimmov@gmail.com>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -89,14 +89,14 @@ namespace CheckSumTool.Utils
         }
 
         /// <summary>
-        /// Construtor, for reading information from given file (exe or dll).
+        /// Constructor, for reading information from given file (exe or dll).
         /// </summary>
         /// <param name="filename">Filename to read info from.</param>
         public ProgramInfo(string filename)
         {
             Assembly curAssembly = Assembly.GetExecutingAssembly();
             string path = Path.GetDirectoryName(curAssembly.Location);
-            string fullpath = path + FileUtils.PathSeparator + filename;
+            string fullpath = FileUtils.ConcatPaths(path, filename);
 
             ReadVersionInfo(fullpath);
         }
@@ -149,7 +149,7 @@ namespace CheckSumTool.Utils
         {
             Assembly curAssembly = Assembly.GetExecutingAssembly();
             string path = Path.GetDirectoryName(curAssembly.Location);
-            string file = path + FileUtils.PathSeparator + "CheckSumTool.exe";
+            string file = FileUtils.ConcatPaths(path, "CheckSumTool.exe");
             return file;
         }
 

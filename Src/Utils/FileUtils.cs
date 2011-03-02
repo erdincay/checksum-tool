@@ -2,7 +2,7 @@
 The MIT License
 
 Copyright (c) 2007-2008 Ixonos Plc
-Copyright (c) 2007-2008 Kimmo Varis <kimmov@winmerge.org>
+Copyright (c) 2007-2011 Kimmo Varis <kimmov@gmail.com>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -38,7 +38,7 @@ namespace CheckSumTool.Utils
         /// <summary>
         /// Path separator used internally.
         /// </summary>
-        public static readonly string PathSeparator = "/";
+        internal static readonly string PathSeparator = "/";
 
         /// <summary>
         /// Convert path to use internal separators. We use Unix path
@@ -57,6 +57,26 @@ namespace CheckSumTool.Utils
                 string newpath = path.Replace(@"\", PathSeparator);
                 return newpath;
             }
+            return path;
+        }
+        
+        /// <summary>
+        /// Combine two given paths.
+        /// </summary>
+        /// <param name="path1">First path.</param>
+        /// <param name="path2">Second path.</param>
+        /// <returns>Combined path of given paths.</returns>
+        public static string ConcatPaths(string path1, string path2)
+        {
+            if (path1 == null || path1.Length == 0)
+                return path2;
+            if (path2 == null || path2.Length == 0)
+                return path1;
+            
+            string path = path1;
+            if (!path1.EndsWith("/"))
+                path += "/";
+            path += path2;
             return path;
         }
     }
@@ -93,6 +113,48 @@ namespace CheckSumTool.Utils
         {
             string conv = FileUtils.FromNativeSeparators(@"c:\Temp\");
             Assert.AreEqual(@"c:/Temp/", conv);
+        }
+        
+        [Test]
+        public void ConcatPathsFirstNull()
+        {
+            string path = FileUtils.ConcatPaths(null, "file");
+            Assert.AreEqual("file", path);
+        }
+
+        [Test]
+        public void ConcatPathsSecondNull()
+        {
+            string path = FileUtils.ConcatPaths("file", null);
+            Assert.AreEqual("file", path);
+        }
+
+        [Test]
+        public void ConcatPathsFirstEmpty()
+        {
+            string path = FileUtils.ConcatPaths("", "file");
+            Assert.AreEqual("file", path);
+        }
+
+        [Test]
+        public void ConcatPathsSecondEmpty()
+        {
+            string path = FileUtils.ConcatPaths("file", "");
+            Assert.AreEqual("file", path);
+        }
+        
+        [Test]
+        public void ConcatPatsNoSeparator()
+        {
+            string path = FileUtils.ConcatPaths("path", "file");
+            Assert.AreEqual("path/file", path);
+        }
+
+        [Test]
+        public void ConcatPatsSeparator()
+        {
+            string path = FileUtils.ConcatPaths("path/", "file");
+            Assert.AreEqual("path/file", path);
         }
     }
 #endif
