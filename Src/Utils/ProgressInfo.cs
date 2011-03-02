@@ -80,22 +80,6 @@ namespace CheckSumTool.Utils
         /// </summary>
         State _state;
         /// <summary>
-        /// Maximum value.
-        /// </summary>
-        int _max;
-        /// <summary>
-        /// Minimum value.
-        /// </summary>
-        int _min;
-        /// <summary>
-        /// Current value.
-        /// </summary>
-        int _now;
-        /// <summary>
-        /// Associated filename.
-        /// </summary>
-        string _filename;
-        /// <summary>
         /// Result of the backend processing.
         /// </summary>
         Result _succeeded;
@@ -105,37 +89,32 @@ namespace CheckSumTool.Utils
         bool _activity;
 
         /// <summary>
-        /// Default constructor.
+        /// Maximum value.
         /// </summary>
-        public ProgressInfo()
-        {
-        }
+        public int Max { get; set; }
 
         /// <summary>
-        /// ProgresInfo Max value.
+        /// Minimum value.
         /// </summary>
-        public int Max
-        {
-            get { return _max; }
-            set { _max = value; }
-        }
+        public int Min { get; set; }
 
         /// <summary>
-        /// ProgresInfo Min value.
+        /// Current value.
         /// </summary>
-        public int Min
-        {
-            get { return _min; }
-            set { _min = value; }
-        }
+        public int Now { get; set; }
 
         /// <summary>
-        /// ProgresInfo Now value.
+        /// Filename currently processed.
         /// </summary>
-        public int Now
+        public string Filename { get; set; }
+
+        /// <summary>
+        /// ProgresInfo Succeeded value.
+        /// </summary>
+        public Result Succeeded
         {
-            get { return _now; }
-            set { _now = value; }
+            get { return _succeeded; }
+            set { _succeeded = value; }
         }
 
         /// <summary>
@@ -231,34 +210,16 @@ namespace CheckSumTool.Utils
         }
 
         /// <summary>
-        /// ProgresInfo Filename value.
-        /// </summary>
-        public string Filename
-        {
-            get { return _filename; }
-            set { _filename = value; }
-        }
-
-        /// <summary>
-        /// ProgresInfo Succeeded value.
-        /// </summary>
-        public Result Succeeded
-        {
-            get { return _succeeded; }
-            set { _succeeded = value; }
-        }
-
-        /// <summary>
         /// Set default values for ProgresInfo.
         /// </summary>
         public void DefaultSetting()
         {
-            _max = 0;
-            _min = 0;
-            _now = 0;
+            Max = 0;
+            Min = 0;
+            Now = 0;
+            Filename = null;
             _state = State.Idle;
             _succeeded = Result.Failed;
-            _filename = null;
         }
     }
     
