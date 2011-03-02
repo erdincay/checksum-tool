@@ -2,7 +2,7 @@
 The MIT License
 
 Copyright (c) 2007-2008 Ixonos Plc
-Copyright (c) 2007-2008 Kimmo Varis <kimmov@winmerge.org>
+Copyright (c) 2007-2011 Kimmo Varis <kimmov@gmail.com>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -34,31 +34,14 @@ namespace CheckSumTool.Utils
     public class Pair<T>
     {
         /// <summary>
-        /// First item.
-        /// </summary>
-        T _item1;
-        /// <summary>
-        /// Second item.
-        /// </summary>
-        T _item2;
-
-        /// <summary>
         /// First item of the pair.
         /// </summary>
-        public T Item1
-        {
-            get { return _item1; }
-            set { _item1 = value; }
-        }
+        public T Item1 { get; set; }
         
         /// <summary>
         /// Second item of the pair.
         /// </summary>
-        public T Item2
-        {
-            get { return _item2; }
-            set { _item2 = value; }
-        }
+        public T Item2 { get; set; }
         
         /// <summary>
         /// Constructor.
@@ -74,8 +57,8 @@ namespace CheckSumTool.Utils
         /// <param name="item2">Second item.</param>
         public Pair(T item1, T item2)
         {
-            _item1 = item1;
-            _item2 = item2;
+            Item1 = item1;
+            Item2 = item2;
         }
     }
 }

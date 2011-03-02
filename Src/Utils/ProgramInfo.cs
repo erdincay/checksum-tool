@@ -43,30 +43,16 @@ namespace CheckSumTool.Utils
         /// Program's homepage URL.
         /// </summary>
         const string _URL = @"http://checksumtool.sourceforge.net/";
-        /// <summary>
-        /// Program version.
-        /// </summary>
-        string _version;
-        /// <summary>
-        /// Program's product name.
-        /// </summary>
-        string _progName;
 
         /// <summary>
-        /// Return the program version.
+        /// The program version.
         /// </summary>
-        public string Version
-        {
-            get { return _version; }
-        }
+        public string Version { get; private set; }
 
         /// <summary>
-        /// Return the program product name.
+        /// The program product name.
         /// </summary>
-        public string ProgramName
-        {
-            get { return _progName; }
-        }
+        public string ProgramName { get; private set; }
 
         /// <summary>
         /// Return the program homepage URL.
@@ -109,8 +95,8 @@ namespace CheckSumTool.Utils
         {
             path = FileUtils.FromNativeSeparators(path);
             FileVersionInfo info = FileVersionInfo.GetVersionInfo(path);
-            _version = info.FileVersion;
-            _progName = info.ProductName;
+            Version = info.FileVersion;
+            ProgramName = info.ProductName;
         }
     }
 
