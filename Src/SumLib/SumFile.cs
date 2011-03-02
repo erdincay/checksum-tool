@@ -149,7 +149,7 @@ namespace CheckSumTool.SumLib
                     relativePath = _list.FileList[i].FullPath.Replace(Path.GetDirectoryName(path) +
                             Path.DirectorySeparatorChar, "");
                 }
-                relativePath = FileUtils.GetUnixPathFormat(relativePath);
+                relativePath = FileUtils.FromNativeSeparators(relativePath);
 
                 sumFile.WriteDataRow(file, checksum,relativePath);
             }

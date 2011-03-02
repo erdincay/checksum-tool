@@ -41,7 +41,7 @@ namespace CheckSumTool
         public static string GetAppDataPath()
         {
             string appDataPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-            appDataPath = FileUtils.GetUnixPathFormat(appDataPath);
+            appDataPath = FileUtils.FromNativeSeparators(appDataPath);
             appDataPath += FileUtils.PathSeparator;
             appDataPath += "ChecksumTool" + FileUtils.PathSeparator;
             return appDataPath;

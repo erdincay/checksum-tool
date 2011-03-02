@@ -41,12 +41,13 @@ namespace CheckSumTool.Utils
         public static readonly string PathSeparator = "/";
 
         /// <summary>
-        /// Convert path to unix format. We use unix format as our internal
-        /// format and in checksum files.
+        /// Convert path to use internal separators. We use Unix path
+        /// separators as our internal path separators. Unix path separators
+        /// are used also in checksum files.
         /// </summary>
         /// <param name="path">Path to convert.</param>
         /// <returns>Converted path.</returns>
-        public static string GetUnixPathFormat(string path)
+        public static string FromNativeSeparators(string path)
         {
             if (path == null)
                 throw new ArgumentNullException("path");
@@ -75,22 +76,22 @@ namespace CheckSumTool.Utils
 
         [Test]
         [ExpectedException(typeof(ArgumentNullException))]
-        public void UnixPathConvertNull()
+        public void ToInternalConvertNull()
         {
-            string conv = FileUtils.GetUnixPathFormat((string) null);
+            string conv = FileUtils.FromNativeSeparators((string) null);
         }
 
         [Test]
-        public void UnixPathConvertEmpty()
+        public void ToInternalConvertEmpty()
         {
-            string conv = FileUtils.GetUnixPathFormat("");
+            string conv = FileUtils.FromNativeSeparators("");
             Assert.IsEmpty(conv);
         }
 
         [Test]
-        public void UnixPathConvertSimple()
+        public void ToInternalConvertSimple()
         {
-            string conv = FileUtils.GetUnixPathFormat(@"c:\Temp\");
+            string conv = FileUtils.FromNativeSeparators(@"c:\Temp\");
             Assert.AreEqual(@"c:/Temp/", conv);
         }
     }

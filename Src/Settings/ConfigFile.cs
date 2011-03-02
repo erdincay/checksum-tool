@@ -119,7 +119,7 @@ namespace CheckSumTool.Settings
             bool success = false;
             if (!File.Exists(_path))
             {
-                string defFile = FileUtils.GetUnixPathFormat(_applicationPath);
+                string defFile = FileUtils.FromNativeSeparators(_applicationPath);
                 //defFile += Path.Combine(defFile, "config.xml");
                 defFile += FileUtils.PathSeparator;
                 defFile += ConfigFileName;
