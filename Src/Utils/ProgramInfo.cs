@@ -35,14 +35,14 @@ namespace CheckSumTool.Utils
 {
     /// <summary>
     /// A class for getting information from the program itself. Like
-    /// product name, version, homepage URl.
+    /// product name, version, homepage URL.
     /// </summary>
     public class ProgramInfo
     {
         /// <summary>
         /// Program's homepage URL.
         /// </summary>
-        const string _URL = @"http://checksumtool.sourceforge.net/";
+        private const string _URL = @"http://checksumtool.sourceforge.net/";
 
         /// <summary>
         /// The program version.
@@ -57,34 +57,34 @@ namespace CheckSumTool.Utils
         /// <summary>
         /// Return the program homepage URL.
         /// </summary>
-        public string URL
-        {
-            get { return _URL; }
-        }
+        public string URL { get; private set; }
 
         /// <summary>
-        /// The default constructor. Reads info from the current dll file.
-        /// Read info may not be the same as calling exe!
+        /// The default constructor.
         /// </summary>
         public ProgramInfo()
         {
-            Assembly curAssembly = Assembly.GetExecutingAssembly();
-            string filename = curAssembly.Location;
-
-            ReadVersionInfo(filename);
         }
 
         /// <summary>
-        /// Constructor, for reading information from given file (exe or dll).
+        /// Constructor.
         /// </summary>
-        /// <param name="filename">Filename to read info from.</param>
-        public ProgramInfo(string filename)
+        /// <param name="filename">Filename to read info from. If not given,
+        /// current assembly file is assumed.</param>
+        public ProgramInfo(string filename = "")
         {
+            URL = _URL;
             Assembly curAssembly = Assembly.GetExecutingAssembly();
-            string path = Path.GetDirectoryName(curAssembly.Location);
-            string fullpath = FileUtils.ConcatPaths(path, filename);
+            string path;
+            if (filename == "")
+                path = curAssembly.Location;
+            else
+            {
+                path = Path.GetDirectoryName(curAssembly.Location);
+                path = FileUtils.ConcatPaths(path, filename);
+            }
 
-            ReadVersionInfo(fullpath);
+            ReadVersionInfo(path);
         }
 
         /// <summary>
