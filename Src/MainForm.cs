@@ -646,6 +646,36 @@ namespace CheckSumTool
         }
 
         /// <summary>
+        /// Select correct sumtype into the sumtype combobox, based on
+        /// checksum type.
+        /// </summary>
+        /// <param name="sumType">File type loaded.</param>
+        private void SetSumTypeCombo(CheckSumType sumType)
+        {
+            int ind;
+            switch (sumType)
+            {
+                case CheckSumType.MD5:
+                    ind = toolStripComboSumTypes.FindStringExact("MD5");
+                    toolStripComboSumTypes.SelectedIndex = ind;
+                    break;
+
+                case CheckSumType.CRC32:
+                    ind = toolStripComboSumTypes.FindStringExact("CRC32");
+                    toolStripComboSumTypes.SelectedIndex = ind;
+                    break;
+
+                case CheckSumType.SHA1:
+                    ind = toolStripComboSumTypes.FindStringExact("SHA-1");
+                    toolStripComboSumTypes.SelectedIndex = ind;
+                    break;
+
+                default:
+                    throw new NotImplementedException("Unknown checksum type");
+            }
+        }
+
+        /// <summary>
         /// Called when user selecs Open-item from File-menu.
         /// </summary>
         /// <param name="sender"></param>
@@ -938,7 +968,23 @@ namespace CheckSumTool
         /// <param name="e"></param>
         private void ToolBarSumTypesSelectionChanged(object sender, EventArgs e)
         {
+            CheckSumType currentType = _document.SumType;
             int sumSelection = toolStripComboSumTypes.SelectedIndex;
+
+            // If there are checksums in the list and we are changing type ask
+            // user if one wants to clear existing sums
+            if (_document.Items.HasCheckSums && sumSelection != (int)currentType)
+            {
+                string message = "The list contains calculated checksums.\n\n";
+                message += "Do you want to clear the current checksums and calculate new checksums?";
+                DialogResult result = MessageBox.Show(this, message, "CheckSum Tool",
+                        MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation);
+                if (result == DialogResult.No)
+                {
+                    SetSumTypeCombo(currentType);
+                    return;
+                }
+            }            
             SetCurrentSumType((CheckSumType) sumSelection);
         }
 
