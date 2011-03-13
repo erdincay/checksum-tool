@@ -5,6 +5,8 @@
     <!-- Application Configurations -->
     <PropertyGroup>
         <NUnit-Path>C:\Program Files (x86)\NUnit 2.5.9\bin\net-2.0</NUnit-Path>
+        <Python-Path>C:\python27\python.exe</Python-Path>
+        <AsciiDoc-Path>C:\Tools\AsciiDoc\asciidoc.py</AsciiDoc-Path>
     </PropertyGroup>
     
     <!-- Projects and configurations to build -->
@@ -44,7 +46,12 @@
 
         <NUnit ToolPath="$(NUnit-Path)"  Assemblies="@(TestAssemblies)" OutputXmlFile="test-results.xml" />
     </Target>
+    
+    <!-- Build user manual with Python and AsciiDoc -->
+    <Target Name="Manual">
+        <Exec Command="$(Python-Path) $(AsciiDoc-Path) ..\Documents\Manual\Manual.txt"/>
+    </Target>
 
-  <Target Name="Build" DependsOnTargets="Clean;Compile;Test;" />
+    <Target Name="Build" DependsOnTargets="Clean;Compile;Test;Manual;" />
 
 </Project>
