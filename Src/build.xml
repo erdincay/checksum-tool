@@ -6,6 +6,17 @@
     <PropertyGroup>
         <NUnit-Path>C:\Program Files (x86)\NUnit 2.5.9\bin\net-2.0</NUnit-Path>
     </PropertyGroup>
+    
+    <!-- Projects and configurations to build -->
+    <!-- Debug target is build for running the unit tests -->
+    <ItemGroup>
+        <ProjectToBuild Include="CheckSumTool.csproj">
+            <Properties>Configuration=Debug</Properties>
+        </ProjectToBuild>
+        <ProjectToBuild Include="CheckSumTool.csproj">
+            <Properties>Configuration=Release</Properties>
+        </ProjectToBuild>
+    </ItemGroup>
 
     <!-- Clean build folders -->
     <Target Name="Clean">
@@ -18,10 +29,12 @@
         <Delete Files="@(BinFiles)" />
     </Target>
 
+    <!-- Build projects -->
     <Target Name="Compile" DependsOnTargets="Clean">
-        <MSBuild Projects="CheckSumTool.csproj" />
+        <MSBuild Projects="@(ProjectToBuild)" />
     </Target>
 
+    <!-- Run NUnit unit tests -->
     <Target Name="Test" DependsOnTargets="Clean;Compile">
         <ItemGroup>
             <TestAssemblies Include="..\Build\Debug\CheckSumTool.exe" />
