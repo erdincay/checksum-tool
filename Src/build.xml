@@ -11,6 +11,7 @@
     
     <PropertyGroup>
         <DistDir>..\Dist\CheckSumTool-0.8</DistDir>
+        <SrcExport>..\Dist\CheckSumTool-0.8-src</SrcExport>
     </PropertyGroup>
     
     <!-- Distributed files -->
@@ -91,6 +92,19 @@
             DestinationFolder="$(DistDir)\Manual\Images" />
     </Target>
     
-    <Target Name="Build" DependsOnTargets="Clean;Compile;Test;Manual;CreateDist" />
+    <!-- Copy sources to another folder -->
+    <!-- NOTE: This does not do clean checkout so possible backup files etc
+         are copied also! Run this only from the clean checkout! -->
+    <Target Name="ExportSrc" DependsOnTargets="Clean;">
+        <ItemGroup>
+            <Sources Include="..\**\*.*" Exclude="..\.hg\**\*.*" />
+        </ItemGroup>
+        <MakeDir Directories="$(SrcExport)\"/>
+        <Copy
+            SourceFiles="@(Sources)"
+            DestinationFiles="@(Sources->'$(SrcExport)\%(RecursiveDir)%(Filename)%(Extension)')" />
+    </Target>
+    
+    <Target Name="Build" DependsOnTargets="Clean;ExportSrc;Compile;Test;Manual;CreateDist" />
 
 </Project>
