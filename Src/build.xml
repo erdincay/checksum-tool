@@ -9,6 +9,24 @@
         <AsciiDoc-Path>C:\Tools\AsciiDoc\asciidoc.py</AsciiDoc-Path>
     </PropertyGroup>
     
+    <PropertyGroup>
+        <DistDir>..\Dist\CheckSumTool-0.8</DistDir>
+    </PropertyGroup>
+    
+    <!-- Distributed files -->
+    <ItemGroup>
+        <BaseDocFiles Include="..\Documents\Readme.txt" />
+        <BaseDocFiles Include="..\Documents\COPYING" />
+        <BaseDocFiles Include="..\Src\config.xml" />
+        <DocFiles Include="..\Documents\ChangeLog.txt" />
+        <DocFiles Include="..\Documents\Contributors.txt" />
+        <Binaries Include="..\Build\Release\CheckSumTool.exe" />
+        <Binaries Include="..\Build\Release\SumLib.dll" />
+        <Binaries Include="..\Build\Release\Utils.dll" />
+        <ManualFiles Include="..\Documents\Manual\*.html" />
+        <ManualImageFiles Include="..\Documents\Manual\Images\*.png" />
+    </ItemGroup>
+    
     <!-- Projects and configurations to build -->
     <!-- Debug target is build for running the unit tests -->
     <ItemGroup>
@@ -52,6 +70,27 @@
         <Exec Command="$(Python-Path) $(AsciiDoc-Path) ..\Documents\Manual\Manual.txt"/>
     </Target>
 
-    <Target Name="Build" DependsOnTargets="Clean;Compile;Test;Manual;" />
+    <!-- Copy distributed files to separate folder -->
+    <Target Name="CreateDist" DependsOnTargets="Clean;Compile;Manual;">
+        <MakeDir Directories="$(DistDir)"/>
+        <Copy SourceFiles="@(Binaries)"
+            DestinationFolder="$(DistDir)" />
+        <Copy SourceFiles="@(BaseDocFiles)"
+            DestinationFolder="$(DistDir)" />
+
+        <MakeDir Directories="$(DistDir)\Docs"/>
+        <Copy SourceFiles="@(DocFiles)"
+            DestinationFolder="$(DistDir)\Docs" />
+        
+        <MakeDir Directories="$(DistDir)\Manual"/>
+        <Copy SourceFiles="@(ManualFiles)"
+            DestinationFolder="$(DistDir)\Manual" />
+        
+        <MakeDir Directories="$(DistDir)\Manual\Images"/>
+        <Copy SourceFiles="@(ManualImageFiles)"
+            DestinationFolder="$(DistDir)\Manual\Images" />
+    </Target>
+    
+    <Target Name="Build" DependsOnTargets="Clean;Compile;Test;Manual;CreateDist" />
 
 </Project>
