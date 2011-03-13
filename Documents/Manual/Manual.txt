@@ -1,7 +1,7 @@
 CheckSum Tool Manual
 ====================
 Kimmo Varis
-v0.3, April 2008
+v0.4, March 2011
 
 About this Manual
 -----------------
@@ -90,18 +90,18 @@ Prerequisities
 CheckSum Tool requires:
 
 - Windows operating system
-- .Net 2.0 framework or later installed
+- .Net 4.0 framework or later installed
 
-Download links for the .Net 2.0 framework:
+Download links for the .Net 4.0 framework:
 
-- http://www.microsoft.com/downloads/details.aspx?familyid=0856eacb-4362-4b0d-8edd-aab15c5e04f5&displaylang=en[.Net framework for 32-bit Windows versions]
-- http://www.microsoft.com/downloads/details.aspx?familyid=B44A0000-ACF8-4FA1-AFFB-40E78D788B00&displaylang=en[.Net framework for 64-bit Windows versions]
+- http://www.microsoft.com/downloads/en/details.aspx?FamilyID=9cfb2d51-5ff4-4491-b0e5-b386f32c0992[.Net framework 4.0 web installer]
+- http://www.microsoft.com/downloads/en/details.aspx?FamilyID=0a391abd-25c1-4fc0-919f-b21f31ab88b7[.Net framework 4.0 standalone installer]
 
 Using the Installer
 ~~~~~~~~~~~~~~~~~~~
 The easiest way to install CheckSum Tool is to download and run the installer
 executable from http://checksumtool.sourceforge.net[]. The installer checks
-if the required .Net 2.0 runtime (or later) is installed. If the .Net framework
+if the required .Net 4.0 runtime (or later) is installed. If the .Net framework
 cannot be found, the installer aborts.
 
 Running the installer copies program- and documentation files to the system
@@ -117,7 +117,7 @@ extracted.
 Binary archive files can be downloaded from 
 http://sourceforge.net/project/showfiles.php?group_id=208291[CheckSum Tool's downloads].
 Files are named +CheckSumTool-version-bin.zip+, for example
-+CheckSumTool-0.2.0-bin.zip+.
++CheckSumTool-0.8.0-bin.zip+.
 
 About the Checksums
 -------------------
