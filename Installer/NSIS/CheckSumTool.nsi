@@ -97,10 +97,10 @@ SectionEnd
 Section "User Manual" SEC02
   SetOutPath "$INSTDIR\Manual"
   SetOverwrite ifnewer
-  File "..\..\Build\Release\Manual\Manual.html"
+  File "..\..\Documents\Manual\Manual.html"
   SetOutPath "$INSTDIR\Manual\Images"
   CreateDirectory "$INSTDIR\Manual\Images"
-  File "..\..\Build\Release\Manual\Images\MainWindow1.png"
+  File "..\..\Documents\Manual\Images\MainWindow1.png"
 SectionEnd
 
 Section "Docs" SEC03
