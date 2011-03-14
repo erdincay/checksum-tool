@@ -22,10 +22,6 @@ Tools needed:
   http://www.microsoft.com/Express/
 - NSIS for compiling installer
   http://nsis.sourceforge.net/
-- NAnt for automatic building
-  http://nant.sourceforge.net/
-  NAnt contrib -additional NAnt tasks are needed also
-  http://nantcontrib.sourceforge.net/
 - NUnit version 2.5 for unit testing
   http://www.nunit.org/
 - MSBuild community tasks (for running NUnit etc)
@@ -42,23 +38,10 @@ Compiling:
 - Open the solution file Src/CheckSumTool.sln to your IDE.
 - Compile the project.
 
-
-NAnt:
-- NAnt can be used to build the tool
-- NAntContrib is also required (for supporting additional tasks used)
-- Build file is Src/CheckSumTool.build
-
-To use NAnt efficiently, add NAnt (or batch file calling it) onto your PATH-
-environment variable. Run NAnt from Src-folder:
- nant /f:CheckSumTool.build <target>
-
-Most important targets are:
- - clean : cleans the workspace from binary/temp files
- - debug : build debug target in workspace
- - release : build release target in workspace
- - svn_build : export sources from SVN and do a release build
- - distribution : build for distribution, export from SVN, build release-
-   target, create source- and binary-zips and create installer
+Compiling using MSbuild:
+- Open the Visual Studio or Windows SDK console
+- CD to Src folder
+- Run command 'MSBuild'
 
 
 The User Manual
@@ -70,7 +53,7 @@ Manual uses AsciiDoc for lightweight markup that can be procecced to several oth
 AsciiDoc files are .txt files with some embedded markup.
 
 To process AsciiDoc files you'll need:
-- Python (2.5.x recommended) from http://www.python.org
+- Python (2.6.x recommended) from http://www.python.org
 - AsciiDoc from http://www.methods.co.nz/asciidoc/
 
 Manual can be converted in command line:
@@ -79,7 +62,7 @@ Manual can be converted in command line:
 - run command:
   > python [path to asciidoc]/asciidoc.py Manual.txt
 
-CheckSumTool's NAnt build file also contains a task for building manual.
+CheckSumTool's MSbuild build file also contains a task for building manual.
 
 
 Setting the Version Number

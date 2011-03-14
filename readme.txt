@@ -22,8 +22,8 @@ Installer:
   This folder contains installer, which is created with NSIS.
 
 Src:
-  This folder contains the sources for the tool executable. NAnt build file
-  is also in this folder (CheckSumTool.build). Project solution file
+  This folder contains the sources for the tool executable. MSbuild build file
+  is also in this folder (build.xml). Project solution file
   (CheckSumTool.sln) can be opened in Visual Studio, SharpDevelop or
   MonoDevelop.
 

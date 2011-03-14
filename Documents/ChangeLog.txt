@@ -15,6 +15,8 @@ CheckSum Tool 0.7.0
   Center About-dialog to main window
   Add View-menu items to select which kind of items to show
   Show progress at taskbar icon in Windows 7
+  Start using MSbuild to build CheckSum Tool
+  Remove NAnt build file
   Bugfix: Fix crash when adding lots of files (#2951908)
   Bugfix: Calculate-toolbar button was not disabled when processing items
   Bugfix: Changing sum type cleared calculated sums without warning
