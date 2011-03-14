@@ -7,6 +7,7 @@
         <NUnit-Path>C:\Program Files (x86)\NUnit 2.5.9\bin\net-2.0</NUnit-Path>
         <Python-Path>C:\python27\python.exe</Python-Path>
         <AsciiDoc-Path>C:\Tools\AsciiDoc\asciidoc.py</AsciiDoc-Path>
+        <NSIS-Path>&quot;C:\Program Files (x86)\NSIS\makensis.exe&quot;</NSIS-Path>
     </PropertyGroup>
     
     <PropertyGroup>
@@ -105,6 +106,12 @@
             DestinationFiles="@(Sources->'$(SrcExport)\%(RecursiveDir)%(Filename)%(Extension)')" />
     </Target>
     
+    <Target Name="MakeInstaller" DependsOnTargets="CreateDist">
+        <Exec Command="$(NSIS-Path) /V3 /Onsis.log ..\Installer\NSIS\CheckSumTool.nsi"/>
+    </Target>
+    
     <Target Name="Build" DependsOnTargets="Clean;ExportSrc;Compile;Test;Manual;CreateDist" />
+    
+    <Target Name="Dist" DependsOnTargets="Build;MakeInstaller" />
 
 </Project>
