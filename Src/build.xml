@@ -10,8 +10,8 @@
     </PropertyGroup>
     
     <PropertyGroup>
-        <DistDir>..\Dist\CheckSumTool-0.8</DistDir>
-        <SrcExport>..\Dist\CheckSumTool-0.8-src</SrcExport>
+        <DistDir>..\Dist\CheckSumTool-0.7</DistDir>
+        <SrcExport>..\Dist\CheckSumTool-0.7-src</SrcExport>
     </PropertyGroup>
     
     <!-- Distributed files -->
