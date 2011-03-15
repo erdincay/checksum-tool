@@ -2,7 +2,7 @@
 
 ; HM NIS Edit Wizard helper defines
 !define PRODUCT_NAME "CheckSum Tool"
-!define PRODUCT_VERSION "0.6.0"
+!define PRODUCT_VERSION "0.7.0"
 !define PRODUCT_PUBLISHER "Ixonos Plc"
 !define PRODUCT_WEB_SITE "http://checksumtool.sourceforge.net/"
 !define PRODUCT_DIR_REGKEY "Software\Microsoft\Windows\CurrentVersion\App Paths\CheckSumTool.exe"
@@ -61,7 +61,7 @@ VIProductVersion "${PRODUCT_VERSION}.0"
 VIAddVersionKey /LANG=${LANG_ENGLISH} "ProductName" "${PRODUCT_NAME}"
 ;VIAddVersionKey /LANG=${LANG_ENGLISH} "Comments" "A test comment"
 VIAddVersionKey /LANG=${LANG_ENGLISH} "CompanyName" "${PRODUCT_PUBLISHER}"
-VIAddVersionKey /LANG=${LANG_ENGLISH} "LegalCopyright" "© 2007-2008 Ixonos Plc, Kimmo Varis"
+VIAddVersionKey /LANG=${LANG_ENGLISH} "LegalCopyright" "© 2007-2008 Ixonos Plc, © 2007-2011 Kimmo Varis"
 VIAddVersionKey /LANG=${LANG_ENGLISH} "FileDescription" "${PRODUCT_NAME} Installer"
 VIAddVersionKey /LANG=${LANG_ENGLISH} "FileVersion" "${PRODUCT_VERSION}"
 
