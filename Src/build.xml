@@ -25,6 +25,7 @@
         <Binaries Include="..\Build\Release\CheckSumTool.exe" />
         <Binaries Include="..\Build\Release\SumLib.dll" />
         <Binaries Include="..\Build\Release\Utils.dll" />
+        <ExtLibraries Include="..\Externals\WindowsAPICodePack\*.dll" />
         <ManualFiles Include="..\Documents\Manual\*.html" />
         <ManualImageFiles Include="..\Documents\Manual\Images\*.png" />
     </ItemGroup>
@@ -77,6 +78,9 @@
         <MakeDir Directories="$(DistDir)"/>
         <Copy SourceFiles="@(Binaries)"
             DestinationFolder="$(DistDir)" />
+        <Copy SourceFiles="@(ExtLibraries)"
+            DestinationFolder="$(DistDir)" />
+            
         <Copy SourceFiles="@(BaseDocFiles)"
             DestinationFolder="$(DistDir)" />
 
