@@ -3,7 +3,7 @@ This file list changes done in each version of the CheckSum Tool.
 Numbers in parentheses mean either SourceForge.net tracker item number (#xxxxxxx)
 or Subversion repository revision (rxxx).
 
-CheckSum Tool 0.7.0
+CheckSum Tool 0.7.0 - 2011-03-15
   Move code to Mercurial repository at Bitbucket
   Require .Net 4.0 and C# 4.0
   Require VS 2010 (Express) or SharpDevelop 4.0
