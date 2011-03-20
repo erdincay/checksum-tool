@@ -59,6 +59,5 @@
     <Compile Include="ProgressInfo.cs" />
     <Compile Include="SumFileInfo.cs" />
     <Compile Include="TextFileReader.cs" />
-    <None Include="Utils.build" />
   </ItemGroup>
 </Project>

@@ -131,7 +131,6 @@
     <EmbeddedResource Include="ProgressForm.resx">
       <DependentUpon>ProgressForm.cs</DependentUpon>
     </EmbeddedResource>
-    <None Include="CheckSumTool.build" />
     <None Include="config.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
