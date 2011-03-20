@@ -342,7 +342,7 @@ namespace CheckSumTool
                     listItems[(int)ListIndices.Verified - 1] = "FAIL";
                     break;
                 default:
-                    throw new ApplicationException();
+                    throw new ApplicationException("Unknown verification state!");
                     break;
             }
 
