@@ -7,3 +7,4 @@ syntax: glob
 syntax: regexp
 ^Build$
 ^BuildTmp$
+^Dist$
