@@ -2,7 +2,7 @@
 The MIT License
 
 Copyright (c) 2007-2008 Ixonos Plc
-Copyright (c) 2007-2008 Kimmo Varis <kimmov@winmerge.org>
+Copyright (c) 2007-2011 Kimmo Varis <kimmov@gmail.com>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -43,30 +43,12 @@ namespace CheckSumTool.SumLib
         /// <summary>
         /// Currently selected/active checksum type.
         /// </summary>
-        CheckSumType _currentSumType;
+        public CheckSumType SumType { get; set; }
 
         /// <summary>
-        /// Current filename (full path) for the checksum file.
+        /// Filename (with full path) for the document.
         /// </summary>
-        string _filename;
-
-        /// <summary>
-        /// Checksum type for the document.
-        /// </summary>
-        public CheckSumType SumType
-        {
-            get { return _currentSumType; }
-            set { _currentSumType = value; }
-        }
-
-        /// <summary>
-        /// Filename for the document.
-        /// </summary>
-        public string Filename
-        {
-            get { return _filename; }
-            set { _filename = value; }
-        }
+        public string Filename { get; set; }
 
         /// <summary>
         /// List of checksum items in document.
@@ -110,7 +92,7 @@ namespace CheckSumTool.SumLib
         public void CalculateSums(ref ProgressInfo progressInfo)
         {
             progressInfo.Max = _checksumItemList.Count;
-            Calculator sumCalculator = new Calculator(_currentSumType);
+            Calculator sumCalculator = new Calculator(SumType);
             sumCalculator.Calculate(_checksumItemList.FileList, ref progressInfo);
 
             // Set list changed as even existing checksum values could change
@@ -130,7 +112,7 @@ namespace CheckSumTool.SumLib
         public bool VerifySums(ref ProgressInfo progressInfo)
         {
             progressInfo.Max = _checksumItemList.Count;
-            Calculator sumCalculator = new Calculator(_currentSumType);
+            Calculator sumCalculator = new Calculator(SumType);
             bool succeeded = sumCalculator.Verify(_checksumItemList.FileList,
                 ref progressInfo);
             progressInfo.Complete();
@@ -146,13 +128,13 @@ namespace CheckSumTool.SumLib
             switch (fileType)
             {
                 case SumFileType.MD5:
-                    _currentSumType = CheckSumType.MD5;
+                    SumType = CheckSumType.MD5;
                     break;
                 case SumFileType.SFV:
-                    _currentSumType = CheckSumType.CRC32;
+                    SumType = CheckSumType.CRC32;
                     break;
                 case SumFileType.SHA1:
-                    _currentSumType = CheckSumType.SHA1;
+                    SumType = CheckSumType.SHA1;
                     break;
                 default:
                     throw new NotImplementedException();
@@ -178,7 +160,7 @@ namespace CheckSumTool.SumLib
                 int items = 0;
                 try
                 {
-                    items = newSumFile.ReadFile(path, _currentSumType);
+                    items = newSumFile.ReadFile(path, SumType);
                 }
                 catch (Exception)
                 {
@@ -207,7 +189,7 @@ namespace CheckSumTool.SumLib
             {
                 SumFile newSumFile = new SumFile();
                 newSumFile.SetFileList(_checksumItemList);
-                newSumFile.WriteFile(_filename, _currentSumType);
+                newSumFile.WriteFile(Filename, SumType);
             }
             catch
             {
