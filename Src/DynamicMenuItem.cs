@@ -17,37 +17,23 @@ namespace CheckSumTool
         // of dynamic menu items through the dynamic menu manager.
         public struct DynamicMenuItemTextData
         {
-            string _menuText;
-            string _menuData;
+            public string MenuText { get; set; }
+            public string MenuData { get; set; }
 
-            public string MenuText
-            {
-                get { return _menuText; }
-                set { _menuText = value; }
-            }
-            public string MenuData
-            {
-                get { return _menuData; }
-                set { _menuData = value; }
-            }
             public DynamicMenuItemTextData(string menuText, string menuData)
             {
-                _menuText = menuText;
-                _menuData = menuData;
+                MenuText = menuText;
+                MenuData = menuData;
             }
         }
 
-        public string Data
-        {
-            get { return _data; }
-            set { _data = value; }
-        }
+        public string Data { get; set; }
 
         public DynamicMenuItem(string text, string data,
                                System.EventHandler eventHandler)
             : base(text)
         {
-            _data = data;
+            Data = data;
             // Add menu item clicked event handler when it is created.
             this.Click += new System.EventHandler(eventHandler);
         }
