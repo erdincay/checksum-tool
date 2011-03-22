@@ -92,6 +92,10 @@
       <DependentUpon>AboutForm.cs</DependentUpon>
     </Compile>
     <Compile Include="AssemblyInfo.cs" />
+    <Compile Include="DynamicMenuItem.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="DynamicMenuMgr.cs" />
     <Compile Include="EnvironmentUtils.cs" />
     <Compile Include="ListViewItemComparer.cs" />
     <Compile Include="Locality.cs" />
