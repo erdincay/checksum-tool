@@ -1,0 +1,9 @@
+﻿<NUnitProject>
+  <Settings activeconfig="Debug" />
+  <Config name="Debug" binpathtype="Auto">
+    <assembly path="Build\Debug\SumLib.dll" />
+    <assembly path="Build\Debug\Utils.dll" />
+    <assembly path="Build\Debug\CheckSumTool.exe" />
+  </Config>
+  <Config name="Release" binpathtype="Auto" />
+</NUnitProject>
