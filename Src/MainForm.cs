@@ -757,10 +757,7 @@ namespace CheckSumTool
                     }
                     else
                     {
-                        string message = "Cannot determine checksum file type.";
-                        message += "\n\nPlease rename the file to have a proper";
-                        message += "filename extension (.md5, .sfv, or .sha1)";
-                        MessageBox.Show(this, "Unknown checksum file type!",
+                        MessageBox.Show(this, "Could not find the files listed in the checksum file",
                             "CheckSum Tool", MessageBoxButtons.OK,
                             MessageBoxIcon.Error);
                     }
