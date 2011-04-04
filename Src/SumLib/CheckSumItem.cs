@@ -2,7 +2,7 @@
 The MIT License
 
 Copyright (c) 2007-2008 Ixonos Plc
-Copyright (c) 2007-2009 Kimmo Varis <kimmov@winmerge.org>
+Copyright (c) 2007-2011 Kimmo Varis <kimmov@gmail.com>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -53,24 +53,9 @@ namespace CheckSumTool.SumLib
     public class CheckSumItem
     {
         /// <summary>
-        /// Full path (full path + filename) for the item
-        /// </summary>
-        private string _fullPath;
-        
-        /// <summary>
-        /// Size for the item
-        /// </summary>
-        private long _size;
-
-        /// <summary>
         /// Checksum calculated for the item
         /// </summary>
         private CheckSumData _checkSum;
-
-        /// <summary>
-        /// Is item verified against checksum?
-        /// </summary>
-        private VerificationState _verified;
 
         /// <summary>
         /// Filename (without path) for the item.
@@ -79,7 +64,7 @@ namespace CheckSumTool.SumLib
         {
             get
             {
-                string filename = Path.GetFileName(_fullPath);
+                string filename = Path.GetFileName(FullPath);
                 return filename;
             }
         }
@@ -87,20 +72,12 @@ namespace CheckSumTool.SumLib
         /// <summary>
         /// Full path (inc. filename) for the item.
         /// </summary>
-        public string FullPath
-        {
-            get { return _fullPath; }
-            set { _fullPath = value; }
-        }
+        public string FullPath { get; set; }
         
         /// <summary>
         /// Size for the item.
         /// </summary>
-        public long Size
-        {
-            get { return _size; }
-            set { _size = value; }
-        }
+        public long Size { get; set; }
 
         /// <summary>
         /// Checksum calculated for the item.
@@ -113,11 +90,7 @@ namespace CheckSumTool.SumLib
         /// <summary>
         /// Is item verified against checksum?
         /// </summary>
-        public VerificationState Verified
-        {
-            get { return _verified; }
-            set { _verified = value; }
-        }
+        public VerificationState Verified { get; set; }
 
         /// <summary>
         /// Constructor.
@@ -125,7 +98,7 @@ namespace CheckSumTool.SumLib
         /// <param name="path">Full path to file.</param>
         public CheckSumItem(string path)
         {
-            _fullPath = path;
+            FullPath = path;
         }
 
         /// <summary>
